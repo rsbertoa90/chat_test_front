@@ -46,7 +46,7 @@
                     </nuxt-link>
                 </div>
                 <div class="col-2 menu-item">
-                    <a href="/lista-de-precios" class="prices-list-button">
+                    <a href="/lista-de-precios" class="prices-list-button clickable">
                         LISTA DE PRECIOS
                     </a>
                 </div>

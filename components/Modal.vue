@@ -29,12 +29,12 @@ export default {
     }
 
     .modal-window{
-        margin-top:100px;
+        margin-top:90px;
         position:absolute;
        /*  margin-top:100px; */
         width: 350px;
         
-        max-height: 450px;
+        max-height: 520px;
       /*   min-height:600px; */
         overflow-y:scroll;
         border:1  px solid #000;

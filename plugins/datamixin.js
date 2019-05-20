@@ -20,7 +20,9 @@ Vue.mixin({
           }
         }
       },
-
+      dev(){
+         return process.env.NODE_ENV !== 'production';
+      },
       imagePath(path)
       {
          let dev = process.env.NODE_ENV !== 'production';

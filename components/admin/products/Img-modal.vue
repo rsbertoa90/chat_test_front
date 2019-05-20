@@ -25,18 +25,20 @@
                         <span class="fa fa-chevron-left text-info" @click="changeImage('prev')" ></span>
                         <span class="fa fa-chevron-right text-info" @click="changeImage('next')" ></span>
                     </div>
+                    <div class="d-flex flex-column">
 
-                    <button v-if="product.images[0]" class="btn btn-sm btn-danger close-button"
-                                        @click.prevent="deleteImage(product.images[i])">X</button>
+                        <button v-if="product.images[0]" class="btn btn-sm btn-danger close-button mt-3"
+                                            @click.prevent="deleteImage(product.images[i])">X</button>
 
-                    <div class="order-select"  v-if="product.images.length > 1">
-                        <label @click="orderChange(product.images[i],index)"  v-for="index in product.images.length" :key="index"
-                                class="btn btn-sm"
-                                :class="{'btn-success' : product.images[i].order == index,
-                                        'btn-outline-info' : product.images[i].order != index}"
-                                >
-                            {{index}}
-                        </label>
+                        <div class="order-select"  v-if="product.images.length > 1">
+                            <label @click="orderChange(product.images[i],index)"  v-for="index in product.images.length" :key="index"
+                                    class="btn btn-sm"
+                                    :class="{'btn-success' : product.images[i].order == index,
+                                            'btn-outline-info' : product.images[i].order != index}"
+                                    >
+                                {{index}}
+                            </label>
+                        </div>
                     </div>
 
                  </div>
@@ -84,7 +86,7 @@ import myModal from '@/components/Modal.vue'
         },
         methods : {
                preloadImages(){
-                /* console.log('preload'); */
+             
                 if (this.product &&  this.product.images && this.product.images.length>0){
 
                     let images = [];
@@ -92,17 +94,14 @@ import myModal from '@/components/Modal.vue'
                         let img = new Image();
                         img.src = this.imagePath(image.url);
                         images.push(img);
-                       /*  console.log(img); */
+                      
                     });
                 }
             },
               deleteImage(image){
-                this.$http.delete('/admin/product/image/'+image.id)
-                    .then(()=>{
-                        this.product.images.splice(this.i,1);
-                         this.$emit('refresh');
-                         this.i=0;
-                        });
+                 
+                this.$store.commit('deleteProductImage',image);
+            
             },
              orderChange(img,i){
                 img.order = i ;
@@ -113,7 +112,7 @@ import myModal from '@/components/Modal.vue'
                     value : i
                 }
 
-                vm.$http.put('/admin/productImage',data);
+                vm.$axios.put('/productImage',data);
 
             },
        
@@ -132,19 +131,19 @@ import myModal from '@/components/Modal.vue'
                 } else {
 
                     this.file = file;
-                    // console.log(file);
+                   
                     
                     
                     var fdata =  new FormData();
                     fdata.append('image',file);
                     fdata.append('product',this.product.id);
-                    // console.log(fdata);
+                  
                     
     
                     this.$axios.post('/product/image',fdata)
                         .then(res => {
-                            this.$store.dispatch('fetchCategories');
                             this.closedModal();
+                            this.$emit('refresh');
                         });
                 }
 
@@ -184,7 +183,7 @@ import myModal from '@/components/Modal.vue'
 
     .close-button{
         position:absolute;
-        bottom:10px;
+        bottom:50px;
         left:50%;
         
 

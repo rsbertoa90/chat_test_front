@@ -14,6 +14,45 @@
                         v-if="order.message" >Mensaje adjunto: " {{order.message}} " </span>
                 </div>
             </div>
+            <div class="row">
+            <div class="col-12 offset-lg-9 col-lg-3">
+                <a  @click.prevent="getPdf()" target="_blank"
+                    class="btn btn-block btn-outline-primary">
+                    Generar PDF
+                </a>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-4" v-if="order.status == 'pagado'">
+                <button  @click="setStatus('enviado')"
+                    class="btn btn-block btn-outline-info">
+                    <span class="fa fa-truck"></span>
+                    Marcar como enviado
+                </button>
+            </div>
+            <div class="col-12 col-lg-4" v-if="order.status != 'pagado' && order.status != 'cancelado'">
+                <button  @click="setStatus('pagado')"
+                    class="btn btn-block btn-outline-success">
+                     <span class="fa fa-dollar-sign"></span>
+                    Marcar como pagado
+                </button>
+            </div>
+            <div class="col-12 col-lg-4" v-if="order.status != 'cancelado'" >
+                <button 
+                        @click="setStatus('cancelado')"
+                    class="btn btn-block btn-outline-danger">
+                     <span class="fa fa-times"></span>
+                    Marcar como Cancelado
+                </button>
+            </div>
+            <div class="col-12 col-lg-4" v-if="order.status != 'pendiente' && order.status != 'enviado'">
+                <button  @click="setStatus('pendiente')"
+                    class="btn btn-block btn-outline-warning">
+                     <span class="far fa-clock"></span>
+                    Marcar como Pendiente
+                </button>
+            </div>
+        </div>
             <table class="table table-striped table-bordered mt-3">
             <thead>
                 <tr>
@@ -69,45 +108,7 @@
           </div>
 
 
-        <div class="row">
-            <div class="col-12 offset-lg-9 col-lg-3">
-                <a  :href="`/admin/pdf/${order.id}`" target="_blank"
-                    class="btn btn-block btn-outline-primary">
-                    Generar PDF
-                </a>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-12 col-lg-4" v-if="order.status == 'pagado'">
-                <button  @click="setStatus('enviado')"
-                    class="btn btn-block btn-outline-info">
-                    <span class="fa fa-truck"></span>
-                    Marcar como enviado
-                </button>
-            </div>
-            <div class="col-12 col-lg-4" v-if="order.status != 'pagado' && order.status != 'cancelado'">
-                <button  @click="setStatus('pagado')"
-                    class="btn btn-block btn-outline-success">
-                     <span class="fa fa-dollar-sign"></span>
-                    Marcar como pagado
-                </button>
-            </div>
-            <div class="col-12 col-lg-4" v-if="order.status != 'cancelado'" >
-                <button 
-                        @click="setStatus('cancelado')"
-                    class="btn btn-block btn-outline-danger">
-                     <span class="fa fa-times"></span>
-                    Marcar como Cancelado
-                </button>
-            </div>
-            <div class="col-12 col-lg-4" v-if="order.status != 'pendiente' && order.status != 'enviado'">
-                <button  @click="setStatus('pendiente')"
-                    class="btn btn-block btn-outline-warning">
-                     <span class="far fa-clock"></span>
-                    Marcar como Pendiente
-                </button>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-12">
             <hr>
@@ -128,13 +129,20 @@ export default {
         }        
     },
     methods : {
+        getPdf()
+        {
+            let host = this.dev ? 'http://127.0.0.1:8000' : 'https://backend.matesdefabrica.com' ;
+            let url = host+'/pdf/'+this.order.id;
+            var win = window.open(url, '_blank');
+            win.focus();
+        },
         saveComments(){
             let data = {
                 order : this.order.id,
                 field : 'comments',
                 value : this.order.comments
             }
-            this.$http.put('/admin/order',data);
+            this.$axios.put('/order',data);
         },
         setStatus(status){
             var vm = this;
@@ -144,7 +152,7 @@ export default {
                 field : 'status',
                 value : status
             }
-            this.$http.put('/admin/order',data)
+            this.$axios.put('/order',data)
                 .then((response) => {
                     vm.$emit('statusChanged',response.data);
                 })
@@ -165,15 +173,17 @@ export default {
         }
     },
      filters : {
-        datetime(val){
-            return moment(val).format('DD/MM/YYYY H:mm')
+         datetime(val){
+            let date = new Date(val);
+            let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ' / ' + date.getHours() + ":" + date.getMinutes()
+            return formatted_date;
         }
     },
     created(){
         var vm = this;
         if (this.order.shipping)
         {
-            this.$http.get('/api/city/'+vm.order.city_id)
+            this.$axios.get('/city/'+vm.order.city_id)
                 .then(res => {
                     vm.city = res.data;
                 });

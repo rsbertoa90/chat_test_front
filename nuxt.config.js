@@ -55,7 +55,11 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    './plugins/datamixin.js'
+    './plugins/datamixin.js',
+    './plugins/v-lazy-image.js',
+    './plugins/filters.js',
+    {src:'./plugins/swal.js', ssr:false},
+    {src:'./plugins/lodash.js', ssr:false},
   ],
 
   /*

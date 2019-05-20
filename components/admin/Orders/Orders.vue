@@ -89,6 +89,10 @@ export default {
     components: {
         appOrder
     },
+    created(){
+        this.$store.dispatch('fetchOrders');
+        this.$store.dispatch('fetchStates');
+    },
     data(){
         return {
             searchTerm:'',
@@ -109,7 +113,7 @@ export default {
                 field : 'viewed',
                 value : order.viewed
             }
-            this.$http.put('/admin/order',data);
+            this.$axios.put('/order',data);
        },
         statusChanged(event){
             this.status = event.status;
@@ -165,7 +169,9 @@ export default {
     
     filters : {
         datetime(val){
-            return moment(val).format('DD/MM/YYYY H:mm')
+            let date = new Date(val);
+            let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ' / ' + date.getHours() + ":" + date.getMinutes()
+            return formatted_date;
         }
     }
     

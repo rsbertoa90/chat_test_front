@@ -158,14 +158,9 @@ import { mapActions } from 'vuex';
                 
             },
             toggleHidePrices(){
-                if (this.config.hide_prices)
-                {
-                    this.config.hide_prices =0;
-                }else{
-                    this.config.hide_prices =1;
-                }
+                this.config.hide_prices = this.config.hide_prices ? 0 : 1;
                 var vm = this;
-                this.$http.put('/admin/config',{field:'hide_prices',value:this.config.hide_prices})
+                this.$axios.put('/config',{field:'hide_prices',value:this.config.hide_prices})
                     .then(response => {
                        vm.fetchConfig;
                     

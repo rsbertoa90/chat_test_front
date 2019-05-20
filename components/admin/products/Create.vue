@@ -91,11 +91,11 @@
                          if (duplicated != null){
                              swal ('Error', `Ya existe la categoria ${vm.newCategory}`,'error');
                          }else {
-                             vm.$http.post('/admin/category/',{name : this.newCategory})
+                             vm.$axios.post('/category/',{name : this.newCategory})
                                 .then(response => {
                                     var category = response.data;
                                     vm.formData.category_id = category.id;
-                                    vm.$http.post('/admin/product/',vm.formData)
+                                    vm.$axios.post('/product',vm.formData)
                                         .then(response => {
                                             vm.$emit('productSaved',response.data);
                                             //   console.log(response.data);
@@ -107,7 +107,7 @@
                          }
                     }
                     else {
-                        vm.$http.post('/admin/product/',vm.formData).then(response => {
+                        vm.$axios.post('/product',vm.formData).then(response => {
                             vm.$emit('productSaved',response.data);
                             // console.log(response.data);
                             swal('Product guardado','','success');

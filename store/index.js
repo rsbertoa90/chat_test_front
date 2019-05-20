@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-
+export const strict = false
 
 export const state = () => {
     return{
@@ -175,10 +175,29 @@ export const mutations = {
     });
     this.$axios.delete('/product/'+payload.id);
   },
+
+  deleteProductImage(state,image)
+  {
+    this.$axios.delete('/product/image/' + image.id)
+      .then(() => {
+        state.categories.forEach(c => {
+            let prod = c.products.find( p => {
+              return p.id == image.product_id;
+            } );
+            if (prod)
+            {
+              let imgs = Object.assign(prod.images.filter(pi => {
+                return pi.id != image.id;
+              }));
+              prod.images = imgs;
+            }
+        });
+      });
+  },
   /* /PRODUCT */
    setSearchTerm(state, payload) {
        if (payload.length > 2) {
-         Vue.http.post('/searchHistory', {
+         this.$axios.post('/searchHistory', {
            term: payload
          });
        }
@@ -225,6 +244,8 @@ export const actions = {
        await dispatch('fetchConfig');
        await dispatch('fetchMeta');
     },
+
+
 
     async fetchCategories({commit}){
         await this.$axios.get('/categories')

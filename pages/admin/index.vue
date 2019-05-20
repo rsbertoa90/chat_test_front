@@ -7,6 +7,7 @@ import productsAdmin from '@/components/admin/products/Admin.vue';
 export default {
     name:'admin',
     components:{productsAdmin},
-    middleware:'checkAdmin'
+    middleware:'checkAdmin',
+    layout:'admin'
 }
 </script>

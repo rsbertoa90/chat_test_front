@@ -1,1 +1,1 @@
-window._ = require('lodash/core');
+window._ = require('lodash');

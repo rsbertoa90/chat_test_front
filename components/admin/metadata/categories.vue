@@ -9,8 +9,8 @@
             <button v-for="category in categories" 
                     :key="category.id"
                     @click="selected=category"
-                    class="btn btn-block bg-first white-bold"
-                    :class="{'bg-focus' : selected == category}">
+                    class="btn btn-block bg-info text-white"
+                    :class="{'bg-danger' : selected == category}">
                     {{category.name}}
             </button>
         </div>
@@ -56,7 +56,7 @@
 
                 <div class="row mt-4">
                     <div class="col-6">
-                        <img :src="selected.image" :alt="selected.name">
+                        <img :src="imagePath(selected.image)" :alt="selected.name">
                     </div>
                     <div class="col-6 d-flex align-items-end">
                         <label class="btn btn-block btn-outline-info btn-file">
@@ -72,15 +72,9 @@
 
 <script>
 export default {
-    computed : {
-        categories(){
-            return this.$store.getters['getCategories'];
-        }
-    },
     data(){
         return{
             selected : null,
-           
         }
     },
     methods :{
@@ -91,9 +85,15 @@ export default {
             if (ext == 'png' || ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == webp){
                 fileUploadFormData.append('image', e.target.files[0]);
                 fileUploadFormData.append('id', this.selected.id);
-                this.$http.post('/super/category/image', fileUploadFormData)
+                this.$axios.post('/category/image', fileUploadFormData)
                         .then(response => {
-                           window.location.replace('/super');
+                            this.$store.dispatch('fetchCategories');
+                            setTimeout(() => {
+                                this.selected = this.categories.find(c=>{
+                               return c.id == this.selected.id;
+                           });
+                            }, 500);
+                           
                         });
             }
         },
@@ -103,7 +103,7 @@ export default {
                 field : field,
                 value : category[field]
             }
-            this.$http.put('/admin/category',data);
+            this.$axios.put('/category',data);
         },
          saveSlug(category){
             

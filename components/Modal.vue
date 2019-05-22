@@ -1,8 +1,13 @@
 <template>
     <div class="overlay">
-        <transition appear enter-active-class="animated slideInUp">
-            <div class="modal-window">
-                <slot></slot>
+        <transition appear enter-active-class="animated slideInDown">
+            <div class="modal-window bordered">
+                <div class="close-button bordered clickable" @click="$emit('close')">
+                    <span class="fa fa-times"></span>
+                </div>
+                <div class="content">
+                    <slot></slot>
+                </div>
             </div>
         </transition>
     </div>
@@ -16,6 +21,29 @@ export default {
 
 
 <style scoped lang="scss">
+.content{
+    width:103%;
+    overflow: hidden;
+    padding:8%;
+    padding-right: 10%;
+    overflow-y:scroll;
+}
+.close-button{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:56px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    font-weight: bold;
+    background-color: #F2B742;
+    span{
+        font-size: 30px;
+    }
+}
     .overlay{
         position:fixed;
         top:0;
@@ -29,17 +57,28 @@ export default {
     }
 
     .modal-window{
+        
         margin-top:90px;
         position:absolute;
        /*  margin-top:100px; */
-        width: 350px;
+        width: 447px;
         
-        max-height: 520px;
+        min-height: 400px;
       /*   min-height:600px; */
-        overflow-y:scroll;
+       
         border:1  px solid #000;
         background-color: #fff;
         box-shadow: 2px 2px 2px #000;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        z-index:999;
+    }
+
+    @media(max-width:660px){
+        .modal-window{
+            width:327px;
+        }
     }
 </style>
 

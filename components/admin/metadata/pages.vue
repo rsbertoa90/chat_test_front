@@ -12,8 +12,8 @@
             <button v-for="meta in metadatas" 
                     :key="meta.id"
                     @click="selected=meta"
-                    class="btn btn-block bg-first white-bold"
-                    :class="{'bg-focus' : selected == meta}">
+                    class="btn btn-block bg-info text-white"
+                    :class="{'bg-danger' : selected == meta}">
                     {{meta.page | ucFirst}}
             </button>
         </div>
@@ -52,7 +52,7 @@ export default {
     },
     
     created(){
-        this.$http.get('/api/metadatas')
+        this.$axios.get('/metadatas')
             .then(response => {
                 this.metadatas = _.sortBy(response.data,'page');
                 
@@ -65,7 +65,7 @@ export default {
                 field : field,
                 value : meta[field]
             }
-            this.$http.put('/super/metadata',data);
+            this.$axios.put('/metadata',data);
         }
     }
 

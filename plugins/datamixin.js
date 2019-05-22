@@ -14,28 +14,48 @@ Vue.mixin({
 
           if (cat){
             let res = cat.slug + '/' + product.slug;
-            res.replace('//','/'); 
-            res.replace('//','/');
+           res= res.replace('//','/'); 
+           res= res.replace('//','/'); 
+           
             return res; 
           }
         }
       },
-      dev(){
-         return process.env.NODE_ENV !== 'production';
-      },
+   
+    
       imagePath(path)
       {
-         let dev = process.env.NODE_ENV !== 'production';
-         let res = dev ? 'http://localhost:8000' : 'https://matesdefabrica.com';
-         res+=path.trim();
-         res.replace('//','/');
-         res.replace('//','/');
-         res.replace('//','/');
-         return res;
+        
+         if (path == null){
+           return this.noImage;
+         }
+         else{
+           if (typeof path === 'object') {
+             if (path.url){
+               path = path.url;
+             }
+           }
+
+           let res = this.devmode ? 'http://localhost:8000' : 'https://backend.matesdefabrica.com';
+           res+=path.trim();
+           res=res.replace('//','/');
+           res=res.replace('//','/');
+           res = res.replace(':/', '://');
+           return res;
+         }
       },
      
     },
      computed: {
+          devmode() {
+            return process.env.NODE_ENV !== 'production';
+          },
+         backendpath() {
+          
+           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://matesdefabrica.com';
+          
+           return res;
+         },
        noImage()
        {
         return this.imagePath('/storage/images/app/no-image.png');
@@ -51,6 +71,12 @@ Vue.mixin({
        },
        categories() {
          return this.$store.getters.getCategories;
-       }
+       },
+       total() {
+           return this.$store.getters.getTotal;
+         },
+         list() {
+           return this.$store.getters.getList;
+         }
      }
 })

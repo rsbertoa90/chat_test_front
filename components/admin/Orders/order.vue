@@ -131,7 +131,7 @@ export default {
     methods : {
         getPdf()
         {
-            let host = this.dev ? 'http://127.0.0.1:8000' : 'https://backend.matesdefabrica.com' ;
+            let host = this.backendpath;
             let url = host+'/pdf/'+this.order.id;
             var win = window.open(url, '_blank');
             win.focus();

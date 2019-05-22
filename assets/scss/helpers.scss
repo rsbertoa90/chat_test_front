@@ -1,0 +1,33 @@
+.bordered{
+  border: 1px solid #9F9F9F;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 2px 2px 2px #000;
+}
+
+.vw100{
+  width:100vw;
+}
+
+.clickable {
+  transition: all .35s;
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transition: all .35s;
+  transform: scale(1.15);
+}
+
+$fucsia : #DB1B73;
+$grey:#9F9F9F;
+$yellow:#F2B742;
+
+.fucsia{color:$fucsia;}
+.grey{color:$grey;}
+.yellow{color:$yellow;}
+
+.bg-fucsia{background-color:$fucsia;}
+.bg-grey{background-color:$grey;}
+.bg-yellow{background-color:$yellow;}
+

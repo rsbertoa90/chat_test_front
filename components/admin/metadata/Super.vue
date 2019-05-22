@@ -7,14 +7,14 @@
             </button>
             
         </div>
-        <div class="col-12 row" v-if="configs">
+        <div class="col-12 row" v-if="config">
             <div class="col-12">
                 compra minima local: 
-                <input type="number" @change="updateconfig('minbuy')" v-model.lazy="configs.minbuy">
+                <input type="number" @change="updateconfig('minbuy')" v-model.lazy="config.minbuy">
             </div>
             <div class="col-12">
                 compra minima envios: 
-                <input type="number" @change="updateconfig('minbuy_ship')" v-model.lazy="configs.minbuy_ship">
+                <input type="number" @change="updateconfig('minbuy_ship')" v-model.lazy="config.minbuy_ship">
             </div>
         </div>
         
@@ -69,13 +69,11 @@ export default {
         }
     },
     computed:{
-        configs(){
-            return this.$store.getters.getConfig;
-        }
+       
     },
     methods:{
         refreshPricesList(){
-            this.$http.get('lista-de-precios')
+            this.$axios.get('/lista-de-precios')
             .then(r=>{
                 swal('Procedimiento iniciado','Espera unos minutos para ver reflejados los cambios','success');
             });
@@ -84,10 +82,10 @@ export default {
         {
             let data = {
                 field : field,
-                value : this.configs[field],
+                value : this.config[field],
             };
 
-            this.$http.put('/admin/config',data);
+            this.$axios.put('/config',data);
         },
     },
    
@@ -95,3 +93,7 @@ export default {
 
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>

@@ -48,3 +48,6 @@ Vue.filter('slug', str => {
 Vue.filter('ucFirst', (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 })
+Vue.filter('uc', (string) => {
+  return string.toUpperCase();
+})

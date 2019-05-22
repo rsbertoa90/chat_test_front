@@ -2,7 +2,7 @@
     <div id="overlay" @click="close">
         <transition appear enter-active-class="animated slideInDown fast faster">
             <div class="menu">
-                <a href="/lista-de-precios" class="prices-list-button">
+                <a :href="backendpath+'/descargar-lista-de-precios'" _target="_blank" class="prices-list-button">
                     LISTA DE PRECIOS
                 </a>
                 <nuxt-link to="/cotizador" class="menu-item">

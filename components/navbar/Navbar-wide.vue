@@ -46,7 +46,7 @@
                     </nuxt-link>
                 </div>
                 <div class="col-2 menu-item">
-                    <a href="/lista-de-precios" class="prices-list-button clickable">
+                    <a :href="backendpath+'/descargar-lista-de-precios'" target="_blank" class="prices-list-button clickable">
                         LISTA DE PRECIOS
                     </a>
                 </div>
@@ -123,6 +123,10 @@ export default {
 
 <style scoped lang="scss">
 
+.menu-item:hover{
+    transition:all .35s;
+    transform: scale(1.05);
+}
 .menu-item{
     color:#fff;
     display: flex;

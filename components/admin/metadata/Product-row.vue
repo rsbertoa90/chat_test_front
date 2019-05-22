@@ -2,10 +2,10 @@
     <tr v-if="product">
         <td>
             <img v-if="product.images && product.images.length > 0" 
-                :src="product.images[0].url" 
+                :src="imagePath(product.images[0].url)" 
                 style="width :150px" 
                 :alt="product.name" >
-            <img v-else src="/storage/images/app/no-image.png" :alt="product.name" >
+            <img v-else :src="noImage" :alt="product.name" >
         </td>
         <td>
             {{product.name}}
@@ -52,7 +52,7 @@ export default {
                 field : field,
                 value : product[field]
             }
-            this.$http.put('/admin/product',data);
+            this.$axios.put('/product',data);
             
         },
             

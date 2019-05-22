@@ -4,6 +4,45 @@ import pkg from './package'
 
 export default {
 
+   router: {
+     scrollBehavior: async (to, from, savedPosition) => {
+       if (savedPosition) {
+         return savedPosition
+       }
+
+       const findEl = async (hash, x) => {
+         return document.querySelector(hash) ||
+           new Promise((resolve, reject) => {
+             if (x > 50) {
+               return resolve()
+             }
+             setTimeout(() => {
+               resolve(findEl(hash, ++x || 1))
+             }, 100)
+           })
+       }
+
+       if (to.hash) {
+         let el = await findEl(to.hash)
+         if ('scrollBehavior' in document.documentElement.style) {
+           return window.scrollTo({
+             top: el.offsetTop,
+             behavior: 'smooth'
+           })
+         } else {
+           return window.scrollTo({top:0, behavior:'smooth'});
+         }
+       }
+
+       return  window.scrollTo({
+         top: 0,
+         behavior: 'smooth'
+       });
+     }
+   },
+
+
+
   env: {
     DEV_API: 'http://localhost:8000/api/',
     PROD_API: '/proxy'
@@ -46,9 +85,10 @@ export default {
   ** Global CSS
   */
   css: [
-    '@/assets/css/animate.css',
     '@/assets/css/bootstrap.min.css',
     '@/assets/css/reset.css',
+    '@/assets/css/animate.css',
+    '@/assets/scss/helpers.scss',
   ],
 
   /*
@@ -116,6 +156,8 @@ export default {
       }
     }
   },
+
+ 
 
 
 

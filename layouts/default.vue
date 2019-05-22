@@ -1,19 +1,33 @@
 <template>
     <div class="app-container">
       <navbar></navbar>
-        <nuxt />
+      <div class="row vw-100">
+        <div class="col-3 offset-1">
+          <sideCategoriesPannel></sideCategoriesPannel>
+        </div>
+        <div class="col-8 w-66">
+           <nuxt />
+        </div>
+      </div>
+     <total-bouncer v-if="total > 0"></total-bouncer>
+       
     </div>
 </template>
 
 <script>
+import sideCategoriesPannel from '@/components/category/side-pannel.vue'
 import navbar from '@/components/Navbar.vue'
+import totalBouncer from '@/components/total-bouncer/total-bouncer.vue';
 export default {
-  components:{navbar}
+  components:{navbar,sideCategoriesPannel,totalBouncer}
 }
 </script>
 
 
 <style>
+.w-66{
+  width:66vw;
+}
  .app-container{
         width:98.5vw;
         margin:0;

@@ -3,6 +3,11 @@
       <transition name="slide">
 
             <nav class="nav" :class="{'admin-nav':admin}" v-if="showNav" key="nav">
+                <div class="logo">
+                    <nuxt-link to="/">
+                        LOGO
+                    </nuxt-link>
+                </div>
                 <div class="search-container">
                      <searchbar></searchbar>
                 </div>
@@ -87,7 +92,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.logo{
+    width:27vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+}
 .bars , .cart{
+    width:30px;
      color:#fff;
     display: flex;
     height: 100%;
@@ -137,7 +150,10 @@ export default {
       left:0;
       padding:0;
       z-index:900;
-    
+    .search-container{
+     
+        width:44vw;
+    }
   }
 
 

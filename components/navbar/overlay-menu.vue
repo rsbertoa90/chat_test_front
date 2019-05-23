@@ -5,7 +5,7 @@
                 <a :href="backendpath+'/descargar-lista-de-precios'" _target="_blank" class="prices-list-button">
                     LISTA DE PRECIOS
                 </a>
-                <nuxt-link to="/cotizador" class="menu-item">
+                <nuxt-link to="/categorias" class="menu-item">
                     <span class="fa fa-list"></span>
                     <span>
                         Ver todos los productos

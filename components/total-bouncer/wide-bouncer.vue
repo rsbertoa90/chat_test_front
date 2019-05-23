@@ -1,5 +1,5 @@
 <template>
-<transition enter-active-class="animated bounceIn">
+<transition name="enter-total">
             <div id="total" key="bouncer" v-if="total>0">
                 <div class="list"  :class="{'desplegada':desplegar}">
                     <table class="table table-striped" v-show="desplegar">
@@ -29,7 +29,7 @@
                                 <span style="font-size:34px" class="fa fa-shopping-cart fucsia"></span>
                                 <span class="grey" style="font-size:19px">Total</span>
                             </div>
-                            <span class="grey" style="font-size:25px;"> ${{total | price}}</span>
+                            <span  style="font-size:25px;"> ${{total | price}}</span>
                         </div>
                         <div class="btn ">
                             <button class="send-btn clickable">ENVIAR PEDIDO</button>
@@ -44,7 +44,7 @@
 <script>
 export default {
     data(){return{
-        desplegar:true,
+        desplegar:false,
     }},
    computed:{
        list(){
@@ -69,6 +69,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.enter-total-enter-active{
+    animation: entering 1.5s;
+}
+
+@keyframes entering {
+  0% {
+    position:fixed;
+    top:0;
+    right:30px;
+  }
+  /* 50% {
+    top:50vh;
+    right:100px;
+  } */
+  100% {
+    top:80vh;
+    bottom:30px;
+    right:30px;
+  }
+}
+
+
 
 .del-btn{
     width:35px;
@@ -145,7 +168,7 @@ export default {
         height:0px;
         transition: all .6s;
        
-        border-radius: 15px;
+        border-radius:  15px 15px 0 0;
         
     }
 

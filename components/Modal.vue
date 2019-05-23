@@ -2,10 +2,10 @@
     <div class="overlay">
         <transition appear enter-active-class="animated slideInDown">
             <div class="modal-window bordered">
-                <div class="close-button bordered clickable" @click="$emit('close')">
+                <div class="close-button bordered clickable mb-4" @click="$emit('close')">
                     <span class="fa fa-times"></span>
                 </div>
-                <div class="content">
+                <div class="content mt-3">
                     <slot></slot>
                 </div>
             </div>
@@ -45,21 +45,22 @@ export default {
     }
 }
     .overlay{
-        position:fixed;
-        top:0;
-        left:0;
+         width: 100vw;
+        height: 100vh;
+        background-color: #aaaaaa55;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 50;
         display: flex;
         justify-content: center;
-       /*  align-items: center; */
-        width:100vw;
-        height:100vh;
-        background-color:#86868686; 
     }
 
     .modal-window{
         
         margin-top:90px;
         position:absolute;
+        z-index:10;
        /*  margin-top:100px; */
         width: 447px;
         
@@ -72,7 +73,6 @@ export default {
         display:flex;
         flex-direction: column;
         justify-content: center;
-        z-index:999;
     }
 
     @media(max-width:660px){

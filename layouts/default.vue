@@ -2,14 +2,15 @@
     <div class="app-container">
       <navbar></navbar>
       <div class="row vw-100">
-        <div class="col-3 offset-1">
+        <div class="col-3 offset-1 " v-if="$mq=='lg'">
           <sideCategoriesPannel></sideCategoriesPannel>
         </div>
-        <div class="col-8 w-66">
+        <div class="col-12 col-lg-8 w-66">
            <nuxt />
         </div>
+        <div class="bottom-space"></div>
       </div>
-     <total-bouncer v-if="total > 0"></total-bouncer>
+     <total-bouncer></total-bouncer>
        
     </div>
 </template>
@@ -25,14 +26,16 @@ export default {
 
 
 <style>
-.w-66{
-  width:66vw;
+.bottom-space{
+  width:100vw;
+  height:200px;
 }
  .app-container{
         width:98.5vw;
         margin:0;
         padding:1%;
-        border:1px solid #868686;
+        /* border:1px solid #868686; */
+        border:none;
         overflow: hidden;
     }
 
@@ -83,5 +86,11 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+@media(min-width:660px){
+  .w-66{
+  width:66vw;
+}
 }
 </style>

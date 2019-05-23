@@ -1,13 +1,17 @@
 <template>
     <div v-if="category">
-        {{category.name}}
+        <div v-if="$mq!='lg'">
+            <categoryMobile :category="category"></categoryMobile>
+        </div>
     </div>
 </template>
 
 <script>
 import metamixin from '@/plugins/metadataMixin.js';
+import categoryMobile from '@/components/category/Mobile.vue';
 export default {
-    mixins:[metamixin],
+   /*  mixins:[metamixin], */
+   components:{categoryMobile},
     name:'categoria',
     computed:{
         category()

@@ -13,14 +13,14 @@
                     <searchbar></searchbar>
                 </div>
                
-                <div class="col-1 offset-1">
+                <!-- <div class="col-1 offset-1">
                     <nuxt-link to="/cotizador" class="menu-item">
                         <span class="fa fa-list"></span>
                         <span>
                             Todos los productos
                         </span>
                     </nuxt-link>
-                </div>
+                </div> -->
                 <div class="col-1 ">
                     <nuxt-link to="/contacto" class="menu-item">
                         <span class="fa fa-envelope"></span>

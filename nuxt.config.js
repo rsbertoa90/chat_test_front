@@ -100,6 +100,7 @@ export default {
     './plugins/filters.js',
     {src:'./plugins/swal.js', ssr:false},
     {src:'./plugins/lodash.js', ssr:false},
+    {src:'./plugins/awesome-swiper.js', ssr:false},
   ],
 
   /*

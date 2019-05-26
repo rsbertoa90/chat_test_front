@@ -38,7 +38,9 @@
             </div>
         </div>
         <div class="row mt-4 pt-4" v-if="related">
-            <relatedProducts  :products="related"></relatedProducts>
+            <productsGrid  :products="related">
+                <h4>Mas productos de Mates de Fabrica</h4>
+            </productsGrid>
         </div>
     </div>
 </template>
@@ -47,10 +49,10 @@
 import info from '@/components/info/Info.vue';
 import shopButton from '@/components/product/shop-button.vue';
 
-import relatedProducts from '@/components/product/related.vue';
+import productsGrid from '@/components/product/grid.vue';
 export default {
     
-    components:{shopButton,info,relatedProducts},
+    components:{shopButton,info,productsGrid},
     props:['product'],
     data(){
         return{

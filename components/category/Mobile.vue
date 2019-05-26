@@ -25,12 +25,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="bottom-space"></div>
                 </div>
+
             </div>
         </transition>
         <div v-if="showModal">
             <imgModal :product="modalProduct" @close="showModal=false"></imgModal>
         </div>
+        <div class="bottom-space"></div>
     </div>
 </template>
 
@@ -64,6 +67,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bottom-space{
+    width:100vw;
+    height: 200px;
+}
 .close-button{
     position:absolute;
     top:10px;

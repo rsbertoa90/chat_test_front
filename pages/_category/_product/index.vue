@@ -10,7 +10,7 @@ import metamixin from '@/plugins/metadataMixin.js';
 import wideProduct from '@/components/product/Wide.vue';
 import mobileProduct from '@/components/product/Mobile.vue';
 export default {
-    mixins:[metamixin],
+  mixins:[metamixin],
   name:'producto',
   components:{wideProduct,mobileProduct},
     computed:{

@@ -13,7 +13,41 @@ export default {
   mixins:[metamixin],
   name:'producto',
   components:{wideProduct,mobileProduct},
+     metaInfo(){
+        return{
+            title:this.metatitle,
+            meta: [
+                { charset: 'utf-8' },
+                { vmid: 'description', name: 'description', content: this.metadescription }
+            ]
+        }
+    },
     computed:{
+
+         metatitle(){
+            if (this.product )
+            {
+                
+                return this.product.metatitle ? this.product.metatitle : this.product.name+' por mayor'
+            }else{return ''}
+            
+        },
+        metadescription(){
+            if (this.product){
+                if (this.product.metadescription)
+                {
+                    return this.product.metadescription;
+                }
+                else if (this.product.description)
+                {
+                    return this.product.description;
+                }
+                else return this.product.name+" "+'por mayor';
+                    
+            }  else{return ''}
+            
+        },
+        
           product()
         {
             let res = null;

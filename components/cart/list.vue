@@ -1,40 +1,42 @@
 <template>
     <div>
-        <div class="row pink-bottom">
-            <div class="col-6 d-flex justify-content-center">
-                PRODUCTO
-            </div>
-            <div class="col-4 d-flex justify-content-center">
-                CANTIDAD
-            </div>
+        <table class="table text-center">
+            <thead>
+                <th>PRODUCTO</th>
+                <th>CANTIDAD</th>
+                <th v-if="$mq=='lg'">SUBTOTAL</th>
+                <th></th>
+            </thead>
+            <transition-group is="tbody" tag="tbody" leave-active-class="animated slideOutRight">
+                <tr v-for="product in list" :key="product.id" >
+                    <td class="nametd">
+                        <span>{{product.name}}</span>
+                        <span v-if="$mq!='lg'" class="text-right">${{product.price * product.units|price}}</span>
+                    </td>
+                    <td class="inputtd">
+                        <input type="text" v-model.lazy="product.units" class="input-field">
+                    </td>
+                    <td  v-if="$mq=='lg'" >
+                        
+                        <span>${{product.price * product.units|price}}</span>
+                    </td>
+                    <td >
+                        <button class="btn-del btn btn-sm btn-danger" @click="product.units = 0 ">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+            </transition-group>
+        </table>
+    
 
-        </div>
-        <transition-group leave-active-class="animated slideOutRight">
-            <div v-for="product in list" :key="product.id" class="d-flex row mt-4">
-                <div class="col-6 d-flex flex-column text-right">
-                    <span>{{product.name}}</span>
-                    <span>${{product.price|price}}</span>
-                </div>
-                <div class="col-4 d-flex justify-content-center">
-                    <input type="text" v-model.lazy="product.units" class="input-field">
-                </div>
-                <div class="col-2">
-                    <button class="btn-del btn btn-sm btn-danger" @click="product.units = 0 ">
-                        <span class="fa fa-times"></span>
-                    </button>
-                </div>
-            </div>
-        </transition-group>
+
+        
 
         <div class="row d-flex justify-content-center mt-2">
             <span class="total fucsia">TOTAL: ${{total |price}}</span>
         </div>
-        <div class="row mt-2 mb-3 d-flex justify-content-center">
-            <nuxt-link to="/categorias" class="btn btn-more bordered">
-                <span class="fa fa-chevron-left"></span>
-                AGREGAR MAS
-            </nuxt-link>
-        </div>
+       
     </div>
 </template>
 
@@ -46,6 +48,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+thead{
+    border-bottom:1px solid #DB1B73
+}
+.inputtd{
+    display:flex;
+    justify-content: center;
+}
+.nametd{
+    text-align: right;
+}
+
 .btn-more{
     width:219px;
     height: 50px;
@@ -88,4 +101,11 @@ export default {
     span{
         font-size:16px;
     }
+
+@media(min-width:660px){
+    span{
+        font-size:18px;
+      
+    }
+}
 </style>

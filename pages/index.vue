@@ -11,7 +11,9 @@
 
 
 <script>
+import metamixin from '@/plugins/metadataMixin.js';
 export default {
+  mixins:[metamixin],
   name:'home',
 
 }

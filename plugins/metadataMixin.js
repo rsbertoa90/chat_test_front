@@ -1,7 +1,7 @@
 export default {
-    metaInfo() {
+    head() {
         return {
-            title: this.metatitle,
+            titleTemplate: this.metatitle,
             meta: [
                 { name: 'description', content: this.metadescription }
 

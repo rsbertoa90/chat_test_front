@@ -4,7 +4,9 @@
       <div class="row vw-100">
         
         <div class="col-12 w-66">
-           <nuxt />
+          <keep-alive include="carrito">
+              <nuxt />
+          </keep-alive>
         </div>
         <div class="bottom-space"></div>
       </div>
@@ -22,7 +24,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped lang="scss">
 .bottom-space{
   width:100vw;
   height:200px;
@@ -34,6 +36,7 @@ export default {
         /* border:1px solid #868686; */
         border:none;
         overflow: hidden;
+        background-color: #DCDCDC;
     }
 
 

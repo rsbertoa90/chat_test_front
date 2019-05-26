@@ -50,6 +50,7 @@
 
 <script>
 export default {
+    layout:'admin',
     name:'login',
      metaInfo(){return{
         title: 'Login'   }},

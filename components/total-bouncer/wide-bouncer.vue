@@ -32,7 +32,7 @@
                             <span  style="font-size:25px;"> ${{total | price}}</span>
                         </div>
                         <div class="btn ">
-                            <button class="send-btn clickable">ENVIAR PEDIDO</button>
+                            <nuxt-link to="/carrito" class="send-btn clickable">ENVIAR PEDIDO</nuxt-link>
                         </div>
                     </div>
                 </div>

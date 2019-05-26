@@ -84,7 +84,7 @@ import { mapActions } from 'vuex';
                 showCreate:false,
                 variation : 0,
               
-                list : [],
+             
                 product : null,
                 showModal : false,
             }

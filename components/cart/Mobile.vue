@@ -13,7 +13,15 @@
                 <span>Lista de productos elegidos</span>
             </div>
             <div class="right-bubble">
-                <list v-if="total"></list>
+                <div v-if="total">
+                    <list v-if="total"></list>
+                     <div class="row mt-2 mb-3 d-flex justify-content-center">
+                        <nuxt-link to="/categorias" class="btn btn-more bordered">
+                            <span class="fa fa-chevron-left"></span>
+                            AGREGAR MAS
+                        </nuxt-link>
+                    </div>
+                </div>
                 <div v-if="!total">
                     <h4 style="font-size:16px; font-weight:bold;">NO HAY PRODUCTOS EN EL CARRITO</h4>
                 </div>
@@ -27,7 +35,8 @@
 import sendForm from './send-form.vue';
 import list from './list.vue';
 export default {
-    components:{sendForm,list}
+    components:{sendForm,list},
+    
     
 }
 </script>
@@ -88,4 +97,21 @@ export default {
   /*   padding-right: 15vw; */
     border-radius:  15px 0 0 15px ;
 }
+
+
+.btn-more{
+  /*   width:125px; */
+    height: 50px;
+    color:#ffF;
+    background-color: #F2B742;
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    .fa{
+        font-size: 30px;
+        margin-right:15px;
+    }
+}
+
 </style>

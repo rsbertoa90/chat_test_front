@@ -59,10 +59,10 @@ export const getters = {
 
        getMeta: store => page => {
          if (store.meta) {
-
+           if(page=='index'){page='home'}
            return store.meta.find(m => {
-
-             return m.page.trim() == page.trim();
+             
+             return m.page.trim().toLowerCase() == page.trim().toLowerCase();
            });
          }
        },

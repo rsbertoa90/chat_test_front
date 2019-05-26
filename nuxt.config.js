@@ -45,7 +45,7 @@ export default {
 
   env: {
     DEV_API: 'http://localhost:8000/api/',
-    PROD_API: '/proxy'
+    PROD_API: 'https://back.matesdefabrica.com/api/'
   },
 
 

@@ -129,8 +129,9 @@ export default {
   /*
   ** Axios module configuration
   */
+ 
   axios: {
-    baseURL: process.env.NODE_ENV =='development' ? 'http://localhost:8000/api' : 'https://back.matesdefabrica.com/api'
+    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.matesdefabrica.com/api' : 'http://localhost:8000/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
 

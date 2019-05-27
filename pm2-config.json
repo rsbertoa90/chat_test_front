@@ -2,7 +2,7 @@
     "apps": [{
       // Portfolio Application
       "name": "matesdefabrica.com",
-      "script": "./node_modules/nuxt/bin/nuxt-start",
+      "script": "./node_modules/nuxt/bin/nuxt",
       "args": [],
       "node_args": "",
       "merge_logs": true,

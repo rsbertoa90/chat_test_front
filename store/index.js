@@ -2,6 +2,10 @@ const axios = require('axios');
 
 export const strict = false
 
+console.log('LOGGG');
+console.log(process.env.dev);
+console.log(process.env.baseUrl);
+console.log(process.env);
 export const state = () => {
     return{
        orders: [],

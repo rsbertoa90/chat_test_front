@@ -45,8 +45,8 @@ export default {
 
   env: {
      dev: (process.env.NODE_ENV !== 'production'),
-    /*  baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.matesfabi.com/api' */
-     baseURL:  'http://back.matesdefabrica.com/api' ,
+     baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.matesfabi.com/api',
+    /*  baseURL:  'http://back.matesdefabrica.com/api' , */
      PROD_API: 'https://back.matesdefabrica.com/api/',
   },
 
@@ -132,7 +132,7 @@ export default {
  
   axios: {
    /*  baseURL: 'http://back.matesdefabrica.com/api' , */
-    baseURL: process.env.NODE_ENV == 'production' ? 'http://back.matesdefabrica.com/api' : 'http://localhost:8000/api'
+    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.matesdefabrica.com/api' : 'http://localhost:8000/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
 

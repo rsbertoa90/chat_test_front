@@ -1,11 +1,11 @@
-const axios = require('axios');
+/* const axios = require('@nuxtjs/axios'); */
 
 export const strict = false
-
+/* 
 console.log('LOGGG');
 console.log(process.env.dev);
 console.log(process.env.baseUrl);
-console.log(process.env);
+console.log(process.env); */
 export const state = () => {
     return{
        orders: [],

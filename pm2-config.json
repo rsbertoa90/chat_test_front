@@ -1,6 +1,6 @@
   {
     "apps": [{
-      // Portfolio Application
+     
       "name": "matesdefabrica.com",
       "script": "./node_modules/nuxt/bin/nuxt.js",
       "args": [],

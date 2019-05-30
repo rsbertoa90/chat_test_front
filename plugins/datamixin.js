@@ -36,7 +36,7 @@ Vue.mixin({
              }
            }
 
-           let res = this.devmode ? 'http://localhost:8000' : 'https://backend.matesdefabrica.com';
+           let res = this.backendpath;
            res+=path.trim();
            res=res.replace('//','/');
            res=res.replace('//','/');
@@ -48,12 +48,13 @@ Vue.mixin({
     },
      computed: {
           devmode() {
+            console.log('devmode',process.env.NODE_ENV);
             return process.env.NODE_ENV !== 'production';
           },
          backendpath() {
           
-           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://matesdefabrica.com';
-          
+           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.matesdefabrica.com';
+          console.log('backendpath',res);
            return res;
          },
        noImage()

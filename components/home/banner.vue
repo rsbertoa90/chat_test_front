@@ -33,7 +33,7 @@ export default {
 
 
 .banner-de,.banner-mates,.banner-mate,.banner-virola,.banner-fabrica{
-    /* animation-delay:  3s; */
+    animation-delay:  2s;
     animation-duration:10s;
  /*     animation-direction:alternate; */
     animation-iteration-count: infinite;

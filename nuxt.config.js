@@ -131,7 +131,7 @@ export default {
   */
  
   axios: {
-   /*  baseURL: 'http://back.matesdefabrica.com/api' , */
+   /*  baseURL: 'https://back.matesdefabrica.com/api' , */
     baseURL: process.env.NODE_ENV == 'production' ? 'https://back.matesdefabrica.com/api' : 'http://localhost:8000/api'
     // See https://github.com/nuxt-community/axios-module#options
   },

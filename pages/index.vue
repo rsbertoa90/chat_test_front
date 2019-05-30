@@ -1,18 +1,21 @@
 <template>
-    <div class="container">
-        <div class="row" v-for="c in categories" :key="c.slug">
-            <nuxt-link :to="c.slug">
-            <h2>{{c.name}}</h2>  
-            </nuxt-link>
-            
+    <div>
+        <div v-if="$mq=='lg'">
+            <homeWide></homeWide>
+        </div>
+        <div v-else>
+            <homeMobile></homeMobile>
         </div>
     </div>
 </template>
 
 
 <script>
+import homeMobile from '@/components/home/Mobile.vue';
+import homeWide from '@/components/home/Wide.vue';
 import metamixin from '@/plugins/metadataMixin.js';
 export default {
+    components:{homeMobile,homeWide},
   mixins:[metamixin],
   name:'home',
 

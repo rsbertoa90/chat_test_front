@@ -48,8 +48,10 @@ Vue.mixin({
     },
      computed: {
           devmode() {
-            console.log('devmode',process.env.NODE_ENV);
-            return process.env.NODE_ENV !== 'production';
+           let res = this.$axios.defaults.baseURL == 'http://localhost:8000/api' ;
+
+            console.log('devmode', this.$axios.defaults.baseURL, res);
+            return res;
           },
          backendpath() {
           

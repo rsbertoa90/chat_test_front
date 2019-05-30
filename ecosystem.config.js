@@ -16,15 +16,15 @@ module.exports = {
       NODE_ENV: 'production'
     }
   }],
-/* 
+
   deploy : {
     production : {
       user : 'forge',
-      host : '212.83.163.1',
+      host: '206.189.176.126',
       ref  : 'origin/master',
-      repo : 'git@github.com:repo.git',
+     /*  repo : 'git@github.com:repo.git', */
       path : '/var/www/production',
       'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
     }
-  } */
+  }
 };

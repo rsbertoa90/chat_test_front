@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name: 'matesdefabrica.com',
+    name: 'redlimp.com',
     script: './node_modules/nuxt/bin/nuxt.js',
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/

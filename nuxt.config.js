@@ -45,9 +45,9 @@ export default {
 
   env: {
      dev: (process.env.NODE_ENV !== 'production'),
-     baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.matesfabi.com/api',
+     baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.redlimp.com/api',
     /*  baseURL:  'http://back.matesdefabrica.com/api' , */
-     PROD_API: 'https://back.matesdefabrica.com/api/',
+     PROD_API: 'https://back.redlimp.com/api/',
   },
 
 
@@ -75,6 +75,19 @@ export default {
         ,integrity: "sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
        , crossorigin :"anonymous"
       }
+      
+    ],
+    script:[
+       {
+         src: "https://code.jquery.com/jquery-3.3.1.slim.min.js",
+         type: "text/javascript"
+       }, {
+         src: "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js",
+         type: "text/javascript"
+       }, {
+         src: "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js",
+         type: "text/javascript"
+       }
     ]
   },
 
@@ -132,7 +145,7 @@ export default {
  
   axios: {
    /*  baseURL: 'https://back.matesdefabrica.com/api' , */
-    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.matesdefabrica.com/api' : 'http://localhost:8000/api'
+    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.redlimp.com/api' : 'http://localhost:8000/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
 

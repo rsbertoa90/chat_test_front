@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import sideCategoriesPannel from '@/components/category/side-pannel.vue'
-import navbar from '@/components/Navbar.vue'
-import totalBouncer from '@/components/total-bouncer/total-bouncer.vue';
+
+import navbar from '@/components/layout/Navbar.vue'
+/* import totalBouncer from '@/components/total-bouncer/total-bouncer.vue'; */
 export default {
-  components:{navbar,sideCategoriesPannel,totalBouncer}
+  components:{navbar}
 }
 </script>
 

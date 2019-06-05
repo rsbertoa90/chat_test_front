@@ -1,13 +1,14 @@
 <template>
-    <productsAdmin></productsAdmin>
+    <adminprods></adminprods>
 </template>
 
 <script>
-import productsAdmin from '@/components/admin/products/Admin.vue';
+import checkadmin from '@/middleware/checkAdmin.js'
+import adminprods from '@/components/admin/Admin.vue' 
 export default {
-    name:'admin',
-    components:{productsAdmin},
-    middleware:'checkAdmin',
+    middleware:[checkadmin],
+    components:{adminprods},
+    name:'adminproducts',
     layout:'admin'
 }
 </script>

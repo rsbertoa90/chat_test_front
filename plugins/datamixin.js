@@ -4,6 +4,11 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods:{
+      notPaused(category){
+        return category.products.filter(p=>{
+          return !p.paused;
+        })
+      },
       productSlug(product)
       {
         if (this.categories)
@@ -50,13 +55,13 @@ Vue.mixin({
           devmode() {
            let res = this.$axios.defaults.baseURL == 'http://localhost:8000/api' ;
 
-            console.log('devmode', this.$axios.defaults.baseURL, res);
+          /*   console.log('devmode', this.$axios.defaults.baseURL, res); */
             return res;
           },
          backendpath() {
           
            let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.matesdefabrica.com';
-          console.log('backendpath',res);
+       /*    console.log('backendpath',res); */
            return res;
          },
        noImage()
@@ -71,6 +76,9 @@ Vue.mixin({
        },
        admin(){
         return this.user && this.user.role_id<3;
+       },
+       supercategories() {
+         return this.$store.getters.getSupercategories;
        },
        categories() {
          return this.$store.getters.getCategories;

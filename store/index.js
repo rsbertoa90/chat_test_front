@@ -1,11 +1,7 @@
 /* const axios = require('@nuxtjs/axios'); */
 
 export const strict = false
-/* 
-console.log('LOGGG');
-console.log(process.env.dev);
-console.log(process.env.baseUrl);
-console.log(process.env); */
+
 export const state = () => {
     return{
        orders: [],
@@ -15,6 +11,7 @@ export const state = () => {
         categories: [],
         loading: true,
         searchTerm: '',
+        supercategories:'',
     }
 }
 
@@ -60,7 +57,11 @@ export const getters = {
 
 
        },
-
+       getAllMeta(store){
+        if(store.meta){
+          return store.meta;
+        }
+       },
        getMeta: store => page => {
          if (store.meta) {
            if(page=='index'){page='home'}
@@ -92,6 +93,9 @@ export const getters = {
        },
        getCategories(state) {
          return state.categories;
+       },
+       getSupercategories(state) {
+         return state.supercategories;
        },
        getCategory: (state) => (id) => {
          if (state.categories.length > 0) {
@@ -145,7 +149,21 @@ export const getters = {
     getUser(state)
     {
         return state.auth.user;
-    }
+    },
+     getProductSlug: store => product => {
+       if (store.categories && store.categories.length > 0) {
+         let category = store.categories.find(c => {
+           return c.id == product.category_id;
+         });
+         if (category) {
+           let slug = category.slug + '/' + product.slug;
+           slug = slug.replace('//', '/');
+           slug = slug.replace('//', '/');
+           return slug;
+         }
+       }
+     },
+     
 }
 
 export const mutations = {
@@ -237,6 +255,9 @@ export const mutations = {
      setCategories: (state, payload) => {
        state.categories = payload;
      },
+     setSupercategories: (state, payload) => {
+       state.supercategories = payload;
+     },
      saveCategory: (state, category) => {
        state.categories.push(category);
      },
@@ -244,6 +265,7 @@ export const mutations = {
 
 export const actions = {
     async nuxtServerInit({dispatch},context){
+       await dispatch('fetchSupercategories');
        await dispatch('fetchCategories');
        await dispatch('fetchConfig');
        await dispatch('fetchMeta');
@@ -255,6 +277,14 @@ export const actions = {
         await this.$axios.get('/categories')
         .then(r=>{
             commit('setCategories',r.data);
+        });
+        
+    },
+
+    async fetchSupercategories({commit}){
+        await this.$axios.get('/supercategories')
+        .then(r=>{
+            commit('setSupercategories',r.data);
         });
         
     },

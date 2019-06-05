@@ -52,3 +52,8 @@ div{
 .col-12{
     position:initial;
 }
+
+.row{
+    padding:0;
+    margin:0;
+}

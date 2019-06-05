@@ -51,16 +51,18 @@ export default {
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 50;
+        z-index: 10;
         display: flex;
         justify-content: center;
     }
 
     .modal-window{
         
-        margin-top:90px;
         position:absolute;
-        z-index:10;
+        top:90px;
+        left:50%;
+        margin-left:-223px;
+        z-index:90;
        /*  margin-top:100px; */
         width: 447px;
         
@@ -77,6 +79,10 @@ export default {
 
     @media(max-width:660px){
         .modal-window{
+             position:absolute;
+            top:90px;
+            left:50%;
+            margin-left:-157;
             width:327px;
         }
     }

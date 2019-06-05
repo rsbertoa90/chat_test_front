@@ -1,23 +1,11 @@
 <template>
-    <div>
-        <div v-if="$mq=='lg'">
-            <homeWide></homeWide>
-        </div>
-        <div v-else>
-            <homeMobile></homeMobile>
-        </div>
-    </div>
+    <homepage></homepage>
 </template>
 
-
 <script>
-import homeMobile from '@/components/home/Mobile.vue';
-import homeWide from '@/components/home/Wide.vue';
-import metamixin from '@/plugins/metadataMixin.js';
+import homepage from '@/components/home/Home.vue'
 export default {
-    components:{homeMobile,homeWide},
-  mixins:[metamixin],
-  name:'home',
-
+    name:'home',
+    components:{homepage}
 }
 </script>

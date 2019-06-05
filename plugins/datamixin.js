@@ -60,7 +60,7 @@ Vue.mixin({
           },
          backendpath() {
           
-           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.matesdefabrica.com';
+           let res = this.devmode ? 'http://127.0.0.1:8000' : 'http://back.redlimp.com';
        /*    console.log('backendpath',res); */
            return res;
          },

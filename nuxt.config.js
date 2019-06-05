@@ -144,8 +144,8 @@ export default {
   */
  
   axios: {
-   /*  baseURL: 'https://back.matesdefabrica.com/api' , */
-    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.redlimp.com/api' : 'http://localhost:8000/api'
+    baseURL: 'http://back.redlimp.com/api' , 
+//    //baseURL: process.env.NODE_ENV == 'production' ? 'https://back.redlimp.com/api' : 'http://localhost:8000/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
 

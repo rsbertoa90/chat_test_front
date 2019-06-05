@@ -20,7 +20,7 @@ module.exports = {
   deploy : {
     production : {
       user : 'forge',
-      host: '206.189.176.126',
+      host: '159.89.228.17',
       ref  : 'origin/master',
      /*  repo : 'git@github.com:repo.git', */
       path : '/var/www/production',

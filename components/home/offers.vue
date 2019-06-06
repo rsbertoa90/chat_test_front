@@ -6,7 +6,7 @@
     <h2 class="mb-4 text-center">OFERTAS DEL MES DE REDLIMP</h2>
   </div>
   <div class="col-12 row  d-flex align-items-stretch">
-    <div v-for="product in offers" :key="product.id" class="p-4">
+    <div v-for="product in offers" :key="product.id" class="col-4 mt-3">
       <div class="card h-100 text-center" style="width: 18rem;">
         <v-lazy-image  v-if="product.images[0]"  class="card-img-top" :src="imagePath(product.images[0])" :alt="product.name" />
         <v-lazy-image  v-else  class="card-img-top" :src="imagePath('/storage/images/app/no-photo.png')" :alt="product.name" />

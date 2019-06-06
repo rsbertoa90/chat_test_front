@@ -51,7 +51,7 @@
                     
                     
                     <li class="nav-text">
-                        <a href="/logout"><i class=" fas fa-user-cog"></i> Salir</a>
+                        <a @click.prevent="logout"><i class=" fas fa-user-cog"></i> Salir</a>
                     </li>
                 </ul>
             </div>
@@ -126,6 +126,16 @@ export default {
         },
     },
     methods:{
+        logout(){
+            this.$axios.post('/logout')
+                .then(r=>{
+                    if(process.browser){
+                        setTimeout(() => {
+                            window.location.replace('/');
+                        }, 200);
+                    }
+                });
+        },
         setsupercat(id){
             this.supercat_id = id;
             this.overNav = true;

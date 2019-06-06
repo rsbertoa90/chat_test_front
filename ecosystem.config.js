@@ -17,14 +17,14 @@ module.exports = {
     }
   }],
 
-  deploy : {
-    production : {
-      user : 'forge',
+  deploy: {
+    production: {
+      user: 'forge',
       host: '159.89.228.17',
-      ref  : 'origin/master',
-     /*  repo : 'git@github.com:repo.git', */
-      path : '/var/www/production',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
+      ref: 'origin/master',
+      repo: 'git@github.com:resbertoa90/redlimpfront.git',
+      path: '/home/forge/redlimp.com',
+      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }
 };

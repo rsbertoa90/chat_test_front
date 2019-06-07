@@ -63,7 +63,7 @@
                                 </thead>
                                 <transition-group tag="tbody" leave-active-class="animated slideOutLeft">
 
-                                    <tr is="productRow" @refresh="refresh" :product="product" v-for="product in products" :key="product.name">
+                                    <tr is="productRow" @refresh="refresh" :product="product" v-for="product in products" :key="product.code">
 
                                     </tr>
                                 </transition-group>

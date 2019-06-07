@@ -13,7 +13,8 @@
         <div class="card-body">
           <h5 class="card-title"> {{product.name}} </h5>
           <p class="card-text"> {{product.description}} </p>
-          <router-link :to="getSlug(product)" class="btn btn-primary mt-3"> Ver mas </router-link>
+          <nuxt-link :to="getSlug(product)" class="btn btn-primary mt-3"> Ver mas </nuxt-link>
+          <shopButton :product="product" class="mt-3"></shopButton>
         </div>
     </div>
     </div>
@@ -22,7 +23,9 @@
 </template>
 
 <script>
+import shopButton from '@/components/category/product/shop-button.vue';
   export default {
+    components:{shopButton},
     data() {
       return {
       

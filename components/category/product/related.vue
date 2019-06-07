@@ -7,17 +7,17 @@
       <swiper :options="swiperOption" v-if="render">
         <swiper-slide  v-for="product in products" :key="product.id" v-if="!product.paused">
             <div class="card" itemscope itemtype="https://schema.org/Product">
-                <div>
+                <nuxt-link :to="getSlug(product)">
                   <v-lazy-image v-if ="product.images[0]" class="card-img card-img-top" 
-                        :src="product.images[0].url"
+                        :src="imagePath(product.images[0])"
                         :title="product.name"
                         itemprop="image" 
                         alt="Card image cap" />
-                  <v-lazy-image v-else src="/storage/images/app/no-photo.png" alt="no image" />
+                  <v-lazy-image v-else :src="noImage" alt="no image" />
                     <div v-if="product.offer" class="card-img-overlay">
                       <span v-if="product.offer" class=" badge bg-focus white-bold"> Oferta! </span>
                     </div>
-                </div>
+                </nuxt-link>
                 <div class="card-body">
                     <h5 class="card-title" itemprop="name" style="height:60px"> {{product.name | ucFirst}}  </h5>
                     <h4 v-if="config && !config.hide_prices" class="second">  
@@ -26,6 +26,9 @@
                     </h4>
                    
                     <nuxt-link :to="getSlug(product)" style="cursor:pointer" class="btn btn-outline-second  white-bold mb-4 mt-1"> Ver mas</nuxt-link>
+                    <div class="mt-2">
+                      <shop-button :product="product"></shop-button>
+                    </div>
                     <p></p>
                 </div>
             </div>
@@ -39,8 +42,10 @@
 </template>
 
 <script>
-  export default {
+import shopButton from './shop-button.vue';
+export default {
     props:['category_id'],
+    components:{shopButton},
     data() {
       return {
         render:false,
@@ -120,5 +125,13 @@
   }
   .card-img-overlay{
     max-height: 60%;
+  }
+
+  .card{
+    height: 555px;
+  }
+
+  .swiper-wrapper{
+    align-items:stretch;
   }
 </style>

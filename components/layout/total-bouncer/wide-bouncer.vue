@@ -3,11 +3,11 @@
             <div id="total" key="bouncer" v-if="total>0">
                 <div  class="bg-red p-1">
                     <div class="btn-desplegar " @click="desplegar = !desplegar ">
-                         <fa-icon icon="shopping-cart" class=" mt-2 mr-2"></fa-icon>
+                         <span  class="fa fa-shopping-cart mt-2 mr-2"></span>
                         Mi pedido  
                        <span class="font-weight-bold ml-1"> ${{total | price}} </span>
-                        <fa-icon v-if="desplegar" icon="chevron-down" class="mt-2 ml-3"></fa-icon>
-                        <fa-icon v-else icon="chevron-up" class="mt-2 ml-3"></fa-icon>
+                        <span v-if="desplegar" class="fas fa-chevron-up rotated mt-2 ml-3"></span>
+                        <span v-else class="fas fa-chevron-up mt-2 ml-3"></span>
                      
                     </div>
                 </div>
@@ -17,14 +17,14 @@
                             <tr v-for="product in list" :key="product.code">
                                 <td class="nametd">{{product.name}}</td>
                                 <td class="unitstd">{{product.units}}</td>
-                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="product.units=0"> <fa-icon icon="times"></fa-icon> </button> </td>
+                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="product.units=0"> <span class="fa fa-times"></span> </button> </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div  class="border-red">
                     <div class="bg-white d-flex justify-content-center p-1">
-                        <router-link to="/carrito" class="finish bg-white w-100 text-center" >  Terminar pedido </router-link>
+                        <nuxt-link to="/carrito" class="finish bg-white w-100 text-center" >  Terminar pedido </nuxt-link>
                     </div>
                 </div>
             </div>    
@@ -49,19 +49,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.rotated{
+    transform: rotate(180deg);
+}
 
 .border-red{
-    border:2px solid red;
+    border:2px solid #009bc8;
     padding:0;
     background-color: #fff;
 }
 .finish{
-    color:#D52B1E;
+    color:#d32381;
     a{
-        color:#D52B1E;
+        color:#d32381;
         &:hover{
-            color:#D52B1E;
+            color:#d32381;
         }
     }
 }
@@ -70,12 +72,14 @@ export default {
         position: fixed;
         /* margin-left:50vw; */
         bottom: 0;
-        right:0;
+        right:50%;
+        margin-right:-125px;
         z-index: 900;
+        width:250px;
     }
 
     .btn-desplegar{
-        background-color: #D52B1E;
+        background-color: #d32381;
         color:#fff;
         display: flex;
         justify-content: center;
@@ -115,5 +119,6 @@ export default {
             }
         }
     }
+
 </style>
 

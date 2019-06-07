@@ -246,8 +246,8 @@ export const mutations = {
        state.categories.forEach(c => {
          c.products.forEach(p => {
            if (p.id == prod.id) {
-
-             Vue.set(p, 'units', prod.units);
+            
+             p.units =prod.units;
            }
          });
        });

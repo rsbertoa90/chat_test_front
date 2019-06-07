@@ -10,9 +10,9 @@
                 <span class="fa fa-truck text-focus icono"></span> 
                 <p> La compra es entregada sin cargo al transporte de carga elegido por el cliente. Los despachos se realizan de 1 a 5 días hábiles a partir del informe y acreditación del pago.</p>
             </div>
-            <div v-if="configs" class="col-12 d-flex justify-content-center align-items-center">
+            <div v-if="config" class="col-12 d-flex justify-content-center align-items-center">
                  <span class="fas fa-hand-holding-usd text-focus icono"></span> 
-                    <p>Compra mínima por local ${{configs.minbuy}}, para envíos ${{configs.minbuy_ship}}. (Los precios publicados son sin IVA) Formas de pago: Efectivo o Deposito/Transferencia Bancaria</p>
+                    <p>Compra mínima por local ${{config.minbuy}}, para envíos ${{config.minbuy_ship}}. (Los precios publicados son sin IVA) Formas de pago: Efectivo o Deposito/Transferencia Bancaria</p>
             </div>
         </div>
 
@@ -68,13 +68,6 @@
         </div>
         
         
-        <hr>
-        <div>
-            <cotizer-form ></cotizer-form>
-        </div>
-        <div v-if="list && list.length > 0">
-            <pedido ></pedido>
-        </div>
        
   <!--       <tutorial v-if="!user || user.role_id > 2"></tutorial> -->
     </div>
@@ -91,7 +84,7 @@ import productRow from './product-row.vue';
     import cotizerForm from './Cotizer-form.vue'
     export default {
        
-        components : {pedido,tutorial,cotizerForm,productRow},
+        components : {productRow},
         data(){
             return {
                 selectedCategory:null,              
@@ -100,25 +93,6 @@ import productRow from './product-row.vue';
 
        
      
-        computed: {
-            ...mapGetters({
-                categories : 'getCategories',
-               user : 'getUser',
-               configs: 'getConfig',
-                total:'getTotal',
-                list:'getList'
-            }),
-            
-          
-        },
-
-        mounted()
-        {
-            if (this.user && this.user.role_id < 3)
-            {
-                this.$store.dispatch('fetchCategories');
-            }
-        }
 
       
     }

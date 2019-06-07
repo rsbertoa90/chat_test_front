@@ -33,11 +33,8 @@
 export default {
     props:['product'],
     components:{carousel},
-    computed:{
-        user(){
-            return this.$store.getters.getUser;
-        }
-    },
+   
+    
     data(){
         return{
             showModal:false,

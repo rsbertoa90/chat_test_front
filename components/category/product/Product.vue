@@ -2,15 +2,15 @@
     <div v-if="product">
         <div class="row justify-content-center" itemscope itemtype="http://schema.org/Product">
             <div class="col-12 col-lg-6 row">
-                <div class="col-12" @click="show">
-                    <v-lazy-image v-if="!product.images[0]"  src="/storage/images/app/no-photo.png" alt="sin foto"/>
+                <div class="col-12 p-4" @click="show">
+                    <v-lazy-image v-if="!product.images[0]"  :src="noImage" alt="sin foto"/>
                     <v-lazy-image  itemprop="image" v-else 
-                        :src="product.images[selectedImage].url" 
+                        :src="imagePath(product.images[selectedImage])" 
                         :alt="product.name" />
                 </div>
                 <div class="col-12 row" v-if="product.images[1]">
                     <div  v-if="i-1 != selectedImage"  class="col-4" v-for="i in product.images.length" :key="i" @click="selectedImage=i-1">
-                        <v-lazy-image :src="product.images[i-1].url" :alt="product.name"  />
+                        <v-lazy-image :src="imagePath(product.images[i-1])" :alt="product.name"  />
                     </div>
                 </div>
             </div>
@@ -29,8 +29,8 @@
                         <p class="texto"> {{product.description | ucFirst}} </p>
                         <span style="font-size: 0.7rem ; font-style:italic">* Los diseños estan sujetos a disponibilidad</span>
                     </div>
-                    <div class="mt-3">
-                        <nuxt-link to="/cotizador" class="btn btn-lg btn-outline-success"> <span class="fa fa-shopping-cart"></span> Hacer pedido</nuxt-link>
+                    <div class="mt-3 w-50">
+                        <shop-button :product="product"></shop-button>
                     </div>
                     <div class="row mt-3">
                         <div class="col-6 d-flex align-items-center">
@@ -48,15 +48,18 @@
             </div>
         </div>
         <div class="row">
-            <related-products :category_id="product.category_id"></related-products>
+            <no-ssr>
+                <related-products :category_id="product.category_id"></related-products>
+            </no-ssr>
         </div>
     </div>
 </template>
 
 <script>
+import shopButton from './shop-button';
 import relatedProducts from './related.vue';
 export default {
-    components:{relatedProducts},
+    components:{relatedProducts,shopButton},
     data(){
         return{
             selectedImage : 0
@@ -64,7 +67,7 @@ export default {
     },
     computed:{
         product(){
-            let slug = this.$route.params['product_slug'];
+            let slug = this.$route.params['product'];
             
             slug = '/'+slug;
             slug =slug.replace('//','/');
@@ -94,13 +97,13 @@ export default {
             if (this.product.images[0]){
                 let url = this.product.images[this.selectedImage].url;
                 let image = document.createElement('img');
-                image.setAttribute('src',url);
+                image.setAttribute('src',this.imagePath(url));
                 swal({
                     content:image,
                 });
             }else{
                     var content = document.createElement("img");
-                    $(content).attr('src','/storage/images/app/no-photo.png');
+                    $(content).attr('src',this.imagePath('/storage/images/app/no-photo.png'));
                     content.style.width = '100%';
                     swal({content : content});
             }

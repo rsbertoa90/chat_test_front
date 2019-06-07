@@ -178,8 +178,11 @@ export default {
             }
         },
         pages(){
-             return Math.round(this.category.products.length / this.show);
-           
+            let res  =  Math.round(this.category.products.length / this.show);
+           if (this.category.products.length % this.show > 0){
+               res++;
+           }
+           return res;
         }
       
     },

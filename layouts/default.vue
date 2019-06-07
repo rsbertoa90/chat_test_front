@@ -16,7 +16,8 @@
         <app-footer v-if="$mq=='lg'"></app-footer>
          <whatsappBtn v-if="!admin"></whatsappBtn>
      
-    <!--      <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer> -->
+        
+        <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer>
 
        
     </div>
@@ -28,9 +29,10 @@ import totalBouncer from './layout/total-bouncer/total-bouncer.vue';*/
 import whatsappBtn from '@/components/layout/whatsapp.vue'; 
 import appFooter from '@/components/layout/footer/Footer.vue';
 import appNav from '@/components/layout/Navbar.vue';
+import totalBouncer from '@/components/layout/total-bouncer/total-bouncer.vue'; 
 
 export default {
-    components:{appNav,appFooter,whatsappBtn},
+    components:{appNav,appFooter,whatsappBtn,totalBouncer},
     computed:{
         user(){
             return this.$store.getters.getUser;

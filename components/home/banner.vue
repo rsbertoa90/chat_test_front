@@ -15,8 +15,8 @@
     
        <router-link v-for="sc in supercategories"
             :key="sc.id"
-            :to="sc.slug" class="col-12 col-lg-4 p-1">
-           <div class="text-center relative">
+            :to="sc.slug" class="col-12 col-lg-4 p-1 mt-4">
+           <div class="text-center relative mt-4 cursor-pointer">
                <div class="overflow-hidden">
                     <v-lazy-image class="img-container" :src="imagePath(sc.image)" alt="limpieza" />
                </div>
@@ -24,7 +24,7 @@
                 <div class="sm-overlay">
                     <h4> {{sc.name}} </h4>
                 </div>
-                </div>
+            </div>
        </router-link>
        
       
@@ -64,7 +64,7 @@ export default {
                 justify-content: center;
             }
              position: absolute;
-            top:60%;
+            top:40%;
             right:0;
             width: 100%;    
             text-align: center;

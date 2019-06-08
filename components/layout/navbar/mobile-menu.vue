@@ -1,57 +1,57 @@
-appear-active-class=""<template>
+<template>
 <div>
 
     
         <div id="overlay">
 
-        </div>
-    <div id="menu" >
-        <div class="row w-100 p-0 m-0 d-flex ">
-            <div class="col-12 d-flex">
-                <span class="fa fa-bars ml-2 mt-4"></span>
-            </div>
-            <div class="col-12 p-4 d-flex jusfify-conten-center align-items-center">
-                 <form class="form-inline w-100" action="/buscar">
-                    <div class="input-group w-100">
-                        <input type="text" class="form-control" 
-                                 aria-label="Buscar productos"
-                                placeholder="Que estas buscando?"
-                                name="search">
-                    </div>  
-                </form>
-     
-            </div>
-            <hr/>
-           
-                <div class="col-12 p-0" v-if="supercategories">
-                    <ul v-on-click-outside="close"> 
-                        <li v-for="route in routes" :key="route.url">
-                            <router-link :to="route.url" >
-                                <span :class="route.icon" class="mr-1"></span>
-                                {{route.name | uc}}
-                               
-                            </router-link>
-                        </li>
-                        <li 
-                            v-for="sup in supercategories" 
-                            :key="sup.id"
-                            @click="openSubmenu(sup)">
-                            <div class="w-100 d-flex justify-content-between">
-                                {{sup.name | uc}}
-                                 <i :class="{'fa fa-chevron-right':!sup.submenu,
-                                            'fa fa-chevron-down':sup.submenu}"></i>
-                            </div>
-                            <div v-if="sup.submenu" class="row mt-2">
-                                <div class="col-6 submenucat" v-for="cat in submenuCats" :key="cat.id">
-                                    <router-link :to="cat.slug">{{cat.name | uc}}</router-link>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+            <div id="menu" >
+                <div class="row w-100 p-0 m-0 d-flex ">
+                    <div class="col-12 d-flex">
+                        <span class="fa fa-bars ml-2 mt-4" @click="close"></span>
+                    </div>
+                    <div class="col-12 p-4 d-flex jusfify-conten-center align-items-center">
+                        <form class="form-inline w-100" action="/buscar">
+                            <div class="input-group w-100">
+                                <input type="text" class="form-control" 
+                                        aria-label="Buscar productos"
+                                        placeholder="Que estas buscando?"
+                                        name="search">
+                            </div>  
+                        </form>
+            
+                    </div>
+                    <hr/>
+                
+                        <div class="col-12 p-0" v-if="supercategories">
+                            <ul> 
+                                <li v-for="route in routes" :key="route.url" @click="close">
+                                    <router-link :to="route.url" >
+                                        <span :class="route.icon" class="mr-1"></span>
+                                        {{route.name | uc}}
+                                    
+                                    </router-link>
+                                </li>
+                                <li 
+                                    v-for="sup in supercategories" 
+                                    :key="sup.id"
+                                    @click="openSubmenu(sup)">
+                                    <div class="w-100 d-flex justify-content-between">
+                                        {{sup.name | uc}}
+                                        <i :class="{'fa fa-chevron-right':!sup.submenu,
+                                                    'fa fa-chevron-down':sup.submenu}"></i>
+                                    </div>
+                                    <div v-if="sup.submenu" class="row mt-2">
+                                        <div class="col-6 submenucat" v-for="cat in submenuCats" :key="cat.id">
+                                            <router-link :to="cat.slug">{{cat.name | uc}}</router-link>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+            
                 </div>
-       
+            </div>
         </div>
-    </div>
 </div>
 </template>
 
@@ -146,10 +146,10 @@ export default {
 #overlay{
     background-color:#ccc;
     position: fixed;
-    top:-10%;
-    left:-10%;
-    width: 110vw;
-    height: 110vh;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
     z-index:300;
 
 

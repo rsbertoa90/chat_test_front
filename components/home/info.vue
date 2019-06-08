@@ -7,17 +7,17 @@
         </div>
         <div class="col-12 row d-flex mt-3">
            
-            <div class="col-10 offset-2 offset-lg-0 col-lg-4 icon-container">
+            <div class="col-10 offset-1 offset-lg-0 col-lg-4 icon-container">
                     <span class="icon fa fa-truck mr-2"></span>
                     <span class="text-center">Realizamos envíos a toda Argentina</span>
             </div>
         
-            <div class="col-10 offset-2 offset-lg-0 col-lg-4 icon-container">
+            <div class="col-10 offset-1 offset-lg-0 col-lg-4 icon-container">
                     <i class="icon fa fa-shopping-basket"></i>
                     <span class="text-center">La compra mínima por local es de $1500, para envío de $3000</span>
             </div>
         
-            <div class="col-10 offset-2 offset-lg-0 col-lg-4 icon-container">
+            <div class="col-10 offset-1 offset-lg-0 col-lg-4 icon-container">
                     <i class="icon fa fa-comment"></i>
                     <span class="text-center">Preguntas? contactanos al <br> 11 6234 4492</span>
             </div>

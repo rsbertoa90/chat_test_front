@@ -5,7 +5,7 @@
             <div>
                 <div  class="bg-red p-1">
                     <div class=" bg-white d-flex justify-content-center p-1">
-                         <fa-icon icon="shopping-cart" class="red mt-1 mr-2"></fa-icon>
+                         <span  class="fa fa-shopping-cart red mt-1 mr-2"></span>
                         ${{total | price}}
                     </div>
                 </div>

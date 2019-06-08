@@ -1,13 +1,13 @@
 <template>
 <div class="container">
 
-    <div class="row p-3">
-            <home-banner></home-banner>
+    <div class="row p-lg-3">
+            <home-banner class="mt-4"></home-banner>
             <br>
             <br>
-            <home-info></home-info>
+            <home-info class="mt-4"></home-info>
             <br><br>
-            <home-offers></home-offers>
+            <home-offers class="mt-4"></home-offers>
 
     </div>
 </div>

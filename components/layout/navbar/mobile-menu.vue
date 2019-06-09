@@ -10,12 +10,12 @@
                         <span class="fa fa-bars ml-2 mt-4" @click="close"></span>
                     </div>
                     <div class="col-12 p-4 d-flex jusfify-conten-center align-items-center">
-                        <form class="form-inline w-100" action="/buscar">
+                        <form class="form-inline w-100" @submit.prevent="search">
                             <div class="input-group w-100">
                                 <input type="text" class="form-control" 
                                         aria-label="Buscar productos"
                                         placeholder="Que estas buscando?"
-                                        name="search">
+                                        v-model="term">
                             </div>  
                         </form>
             
@@ -67,6 +67,7 @@ export default {
     },
     data(){
         return{
+            term:'',
             submenuCats:[],
             supercategory:null,
             showCats:false,
@@ -89,6 +90,11 @@ export default {
         }),
     },
     methods:{
+         search(){
+            this.$store.commit('setSearchTerm',this.term);      
+            this.$router.push('/resultados-de-busqueda');
+            this.close();
+        },
         close(){
             this.$emit('close');
         },

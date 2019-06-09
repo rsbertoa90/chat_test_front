@@ -4,12 +4,12 @@
         <div v-if="!admin" class="row d-flex justify-content-around align-items-center ml-1">
             
             <div class="col-3 offset-1">
-                <form class="form-inline" action="/buscar">
+                <form class="form-inline" @submit.prevent="search">
                     <div class="input-group w-100">
                         <input type="text" class="form-control pl-input" 
                                  aria-label="Buscar productos"
                                 placeholder="Que estas buscando?"
-                                name="search">
+                                v-model="term">
                         <div class="input-group-prepend">
                             <span class="white-bold input-group-text bg-second d-flex justify-content-center" 
                                   id="basic-addon1">
@@ -115,6 +115,7 @@ export default {
             supercat_id :1,
             overMenu : false,
             overNav : false,
+            term:'',
      }
     },
     
@@ -126,6 +127,10 @@ export default {
         },
     },
     methods:{
+        search(){
+            this.$store.commit('setSearchTerm',this.term);
+            this.$router.push('/resultados-de-busqueda');
+        },
         logout(){
             this.$axios.post('/logout')
                 .then(r=>{

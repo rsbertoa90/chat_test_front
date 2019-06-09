@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container ml-auto">
 
     <div class="row p-lg-3">
             <home-banner class="mt-4"></home-banner>
@@ -25,3 +25,5 @@ export default {
     }
 }
 </script>
+
+

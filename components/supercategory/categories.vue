@@ -6,7 +6,7 @@
             <div class="text-center ">
                 <div class="overflow-hidden relative">
                         <v-lazy-image v-if="category.image" class="img-container" :src="imagePath(category.image)" :alt="category.name" />
-                        <v-lazy-image v-else class="img-container" :src="imagePath('/storage/images/app/no-photo.png')" :alt="category.name" />
+                        <v-lazy-image v-else class="img-container" :src="noImage" :alt="category.name" />
                         <div class="sm-overlay">
                             <div class="h4-wrap">
                                 <h4> {{category.name |uc}} </h4>

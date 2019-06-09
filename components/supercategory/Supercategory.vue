@@ -5,7 +5,7 @@
                 <h1> ARTICULOS DE {{supercategory.name | uc}} </h1>
             </div>
         </div>
-        <div class="row">
+    <!--     <div class="row">
             <div class="col-12 col-lg-6">
                 <v-lazy-image v-if="supercategory.image"  :src="imagePath(supercategory.image)" :alt="supercategory.name" />
             </div>
@@ -14,7 +14,7 @@
                   <span class="texto"> {{supercategory.description}} </span>  
             
             </div>
-        </div>
+        </div> -->
     
         <div>
             <app-categories :supercategory="supercategory"></app-categories>

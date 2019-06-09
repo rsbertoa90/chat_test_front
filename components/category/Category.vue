@@ -5,7 +5,7 @@
                 <h1> {{category.name | ucFirst}} </h1>
             </div>
         </div>
-        <div class="row">
+      <!--   <div class="row" v-if="category.description">
             <div class="col-12 col-lg-6">
                 <img :src="imagePath(category.image)" :alt="category.name">
             </div>
@@ -14,7 +14,7 @@
                   <span class="texto" v-html="text">  </span>  
             
             </div>
-        </div>
+        </div> -->
         <!-- LINKS -->
         <div class="row links mt-3">
             <div class="col-2 col-lg-2 p-0">

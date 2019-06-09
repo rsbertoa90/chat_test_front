@@ -66,7 +66,7 @@ Vue.mixin({
          },
        noImage()
        {
-        return this.imagePath('/storage/images/app/no-image.png');
+        return this.imagePath('/storage/images/app/no-photo.jpg');
        },
        config(){
         return this.$store.getters.getConfig;

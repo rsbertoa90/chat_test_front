@@ -10,7 +10,7 @@
                     :src="imagePath(product.images[0])" 
                     :title="product.name"
                     itemprop="image" />
-                    <v-lazy-image v-else :src="imagePath('/storage/images/app/no-photo.png')" 
+                    <v-lazy-image v-else :src="noImage" 
                         class="card-img-top" alt="no hay foto" />
                     
                     <span v-if="product.offer" class="badge bg-focus white-bold "> Oferta! </span>
@@ -66,7 +66,7 @@ export default {
                 else
                 {
                     var content = document.createElement("img");
-                    content.setAttribute('src',this.imagePath('/storage/images/app/no-photo.png'));
+                    content.setAttribute('src',this.noImage);
                     content.style.width = '100%';
                     swal({content : content});
                 }

@@ -4,7 +4,7 @@
             <v-lazy-image v-if="product.images.length > 0" 
                 class="sampleImage" :src="imagePath(product.images[0])" 
                 :alt="product.name"  /> 
-            <v-lazy-image class="sampleImage" v-else :src="imagePath('/storage/images/app/no-image.png')" 
+            <v-lazy-image class="sampleImage" v-else :src="noImage" 
                 alt="Sin foto" />
         </td>
         <td v-if="user && user.role_id < 3"> {{product.code}} </td>
@@ -51,7 +51,7 @@ export default {
                 else
                 {
                     var content = document.createElement("img");
-                    content.setAttribute('src',this.imagePath('/storage/images/app/no-image.png'));
+                    content.setAttribute('src',this.noImage);
                     content.style.width = '100%';
                     swal({content : content});
                 }

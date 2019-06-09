@@ -154,7 +154,7 @@ export default {
                                     term = term.substring(0, term.length-1);
                                  
                                 }
-                                    console.log(term,productName,categoryName);
+                                   /*  console.log(term,productName,categoryName); */
                                 if (    addtores 
                                       && productName.indexOf(term) < 0 
                                         && categoryName.indexOf(term) < 0  

@@ -15,13 +15,13 @@
                <img v-if="product.images && product.images.length > 0" 
                         :key="product.images[i].id"
                         class="w-100 " 
-                        :src="product.images[i].url" 
+                        :src="imagePath(product.images[i])" 
                         :alt="product.name">
 
                 
                
             </transition>  
-                <img v-if="!product.images || ! product.images.length > 0" :src="imagePath('/storage/images/app/no-image.png')" :alt="product.name">
+                <img v-if="!product.images || ! product.images.length > 0" :src="noImage" :alt="product.name">
 
             <div class="controls"  v-if="product.images && product.images.length > 1" >
                 <span class="fa fa-chevron-left " @click="changeImage('prev')" ></span>
@@ -67,7 +67,7 @@
                     let images = [];
                     this.product.images.forEach(image => {
                         let img = new Image();
-                        img.src = image.url;
+                        img.src = this.imagePath(image.url);
                         images.push(img);
                        /*  console.log(img); */
                     });

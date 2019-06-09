@@ -103,7 +103,7 @@ export default {
                 });
             }else{
                     var content = document.createElement("img");
-                    $(content).attr('src',this.imagePath('/storage/images/app/no-photo.png'));
+                    $(content).attr('src',this.noImage);
                     content.style.width = '100%';
                     swal({content : content});
             }

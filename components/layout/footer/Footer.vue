@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-9">
                  
-                        <p> Donizzetti 186, Lomas de Zamora, Bs As </p>
+                        <p> Av Libertador 1047, Moreno, Zona Oeste </p>
 
                  
                 </div>

@@ -9,7 +9,7 @@
     <div v-for="product in offers" :key="product.id" class="col-12 col-lg-4 mt-3">
       <div class="card h-100 text-center" style="width: 18rem;">
         <v-lazy-image  v-if="product.images[0]"  class="card-img-top" :src="imagePath(product.images[0])" :alt="product.name" />
-        <v-lazy-image  v-else  class="card-img-top" :src="imagePath('/storage/images/app/no-photo.png')" :alt="product.name" />
+        <v-lazy-image  v-else  class="card-img-top" :src="noImage" :alt="product.name" />
         <div class="card-body">
           <h5 class="card-title"> {{product.name}} </h5>
           <p class="card-text"> {{product.description}} </p>

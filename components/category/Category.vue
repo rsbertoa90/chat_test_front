@@ -16,7 +16,7 @@
             </div>
         </div> -->
         <!-- LINKS -->
-        <div class="row links mt-3">
+        <div class="row links mt-3" v-if="$mq=='lg'">
             <div class="col-2 col-lg-2 p-0">
                 <button @click="display = 'grid'"
                         class="btn btn-sm "
@@ -29,7 +29,7 @@
                         <span class="fa fa-list-ul"></span>
                 </button>
             </div>
-            <div class="col-10 col-lg-7 row p-0 d-flex justify-content-start pl-4">
+            <div  class="col-10 col-lg-7 row p-0 d-flex justify-content-start pl-4">
                 <div class="col-5 row p-0">
                     <label class=" p-0 pt-2 col-5 text-right pr-1">Ordenar</label>
                     <select class="form-control col-7" v-model="sortby">
@@ -60,6 +60,7 @@
                     </select>
                 </div>
             </div>
+
             <div class="col-12 mt-2 mt-lg-0 col-lg-3">
                 <div v-if="pages > 1">
                     <button v-if="page != 1" class=" bg-transparent"
@@ -90,6 +91,8 @@
                 <products-list :products="products"></products-list>
             </div>
         </div>
+
+
         <div class="row mt-4">
             <div class="col-12 col-lg-4 offset-lg-8 ">
                    

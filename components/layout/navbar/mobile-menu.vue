@@ -42,7 +42,7 @@
                             </div>
                             <div v-show="sup.submenu" class="row mt-2" 
                                 :class="{'submenu-displayed':sup.submenu , 'submenu-nondisplayed':!sup.submenu}">
-                                <div class="col-12 submenucat" v-for="cat in submenuCats" :key="cat.id">
+                                <div class="col-12 submenucat" v-for="cat in submenuCats" :key="cat.id" @click="close">
                                     <nuxt-link :to="cat.slug">
                                         <span class="fa fa-check"></span>    {{cat.name | uc}}
                                     </nuxt-link>

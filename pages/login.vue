@@ -50,6 +50,12 @@
 
 <script>
 export default {
+    head() {
+    return {
+      titleTemplate: 'ADMIN',      
+    }
+  },
+  
     layout:'admin',
     name:'login',
      metaInfo(){return{

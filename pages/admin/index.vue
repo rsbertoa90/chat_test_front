@@ -6,6 +6,11 @@
 import checkadmin from '@/middleware/checkAdmin.js'
 import adminprods from '@/components/admin/Admin.vue' 
 export default {
+     head() {
+    return {
+      titleTemplate: 'ADMIN',      
+    }
+  },
     middleware:[checkadmin],
     components:{adminprods},
     name:'adminproducts',

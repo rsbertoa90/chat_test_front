@@ -3,7 +3,7 @@ export default {
         return {
             titleTemplate: this.metatitle,
             meta: [
-                { name: 'description', content: this.metadescription }
+                { name: 'description', content: this.metadescription,hid:'description' }
 
             ]
         }

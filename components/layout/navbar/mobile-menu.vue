@@ -5,6 +5,10 @@
         <div id="overlay">
 
             <div id="menu" >
+
+                
+
+
                 <div class="row w-100 p-0 m-0 d-flex ">
                     <div class="col-12 d-flex">
                         <span class="fa fa-bars ml-2 mt-4" @click="close"></span>
@@ -22,34 +26,41 @@
                     </div>
                     <hr/>
                 
-                        <div class="col-12 p-0" v-if="supercategories">
-                            <ul> 
-                                <li v-for="route in routes" :key="route.url" @click="close">
-                                    <router-link :to="route.url" >
-                                        <span :class="route.icon" class="mr-1"></span>
-                                        {{route.name | uc}}
-                                    
-                                    </router-link>
-                                </li>
-                                <li 
-                                    v-for="sup in supercategories" 
-                                    :key="sup.id"
-                                    @click="openSubmenu(sup)">
-                                    <div class="w-100 d-flex justify-content-between">
-                                        {{sup.name | uc}}
-                                        <i :class="{'fa fa-chevron-right':!sup.submenu,
-                                                    'fa fa-chevron-down':sup.submenu}"></i>
-                                    </div>
-                                    <div v-if="sup.submenu" class="row mt-2">
-                                        <div class="col-6 submenucat" v-for="cat in submenuCats" :key="cat.id">
-                                            <router-link :to="cat.slug">{{cat.name | uc}}</router-link>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                       
             
                 </div>
+
+                 <div class="col-12 p-0" v-if="supercategories">
+                    <ul> 
+                        <li 
+                            v-for="sup in supercategories" 
+                            :key="sup.id"
+                            @click="openSubmenu(sup)">
+                            <div class="w-100 d-flex justify-content-between">
+                                {{sup.name | uc}}
+                                <i class="fa fa-chevron-right" :class="{'chevron-down':sup.submenu}"></i>
+                            </div>
+                            <div v-show="sup.submenu" class="row mt-2" 
+                                :class="{'submenu-displayed':sup.submenu , 'submenu-nondisplayed':!sup.submenu}">
+                                <div class="col-12 submenucat" v-for="cat in submenuCats" :key="cat.id">
+                                    <nuxt-link :to="cat.slug">
+                                        <span class="fa fa-check"></span>    {{cat.name | uc}}
+                                    </nuxt-link>
+                                </div>
+                            </div>
+                        </li>
+                        <li v-for="route in routes" :key="route.url" @click="close">
+                            <nuxt-link :to="route.url" >
+                                <span :class="route.icon" class="mr-1"></span>
+                                {{route.name | uc}}
+                            
+                            </nuxt-link>
+                        </li>
+                      
+                    </ul>
+                </div>
+
+
             </div>
         </div>
 </div>
@@ -82,13 +93,7 @@ export default {
             
      }
     },
-    computed :{
-        ...mapGetters({
-            categories : 'getCategories',
-            supercategories: 'getSupercategories'
-
-        }),
-    },
+   
     methods:{
          search(){
             this.$store.commit('setSearchTerm',this.term);      
@@ -100,15 +105,17 @@ export default {
         },
         openSubmenu(supercat){
             console.log('opensubmenu');
-            if (!supercat.submenu){
-                vue.set(supercat,'submenu',true);
+            if(supercat.submenu){
+                supercat.submenu=false;
+            }
+            else{
+                this.$set(supercat,'submenu',true);
+                supercat.submenu=true ;
                 this.submenuCats = this.categories.filter(cat => {
                     return cat.supercategory_id == supercat.id;
                 });
             }
-            else{
-                supercat.submenu=false;
-            }    
+          
             console.log(supercat.submenu);
         },
     },
@@ -132,13 +139,25 @@ export default {
 
  $color-other: #104DE8;
 
+.submenu-nondisplayed{
+    height: 0;
+    transition:all .4s;
+
+}
+
+
+.chevron-down{
+    transform: rotate(90deg);
+}
+.submenu-displayed{
+    max-height: 200px;
+    overflow-y:scroll;
+    overflow-x:hide;
+    transition:all .4s;
+}
+
 .submenucat{
-    padding: 5px;
-    border:1px solid #ccc;
-    display: flex;
-    justify-content: center;
-    align-items:center;
-    text-align:center;
+   
     cursor: pointer;
     &:hover{
           background-color: $color-first;

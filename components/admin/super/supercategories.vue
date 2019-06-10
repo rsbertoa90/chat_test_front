@@ -87,7 +87,8 @@ export default {
                 this.$axios.post('/supercategory/image', fileUploadFormData)
                         .then(response => {
                             setTimeout(() => {
-                                window.location.replace('/admin/metadata');
+                               // window.location.replace('/admin/metadata');
+                               swal('exito','refresca la pagina para ver el cambio reflejado','success');
                             }, 500);
                         });
             }

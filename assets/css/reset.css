@@ -10,7 +10,9 @@ a{
 img{
     width:100%;
 }
-
+.container{
+    margin:auto;
+}
 a:hover{
     text-decoration: none;
     color:inherit;

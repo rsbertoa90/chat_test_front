@@ -9,7 +9,12 @@ import orders from '@/components/admin/Orders.vue';
 export default {
     components:{orders},
     middleware:[checkadmin],
-      layout:'admin'
+    layout:'admin',
+    mounted(){
+        if (!this.$store.getters.getOrders){
+            this.$store.dispatch('fetchOrders');
+        }
+    }
 }
 </script>
 

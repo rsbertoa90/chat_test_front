@@ -36,7 +36,7 @@ export default {
         /* border:1px solid #868686; */
         border:none;
         overflow: hidden;
-        background-color: #DCDCDC;
+        background-color: #fff;
     }
 
 

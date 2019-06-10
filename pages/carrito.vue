@@ -9,6 +9,6 @@ import cart from '@/components/shoppingCart/ShoppingCart.vue';
 export default {
     components:{cart},
     name:'carrito',
-    
+    layout:'cart'
 }
 </script>

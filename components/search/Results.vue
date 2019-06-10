@@ -9,7 +9,7 @@
             </div>
             
             <!-- LINKS -->
-            <div class="row links mt-3">
+            <div v-if="$mq=='lg'" class="row links mt-3">
                 <div class="col-2 col-lg-2 p-0">
                     <button @click="display = 'grid'"
                             class="btn btn-sm "

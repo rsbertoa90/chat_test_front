@@ -1,5 +1,5 @@
 <template>
-    <div class="shopbtn">
+    <div class="shopbtn" v-if="!config.hide_prices">
         <div v-if="!product.units || product.units < 1">
             <button class="btn btn-block dabtn" @click="addToCart()">
                 <span class="fa fa-shopping-cart"></span>

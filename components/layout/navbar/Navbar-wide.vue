@@ -59,7 +59,7 @@
         <div class="row nav-row">
             <div class="row col-12">
                 <ul class="navbar">
-                     <li> <nuxt-link to="/cotizador"> <span class="fa fa-shopping-cart mr-2 text-focus"></span> HACE TU PEDIDO</nuxt-link></li>
+                     <li v-if="!config.hide_prices"> <nuxt-link to="/cotizador"> <span class="fa fa-shopping-cart mr-2 text-focus"></span> HACE TU PEDIDO</nuxt-link></li>
                      <li> <nuxt-link to="/sucursales"> <span class="fas fa-map-marker-alt mr-2 text-focus"></span> UBICACION</nuxt-link></li>
                     <li> <nuxt-link to="/contacto">  <span class="fas fa-mobile-alt mr-2 text-focus"></span> CONTACTO</nuxt-link></li>
                 </ul>
@@ -120,6 +120,10 @@ export default {
     },
     
     computed:{
+        config(){
+            return this.$store.getters.getConfig;
+        },
+
         menucats(){
             return this.categories.filter(cat => {
                 return cat.supercategory_id == this.supercat_id

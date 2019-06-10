@@ -1,11 +1,11 @@
 <template>
    <div class="row ">
        <router-link to="/cotizador" class="col-12 mb-3 relative">
-            <div>
+            <div v-if="$mq == 'lg'">
                 <v-lazy-image :src="imagePath('/storage/images/app/home1.jpg')" alt="pedido online" />
             </div>
             <div class="overlay">
-                <h1 class="big">PEDIDO ONLINE</h1>
+                <h1 class="big">MAYORISTSA REDLIMP</h1>
                 <h4>Envíos a todo el país</h4>
                 <div>
                     <button class="btn home-btn"> HACER PRESUPUESTO </button>

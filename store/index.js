@@ -264,11 +264,12 @@ export const mutations = {
 }
 
 export const actions = {
-    async nuxtServerInit({dispatch},context){
+    async nuxtServerInit({dispatch,commit},context){
        await dispatch('fetchSupercategories');
        await dispatch('fetchCategories');
        await dispatch('fetchConfig');
        await dispatch('fetchMeta');
+       commit('setLoading',false);
     },
 
 

@@ -9,7 +9,7 @@
         </div>
         <div class="col-12 col-lg-8">
             <form ref="form" class="form" method="post" action="/contacto">
-                 <input type="hidden" name="_token" :value="csrf">
+                 
           
                 <div class="row">
                     <label class="col-12 col-lg-4">
@@ -27,9 +27,9 @@
                 </div>
                 <div class="row">
                     <label class="col-12 col-lg-4">
-                        Asunto
+                        Telefono
                     </label>
-                    <input  name="subject" v-model="formdata.topic" required
+                    <input  name="subject" v-model="formdata.phone" required
                             type="text" class="form-control col-12 col-lg-8">
                 </div>
                 <div class="row">
@@ -53,25 +53,41 @@
 export default {
     data(){
         return{
-             csrf:window.csrf,
+            
             formdata : {
                 name : '',
                 email : '',
-                topic : '',
+                phone:'',
                 message : ''
             }
         }
     },
     methods:{
+        validate(){
+            if (this.formdata.message.trim() ==""){
+                swal('Ups','Olvidaste escribir un mensaje','error');
+                return false;
+            }else if(this.formdata.phone == ''){
+                swal('Ups','olvidaste dejar un telefono','error');
+                return false;
+            }
+            return true;
+        },
         submit(){
             var vm = this;
-                swal('Mensaje enviado','Nos comuicaremos con usted a la brevedad','success')
-                    .then (response => {
-                       this.$axios.post('/contacto')
-                       .then(r=>{
-                           swal('Gracias por tu mensaje','Nos estaremos comunicando a la brevedad','success');
-                       });
-                    });
+              if(this.validate()){
+                  this.$store.commit('setLoading',true);
+                  this.$axios.post('/contacto')
+                  .then( r => {
+                      swal('Gracias por tu mensaje','Nos estaremos comunicando a la brevedad','success')
+                      .then(r => {
+                         if (process.browser){
+                             window.location.replace('/');
+                         }
+                      });
+                  });
+              }
+                
             
         }
     }

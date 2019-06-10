@@ -29,8 +29,7 @@
        <span v-if="formData.shipping" class="warn">*El despacho de la mercaderia se realiza de 3 a 5 dias habiles luego del pago. </span>
        <span class="warn">*Los precios no incluyen IVA</span>
         <div v-if="user.role_id > 2" class="col-12 row form-group-row mb-3">
-                    <span class=" warn" v-if="!formData.shipping">*El minimo de compra retirando en el local es de ${{minBuy}}</span>
-                    <span class=" warn" v-if="formData.shipping">*El minimo de compra para envios es de ${{minBuy}} </span>
+                    <span class=" warn">*El minimo de compra ONLINE es de ${{minBuy}}</span>
         </div> 
 
              
@@ -150,13 +149,9 @@ export default{
             return this.$store.getters.getConfig;
         },
         minBuy(){
-            if(this.configs){
-                if (this.formData.shipping){
-                    return this.configs.minbuy_ship;
-                }else{
-                    return this.configs.minbuy;
-                } 
-            }
+            return this.configs.minbuy_ship;
+             
+            
         },
         user(){
             return this.$store.getters.getUser;
@@ -258,7 +253,7 @@ export default{
                 
                 var vm = this;
                 vm.$store.commit('setLoading',true);
-                vm.$http.post('/cotizer/send',data)
+                this.$axios.post('/cotizer/send',data)
                     .then(response => {
                         swal('Enviamos tu presupuesto', 'Te estaremos contactando a la brevedad','success')
                                 .then(confirm => {window.location.replace('/')});

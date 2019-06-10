@@ -35,7 +35,7 @@
         <div class="mt-4">
 
                <div class="col-12 row form-group-row ">
-                   <label class="col-12 col-lg-4 font-weight-bold" for="">Nombre y Apellido <span v-if="user.role_id < 3"> (cliente) </span> </label>
+                   <label class="col-12 col-lg-4 font-weight-bold" for="">Nombre y Apellido  </label>
                    <input required type="text" v-model="formData.client"  class="form-control col-12 col-lg-4">
                 </div> 
                  
@@ -75,7 +75,7 @@
               
                <div class="col-12 row form-group-row">
                    <label class="col-12 col-lg-4 font-weight-bold" for="">Email</label>
-                   <input :required="user.role_id > 2" type="email" v-model="formData.email"  class="form-control col-12 col-lg-4">
+                   <input  type="email" v-model="formData.email"  class="form-control col-12 col-lg-4">
                 </div> 
                <div class="col-12 row form-group-row mt-2 mb-2 align-items-center">
                    <label class="col-11 col-lg-4 offset-1 offset-lg-0 font-weight-bold" > <b> Telefono </b> </label>
@@ -185,7 +185,7 @@ export default{
                  swal('El campo "Nombre y Apellido" es obligatorio ','','error');
                  return false; 
             }
-            else if (!this.validateEmail(this.formData.email) && this.user.role_id > 2)
+            else if (!this.validateEmail(this.formData.email) )
             {
                 swal('Hay algo mal con el mail','','error');
                 return false;
@@ -253,15 +253,16 @@ export default{
                 data.list = JSON.stringify(list);
                 data.total = this.total;
                 data['_token'] = window.csrf;
+                
                 if (data.shipping){
                     data.shipping = 1;
                 } else {data.shipping = 0;}
                 
                 var vm = this;
                 vm.$store.commit('setLoading',true);
-                vm.$http.post('/cotizer/send',data)
+                vm.$axios.post('/cotizer/send',data)
                     .then(response => {
-                        swal('Enviamos tu presupuesto', 'Te estaremos contactando a la brevedad','success')
+                        swal('Enviamos tu presupuesto', 'Un asesor de ventas se pondrá en contacto a la brevedad','success')
                                 .then(confirm => {window.location.replace('/')});
                     });
         }

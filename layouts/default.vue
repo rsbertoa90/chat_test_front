@@ -19,7 +19,7 @@
         
         <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer>
 
-       
+       <apploading v-if="loading"></apploading>
     </div>
 </template>
 
@@ -30,20 +30,21 @@ import whatsappBtn from '@/components/layout/whatsapp.vue';
 import appFooter from '@/components/layout/footer/Footer.vue';
 import appNav from '@/components/layout/Navbar.vue';
 import totalBouncer from '@/components/layout/total-bouncer/total-bouncer.vue'; 
-
+import apploading from '@/components/layout/loading.vue';
 export default {
-    components:{appNav,appFooter,whatsappBtn,totalBouncer},
+    components:{appNav,appFooter,whatsappBtn,totalBouncer,apploading},
     computed:{
         user(){
             return this.$store.getters.getUser;
         },
         total(){
             return this.$store.getters.getTotal;
+        },
+        loading(){
+            return this.$store.getters.getLoading;
         }
     },
-    mounted(){
-      
-    }
+    
 }
 </script>
 

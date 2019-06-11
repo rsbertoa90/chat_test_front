@@ -85,7 +85,7 @@
         </div>
           <transition enter-active-class="animated fadeIn fastest"
                             leave-active-class="animated fadeOut fastest">
-                    <div v-show="overMenu || overNav" 
+                    <div v-if="overMenu || overNav" 
                         @mouseover="overMenu=true"
                         @mouseleave="overMenu=false" 
                         class="nav-row row bg-first d-flex justify-content-center" >

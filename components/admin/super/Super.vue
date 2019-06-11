@@ -83,7 +83,7 @@ export default {
     },
     methods:{
         refreshPricesList(){
-            this.$axios.get('lista-de-precios')
+            this.$axios.get('refresh-prices')
             .then(r=>{
                 swal('Procedimiento iniciado','Espera unos minutos para ver reflejados los cambios','success');
             });

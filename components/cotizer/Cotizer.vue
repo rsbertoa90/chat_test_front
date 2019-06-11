@@ -3,7 +3,7 @@
         <div class="row">
             <h1 class="col-12 col-lg-6 text-center" v-if="user && user.role_id > 2">Hace tu pedido</h1>
             <h1 class="col-12 col-lg-6 text-center" v-else>Tomar pedido</h1>
-            <a href="/descargar-lista-de-precios" target="_blank" class="col-12 col-lg-6 btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
+            <a @click="downloadPrices" target="_blank" class="col-12 col-lg-6 btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
         </div>
         <div class="row mt-2">
             <div class="col-12 d-flex justify-content-center align-items-center">
@@ -15,7 +15,7 @@
                     <p>Compra mínima por local ${{config.minbuy}}, para envíos ${{config.minbuy_ship}}. (Los precios publicados son sin IVA) Formas de pago: Efectivo o Deposito/Transferencia Bancaria</p>
             </div>
         </div>
-
+ 
         
            
              
@@ -91,7 +91,13 @@ import productRow from './product-row.vue';
             }
         },
 
-       
+       methods:{
+           downloadPrices()
+           {
+               let url = this.backendpath + '/lista-de-precios';
+               window.open(url);
+           }
+       }
      
 
       

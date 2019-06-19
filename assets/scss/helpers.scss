@@ -7,6 +7,23 @@
   box-shadow: 2px 2px 2px #000;
 }
 
+ .logo-square {
+   background-color: #fff;
+   border: 3px solid #868686;
+   font-size: 2rem;
+   color: #D52B1E;
+   /* padding:5px; */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 75px;
+   width:188px;
+
+   img {
+     max-width: 70px;
+   }
+ }
+
 .vw100{
   width:100vw;
 }
@@ -192,4 +209,94 @@ $yellow:#F2B742;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+}
+
+// Body
+$body-bg: #fff;
+/* $body-bg: #f5f8fa; */
+$red:#D52B1E;
+// Typography
+$font-family-sans-serif: 'Niramit',
+sans-serif;
+$font-size-base: 1.1rem;
+$line-height-base: 1.6;
+
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  font-family: 'Niramit',
+    sans-serif;
+}
+
+.bg-fucsia {
+  background-color: #ff0aaf;
+}
+
+.fucsia {
+  color: #ff0aaf
+}
+
+.border-fucsia {
+  border-color: #ff0aaf;
+}
+
+.bg-red {
+  background-color: #D52B1E;
+}
+
+.border-grey {
+  border: 1px solid #868686;
+}
+
+.border-red {
+  border: 1px solid #D52B1E;
+}
+
+.red,
+.text-red {
+  color: #D52B1E;
+}
+
+a {
+  color: #000;
+
+}
+
+a:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+
+
+
+.red-ribbon {
+  background-color: #D52B1E;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #fff;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  border-left: 1px solid #fff;
+  white-space: normal;
+
+  .logo-square {
+    background-color: #fff;
+    border: 3px solid #868686;
+    font-size: 2rem;
+    color: #D52B1E;
+    /* padding:5px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75px;
+    width: 75px;
+  }
 }

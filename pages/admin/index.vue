@@ -1,19 +1,14 @@
 <template>
-    <adminprods></adminprods>
+    <orders></orders>
 </template>
 
 <script>
-import checkadmin from '@/middleware/checkAdmin.js'
-import adminprods from '@/components/admin/Admin.vue' 
+import checkAdmin from '@/middleware/checkAdmin.js';
+import orders from '@/components/admin/Orders.vue';
 export default {
-     head() {
-    return {
-      titleTemplate: 'ADMIN',      
-    }
-  },
-    middleware:[checkadmin],
-    components:{adminprods},
-    name:'adminproducts',
-    layout:'admin'
+    middleware:[checkAdmin],
+    components:{orders},
+    layout:'admin',
+   
 }
 </script>

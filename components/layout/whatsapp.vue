@@ -1,41 +1,33 @@
 <template>
-    <a class="floating" rel="noreferrer" target="_blank" href="https://wa.me/541138951332">
-        
-        <span class="fab fa-whatsapp"></span>
-        <span>¿Necesitas ayuda?</span>
-    </a>
+    <div class="whatsapp">
+        <a rel="noreferrer" target="_blank" href="https://api.whatsapp.com/send?phone=5491127082683&text=Hola!%20te%20escribo%20desde%20la%20pagina%20web,%20tengo%20una%20pregunta" > <fa-icon class="fa-whatsapp" :icon="['fab','whatsapp']"></fa-icon>  <span> ¿Te podemos ayudar? </span> </a>
+    </div>
 </template>
 
 <style scoped lang="scss">
-
- $color-second : #0FE0E8;
-
-
-
-    .floating{
-        position: fixed;
-        z-index:100;
-        bottom:10px;
-        right:10px;
-        display:flex;
-        justify-content:center;
-        background-color:transparent;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        font-size: 1.1rem;
-        border-radius: 10%;
-        border: 3px solid $color-second;
-        background-color: #fff;
-        padding-right: 10px;
+     .whatsapp{
+        position:fixed;
+       width:200px;
+        bottom:5px;
+        left:15px;
+        z-index:110;
+        background: #fff;
+        border: 1px solid #D52B1E;
+        padding: 4px;
+        a{color:#D52B1E};
     }
     .fa-whatsapp{
-        color: #fff;
-        background-color: $color-second;
-        font-size: 2rem;
-        font-weight: bold;
-        margin-right: 10px;
-        padding: 10px;
-        
+      font-size: 1.3rem;
+      color:#65BC54;
+    }
+
+    @media(min-width: 600px){
+        .whatsapp{
+            font-size:1.3rem;
+
+        }
+        .fa-whatsapp{
+            font-size: 1.5rem;
+        }
     }
 </style>

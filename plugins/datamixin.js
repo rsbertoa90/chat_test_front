@@ -4,6 +4,7 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods:{
+      
       notPaused(category){
         return category.products.filter(p=>{
           return !p.paused;
@@ -60,13 +61,13 @@ Vue.mixin({
           },
          backendpath() {
           
-           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.redlimp.com';
+           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.mayoristamaju.com';
        /*    console.log('backendpath',res); */
            return res;
          },
        noImage()
        {
-        return this.imagePath('/storage/images/app/no-photo.jpg');
+        return this.imagePath('/storage/images/app/no-image.png');
        },
        config(){
         return this.$store.getters.getConfig;
@@ -77,9 +78,9 @@ Vue.mixin({
        admin(){
         return this.user && this.user.role_id<3;
        },
-       supercategories() {
-         return this.$store.getters.getSupercategories;
-       },
+     isSuper() {
+       return (this.user && (this.user.email == 'rsbertoa90@gmail.com' || this.user.email == 'roominagii@gmail.com'));
+     },
        categories() {
          return this.$store.getters.getCategories;
        },

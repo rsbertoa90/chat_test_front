@@ -1,13 +1,13 @@
 <template>
     <div class=" app-container">
        
-        <header class="p-4 pt-0 mt-0">
+        <header>
             <app-nav></app-nav>
         </header>    
         <div class="py-4 row">
-          <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
+            <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div>
             <div class="col-12 p-4">
-                <transition enter-active-class="animated slideInLeft fast faster ">
+                <transition enter-active-class="animated fadeIn fast faster ">
                     <keep-alive include="carrito">
                                 <router-view></router-view>
                     </keep-alive>
@@ -16,23 +16,23 @@
             <div class="bottom-space"></div>
         </div>
         <app-footer v-if="$mq=='lg'"></app-footer>
-        <!--  <whatsappBtn v-if="!user || user.role_id > 2 "></whatsappBtn> -->
+         <whatsappBtn v-if="!user || user.role_id > 2 "></whatsappBtn>
      
-    <!--      <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer> -->
+         <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer>
 
-       
+        <dotLoading></dotLoading>
     </div>
 </template>
 
 <script>
-/* 
-import totalBouncer from './layout/total-bouncer/total-bouncer.vue';
-import whatsappBtn from './layout/whatsapp.vue'; */
-import appFooter from './layout/footer/Footer.vue';
-import appNav from './layout/Navbar.vue';
 
+import totalBouncer from './layout/total-bouncer/total-bouncer.vue';
+import whatsappBtn from './layout/whatsapp.vue';
+import appFooter from './layout/footer/Footer.vue';
+import appNav from './layout/navbar.vue';
+import dotLoading from './layout/loading.vue';
 export default {
-    components:{appNav,appFooter},
+    components:{appNav,whatsappBtn,totalBouncer,appFooter,dotLoading},
     computed:{
         user(){
             return this.$store.getters.getUser;
@@ -50,11 +50,10 @@ export default {
 <style lang="scss" scoped>
     .app-container{
        width:98.5vw;
-       padding:3% ;
-       padding-top:0;
+       padding:0 ;
        padding-bottom: 0;
        margin-bottom: 0;
-       border:1px solid  #868686;
+       border:1px solid  #D52B1E;
        overflow: hidden;
 
     }

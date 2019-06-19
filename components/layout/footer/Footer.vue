@@ -1,117 +1,135 @@
 <template>
-    <div class="mt-4">
-        <div class="row bg-first footer-row ">
-            <router-link  to="/cotizador" class=" col-12 col-lg-3 offset-lg-1 white-bold d-flex 
-                        justify-content-center align-items-center bg-focus p-2 ">
-                <h5 class="white-bold">Cotizador Online</h5>
-            </router-link>
-           <!--  <div class=" col-12 col-lg-8 white-bold d-flex 
-                        justify-content-around align-items-center p-2 row">
-                <h5 class="col-12 col-lg-5 text-center">Recibir novedades por mail</h5>
-                <form @submit.prevent="suscribe" method="post" 
-                    class="form-inline col-12 col-lg-7 d-flex justify-content-center align-items-center">
-                      <div class="input-group w-100">
-                        <input aria-label="Tu email aqui" type="text" class="form-control" 
-                                v-model="suscriptionMail" placeholder="TuMailAqui@correo.com">
-                        <div class="input-group-prepend">
-                            <button type="submit" class=" input-group-text d-flex justify-content-center bg-first white-bold" 
-                                  id="basic-addon1">
-                                Suscribirme
-                            </button>
-                        </div>
-                    </div> 
-                </form>
-            </div> -->
+    <div class="d-flex justify-content-around footer">
+        <div class="logo-container"> 
+            <v-lazy-image :src="imagePath('/storage/images/app/logo.png')" alt="Logo Maju"></v-lazy-image>
         </div>
-        <hr>
-        <div class="row">
-            <div class="col-12 col-lg-4 row">
-                <div class="col-2 offset-1  ">
-                    <div class="mt-2 btn bg-second white-bold">
-                        <span class="fa fa-map-marker-alt"></span>
-                    </div>
-                </div>
-                <div class="col-9">
-                 
-                        <p> Av Libertador 1047, Moreno, Zona Oeste </p>
+        <div class="cat-container">
+            <h3>Categorias:</h3>
+            <ul>
+                <li v-for="c in cats1" :key="c.name">
+                    <nuxt-link :to="c.slug" >
+                        {{c.name}}
+                    </nuxt-link>
+                </li>
+            </ul>
+        </div>
+        <div class="cat-container mt-3">
+            <ul>
+                <li v-for="c in cats2" :key="c.name">
+                    <nuxt-link :to="c.slug" >
+                        {{c.name}}
+                    </nuxt-link>
+                </li>
+            </ul>
+        </div>
+        <div class="cat-container mt-3">
+            <ul>
+                <li v-for="c in cats3" :key="c.name">
+                   <nuxt-link :to="c.slug" >
+                        {{c.name}}
+                    </nuxt-link>
+                </li>
+            </ul>
+        </div>
+        <div class="contacts">
+            <h3>Contactanos</h3>
+            <span class="phone"> 
+                <fa-icon :icon="['fab','whatsapp']" class="mb-1"></fa-icon> 
+                11 27082683
+            </span>
+            <div>
+                <fa-icon icon="clock" class="mb-1"></fa-icon>
+                Lunes a viernes 9hs a 18hs
+            </div>
+            <div>
+                <fa-icon icon="home" class="mb-1"></fa-icon>
+                Pasteur 439 - ONCE
+            </div>
+            <div>
+                <fa-icon icon="envelope" class="mb-1"></fa-icon>
+                multibazarmaju@gmail.com
+            </div>
+            <div class="mt-4 social">
+                <a href="https://www.facebook.com/BazarmayoristaMaju/" rel="noreferrer">
+                    <v-lazy-image class="socialimage" :src="imagePath('/storage/images/app/social/fb.png')" alt="facebook"></v-lazy-image>             
+                </a>
+                <a href="https://www.instagram.com/bazar_mayorista_maju/" rel="noreferrer">
+                    <v-lazy-image class="socialimage" :src="imagePath('/storage/images/app/social/instagram.png')" alt="instagram"></v-lazy-image>             
+                </a>
+            </div>
 
-                 
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 row">
-                <div class="col-2 offset-1  ">
-                    <div class="mt-2 btn bg-second white-bold">
-                        <span class="fa fa-envelope"></span>
-                    </div>
-                </div>
-                <div class="col-9 mt-3">
-                   <p> mayoristaredlimp@gmail.com  </p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 row">
-                <div class="col-2 offset-1  ">
-                    <div class="mt-2 btn bg-second white-bold">
-                        <span class="fab fa-whatsapp"></span>
-                    </div>
-                </div>
-                <div class="col-9 mt-3">
-                    <p> 11 3895 1332   </p>
-                </div>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    data(){
-        return{
-            suscriptionMail:null
-        }
-    },
-    methods:{
-        suscribe()
-        {
-            if (suscriptionMail && suscriptionMail.length > 3){
-
-            
-                this.$http.post('/suscription',{'email':this.suscriptionMail})
-                    .then(r => {
-                        swal('Gracias por suscribirte','Recibiras todas las novedades de Mates Fabi en tu casilla de correo','success');
-                    });
+    computed:{
+        categories(){
+            return this.$store.getters.getNotPaused;
+        },
+        cats1(){
+            if (this.categories){
+                let i = Math.round(this.categories.length / 3);
+                return this.categories.slice(0,i);
             }
-        }
+        },
+        cats2(){
+            let i = Math.round(this.categories.length / 3);
+                return this.categories.slice(i,i*2);
+        },
+        cats3(){
+            let i = Math.round(this.categories.length / 3);
+            return this.categories.slice(i*2,i*3);
+
+        },
     }
 }
-</script> 
+</script>
 
 <style lang="scss" scoped>
-.input-group{
-    position:relative;
-    input{
-        padding-left:120px;
-    }
-    .input-group-prepend{
-        position:absolute;
-        top:0;
-        left:0;
-        height: 100%;
+.logo-container{
+    width:450px;
+    margin-right: 30px;
+}
+.footer{
+    width:100vw;
+    margin: 5% 0;
+    padding: 0 5%;
+    background-color: #fff;
+    border-top: 2px solid #868686;
+    padding-top:10px;
+}
+h4{
+    font-size:1rem;
+    font-weight: bold;
+}
+ul{
+    list-style: none;
+    font-size:.9rem;
+    margin:0;
+    padding:0;
+}
+a:hover{
+    color:#000;
+}
+
+.phone{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color:#D52B1E;
+}
+
+.social{
+    .a{
+        max-width:48px;
+        img{
+            width:50px;
+        }
     }
 }
-   ul li{
-       font-size: 0.7rem;
-   }
-   .fa-mobile{
-       font-size: 2rem;
-       margin-top: -5px;
-   }
-   @media(min-width: 900px){
-     /*   .footer-row{
-           margin: 0px -7.5%;
-       } */
-   }
-   a:hover{
-       color:white;
-   }
+.socialimage{
+    width:50px;
+}
 </style>
 

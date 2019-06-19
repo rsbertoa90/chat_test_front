@@ -1,60 +1,88 @@
 <template>
-    <div class="row mt-4">
-        <div class="col-12 text-center">
-            <h2>
-                SOMOS UN MAYORISTA DE PRODUCTOS DE LIMPIEZA Y BAZAR
-            </h2>
+    <div class="info-row">
+        <div class="info-item">
+            <fa-icon icon="map-marker-alt" class="icon"></fa-icon>
+            <div class="d-flex flex-column ml-2 text-center">
+                <span> Pasteur 394, Once </span>
+                <span>Lunes a viernes 9hs a 18hs</span>
+            </div>
         </div>
-        <div class="col-12 row d-flex mt-3">
-           
-            <div class="col-10 offset-1 offset-lg-0 col-lg-4 icon-container">
-                    <span class="icon fa fa-truck mr-2"></span>
-                    <span class="text-center">Realizamos envíos a toda Argentina</span>
+        <div class="info-item">
+            <fa-icon icon="truck" class="icon"></fa-icon>
+            <div class="d-flex flex-column ml-2 text-center">
+                <span>Envíos a todo el país</span>
             </div>
-        
-            <div class="col-10 offset-1 offset-lg-0 col-lg-4 icon-container">
-                    <i class="icon fa fa-shopping-basket"></i>
-                    <span class="text-center">La compra mínima presencialmente en el local es de ${{config.minbuy}}, comprando online la compra mínima es de ${{config.minbuy_ship}}</span>
+        </div>
+        <div class="info-item" v-if="config">
+            <fa-icon icon="shopping-cart" class="icon"></fa-icon>
+            <div class="d-flex flex-column ml-2 text-center">
+                <span> Compra mínima en el local ${{config.minbuy}} </span>
+                <span>Compra mínima para envíos ${{config.minbuy_ship}}</span>
             </div>
-        
-            <div class="col-10 offset-1 offset-lg-0 col-lg-4 icon-container">
-                    <i class="icon fa fa-comment"></i>
-                    <span class="text-center">Preguntas? contactanos al <br> 11 3895 1332</span>
-            </div>
-    
-
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    
+    computed:{
+        config(){
+            return this.$store.getters.getConfig;
+        }
+    }
 }
 </script>
 
+
 <style lang="scss" scoped>
- $color-first : #d32381;
-
-      .fa,.far,.fas{
-        font-size: 40px;
-        margin-right: 10px;
-    }
-
-    .icon-container{
+    .info-row{
+        background-color: #fff;
+        color:#868686;
+           border-top: 2px solid #D52B1E;
+        border-bottom: 2px solid #D52B1E;
+       // margin: 0 -6%;
+        padding: 0 6%;
         display: flex;
-        padding: 15px;
-        align-items:center;
-    
+        justify-content: space-around;
     }
-
-
-   .icon{
-        padding: 10px;
-        background-color: $color-first;
-        display:flex;
-        align-items:center;
+    .icon{
+        font-size: 2.3rem;
+        color:#868686;
+        margin-right:5px;
+    }
+    .info-item{
+        
+        padding:10px;
+        max-width: 30%;
+        display: flex;
+        align-items: center;
         justify-content: center;
-        color:#fff;
+        font-size: 1.1rem;
+        color:#D52B1E;
     }
+
+    @media(max-width:660px)
+    {
+        .info-item{
+            width: 100%;
+            max-width: 100%;
+             justify-content: start; 
+             margin-top:15px;
+             margin-left:15px;
+               justify-content: center;
+            align-items:center;
+            flex-direction: column;
+        }
+        .info-row{
+            border:none;
+            align-items:flex-start;
+            flex-direction: column;
+            justify-content: start; 
+            
+          
+        }
+    }
+
+
 </style>
+

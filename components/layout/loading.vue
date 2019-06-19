@@ -1,7 +1,7 @@
 <template>
     <div class="overlay" v-if="loading">
-        <div class="loading-spinner">
-            <dot-loader :loading="loading" size="50"></dot-loader>
+        <div class="dot-container">
+            <dot-loader :loading="loading"></dot-loader>
         </div>
     </div>
 </template>
@@ -30,9 +30,11 @@ export default {
     justify-content: center;
     align-items:center;
     z-index:999;
-    .loading-spinner{
-        width:200px;
-        height: 200px;
-    }
+}
+
+.dot-container{
+    display:flex;
+    width:200px;
+    height: 200px;
 }
 </style>

@@ -22,6 +22,12 @@ Vue.filter('datetime', val => {
   
 });
 
+Vue.filter('date', val => {
+  const moment = require('moment');
+  return moment(val).format('DD/MM/YYYY');
+});
+
+
 Vue.filter('slug', str => {
 
   if (typeof str != 'string') {

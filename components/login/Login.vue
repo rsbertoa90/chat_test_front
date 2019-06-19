@@ -69,11 +69,13 @@ export default {
     methods:{
         send()
         {
-            this.$http.post('/login',this.formData)
+            this.$axios.post('/login',this.formData)
                 .then(res => {
-                    if (res.data){
+                    setTimeout(() => {
+                        
                         window.location.replace('/admin');
-                    }
+                        
+                    }, 300);
                     
                 });
         }

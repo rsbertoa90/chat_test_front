@@ -1,175 +1,163 @@
 <template>
-    <div class="container">   
-        <div class="row">
-            <h1 class="col-12 col-lg-6 text-center" v-if="user && user.role_id > 2">Hace tu pedido</h1>
-            <h1 class="col-12 col-lg-6 text-center" v-else>Tomar pedido</h1>
-            <a @click="downloadPrices" target="_blank" class="col-12 col-lg-6 btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
-        </div>
-        <div class="row mt-2">
-            <div class="col-12 d-flex justify-content-center align-items-center">
-                <span class="fa fa-truck text-focus icono"></span> 
-                <p> La compra es entregada sin cargo al transporte de carga elegido por el cliente. Los despachos se realizan de 1 a 5 días hábiles a partir del informe y acreditación del pago.</p>
-            </div>
-            <div v-if="config" class="col-12 d-flex justify-content-center align-items-center">
-                 <span class="fas fa-hand-holding-usd text-focus icono"></span> 
-                    <p>Compra mínima por local ${{config.minbuy}}, para envíos ${{config.minbuy_ship}}. (Los precios publicados son sin IVA) Formas de pago: Efectivo o Deposito/Transferencia Bancaria</p>
-            </div>
-        </div>
- 
-        
-           
-             
-            
-             
-        <div id="accordion">
-            <div v-for="category in categories" 
-                  :key="'category-'+category.id" 
-                  class="card flex-wrap">
-                <div class="card-header" :id="'card'+category.id">
-                  
-                    <h5 class="mb-0">
-                        <button class="btn  btn-link w-100 text-left text-big d-flex align-items-center w-100" 
-                                data-toggle="collapse" 
-                                :data-target="'#acordion'+category.id" 
-                                aria-expanded="true" 
-                                :aria-controls="category.name"
-                                @click="selectedCategory=category.id">
-                                   <div class="category-miniature">
-                                        <v-lazy-image :src="imagePath(category.image)"></v-lazy-image>
-                                    </div>
-                                    <span class="white-space-normal">
-                                        {{category.name|ucFirst}}
-                                    </span>
-                                   
-                        </button>
-                    </h5>
-                </div>
-                <div :id="'acordion'+category.id" class="collapse collapsed " aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
-                        <no-ssr>
-                            <table class="table table-striped table-bordered " >
-                                <thead class="">
-                                    <th>Foto</th>
-                                        <th v-if="user && user.role_id < 3">Codigo</th>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Quiero</th>
-                                    
-                                </thead>
-                                <tbody v-if="selectedCategory==category.id">
-                                    <tr is="productRow" v-for="product in notPaused(category)" :key="product.id" :product="product">  
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </no-ssr>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-       
-  <!--       <tutorial v-if="!user || user.role_id > 2"></tutorial> -->
+<div class="contain-all m-auto">
+
+     <div v-if="!categories || categories.length < 1  || !config" class="loader">
+            <dot-loader :loading="loading" size="200px"></dot-loader>
     </div>
+    
+    <div v-if="config && user && config.maintenance && user.role_id > 2">
+        <div class="d-flex flex-column text-center w-100">
+            <h1>
+                Estamos Actualizando nuestros precios
+            </h1>
+            <h2>
+                Vuelve a intentar mas adelante
+            </h2>
+        </div>
+    </div>
+
+    <div v-if="categories && config && !config.maintenance" class=" w-100" :class="{'bg-white' : user != null && user.role_id > 2}">   
+        <mobileCotizer v-if="$mq!='lg'"></mobileCotizer>
+        <web-cotizer v-if="$mq=='lg'"></web-cotizer>
+    </div>
+
+   
+
+   
+
+
+</div>
 </template>
 
 <script>
-import productRow from './product-row.vue';
+import webCotizer from './web/cotizer.vue';
+import mobileCotizer from './mobile/cotizer.vue'
+import appBanner from './banner.vue';
+import metaMixin from '@/plugins/metadataMixin.js';
 
- import { mapActions } from 'vuex';
- import { mapGetters } from 'vuex';
-   
-    import pedido from './pedido.vue';
-    import tutorial from './tutorial.vue'
-    import cotizerForm from './Cotizer-form.vue'
+
+
     export default {
-       
-        components : {productRow},
+      mixins:[metaMixin],
+        components:{
+          webCotizer,mobileCotizer,
+         
+            },
         data(){
             return {
-                selectedCategory:null,              
+                selectedPage:1,
+                 productsPerPage:30,
+              
+                loading:true,
+             
             }
         },
-
-       methods:{
-           downloadPrices()
-           {
-               let url = this.backendpath + '/lista-de-precios';
-               window.open(url);
-           }
-       }
      
+        computed: {
+          
+            list(){
+                return this.$store.getters.getList;
+            },
+           
+            categories(){
+                return this.$store.getters.getNotPaused;
+            },
+            config(){
+                return this.$store.getters.getConfig;
+            },
+            user(){
+                return this.$store.getters.getUser;
+            },
 
+            total() {
+               return this.$store.getters.getTotal;
+            },
+            
+        },
       
+       
+        methods:
+        {
+            paginate(array,page){
+                if(array && array.length>0){
+                    page--; 
+                   return array.slice(page * this.productsPerPage, (page + 1) * this.productsPerPage);
+                }
+            },
+         
+        },
+        filters : {
+            price(value){
+                return  value.toFixed(2);
+            }
+        }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
-.icono{
-    font-size: 2.75rem;
-    margin-right: 15px;
-    margin-top:-15px
+.contain-all{
+    width: 100vw;
+    padding:5px;
+    margin-left:-3%;
+    overflow: hidden;
 }
 
+   
+ 
 
-.white-space-normal{
-    white-space: normal;
-}
-.text-big{
-    font-size: 1.5rem;
-}
-.category-miniature{
-    min-width: 100px;
-    width: 100px;
-    margin-right: 15px;
-}
-.container{
+
+    .lglogo{
+        width : 200px ; 
+        height: 100px;
+    }
+    .smlogo{
+        width : 100px ; 
+        height: 50px;
+        margin-bottom: 15px;
+        margin-top: 10px;
     
-    margin-bottom: 100px;
-  
     }
 
-    td{
-        white-space:normal;
-    }
-    input[type="number"]{
-        width: 70px;
-    }
+    
 
-    .sampleImage{width: 100px;}
-
-
-   .btn-link {color : black;}
+   
+   
+   
    
     img{width:100%}
 
-    @media(max-width: 600px){
-        .card-header{
-            padding:0;
-        }
-        .container{
-    
-            margin-left: -7%;
-            width: 100vw;
-            padding: 15px;
-            }
-        .sampleImage{width: 80px;}
-        td { white-space :normal;}
-        table {
-            font-size: 0.66rem;
-            font-weight: bold;
-        }
-       
-        .card-body,table th, table td{padding:5px;}
-    }
-    
-    @media(min-width: 600px){
-        .sampleImage{width: 150px;}
-        table{ font-size: 1rem; font-weight: normal}
-        td {white-space: normal;}
-        .card-body,.container{padding:1.25rem}
-        
-    }
    
+
+    .loader {
+    position : fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 110;
+    background-color: #ddddddaa;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5%;
+}
+
+.search-bar{
+    border:1px solid #D52B1E;
+    padding:3px;
+    margin-top:20px;
+    text-align: center;
+    
+
+    &::placeholder{
+        color: #D52B1E;
+        text-align:center;
+    }
+}
+
+
+
+
+
 </style>

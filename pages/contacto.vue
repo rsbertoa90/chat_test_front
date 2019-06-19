@@ -1,14 +1,16 @@
 <template>
-    <ccontacto></ccontacto>
+    
+    <appContact></appContact>
+
 </template>
 
-
 <script>
-import ccontacto from '@/components/contacto/Contacto';
+import appContact from '@/components/contact/Contact.vue';
 import metaMixin from '@/plugins/metadataMixin.js';
 export default {
+    name:'contacto',
+    layout:'categories',
     mixins:[metaMixin],
-    components:{ccontacto},
-    name:'contacto'
+    components:{appContact}
 }
 </script>

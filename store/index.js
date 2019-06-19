@@ -11,12 +11,34 @@ export const state = () => {
         categories: [],
         loading: true,
         searchTerm: '',
-        supercategories:'',
+        supliers:[],
+        tutoSeen:false,
+        list:[],
+        total:0,
+       
     }
 }
 
 export const getters = {
+  getTutoSeen(store){
+    return store.tutoSeen;
+  },
+  getSupliers(store){
+    return store.supliers;
+  },
+     getNotPaused(store) {
+       let res = [];
+       store.categories.forEach(cat => {
 
+         cat.products = cat.products.filter(prod => {
+           return !prod.paused;
+         });
+         if (cat.products.length > 0) {
+           res.push(cat);
+         }
+       });
+       return res;
+     },
      getSearchTerm(store) {
          return store.searchTerm;
        },
@@ -27,35 +49,10 @@ export const getters = {
          return store.loading;
        },
        getTotal(store) {
-         var tot = 0;
-         if (store.categories && store.categories.length) {
-           store.categories.forEach(function (category) {
-             category.products.forEach(function (product) {
-               if (product.units > 0) {
-
-                 tot += product.price * product.units
-
-               }
-             });
-           });
-         }
-         return tot;
+         return store.total;
        },
        getList(store) {
-         if (store.categories && store.categories.length) {
-           var result = [];
-           store.categories.forEach(function (category) {
-             var prods = category.products.filter(function (el) {
-               return (el.units != null & el.units > 0);
-             });
-             if (prods.length > 0) {
-               result.push(prods);
-             }
-           });
-           return [].concat.apply([], result);
-         }
-
-
+         return store.list;
        },
        getAllMeta(store){
         if(store.meta){
@@ -94,9 +91,7 @@ export const getters = {
        getCategories(state) {
          return state.categories;
        },
-       getSupercategories(state) {
-         return state.supercategories;
-       },
+     
        getCategory: (state) => (id) => {
          if (state.categories.length > 0) {
            return state.categories.find(cat => {
@@ -168,6 +163,55 @@ export const getters = {
 
 export const mutations = {
   /* PRODUCT */
+  setTotal(state){
+    var tot = 0;
+    if (state.list.length) {
+      state.list.forEach(product => {
+        //console.log(product.units);
+          if (product.units > 0) {
+            if (product.units >= product.pck_units){
+              tot += product.pck_price * product.units;
+            }else{
+              tot += product.price * product.units
+            }
+           // console.log(tot);
+          }
+        });
+    }
+    state.total = tot;
+  },
+  setList(state,product){
+    let exists = false;
+    //reviso si el producto ya esta en la lista
+    state.list.forEach(p=>{
+      if(p.id == product.id){
+        //si esta digo que si existe,para no agregarlo de nuevo
+        exists =true;
+        //si units es cero lo saco de la lista
+        if (product.units < 1){
+          state.list = state.list.filter(pr=>{
+            return pr.id != product.id;
+          });
+        }
+        //sino, cambio units  
+        else{
+          p.units = product.units;
+        }
+      }
+    });
+    //si no existia lo agrego
+    if (!exists && product.units > 0){
+      state.list.push(product);
+    }
+    //por ultimo recalculo el total
+    setTimeout(() => {
+
+      this.commit('setTotal');
+    }, 150);
+  },
+  setTutoSeen(state){
+    state.tutoSeen =true;
+  },
   updateProduct(state,payload){
     state.categories.forEach(c => {
       let prod = c.products.find(p=>{
@@ -216,7 +260,11 @@ export const mutations = {
         });
       });
   },
+  setSupliers(state,payload){
+    state.supliers = payload;
+  },
   /* /PRODUCT */
+  
    setSearchTerm(state, payload) {
        if (payload.length > 2) {
          this.$axios.post('/searchHistory', {
@@ -255,9 +303,7 @@ export const mutations = {
      setCategories: (state, payload) => {
        state.categories = payload;
      },
-     setSupercategories: (state, payload) => {
-       state.supercategories = payload;
-     },
+     
      saveCategory: (state, category) => {
        state.categories.push(category);
      },
@@ -265,10 +311,11 @@ export const mutations = {
 
 export const actions = {
     async nuxtServerInit({dispatch,commit},context){
-       await dispatch('fetchSupercategories');
-       await dispatch('fetchCategories');
+     
+        await dispatch('fetchCategories');
        await dispatch('fetchConfig');
-       await dispatch('fetchMeta');
+       await dispatch('fetchMeta'); 
+      await dispatch('fetchStates');
        commit('setLoading',false);
     },
 
@@ -282,13 +329,6 @@ export const actions = {
         
     },
 
-    async fetchSupercategories({commit}){
-        await this.$axios.get('/supercategories')
-        .then(r=>{
-            commit('setSupercategories',r.data);
-        });
-        
-    },
   
     async fetchConfig({commit}){
         await this.$axios.get('/config')
@@ -318,6 +358,13 @@ export const actions = {
         await this.$axios.get('/orders')
         .then(r=>{
             commit('setOrders',r.data);
+        });   
+    },
+
+    async fetchSupliers({commit}){
+        await this.$axios.get('/supliers')
+        .then(r=>{
+            commit('setSupliers',r.data);
         });   
     }
   

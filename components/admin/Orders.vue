@@ -8,7 +8,7 @@
                         class="btn btn-block "
                         :class="{'btn-outline-warning':status != 'pendiente',
                                 'btn-warning' : status == 'pendiente'}">
-                        <span class="far fa-clock"></span>
+                        <fa-icon icon="clock"></fa-icon>
                         Pendientes
                     </button>
                 </div>
@@ -17,7 +17,7 @@
                         class="btn btn-block"
                         :class="{'btn-outline-success':status != 'pagado',
                                 'btn-success' : status == 'pagado'}">
-                        <span class="fa fa-dollar-sign"></span>
+                        <fa-icon icon="dollar-sign"></fa-icon>
                         Pagadas
                     </button>
                 </div>
@@ -26,7 +26,7 @@
                         class="btn btn-block"
                         :class="{'btn-outline-info':status != 'enviado',
                                 'btn-info' : status == 'enviado'}">
-                        <span class="fa fa-truck"></span>
+                        <fa-icon icon="truck"></fa-icon>
                         Enviadas
                     </button>
                 </div>
@@ -35,7 +35,7 @@
                         class="btn btn-block"
                         :class="{'btn-outline-danger':status != 'cancelado',
                                 'btn-danger' : status == 'cancelado'}">
-                      <span class="fa fa-times"></span>
+                      <fa-icon  icon="times"></fa-icon>
                        Canceladas
                     </button>
                 </div>
@@ -43,20 +43,27 @@
             </div>
         </div>
         <div class="col-12 row">
-            <div class="col-12 col-lg-4">
+            <div class="col-12 col-lg-4 table-container">
                 <table class="table table-striped table-hover"> 
                     <thead>
                         <th>Fecha</th>
                         <th>Cliente</th>
+                        <th>Visto</th>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td colspan="3">
+                                <input type="text" class="form-control" v-model="searchTerm">
+                            </td>
+                        </tr>
                         <tr  v-for="order in filteredOrders" 
                                 :key="'order'+order.id"
                                 @click ="selected = order"
                                 style="cursor:pointer"
                                 :class="{'bg-info' : order == selected}">
                             <td>{{order.created_at | datetime}}</td>
-                            <td>{{order.client}}</td>
+                            <td>{{order.name}}</td>
+                            <td> <input type="checkbox" v-model="order.viewed" @change="viewed(order)" class="form-control checkbox"> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -73,21 +80,43 @@
 </template>
 
 <script>
-import appOrder from './order.vue';
+import appOrder from './Order.vue';
 export default {
+     metaInfo(){return{
+        title: 'ADMIN'   }},
+        
     components: {
         appOrder
     },
     data(){
         return {
+            searchTerm:'',
+           
             status : 'pendiente',
+            source : 'online',
             filtered : [],
             selected : null,
 
         }
     },
     methods : {
-       
+        viewed(order){
+            if (order.viewed)
+            {
+                order.viewed = 1;
+            }else { order.viewed = 0;}
+            let data = {
+                order:order.id,
+                id: order.id,
+                field: 'viewed',
+                value: order.viewed
+            }
+            this.$axios.put('/order',data);
+        },
+        setSource(src){
+            this.source = src;
+            this.selected = null;
+        },
         statusChanged(event){
             this.status = event.status;
         },
@@ -101,15 +130,26 @@ export default {
     computed : {
         orders(){
             return this.$store.getters.getOrders;
-        },
+        }
+        ,
         filteredOrders(){
             if(this.orders){
 
                 var vm = this;
+               /*  console.log(this.orders); */
                 let res = this.orders.filter(order => {
                   
-                    return (order.status == vm.status);
+                    return (order.source == vm.source 
+                            && order.status == vm.status);
                 });
+    
+                let st = this.searchTerm.trim().toLowerCase();
+                if (st){
+                    res = res.filter(order => {
+                        return order.name.trim().toLowerCase().indexOf(st) > -1 ;
+                    });
+                }
+    
                 res = _.sortBy(res,'created_at');
                 res = res.reverse();
              
@@ -126,8 +166,19 @@ export default {
 </script>
 
 <style>
+.checkbox{
+    width: 30px;
+    height: 20px;
+}
     .cursor-pointer {
         cursor: pointer;
     }
+
+ .table-container{
+       height: 85vh;
+       scroll-behavior: auto;
+       overflow-x: hidden;
+       overflow-y: auto;
+   }
    
 </style>

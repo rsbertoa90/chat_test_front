@@ -2,16 +2,12 @@
     <cotizer></cotizer>
 </template>
 
-
 <script>
-import cotizer from '@/components/cotizer/Cotizer.vue'
-import metaMixin from '@/plugins/metadataMixin.js';
+import metamixin from '@/plugins/metadataMixin.js'
+import cotizer from '@/components/cotizer/Cotizer.vue';
 export default {
-    mixins:[metaMixin],
-    components:{cotizer},
-    name:'cotizador'
-    
+    name:'cotizador',
+    mixins:[metamixin],
+    components:{cotizer}
 }
 </script>
-
-

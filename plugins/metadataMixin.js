@@ -5,10 +5,16 @@ export default {
             meta: [
                 { name: 'description', content: this.metadescription,hid:'description' }
 
+            ],
+            link:[
+                {rel:'canonical',href:this.canonical}
             ]
         }
     },
     computed: {
+        canonical(){
+            return `https://mayoristamaju.com${this.$nuxt.$route.path}`
+        },
         metadata() {
             let page = this.$route.name;
             

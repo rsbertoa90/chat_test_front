@@ -1,150 +1,240 @@
 <template>
-    <div class="container">   
-        
-     
-        <div>
-           
-             <!-- <div class="row w-100 d-flex justify-content-center">
-                 <img src="/storage/images/app/logo.png" style="width : 200px ; height: 110px" alt="logo">
-             </div>  --> 
-                <hr>
-                <h1>Administrar Productos</h1>
-                <button @click="toggleHidePrices" 
-                        v-if="config && !config.hide_prices" class="btn btn-lg btn-outline-danger">
-                    Ocultar precios al publico
-                </button>
-                <button @click="toggleHidePrices" v-else class="btn btn-lg btn-outline-success">
-                    Mostrar precios al publico
-                </button>
-                <hr>
-                <div class="row w-100">
-                    <div class="col-12 col-lg-8">
-                        <button class="btn btn-outline-info" @click="showCreate = !showCreate">Crear Producto</button>
-                        
-                        <admin-create v-if="showCreate" :categories="categories" @productSaved="refresh"></admin-create>
-                    </div>
-                   <!--  <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <h4>Cambiar precios masivo</h4>
-                        <h5 v-if="selectedProducts"> {{selectedProducts.length}} Productos seleccionados </h5>
-                        <button @click="selectAllProducts" class="btn btn-sm btn-outline-danger mb-2">Seleccionar todos</button>
-                        <div class="d-flex justify-content-center"> 
-                            <button class="mr-2" @click="variation-=1">-</button>
-                            <input style="width:45px; text-align-center" type="number" v-model="variation"> %
-                            <button class="ml-2" @click="variation+=1">+</button>
-                        
-                        </div>
-                            <button class="btn btn-md btn-outline-success mt-1" v-if="variation != 0 && selectedProducts.length > 0" @click="applyVariation">Aplicar</button>
-                    </div> -->
-                </div>
-                <div class="row mt-4 d-flex align-items-start ">
-                    <label class="col-6 col-lg-2 label mt-1" > <h4> MOSTRAR </h4></label>
-                    <select @change="searchTerm=''" v-if="categories && categories.length > 0" type="text" class="form-control col-6 col-lg-2" v-model="selectedCategory">
-                       
-                        <option v-for="category in categories" :key="category.name" :value="category">
-                            {{category.name}}
-                        </option>
-                    </select>
-                    <input @change="selectedCategory=null" v-model.lazy="searchTerm" type="text" class="form-control col-10 col-lg-4 offset-lg-2" placeholder="BUSCAR">
-                    <button class="btn btn-outline-info col-1"> <i class="fas fa-search"></i> </button>
-                </div>
-
-                <hr>
-                <div v-if="products">
-                    <div   class="card flex-wrap">
-                       
-                       
-                        <div class="card-body">
-                            <table class="table table-striped table-bordered ">
-                                <thead class="">
-                                    <th >imagen</th>
-                                    <th>Codigo</th>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                </thead>
-                                <transition-group tag="tbody" leave-active-class="animated slideOutLeft">
-
-                                    <tr is="productRow" @refresh="refresh" :product="product" v-for="product in products" :key="product.code">
-
-                                    </tr>
-                                </transition-group>
-                            
-                            </table>
-                        </div>
-                     
-                    </div>
-                </div>
-                
+    <div class="container m-auto">   
+          <div v-if="loading" class="loader">
+            <dotLoader :loading="loading" size="200px"></dotLoader>
+         </div> 
+         <div v-if="$mq == 'sm'" class="w-100 d-flex flex-column align-items-center jusify-content-center">
+            <h2 class="text-warning">
+                Lo sentimos. El administrador no esta disponible en dispositivos moviles.
+            </h2>
         </div>
 
-        
+        <div v-else class="row">
+            
+             <div class="col-12 d-flex justify-content-center">
+                 <img :src="imagePath('/storage/images/app/MAJU.jpg')" style="width : 200px ; height: 110px" alt="logo">
+             </div>
+             <hr>
+             <div class="col-12">
+                <admin-create  @productSaved="refresh"></admin-create>
+             </div>
+             <hr>
+            <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                <change-prices :selectedProducts="selectedProducts"
+                            @refresh="refresh()" @resetCheckboxes="resetCheckboxes()"></change-prices>
+            </div> -->
+            <hr class="w-100">
+            
+            <div class="col-12 row">
+                    <div class="col-6 row">
+                        <label class="text-info font-weight-bold col-4">Ordenar por</label>
+                        <select class="form-control col-6" v-model="orderBy" id="">
+                            <option value="suplier.name">Proveedor</option>
+                            <option value="category.name">Categoria</option>
+                            <option value="name">Producto</option>
+                            <option value="price">Precio</option>
+                        </select>
+                    </div>
+                    <div  class="col-6 d-flex flex-column">
+                        <div class="d-flex align-items-center ">
+                             <label class="text-info font-weight-bold">Filtrar</label>
+                           <!--  <input type="checkbox" class="form-control" v-model="selector.checked" @change="checkSelect"> -->
+                            <select class="form-control col-4"  v-model="selector.id">
+                                <option value="all"> Todo</option>
+                                <option v-if="orderBy == 'category.name'" 
+                                        v-for="category in categories" :key="category.id" :value="category.id"> 
+                                        {{category.name}}
+                                </option>
+                                <option v-if="orderBy == 'suplier.name'" 
+                                        v-for="suplier in supliers" :key="suplier.id" :value="suplier.id"> 
+                                        {{suplier.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 row mt-3 mb-3 ml-2">
+                    <input v-model.lazy="searchTerm" placeholder="BUSCAR" @keyup.enter="search" class="form-control col-4">
+                    <button class="btn btn-outline-success ml-2" @click="search">Buscar</button>
+                </div>
+                
+                <div class="row mt-4 ml-2">
+                  <paginator :selectedPage="selectedPage"   
+                            :products="filterProducts" 
+                            :productsPerPage="productsPerPage"
+                            @selectPage="selectedPage=$event">
+
+                </paginator>
+                </div>
+                <table id="table" class="table table-striped table-bordered ">
+                                <thead class="">
+                                    <th>imagen</th>
+                                    <th>Codigo</th>
+                                    <th>Proveedor</th>
+                                    <th>Categoria</th>
+                                    <th>Precio</th>
+                                    <th >Unidades x bulto</th>
+                                    <th >Precio en bulto</th>
+                                </thead>
+                                <!-- <transition-group tag="tbody" 
+                                                    enter-active-class="animated slideInLeft faster "
+                                                    leave-active-class="animated slideOutRight faster position-absolute ">
+                                 -->   
+                                 <template  >
+
+                                    
+                                    <tbody v-for="product in filteredProducts" :key="'data'+product.name" is="product-row" 
+                                                    :product="product"
+                                                    :supliers="supliers"
+                                                    :categories="categories"
+                                                    @refresh="refresh"
+                                                    >
+                                    </tbody>
+                                 </template>
+                              <!--   </transition-group> -->
+                </table>
+                <paginator :selectedPage="selectedPage"   
+                            :products="filterProducts" 
+                            :productsPerPage="productsPerPage"
+                            @selectPage="selectedPage=$event">
+
+                </paginator>
+                          
+               
+                
+                  
+                 
+        </div>
+
+         
     </div>
 </template>
 
 <script>
 
-import adminCreate from './Create.vue';
-import productRow from './product-row.vue';
-import { mapActions } from 'vuex';
+import adminCreate from './admin/Create.vue';
+import changePrices from './admin/Change-prices.vue';
+import dotLoader from '@/components/layout/loading.vue';
+/* import adminReport from './Report.vue'; */
+import productRow from './admin/Product-row.vue';
+import paginator from './admin/paginator.vue';
     export default {
-         metaInfo(){return{
+        metaInfo(){return{
         title: 'ADMIN'   }},
         components : {
-          
-            adminCreate : adminCreate,
+            dotLoader,
+            paginator,
+            changePrices,
+           
+            adminCreate,
             productRow
         },
-          data(){
+        data(){
             return {
+                loading:true,
+                searchMode:false,
                 searchTerm:'',
-                selectedCategory:null,
-                showCreate:false,
-                variation : 0,
-              
+                selectedPage:1,
+                productsPerPage:30,
+                selector : {id :'all', checked : false},
+                variation:0,
+                products : [],
                
-                product : null,
+             
+               
+               
                 showModal : false,
+                orderBy : 'suplier.name'
             }
         },
-        watch:{
-            showModal(){
-                if (!this.showModal)
-                {
-                    console.log(this.$refs.modal);
-            
-                }
-            }
-        },
-        computed : {
-           
-            products()
+        computed:{
+            supliers(){
+                return this.$store.getters.getSupliers;
+            },
+            selectedProducts()
             {
-                if (this.selectedCategory)
-                {
-                    return this.selectedCategory.products;
-                }
-                else if(this.searchTerm && this.searchTerm.trim().length > 1) {
+                var list =[];
+                    this.products.forEach(prod => {
+                        if (prod.selected)
+                        {
+                            list.push(prod);
+                        }
+                    });
+                return list;
+            },
+         
+            filterProducts(){
+                if (this.searchMode){
                     return this.searchFilter();
                 }
-            }
-           
-            
-        },
+                else {
+                    if (this.products.length > 0)
+                    {
+                        var prop = null;
+                        if (this.orderBy == 'category.name'){prop = 'category'}
+                        else if (this.orderBy == 'suplier.name'){prop = 'suplier'}
+                        
+                        if (prop && this.selector.id != 'all'){
+                            var filtered = this.products.filter(prod => {
+                                    return prod[prop].id == this.selector.id;     
+                            });
+                            return _.orderBy(filtered,this.orderBy)
+                        } else{ return _.orderBy(this.products,this.orderBy) }
+                    }
+                    return [];
+                }
+            },
+            filteredProducts()
+            {
+              let prods = this.filterProducts;
       
+              return this.paginate(prods,this.selectedPage);  
+            }
+        },
+         watch : {
+            orderBy(){
+                this.products = _.sortBy(this.products,this.orderBy);
+                this.selector.id ='all';
+                this.resetFilters();
+            },
+            'selector.id'()
+            {
+                this.resetFilters();
+            }
+
+
+        },
         methods : {
-             ...mapActions({
-            fetchUser : 'fetchUser',
-            fetchConfig : 'fetchConfig',
-            }),
+            
+            resetFilters(){
+              /*   this.resetCheckboxes(); */
+                this.selectedPage = 1;
+                this.searchMode=false;
+                this.searchTerm='';
+            },
+            search(){
+                this.loading=true;
+                let term = this.searchTerm;
+                this.selector.id = 'all';
+                this.selectedPage = 1;
+                setTimeout(() => {
+                    this.searchTerm = term;
+                    this.searchMode = true;
+                    this.loading=false;
+                }, 100);
+                this.searchMode = true;  
+            },
             searchComparision(term,prod){
                   let prodName = prod.name.toLowerCase().trim();
                   term = term.toLowerCase().trim();
                   let categoryName = prod.category.name.toLowerCase().trim();
-                  
+                  let suplierName = prod.suplier.name.toLowerCase().trim();
                   let code = prod.code.toLowerCase().trim();
 
                   if (
                       prodName.indexOf(term) > -1
                       || categoryName.indexOf(term) > -1
+                      || suplierName.indexOf(term) > -1
                       || code.indexOf(term) > -1
                   ){return true;}
                   else{return false;}
@@ -153,19 +243,17 @@ import { mapActions } from 'vuex';
                 this.loading=true;
                 let terms = this.searchTerm.split(' ');
                 let res = [];
-                this.categories.forEach(c => {
-                    c.products.forEach(prod => {
-                        let include = true;
-                        terms.forEach(term => {
-                            if (include && !this.searchComparision(term,prod))
-                            {
-                                include = false;
-                            }
-                        });
-                        if (include){
-                            res.push(prod);
+                this.products.forEach(prod => {
+                    let include = true;
+                    terms.forEach(term => {
+                        if (include && !this.searchComparision(term,prod))
+                        {
+                            include = false;
                         }
                     });
+                    if (include){
+                        res.push(prod);
+                    }
                 });
                 this.loading=false;
                 return res;
@@ -173,63 +261,147 @@ import { mapActions } from 'vuex';
                 
                 
             },
-            toggleHidePrices(){
-                if (this.config.hide_prices)
-                {
-                    this.config.hide_prices =0;
-                }else{
-                    this.config.hide_prices =1;
+            paginate(array,page){
+                if(array && array.length>0){
+                    page--; 
+                   return array.slice(page * this.productsPerPage, (page + 1) * this.productsPerPage);
                 }
-                var vm = this;
-                this.$axios.put('/config',{field:'hide_prices',value:this.config.hide_prices})
-                    .then(response => {
-                       vm.fetchConfig;
-                    
-                    });
             },
-            
+
            
+           /*  resetCheckboxes(){
+                this.selector.checked =false;
+                this.products.forEach(prod => {
+                    if (prod.selected == undefined)
+                    {
+                        Vue.set(prod,'selected',false);
+                    }else {
+
+                        prod.selected = false;
+                    }
+                });
+            }, */
+            checkSelect(){
+                if (this.selector.id == 'all')
+                {
+                    this.products.forEach(prod => {
+                        if (prod.selected == undefined)
+                        {
+                            Vue.set(prod,'selected',true);
+                        }
+                        prod.selected = this.selector.checked;
+                    });
+                }else{
+                    if (this.orderBy == 'category.name')
+                    {
+                        this.products.forEach(prod => {
+                            if (prod.category.id == this.selector.id)
+                            {
+                                if (prod.selected == undefined)
+                                {
+                                    Vue.set(prod,'selected',true);
+                                }
+                                prod.selected = this.selector.checked;
+                            }
+                        });
+                    } else if (this.orderBy == 'suplier.name')
+                    {
+                         this.products.forEach(prod => {
+                            if (prod.suplier.id == this.selector.id)
+                            {
+                                if (prod.selected == undefined)
+                                {
+                                    Vue.set(prod,'selected',true);
+                                }
+                                prod.selected = this.selector.checked;
+                            }
+                        });
+                    }
+                }
+
+
+            },
+           
+          
+         
+         
             refresh(){
-                
                 var vm = this;
                 this.$store.dispatch('fetchCategories');
-                if (vm.selectedCategory){
-                    setTimeout(() => {
-                        vm.selectedCategory = vm.categories.find(c => {
-                            return c.id == vm.selectedCategory.id;
-                        })
-                    }, 100);
-                }
-             
+
+               this.$store.dispatch('fetchSupliers');
+                
+                this.$axios.get('/products')
+                .then(response => {
+                     vm.products = response.data;
+                    vm.products = _.sortBy(vm.products, vm.orderBy);
+                    vm.loading=false;
+                });
+                
+
             },
-            
-            
-            
-           
+            saveChange(product,field){
+                var data = {
+                    product : product.id,
+                    field : field,
+                    value : product[field]
+                }
+               
+
+               this.$axios.put('/product',data);
+            },
+          
+               selectAllProducts()
+            {
+                    this.products.forEach(prod => {
+                        if (prod.selected == undefined)
+                        {
+                            Vue.set(prod,'selected',true)
+                        }
+                        else {
+                            prod.selected = true;
+                        }
+                    });
+            },
+         
         },
         created(){
             this.refresh();
         },
-        filters : {
-            price(value){
-                return  value.toFixed(2);
-            }
-        }
+       
     }
 </script>
 
 <style scoped>
+
+ .loader {
+    position : fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 110;
+    background-color: #ddddddaa;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5%;
+}
+
+
+input[type="checkbox"]{
+    width: 25px;
+    margin:  10px;
+    height: 20px;
+}
+
+
+.smallField{width: 80px;}
+td {min-width: 120px;}
 .btn-link {color : black;}
     td img {
         width: 10vw;
     }
-textarea{
-    width:100%;
-}
-input[type="checkbox"]{
-    width: 25px;
-    margin: 0 10px;
-}
    @media(max-width: 600px){
        table,.container,.card,.card-body {font-size: 0.66rem ; padding : 0}
        
@@ -238,7 +410,11 @@ input[type="checkbox"]{
            width: 13vw;
            padding: 2px;
        }
-       .form-control{width: 20vw;}
+       
+       
+        
        .nametd {width: 25vw;}
    }
+
+
 </style>

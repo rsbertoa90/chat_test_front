@@ -1,9 +1,9 @@
 <template>
-    <div class="app-container">
+    <div class="app-container mt-4">
       <navbar></navbar>
-      <div class="row vw-100">
+      <div class="row vw-100 mt-4">
         
-        <div class="col-12 w-66">
+        <div class="col-12 w-66 mt-4">
           <keep-alive include="carrito">
               <nuxt />
           </keep-alive>

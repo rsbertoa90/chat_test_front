@@ -1,12 +1,12 @@
   {
     "apps": [{
      
-      "name": "redlimp.com",
+      "name": "mayoristamaju.com",
       "script": "./node_modules/nuxt/bin/nuxt.js",
       "args": [],
       "node_args": "",
       "merge_logs": true,
-      "cwd": "/home/forge/redlimp.com/",
+      "cwd": "/home/forge/mayoristamaju.com/",
       "env": {
         "PORT": "3000"
       },

@@ -3,11 +3,11 @@
             <div id="total" key="bouncer" v-if="total>0">
                 <div  class="bg-red p-1">
                     <div class="btn-desplegar " @click="desplegar = !desplegar ">
-                         <span  class="fa fa-shopping-cart mt-2 mr-2"></span>
+                         <fa-icon icon="shopping-cart" class=" mt-2 mr-2"></fa-icon>
                         Mi pedido  
                        <span class="font-weight-bold ml-1"> ${{total | price}} </span>
-                        <span v-if="desplegar" class="fas fa-chevron-up rotated mt-2 ml-3"></span>
-                        <span v-else class="fas fa-chevron-up mt-2 ml-3"></span>
+                        <fa-icon v-if="desplegar" icon="chevron-down" class="mt-2 ml-3"></fa-icon>
+                        <fa-icon v-else icon="chevron-up" class="mt-2 ml-3"></fa-icon>
                      
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                             <tr v-for="product in list" :key="product.code">
                                 <td class="nametd">{{product.name}}</td>
                                 <td class="unitstd">{{product.units}}</td>
-                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="product.units=0"> <span class="fa fa-times"></span> </button> </td>
+                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="product.units=0"> <fa-icon icon="times"></fa-icon> </button> </td>
                             </tr>
                         </tbody>
                     </table>
@@ -49,21 +49,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.rotated{
-    transform: rotate(180deg);
-}
+
 
 .border-red{
-    border:2px solid #009bc8;
+    border:2px solid red;
     padding:0;
     background-color: #fff;
 }
 .finish{
-    color:#d32381;
+    color:#D52B1E;
     a{
-        color:#d32381;
+        color:#D52B1E;
         &:hover{
-            color:#d32381;
+            color:#D52B1E;
         }
     }
 }
@@ -72,14 +70,13 @@ export default {
         position: fixed;
         /* margin-left:50vw; */
         bottom: 0;
-        right:50%;
-        margin-right:-125px;
+        right:0;
         z-index: 900;
         width:250px;
     }
 
     .btn-desplegar{
-        background-color: #d32381;
+        background-color: #D52B1E;
         color:#fff;
         display: flex;
         justify-content: center;
@@ -119,6 +116,5 @@ export default {
             }
         }
     }
-
 </style>
 

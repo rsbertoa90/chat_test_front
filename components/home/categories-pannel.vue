@@ -6,7 +6,7 @@
         <ul class="scrollable-pannel">
             <li v-for="category in categories" :key="category.name"
                 :class="{'selected':$route.path == category.slug}">
-                <nuxt-link class="d-flex" :to="category.slug">
+                <nuxt-link class="d-flex align-items-center" :to="category.slug">
 
                     <div class="img-container" v-if="category.image" >
                         <v-lazy-image :src="imagePath(category.image)" :alt="category.name"></v-lazy-image>
@@ -63,12 +63,12 @@ export default {
     .scrollable-pannel{
         border:1px solid #D52B1E;
         background-color: #fff;
-       
+        padding: 0 20px;
         height: 422px;
         max-width:300px;
-        overflow-y: auto;
-        overflow-x:overlay;
+        overflow-y: scroll;
         width:100%;
+        z-index:100;
         ul{
             display: flex;
             flex-direction: column;
@@ -94,8 +94,8 @@ export default {
         li{
             cursor: pointer;
             &:hover{
-                transform: scale(1.2);
-                z-index:100;
+                transform: scale(1.13);
+                z-index:300;
                 background-color: #D52B1E33;
             }
         }

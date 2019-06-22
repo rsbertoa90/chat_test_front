@@ -10,7 +10,7 @@
                                 :aria-controls="category.id"
                                 @click="selectedCategory=category.id">
                                 
-                                <div class="d-flex">
+                                <div class="d-flex align-items-center">
                                     <div class="category-image-container ml-lg-2">
                                         <v-lazy-image v-if="category.image" :src="imagePath(category.image)" 
                                         :alt="category.name" class="category-image">
@@ -63,10 +63,11 @@ export default {
 
 <style lang="scss" scoped>
  .category-image-container{
+     display:flex;
+     height: 100%;
+     align-items:center;
         margin-right: 15px;
-        height:100%;
-    
-        min-width:70px;
+        width:90px;
     }
 
   

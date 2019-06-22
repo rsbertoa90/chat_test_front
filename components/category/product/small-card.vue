@@ -21,7 +21,7 @@
                         ${{product.price | price}} C/U
                     </div>
                  
-                    <span class="min-sign" v-if="product.pck_unist > 1" > Menos de {{product.pck_units}} unidades </span>
+                    <span class="min-sign" v-if="product.pck_units > 1" > Menos de {{product.pck_units}} unidades </span>
                 </div>
                
                 <div class="pck_price" >

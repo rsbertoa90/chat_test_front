@@ -31,6 +31,7 @@ export default {
     },
     watch:{
         units(){
+            if(this.units < this.minUnits){this.units=0;}
             this.product.units = this.units;
             this.$store.commit('setList',this.product);
             

@@ -45,9 +45,9 @@ export default {
 
   env: {
      dev: (process.env.NODE_ENV !== 'production'),
-     baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.maju.com/api',
+     baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.mayoristamaju.com/api',
 
-     PROD_API: 'https://back.maju.com/api/',
+     PROD_API: 'https://back.mayoristamaju.com/api/',
   },
 
 
@@ -147,8 +147,8 @@ export default {
   */
  
   axios: {
-    //baseURL: 'https://back.maju.com/api' , 
-    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.maju.com/api' : 'http://localhost:8000/api'
+    //baseURL: 'https://back.mayoristamaju.com/api' , 
+    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.mayoristamaju.com/api' : 'http://localhost:8000/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
 

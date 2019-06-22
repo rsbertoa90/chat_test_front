@@ -223,12 +223,6 @@ import paginator from '../../admin/admin/paginator.vue';
 
 <style lang="scss" scoped>
 
-.contain-all{
-    width: 100vw;
-    padding:5px;
-    overflow: hidden;
-}
-
    
  
 

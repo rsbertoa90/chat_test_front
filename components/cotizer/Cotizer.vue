@@ -97,13 +97,17 @@ import metaMixin from '@/plugins/metadataMixin.js';
 <style scoped lang="scss">
 
 .contain-all{
-    width: 100vw;
+    width: 97vw;
     padding:5px;
     margin-left:-3%;
     overflow: hidden;
 }
 
-   
+   @media(max-width: 660px){
+       .contain-all{
+           width:99vw;
+       }
+   }
  
 
 

@@ -10,7 +10,7 @@
                     </nuxt-link>
                 </div>
                 <search-bar></search-bar>
-                <button  @click="collapsed=!collapsed" class="navbar-toggler">
+                <button  @click="toggleCollapsed" class="navbar-toggler">
                     <fa-icon icon="bars" class="text-white" v-if="collapsed"> </fa-icon>
                     <fa-icon icon="times" class="text-white" v-else> </fa-icon>
                 </button>
@@ -122,6 +122,16 @@ export default {
         }
     },
     methods:{
+        toggleCollapsed(){
+            if (this.collapsed){
+                this.collapsed = false;
+                if(process.browser){
+                   window.scrollTo(0,0);
+                }
+            }else{
+                this.collapsed=true;
+            }
+        },
         clearSearchTerm(){
             this.$store.commit('setSearchTerm','');
             this.closeNav();

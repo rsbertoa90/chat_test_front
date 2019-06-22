@@ -7,7 +7,7 @@
 <style scoped lang="scss">
      .whatsapp{
         position:fixed;
-       width:200px;
+       width:260px;
         bottom:5px;
         left:15px;
         z-index:110;

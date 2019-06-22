@@ -1,13 +1,13 @@
 <template>
-    <div class=" app-container">
+    <div class=" app-container" >
        
-        <header class="p-4 pt-0 mt-0">
+        <header class="p-4 pt-0 mt-0" >
             <app-nav></app-nav>
         </header>    
         <div class="py-4 row">
             
           <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
-            <div class="col-12 p-0 m-0 p-lg-4 ">
+            <div class="col-12 p-0 m-0 p-lg-4 " >
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>
                 </transition>

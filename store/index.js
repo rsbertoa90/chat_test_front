@@ -316,7 +316,7 @@ export const actions = {
        await dispatch('fetchConfig');
        await dispatch('fetchMeta'); 
       await dispatch('fetchStates');
-       commit('setLoading',false);
+       //commit('setLoading',false);
     },
 
 

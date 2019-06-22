@@ -1,7 +1,7 @@
 <template>
     <div class="overlay" v-if="loading">
         <div class="dot-container">
-            <dot-loader :loading="loading"></dot-loader>
+            <dot-loader :loading="loading" size="200px"></dot-loader>
         </div>
     </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 
 <style lang="scss" scoped>
 .overlay{
-    background-color: #ccc9;
+    background-color: #cccd;
     width:100vw;
     height: 100vh;
     position:fixed;

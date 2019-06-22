@@ -90,5 +90,12 @@ Vue.mixin({
          list() {
            return this.$store.getters.getList;
          }
+     },
+     mounted(){
+       if(this.$store.getters.getLoading){
+         setTimeout(() => {
+            this.$store.commit('setLoading',false);
+         }, 200);
+       }
      }
 })

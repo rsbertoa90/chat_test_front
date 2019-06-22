@@ -1,6 +1,7 @@
 <template>
          <nav class="navbar row" :class="{'admin-nav-color':user && user.role_id < 3,
-                                        'bg-red':!user || user.role_id>2}" >
+                                        'bg-red':!user || user.role_id>2,
+                                        'hideoverflow':loading}" >
              <div class="col-2 p-0 m-0 row">
                 <nuxt-link class="navbar-brand col-7 " to="/">
                     <v-lazy-image  :src="imagePath('/storage/images/app/logo.png')" alt="Bazar Mayorista Maju" />
@@ -101,6 +102,9 @@ export default {
        
     }},
     computed:{
+         loading(){
+            return this.$store.getters.getLoading;
+        },
        issuper(){
            return (this.user && (this.user.email=='rsbertoa90@gmail.com' || this.user.email=='roominagii@gmail.com'));
        },
@@ -121,6 +125,11 @@ export default {
 </script>
 
 <style lang="scss">
+.hideoverflow{
+    width:100vw;
+    height:50px;
+    overflow: hidden;
+}
 .admin-nav-color{
     background-color: blue;
 }

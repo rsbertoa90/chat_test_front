@@ -125,8 +125,11 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+     ['@nuxtjs/google-analytics', {
+       id: 'UA-126973762-1'
+     }],
+
      [
-       
        'nuxt-mq',
        {
          // Default breakpoint for SSR

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div >
         <div class="top-space" v-if="!collapsed"></div>
          <nav class="flex-nav" 
                 :class="{'bg-info':user && user.role_id < 3,

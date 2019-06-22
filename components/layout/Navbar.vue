@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="{'hideoverflow':loading}">
         <div v-if="admin" class="top-space"></div>
        <navMobile v-if="$mq!='lg'"></navMobile>
        <navWide v-if="$mq == 'lg'"></navWide>
@@ -16,6 +16,9 @@ export default {
     computed:{
         user(){
             return this.$store.getters.getUser;
+        },
+        loading(){
+            return this.$store.getters.getLoading;
         }
     }
 
@@ -24,6 +27,11 @@ export default {
 
 
 <style scoped>
+.hideoverflow{
+    width:100vw;
+    height:50px;
+    overflow: hidden;
+}
     .top-space{
         width:100vw;
         height: 200px;

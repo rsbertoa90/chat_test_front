@@ -157,20 +157,23 @@ export default {
             }
         }
     },
-    mounted(){
-        console.log('created')
-       
-       
-            setTimeout(() => {
-                this.$store.commit('setLoading',true);
-                this.$store.dispatch('fetchOrders')
-                .then(r => {
-                    setTimeout(() => {
-                        this.$store.commit('setLoading',false);
-                    }, 200);
-            });
-        },200);
-    },
+  mounted(){
+
+       if(this.admin){
+
+         if (!this.orders || !this.orders.length) {
+           setTimeout(() => {
+             //this.$store.commit('setLoading', true);
+             this.$store.dispatch('fetchOrders')
+               .then(r => {
+                 setTimeout(() => {
+                   this.$store.commit('setLoading', false);
+                 }, 200);
+               });
+           }, 200);
+          }
+        }
+  }
     
     
 }

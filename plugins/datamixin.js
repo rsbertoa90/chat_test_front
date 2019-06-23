@@ -92,14 +92,23 @@ Vue.mixin({
          },
          firstload(){
            return this.$store.getters.getFirstload;
+         },
+         orders(){
+           return this.$store.getters.getOrders;
          }
      },
      mounted(){
-       if(this.$store.getters.getLoading && this.firstload){
-         setTimeout(() => {
-            this.$store.commit('setLoading',false);
-            this.$store.commit('setFirstload');
-         }, 100);
+       if(!this.admin){
+         if(this.$store.getters.getLoading && this.firstload){
+           setTimeout(() => {
+              this.$store.commit('setLoading',false);
+              this.$store.commit('setFirstload');
+           }, 100);
+         }
        }
+
+       
+
+        
      }
 })

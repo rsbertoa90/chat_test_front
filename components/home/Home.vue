@@ -22,5 +22,22 @@ import metaMixin from '../metadataMixin';
 export default {
     mixins:[metaMixin],
     components:{fbComments,homeTexts,homeOffers,homeTopRow,homeInfo,categoriesPannel,homeBanners},
+    mounted(){
+
+       if(this.admin){
+
+         if (!this.orders || !this.orders.length) {
+           setTimeout(() => {
+             //this.$store.commit('setLoading', true);
+             this.$store.dispatch('fetchOrders')
+               .then(r => {
+                 setTimeout(() => {
+                   this.$store.commit('setLoading', false);
+                 }, 200);
+               });
+           }, 200);
+          }
+        }
+        }
     }
 </script>

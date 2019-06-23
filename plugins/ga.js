@@ -36,7 +36,7 @@ export default ({
     ga('send', 'pageview')
   })
 
-    console.log('ANALYTICS');
+    //console.log('ANALYTICS');
 
 
 }

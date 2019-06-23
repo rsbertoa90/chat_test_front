@@ -89,13 +89,17 @@ Vue.mixin({
          },
          list() {
            return this.$store.getters.getList;
+         },
+         firstload(){
+           return this.$store.getters.getFirstload;
          }
      },
      mounted(){
-       if(this.$store.getters.getLoading){
+       if(this.$store.getters.getLoading && this.firstload){
          setTimeout(() => {
             this.$store.commit('setLoading',false);
-         }, 200);
+            this.$store.commit('setFirstload');
+         }, 100);
        }
      }
 })

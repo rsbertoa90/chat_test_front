@@ -4,13 +4,22 @@
         <no-ssr placeholder="ADMIN">
             <nuxt />
         </no-ssr>
+        
+          <apploading v-if="loading"></apploading>
+     
     </div>
 </template>
 
 <script>
 import navbar from '@/components/layout/Navbar.vue'
+import apploading from '@/components/layout/loading.vue';
 export default {
-  components:{navbar}
+  components:{navbar,apploading},
+  computed:{
+    loading(){
+      return this.$store.getters.getLoading;
+    }
+  }
 }
 </script>
 

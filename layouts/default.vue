@@ -20,7 +20,9 @@
         
         <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer>
 
-       <apploading v-if="loading"></apploading>
+         
+            <apploading v-if="loading"></apploading>
+        
     </div>
 </template>
 

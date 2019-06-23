@@ -43,7 +43,7 @@
             </div>
             <div>
                 <fa-icon icon="home" class="mb-1"></fa-icon>
-                Pasteur 439 - ONCE
+                Pasteur 394 - ONCE
             </div>
             <div>
                 <fa-icon icon="envelope" class="mb-1"></fa-icon>

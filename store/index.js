@@ -15,11 +15,15 @@ export const state = () => {
         tutoSeen:false,
         list:[],
         total:0,
+        firstload:true,
        
     }
 }
 
 export const getters = {
+  getFirstload(store){
+    return store.firstload;
+  },
   getTutoSeen(store){
     return store.tutoSeen;
   },
@@ -212,6 +216,9 @@ export const mutations = {
   setTutoSeen(state){
     state.tutoSeen =true;
   },
+  setFirstload(state){
+    state.firstload =false;
+  },
   updateProduct(state,payload){
     state.categories.forEach(c => {
       let prod = c.products.find(p=>{
@@ -276,6 +283,7 @@ export const mutations = {
      setLoading(state, payload) {
        state.loading = payload;
      },
+    
      setOrders(state, payload) {
        state.orders = payload;
      },

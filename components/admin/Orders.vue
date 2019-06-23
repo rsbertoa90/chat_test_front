@@ -158,7 +158,18 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('fetchOrders');
+        console.log('created')
+       
+       
+            setTimeout(() => {
+                this.$store.commit('setLoading',true);
+                this.$store.dispatch('fetchOrders')
+                .then(r => {
+                    setTimeout(() => {
+                        this.$store.commit('setLoading',false);
+                    }, 200);
+            });
+        },200);
     },
     
     

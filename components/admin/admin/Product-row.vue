@@ -127,7 +127,7 @@ export default {
                 swal('CUIDADO','Si unidades es 1 ambos precios deberian ser iguales','error');
                 return false;
             }
-            else if (u > 1 && p < pp){
+            else if ((u > 1 && p < pp) && p != 0){
                 swal('CUIDADO','El precio por mayor deberia ser MENOR que el precio normal','error');
                 return false;
             }

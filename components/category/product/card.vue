@@ -1,21 +1,24 @@
 <template>
-    <div @mouseenter="hovered=true" @mouseleave="hovered=false" class="d-flex flex-column align-items-center product-card  justify-content-between " v-if="product">
+    <div @mouseenter="hovered=true" @mouseleave="hovered=false" 
+        class="d-flex flex-column align-items-center product-card  justify-content-between " 
+        v-if="product"
+        itemscope itemtype="http://schema.org/Product">
         <nuxt-link :to="productUrl">
-            <h2 v-if="!hideHead" class="text-center title">{{product.name | uc}}</h2>
+            <h2 v-if="!hideHead" class="text-center title"  itemprop="name">{{product.name | uc}}</h2>
         </nuxt-link>
         <div class="d-flex w-100">
             
-                <div class="image-container" @click="show">
+                <div class="image-container" @click="show" itemprop="image" >
                     <v-lazy-image :src="imagePath(image.url)" :src-placeholder="noImage" :alt="product.name"></v-lazy-image>
                      <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer">
                         <v-lazy-image :src="imagePath('/storage/images/app/oferta.png')" alt="oferta"></v-lazy-image>
                     </div>
                 </div>
             
-            <div class="prices-container" v-if="config && !config.maintenance">
-                 
+            <div class="prices-container" v-if="config && !config.maintenance" itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
+                  <meta itemprop="priceCurrency" content="ARS" />
                  <div class="pck_price" >
-                    <div class="price-bg">
+                    <div class="price-bg" itemprop="lowPrice">
                         ${{product.pck_price | price}} C/U
                     </div>
                     <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
@@ -23,7 +26,7 @@
                 </div>
 
                 <div class="price" v-if="product.price > 0 && product.price != product.pck_price">
-                    <div class="price-bg">
+                    <div class="price-bg" itemprop="highPrice">
                         ${{product.price | price}} C/U
                     </div>
                  

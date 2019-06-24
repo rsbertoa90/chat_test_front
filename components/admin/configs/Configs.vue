@@ -7,6 +7,9 @@
             <button @click="job('catalogo-job')" class="btn btn-outline-warning">  
                 Refrescar Catalogo Digital
             </button>
+             <a class="btn btn-outline-danger" target="_blank" :href="backendpath+'/catalogo-grande'">
+                    Descargar catalogo crudo
+            </a>
           <!--   <a href="/super/failed-jobs" class="btn btn-outline-danger">  
                 Failed jobs
             </a> -->
@@ -29,6 +32,7 @@
             </div>
         </div>
         <div class="mt-4 p-2">
+           
             <div>
                 <input type="hidden" name="_token" :value="csrf">
                 <label class="btn btn-md btn-outline-info mt-3">Subir catalogo comprimido

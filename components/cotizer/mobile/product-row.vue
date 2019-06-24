@@ -3,7 +3,8 @@
                     <td width="10%" @click="show(product)"> 
                         <v-lazy-image v-if="product.images && product.images.length > 0" 
                                     class="sampleImage" 
-                                    :src="imagePath(product.images[0])" 
+                                    :src="imagePath(product.images[0])"
+                                    :src-placeholder="noImage" 
                                     :alt="product.name" />
                         <v-lazy-image v-else :alt="product.name" 
                                     :src="noImage" /> 

@@ -4,11 +4,8 @@
                 <div class="card-header" :id="category.id">
                     <h5 class="mb-0 w-100">
                         <button class="btn  btn-link w-100 text-left big" 
-                                data-toggle="collapse" 
-                                :data-target="'#cat'+category.id" 
-                                aria-expanded="true" 
-                                :aria-controls="category.id"
-                                @click="selectedCategory=category.id">
+                               
+                                @click="setSelected(category)">
                                 
                                 <div class="d-flex align-items-center">
                                     <div class="category-image-container ml-lg-2">
@@ -23,8 +20,9 @@
                         </button>
                     </h5>
                 </div>
-                <div :id="'cat'+category.id" class="collapse collapsed " aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
+                <div :id="'cat'+category.id" class="" >
+                    <div class="card-body" :class="{'card-body-displayed':selectedCategory == category.id,
+                                                    'card-body-nondisplayed':selectedCategory != category.id}">
 
                         <products-table  v-if="selectedCategory == category.id" :products="category.products"></products-table>
 
@@ -47,6 +45,14 @@ export default {
         }
     },
     methods:{
+        setSelected(c){
+            if(this.selectedCategory == c.id)
+            {
+                this.selectedCategory = null;
+            }else{
+                this.selectedCategory = c.id;
+            }
+        },
         hasNotPausedProducts(category){
             let res = category.products.filter(p => {
                 return !p.paused;
@@ -130,8 +136,16 @@ export default {
     
 
     .card-body{
-        max-height:400px;
         overflow-y:auto;
+    }
+
+    .card-body-displayed{
+        max-height: 400px;
+        transition:all .3s;
+    }
+    .card-body-nondisplayed{
+        max-height: 0px;
+        transition:all .3s;
     }
     @media(min-width: 600px){
         

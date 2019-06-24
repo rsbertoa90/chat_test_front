@@ -4,7 +4,7 @@
         v-if="product"
         itemscope itemtype="http://schema.org/Product">
         <nuxt-link :to="productUrl">
-            <h2 v-if="!hideHead" class="text-center title"  itemprop="name">{{product.name | uc}}</h2>
+            <h2 v-show="!hideHead" class="text-center title"  itemprop="name">{{product.name | uc}}</h2>
         </nuxt-link>
         <div class="d-flex w-100">
             
@@ -15,25 +15,47 @@
                     </div>
                 </div>
             
-            <div class="prices-container" v-if="config && !config.maintenance" itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
-                  <meta itemprop="priceCurrency" content="ARS" />
-                 <div class="pck_price" >
-                    <div class="price-bg" itemprop="lowPrice">
-                        ${{product.pck_price | price}} C/U
-                    </div>
-                    <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
-                    <span class="min-sign" v-if="product.pck_price < product.price && product.pck_units > 1" > Más de {{product.pck_units}} unidades </span>
+            <div v-if="config && !config.maintenance" class="w-100">  
+                
+                <!-- UN precio -->
+                <div  v-if="product.pck_units == 1 || product.price == 0" class="prices-container"  
+                    itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                    <meta itemprop="priceCurrency" content="ARS" />
+                    <div class="pck_price" >
+                        <div class="price-bg" itemprop="price">
+                            ${{product.pck_price | price}} C/U
+                        </div>
+                        <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
+                    </div>                
                 </div>
 
-                <div class="price" v-if="product.price > 0 && product.price != product.pck_price">
-                    <div class="price-bg" itemprop="highPrice">
-                        ${{product.price | price}} C/U
+                <!-- Dos precios -->
+                <div  v-if="product.pck_units > 1 && product.price > 0 && product.price!=product.pck_price" class="prices-container"  
+                    itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
+                    <meta itemprop="priceCurrency" content="ARS" />
+                    <div class="pck_price" >
+                        <div class="price-bg" itemprop="lowPrice">
+                            ${{product.pck_price | price}} C/U
+                        </div>
+                        <span class="min-sign" v-if="product.pck_price < product.price && product.pck_units > 1" > Más de {{product.pck_units}} unidades </span>
                     </div>
-                 
-                    <span class="min-sign" > Menos de {{product.pck_units}} unidades </span>
+
+                    <div class="price" v-if="product.price > 0 && product.price != product.pck_price">
+                        <div class="price-bg" itemprop="highPrice">
+                            ${{product.price | price}} C/U
+                        </div>
+                    
+                        <span class="min-sign" > Menos de {{product.pck_units}} unidades </span>
+                    </div>
+                
                 </div>
-               
             </div>
+        </div>
+        <div class="spacing">
+
+        </div>
+        <div class="spacing">
+
         </div>
        <div class="shop-button-container" v-if="config && !config.maintenance">
          <shop-button :product="product"></shop-button>
@@ -119,6 +141,10 @@ export default {
 
 
 <style lang="scss" scoped>
+.spacing{
+   // height: 50px;
+    width:100%;
+}
  a:hover{
         color:#000;
     }
@@ -135,6 +161,10 @@ export default {
         justify-content: flex-start;
         margin-top:15px;
         width:100%;
+        position:absolute;
+        bottom:10px;
+        left:10px
+        
     }
     .title{
         display: flex;
@@ -143,8 +173,9 @@ export default {
     }
 
     .product-card{
+        position:relative;
         padding:10px;  
-        height:100%;
+        height:450px;
       /*   border:1px solid #868686; */
        
     }
@@ -157,7 +188,7 @@ export default {
 
     .image-container{
         cursor: pointer;
-        width:55%;
+        width:100%;
         overflow: hidden;
         position:relative;
         .offer-ribbon{
@@ -179,8 +210,10 @@ export default {
              }
     }
     .prices-container{
-        padding:10px;
-        width:45%;
+        
+        padding:30px 10px 50px 10px;
+        width:95%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

@@ -1,8 +1,6 @@
 <template>
     <div class="">
-        <div v-if="loading" class="loader">
-            <dot-loader :loading="loading" size="200px"></dot-loader>
-        </div>
+        
 
         <div class="d-flex flex-column mb-2">
             <h1> <b>Termine mi pedido!</b></h1>
@@ -196,7 +194,7 @@ export default{
         compressList(){
             let res = [];
             this.list.forEach(item => {
-                if(item.units && items.units>0){
+                if(item.units && item.units>0){
                     let compresedItem = {
                         id : item.id,
                         units: item.units

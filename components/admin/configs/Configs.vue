@@ -29,13 +29,13 @@
             </div>
         </div>
         <div class="mt-4 p-2">
-            <form method="post" action="/admin/replace-catalogo" enctype="multipart/form-data">
+            <div>
                 <input type="hidden" name="_token" :value="csrf">
                 <label class="btn btn-md btn-outline-info mt-3">Subir catalogo comprimido
-                    <input @change="catalogosubido=true" style="display:none" type="file" name="catalogo">
+                   <input type="file" id="file" ref="file" v-on:change="bindFile()"/>
                 </label>
-                <button type="submit" class="btn btn-outline-success" v-if="catalogosubido">Guardar</button>
-            </form>
+              <button  class="btn btn-outline-success" @click="submitFile">Guardar</button> -->
+            </div>
         </div>
         <!-- <div class="col-12 row">
             <admin-slider></admin-slider>
@@ -51,7 +51,7 @@ export default {
     components:{adminSlider},
     data(){
         return {
-            
+            file:null,
             catalogosubido:false,
             csrf:window.csrf,
           
@@ -91,7 +91,52 @@ export default {
 
             this.$axios.put('/config',data);
         },
-    }
-}
+        bindFile(e){
+            this.file = this.$refs.file.files[0];
+                       
+            },
+        
+         submitFile(){
+        /*
+                Initialize the form data
+            */
+            let formData = new FormData();
 
+            /*
+                Add the form data we need to submit
+            */
+            formData.append('file', this.file);
+            formData.append('pdf', this.file);
+            console.log(this.file);
+        /*
+          Make the request to the POST /single-file URL
+        */
+            this.$axios.post( '/replace-catalogo',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+           swal('Catalogo subido','veras los cambios reflejados en unos segundos','success');
+        })
+        .catch(function(){
+            swal('!!!!!','Ocurrio un error durante la subida','error');
+        });
+      },
+        uploadcatalogo(){
+            if(this.fd){
+                 this.$axios.post('/replace-catalogo', this.fd)
+                    .then(res => {
+                        setTimeout(() => {
+                           
+                        }, 200);
+                    });
+            }
+        }
+       
+    }
+
+}
 </script>

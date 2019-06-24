@@ -13,29 +13,43 @@
                 </div>
             </div>
             
-            <div class="prices-container" v-if="config && !config.maintenance" itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
-                 
-                   <meta itemprop="priceCurrency" content="ARS" />
-
-                <div class="price" v-if="product.price > 0 && product.price != product.pck_price" >
-                    <div class="price-bg" itemprop="highPrice">
-                        ${{product.price | price}} C/U
-                    </div>
-                 
-                    <span class="min-sign" v-if="product.pck_units > 1" > Menos de {{product.pck_units}} unidades </span>
-                </div>
-               
-                <div class="pck_price"  >
-                    <div class="price-bg" itemprop="lowPrice">
-                        ${{product.pck_price | price}} C/U
-                    </div>
-                    <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
-                    <span class="min-sign" v-if="product.pck_price < product.price && product.pck_units > 1" > Más de {{product.pck_units}} unidades </span>
-                </div>
-
+            
+             <div v-if="config && !config.maintenance">  
                 
+                <!-- UN precio -->
+                <div  v-if="product.pck_units == 1 || product.price == 0" class="prices-container"  
+                    itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                    <meta itemprop="priceCurrency" content="ARS" />
+                    <div class="pck_price" >
+                        <div class="price-bg" itemprop="price">
+                            ${{product.pck_price | price}} C/U
+                        </div>
+                        <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
+                    </div>                
+                </div>
 
+                <!-- Dos precios -->
+                <div  v-if="product.pck_units > 1 && product.price > 0 && product.price!=product.pck_price" class="prices-container"  
+                    itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
+                    <meta itemprop="priceCurrency" content="ARS" />
+                    <div class="pck_price" >
+                        <div class="price-bg" itemprop="lowPrice">
+                            ${{product.pck_price | price}} C/U
+                        </div>
+                        <span class="min-sign" v-if="product.pck_price < product.price && product.pck_units > 1" > Más de {{product.pck_units}} unidades </span>
+                    </div>
+
+                    <div class="price" v-if="product.price > 0 && product.price != product.pck_price">
+                        <div class="price-bg" itemprop="highPrice">
+                            ${{product.price | price}} C/U
+                        </div>
+                    
+                        <span class="min-sign" > Menos de {{product.pck_units}} unidades </span>
+                    </div>
+                
+                </div>
             </div>
+
         </div>
        <div class="shop-button-container" v-if="config && !config.maintenance">
          <shop-button :product="product" ></shop-button>

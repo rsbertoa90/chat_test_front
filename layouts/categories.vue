@@ -49,14 +49,14 @@ export default {
         }
     },
       mounted(){
-       if(!this.admin){
+      
          if(this.$store.getters.getLoading && this.firstload){
            setTimeout(() => {
               this.$store.commit('setLoading',false);
               this.$store.commit('setFirstload');
            }, 100);
          }
-       }
+       
 
        
 

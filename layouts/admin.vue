@@ -21,14 +21,13 @@ export default {
     }
   },
    mounted(){
-       if(this.admin){
          if(this.$store.getters.getLoading && this.firstload){
          //  console.log('quitar loading');
            setTimeout(() => {
               this.$store.commit('setLoading',false);
               this.$store.commit('setFirstload');
            }, 100);
-         }
+         
        }
 
        

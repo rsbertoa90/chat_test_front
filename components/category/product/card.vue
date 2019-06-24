@@ -60,7 +60,7 @@
        <div class="shop-button-container" v-if="config && !config.maintenance">
          <shop-button :product="product"></shop-button>
        </div>
-        <image-modal  @close="closedModal" v-if="this.showModal"
+        <image-modal  @close="showModal=false" v-if="this.showModal"
                     :product="product"  ref="modal" ></image-modal>
     </div>    
 </template>
@@ -68,7 +68,7 @@
 
 <script>
 import shopButton from './shop-button.vue';
-import imageModal from '../../cotizer/Img-modal.vue';
+import imageModal from './img-modal.vue';
 export default {
    
     props:{
@@ -96,20 +96,8 @@ export default {
     methods:{
         show(){
                this.showModal = true;
-             
-               /* this.$refs.modal.$forceUpdate(); */
-               setTimeout(() => {
-                   let element = this.$refs.modal.$el;
-                   $(element).modal('show');
-               }, 100);
         },
-        closedModal(){
-                 this.modalProduct = null;
-                 this.showModal = false;
-                setTimeout(() => {
-                    this.showModal=true;
-                }, 100);
-        },
+      
     },
     computed:{
         productUrl(){

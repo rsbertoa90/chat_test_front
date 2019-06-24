@@ -136,7 +136,10 @@ export default {
     margin-bottom:20px;
     margin-top:10px;
     
-    .logo-square{
+   
+    }
+    
+ .logo-square{
         background-color: #fff;
         border: 3px solid #868686;
         font-size:2rem;
@@ -148,11 +151,12 @@ export default {
         height:75px;
         width:175px;
         margin-right:15px;
+        overflow:hidden;
         img{
-            width:150px;
+            width:100%;
         }
-    }
 }
+
 
 h1{
     font-size: 2rem;

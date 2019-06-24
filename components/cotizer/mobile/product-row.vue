@@ -47,20 +47,20 @@
                     
                     </td>
                     
-                    <image-modal @close="closedModal" v-if="this.showModal"
-                    :product="modalProduct"  ref="modal" ></image-modal>
+                    <image-modal @close="showModal=false" v-if="showModal"
+                    :product="product"  ref="modal" ></image-modal>
     </tr>
 </template>
 
 <script>
 
-import imageModal from '../Img-modal.vue';
+import imageModal from '@/components/category/product/img-modal.vue';
 export default {
     components:{imageModal},
     props:['product'],
      data(){
         return{
-            showModal : true,
+            showModal : false,
             modalProduct:null,
             units:null
         }
@@ -79,19 +79,11 @@ export default {
          
         show(product){
                this.showModal = true;
-               this.modalProduct = product;
-               /* this.$refs.modal.$forceUpdate(); */
+              
                
-               let element = this.$refs.modal.$el;
-               $(element).modal('show');
+               
         },
-        closedModal(){
-                 this.modalProduct = null;
-                 this.showModal = false;
-                setTimeout(() => {
-                    this.showModal=true;
-                }, 100);
-        },
+       
     
     },
     mounted(){

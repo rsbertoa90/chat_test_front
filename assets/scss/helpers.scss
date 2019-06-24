@@ -18,12 +18,12 @@
    align-items: center;
    height: 75px;
    width:188px;
-
+  overflow: hidden;
    img {
      max-width: 70px;
    }
  }
-
+img{width:100%}
 .vw100{
   width:100vw;
 }

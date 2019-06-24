@@ -6,7 +6,7 @@
             </button>
         </div>
 
-        <div v-else class="d-flex justify-content-start">
+        <div v-if="product.units >= minUnits" class="d-flex justify-content-start">
             <div style="font-size:2rem" class="mr-1 d-2 d-flex flex-column justify-content-center cart-flex">
                     <fa-icon icon="shopping-cart" class="bg-white text-red"></fa-icon>
             </div>
@@ -31,7 +31,7 @@ export default {
     },
     watch:{
         units(){
-            if(this.units < this.minUnits){this.units=0;}
+            if(this.units < this.minUnits){this.units = 0;}
             this.product.units = this.units;
             this.$store.commit('setList',this.product);
             
@@ -46,13 +46,16 @@ export default {
     computed:{
         minUnits(){
             
-            return this.product.price > 0 ? 1 : this.product.pck_units ;
+            return (this.product.price > 0) ? 1 : this.product.pck_units ;
         }
     },
     mounted(){
         if(this.product && !this.product.units)
         {
             this.$set(this.product,'units',null);
+        }
+        if(this.product && this.product.units){
+            this.units = this.product.units;
         }
     }
 

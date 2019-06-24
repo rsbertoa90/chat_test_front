@@ -196,11 +196,13 @@ export default{
         compressList(){
             let res = [];
             this.list.forEach(item => {
-                let compresedItem = {
-                    id : item.id,
-                    units: item.units
+                if(item.units && items.units>0){
+                    let compresedItem = {
+                        id : item.id,
+                        units: item.units
+                    }
+                    res.push(compresedItem);
                 }
-                res.push(compresedItem);
             });
             
             return res;

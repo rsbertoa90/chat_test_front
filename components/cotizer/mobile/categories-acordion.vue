@@ -1,6 +1,6 @@
 <template>
     <div id="accordion">
-            <div v-for="category in categories" :key="category.id" class="card flex-wrap" >
+            <div v-for="category in filteredCategories" :key="category.id" class="card flex-wrap" >
                 <div class="card-header" :id="category.id">
                     <h5 class="mb-0 w-100">
                         <button class="btn  btn-link w-100 text-left big" 
@@ -12,7 +12,7 @@
                                 
                                 <div class="d-flex align-items-center">
                                     <div class="category-image-container ml-lg-2">
-                                        <v-lazy-image v-if="category.image" :src="imagePath(category.image)" 
+                                        <v-lazy-image v-if="category.image" :src="imagePath(category.image)" :src-placeholder="noImage"
                                         :alt="category.name" class="category-image">
                                         </v-lazy-image>
                                     </div>
@@ -46,9 +46,22 @@ export default {
            
         }
     },
+    methods:{
+        hasNotPausedProducts(category){
+            let res = category.products.filter(p => {
+                return !p.paused;
+            });
+            return (res.length > 0);
+        }
+    },
     computed:{
         categories(){
             return this.$store.getters.getCategories;
+        },
+        filteredCategories(){
+            return this.categories.filter(c => {
+                return this.hasNotPausedProducts(c);
+            });
         },
         user(){
             return this.$store.getters.getUser;

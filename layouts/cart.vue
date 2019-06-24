@@ -19,7 +19,17 @@
 import navbar from '@/components/layout/Navbar.vue'
 /* import totalBouncer from '@/components/total-bouncer/total-bouncer.vue'; */
 export default {
-  components:{navbar}
+  components:{navbar},
+   mounted(){
+       if(!this.admin){
+         if(this.$store.getters.getLoading && this.firstload){
+           setTimeout(() => {
+              this.$store.commit('setLoading',false);
+              this.$store.commit('setFirstload');
+           }, 100);
+         }
+       }
+   }
 }
 </script>
 

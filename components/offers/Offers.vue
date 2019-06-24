@@ -8,7 +8,7 @@
     <div class="col-12  row p-0 m-0">    
         <div class="red-ribbon col-12">
             <div class="logo-square" >
-                <v-lazy-image :src="imagePath('/storage/images/app/offer-tag.png')" alt="Ofertas de Bazar Mayorista Maju"></v-lazy-image>
+                <img :src="imagePath('/storage/images/app/offer-tag.png')" alt="Ofertas de Bazar Mayorista Maju" />
             </div>
             <h1  class=" font-weight-bold" >
                 Ofertas de Bazar Mayorista Maju

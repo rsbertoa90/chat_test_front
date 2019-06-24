@@ -12,7 +12,7 @@
                 <th v-if="$mq == 'lg'" class="">Subtotal</th>
             </thead>
             <tbody>
-                <tr is="productRow" v-for="product in products" :key="product.code" :product="product">
+                <tr is="productRow" v-for="product in filteredProducts" :key="product.code" :product="product">
 
                 </tr>
             </tbody>
@@ -27,7 +27,13 @@ export default {
     components:{productRow},
     props:['products'],
    
-  
+    computed:{
+        filteredProducts(){
+            return this.products.filter(p=> {
+                return !p.paused;
+            })
+        }
+    },
    
     mounted(){
         if(this.products){

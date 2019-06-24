@@ -110,16 +110,47 @@ export default {
         
     },
     methods:{
+        validate(){
+            let u = this.product.pck_units;
+            let p = this.product.price;
+            let pp = this.product.pck_price;
+            //console.log(u,p,pp);
+            if (u < 1){
+                swal('CUIDADO','Unidades no puede ser menor que 1','error');
+                return false;
+            }
+            if (u > 1 && p == pp ){
+                swal('CUIDADO','Los precios deberian ser iguales SOLO si unidades es = a 1','error');
+                return false;
+            }
+            else if (u == 1 && p != pp){
+                swal('CUIDADO','Si unidades es 1 ambos precios deberian ser iguales','error');
+                return false;
+            }
+            else if (u > 1 && p < pp){
+                swal('CUIDADO','El precio por mayor deberia ser MENOR que el precio normal','error');
+                return false;
+            }
+            else{
+                return true;
+            }
+            
+
+
+
+        },
             refresh(){
                 this.$emit('refresh');
             },
             saveChange(product,field){
-                var data = {
-                    product : product.id,
-                    field : field,
-                    value : product[field]
+                if(this.validate()){
+                    var data = {
+                        product : product.id,
+                        field : field,
+                        value : product[field]
+                    }
+                   this.$axios.put('/product',data);
                 }
-               this.$axios.put('/product',data);
               
             },
             togglePause(product){

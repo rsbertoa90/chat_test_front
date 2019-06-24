@@ -1,12 +1,11 @@
 <template>
+    <nuxt-link :to="productUrl">
     <div @mouseenter="hovered=true" @mouseleave="hovered=false" class="d-flex flex-column align-items-center product-card  justify-content-between " v-if="product">
-        <nuxt-link :to="productUrl">
             <h2 v-if="!hideHead" class="text-center title">{{product.name | uc}}</h2>
-        </nuxt-link>
         <div class="d-flex w-100">
             
-                <div class="image-container" @click="show">
-                    <v-lazy-image :src="imagePath(image.url)" :src-placeholder="noImage" :alt="product.name"></v-lazy-image>
+                <div class="image-container">
+                    <v-lazy-image :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
                      <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer">
                         <v-lazy-image :src="imagePath('/storage/images/app/oferta.png')" alt="oferta"></v-lazy-image>
                     </div>
@@ -32,12 +31,13 @@
                
             </div>
         </div>
-       <div class="shop-button-container" v-if="config && !config.maintenance">
+      <!--  <div class="shop-button-container" v-if="config && !config.maintenance">
          <shop-button :product="product"></shop-button>
-       </div>
-        <image-modal  @close="closedModal" v-if="this.showModal"
-                    :product="product"  ref="modal" ></image-modal>
+       </div> -->
+       <!--  <image-modal  @close="closedModal" v-if="this.showModal"
+                    :product="product"  ref="modal" ></image-modal> -->
     </div>    
+    </nuxt-link>
 </template>
 
 

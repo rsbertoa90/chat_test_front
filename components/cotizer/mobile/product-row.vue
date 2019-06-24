@@ -46,9 +46,6 @@
                     
                     </td>
                     
-                    <td v-if="! product.units && $mq == 'lg'"> 0 </td>
-                    <td v-else-if="product.units < product.pck_units & $mq == 'lg'">$ {{ (product.units * product.price).toFixed(2) }}  </td>
-                    <td v-else-if="$mq == 'lg'"> ${{ (product.units * product.pck_price).toFixed(2) }} </td>
                     <image-modal @close="closedModal" v-if="this.showModal"
                     :product="modalProduct"  ref="modal" ></image-modal>
     </tr>
@@ -96,6 +93,15 @@ export default {
         },
     
     },
+    mounted(){
+       if(this.product && !this.product.units)
+        {
+            this.$set(this.product,'units',null);
+        }
+        if(this.product.units && this.product.units > 0){
+            this.units = this.product.units;
+        }
+    }
 }
 </script>
 

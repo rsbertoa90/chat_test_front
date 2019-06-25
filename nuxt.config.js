@@ -1,5 +1,7 @@
 import pkg from './package'
 
+import brotli from 'brotli';
+import shrinkRay from 'shrink-ray-current'
 
 
 export default {
@@ -148,6 +150,12 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth'
   ],
+
+  render: {
+    compressor: shrinkRay(),
+
+  },
+
   /*
   ** Axios module configuration
   */

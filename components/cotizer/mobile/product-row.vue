@@ -1,6 +1,7 @@
 <template>
-    <tr v-if="product" >
-                    <td width="10%" @click="show(product)"> 
+    <tbody v-if="product" >
+        <tr>
+                    <td rowspan="2" width="10%" @click="show(product)"> 
                         <v-lazy-image v-if="product.images && product.images.length > 0" 
                                     class="sampleImage" 
                                     :src="imagePath(product.images[0])"
@@ -10,8 +11,21 @@
                                     :src="noImage" /> 
                                     
                     </td>
-                    <td v-if="user && user.role_id < 3"> {{product.code}} </td>
-                    <td style="cursor:pointer" @click="show(product)">  {{product.name | ucFirst}} </td>
+                    <td colspan="2" style="cursor:pointer" @click="show(product)">  {{product.name | ucFirst}} </td>
+
+                    <td rowspan="2"><input type="number" :min="getMin(product)" class="form-control" v-model.lazy="units">
+                        
+                        <div v-if="$mq != 'lg' && product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
+                            
+                            <span v-if="product.units < product.pck_units">  ${{(product.price * product.units) | price}} </span>
+                            <span v-if="product.units >= product.pck_units">  ${{(product.pck_price * product.units) | price}} </span>
+                            
+                        </div>
+                    
+                    </td>
+        </tr>
+        <tr>
+                    <td v-if="admin"> {{product.code}} </td>
                     <td class="text-info text-center"> 
                         <span v-if="product.price > 0"> ${{product.price | price}} </span>
                         <span v-else> - </span> 
@@ -22,10 +36,6 @@
                             <span>Unidades</span>
                         </div>
                     </td>
-                <!--     <td class="text-center">
-                        <span v-if="product.pck_units > 1"> {{product.pck_units}} </span>
-                        <span v-else> Venta x unidad </span>
-                    </td> -->
                     <td  class="text-center text-success font-weight-bold"> 
                         <span v-if="product.pck_units > 1"> ${{product.pck_price | price}} </span>
                         <span v-else> - </span> <br>
@@ -36,20 +46,13 @@
                         </div>
                     </td>
 
-                    <td><input type="number" :min="getMin(product)" class="form-control" v-model.lazy="units">
-                        
-                        <div v-if="$mq != 'lg' && product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
-                            
-                            <span v-if="product.units < product.pck_units">  ${{(product.price * product.units) | price}} </span>
-                            <span v-if="product.units >= product.pck_units">  ${{(product.pck_price * product.units) | price}} </span>
-                            
-                        </div>
+                 
                     
-                    </td>
-                    
+        </tr>
+                
                     <image-modal @close="showModal=false" v-if="showModal"
                     :product="product"  ref="modal" ></image-modal>
-    </tr>
+    </tbody>
 </template>
 
 <script>
@@ -101,8 +104,11 @@ export default {
 
 
 <style lang="scss" scoped>
- 
-  
+ td{
+
+   vertical-align: middle;
+    text-align: center;
+ }
 
     .card-header{
         padding: 5px;
@@ -112,7 +118,7 @@ export default {
 
 
 .sampleImage{
-        width: 50px;
+        width: 100%;
     }
 
     .btn-link {color : black;}

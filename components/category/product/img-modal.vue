@@ -1,11 +1,16 @@
 <template>
     <div>
         <modal @close="$emit('close')">
-            <div v-if="product.images && product.images.length > 1">
-                <bulletSwiper :images="product.images"></bulletSwiper>
-            </div>
-            <div v-else>
-                <v-lazy-image :src="imagePath(product.images[0])"></v-lazy-image>
+            <div>
+                <h4 class="m-auto text-center">{{product.name}}</h4>
+                
+                <div v-if="product.images && product.images.length > 1">
+                    <bulletSwiper :images="product.images"></bulletSwiper>
+                </div>
+
+                <div v-else>
+                    <v-lazy-image :src="imagePath(product.images[0])" :src-placeholder="noImage"></v-lazy-image>
+                </div>
             </div>
         </modal>
     </div>

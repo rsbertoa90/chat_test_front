@@ -127,6 +127,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    ["nuxt-compress"],
   /*    ['@nuxtjs/google-analytics', {
        id: "UA-126973762-1",dev:true
      }], */

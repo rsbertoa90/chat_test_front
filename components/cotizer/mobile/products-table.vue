@@ -1,21 +1,21 @@
 <template>
 <div>
 
-    <table class="table table-striped table-bordered" >
+    <table class="table  table-bordered" >
             <thead class="">
                 <th>Foto</th>
                 <th v-if="user && user.role_id < 3">Codigo</th>
-                <th class="nametd">Nombre</th>
+             <!--    <th class="nametd">Nombre</th> -->
                 <th colspan="2" class="text-center">Precio</th>
                 <!-- <th  class="">Llevando mas de</th> -->
                 <th class="">Quiero</th>
                 <th v-if="$mq == 'lg'" class="">Subtotal</th>
             </thead>
-            <tbody>
-                <tr is="productRow" v-for="product in filteredProducts" :key="product.code" :product="product">
+            
+                <tbody is="productRow" v-for="product in filteredProducts" :key="product.code" :product="product">
 
-                </tr>
-            </tbody>
+                </tbody>
+            
     </table>
       
 </div>

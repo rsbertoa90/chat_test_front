@@ -27,6 +27,12 @@ export default {
               this.$store.commit('setLoading',false);
               this.$store.commit('setFirstload');
            }, 100);
+
+           setTimeout(() => {
+              if (!this.admin && process.browser){
+                window.location.replace('/');
+              }
+           }, 600);
          
        }
 

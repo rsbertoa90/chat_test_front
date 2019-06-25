@@ -1,6 +1,6 @@
 <template>
-         <nav class="navbar row" :class="{'admin-nav-color':user && user.role_id < 3,
-                                        'bg-red':!user || user.role_id>2,
+         <nav class="navbar row" :class="{'admin-nav-color':admin,
+                                        'bg-red not-admin-nav':!admin,
                                         'hideoverflow':loading}" >
              <div class="col-2 p-0 m-0 row">
                 <nuxt-link class="navbar-brand col-7 " to="/">
@@ -130,7 +130,12 @@ export default {
     height:50px;
     overflow: hidden;
 }
+
+.not-admin-nav{
+    max-height: 80px;
+}
 .admin-nav-color{
+    max-height: 150px;
     background-color: blue;
 }
 .fa-icon{
@@ -167,7 +172,7 @@ export default {
     }
 
     .navbar{
-        max-height: 80px;
+        
         overflow: hidden;
         padding:0 .5rem 0 30px;
        /*  background-color: #D52B1E; */

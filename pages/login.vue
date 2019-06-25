@@ -56,7 +56,7 @@ export default {
     }
   },
   
-    layout:'admin',
+    layout:'default',
     name:'login',
      metaInfo(){return{
         title: 'Login'   }},

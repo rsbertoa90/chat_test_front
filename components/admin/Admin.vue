@@ -368,6 +368,9 @@ import paginator from './admin/paginator.vue';
         created(){
             this.refresh();
         },
+        beforeDestroy() {
+            this.$store.dispatch('fetchCategories');
+        },
        
     }
 </script>

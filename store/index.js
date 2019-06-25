@@ -136,7 +136,7 @@ export const getters = {
            state.categories.forEach(category => {
              category.products.forEach(product => {
 
-               if (product.offer) {
+               if (product.offer && !product.paused) {
                  prods.push(product);
                }
              });

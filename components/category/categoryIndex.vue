@@ -22,7 +22,7 @@
            <p> {{category.description |ucFirst}} </p>
         </div>
         <div class="col-12 mt-4 row">
-            <div class="col-12 col-lg-4 mt-2" v-for="p in category.products" :key="p.code">
+            <div class="col-12 col-lg-4 mt-2" v-for="p in notPaused(category)" :key="p.code">
                 <productCard class="border-grey" :product="p"></productCard>
             </div>
         </div>

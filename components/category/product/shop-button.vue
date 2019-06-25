@@ -11,9 +11,9 @@
                     <fa-icon icon="shopping-cart" class="bg-white text-red"></fa-icon>
             </div>
             <div class=" d-flex  justify-content-center units-control">
-                <button @click="units--" class="btn-red"> <fa-icon icon="minus"></fa-icon> </button>
-                <input type="text" v-model.lazy="units" class=" units-field">
-                <button @click="units++" class="btn-red"> <fa-icon icon="plus"></fa-icon> </button>
+                <button @click="product.units--" class="btn-red"> <fa-icon icon="minus"></fa-icon> </button>
+                <input type="text" v-model.lazy="product.units" class=" units-field">
+                <button @click="product.units++" class="btn-red"> <fa-icon icon="plus"></fa-icon> </button>
             </div>
                 
         </div>
@@ -24,22 +24,18 @@
 <script>
 export default {
     props:['product'],
-    data(){
-        return{
-            units:0
-        }
-    },
+   
     watch:{
-        units(){
-            if(this.units < this.minUnits){this.units = 0;}
-            this.product.units = this.units;
+        'product.units'(){
+            if(this.product.units < this.minUnits){this.product.units = 0;}
             this.$store.commit('setList',this.product);
             
         }
     },
     methods:{
         addFirstUnit(){
-           this.units=this.minUnits;
+            this.$set(this.product,'units',this.minUnits);
+            console.log(this.product.name,this.product.units);
         }
     },
     
@@ -48,7 +44,7 @@ export default {
             
             return (this.product.price > 0) ? 1 : this.product.pck_units ;
         }
-    },
+    }, 
     mounted(){
         if(this.product && !this.product.units)
         {

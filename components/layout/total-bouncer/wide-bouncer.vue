@@ -17,7 +17,7 @@
                             <tr v-for="product in list" :key="product.code">
                                 <td class="nametd">{{product.name}}</td>
                                 <td class="unitstd">{{product.units}}</td>
-                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="product.units=0"> <fa-icon icon="times"></fa-icon> </button> </td>
+                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="remove(product)"> <fa-icon icon="times"></fa-icon> </button> </td>
                             </tr>
                         </tbody>
                     </table>
@@ -37,6 +37,13 @@ export default {
     data(){return{
         desplegar:true,
     }},
+    methods:{
+        remove(p){
+            p.units = 0;
+            console.log(p.name,p.units)
+            this.$store.commit('setList',p);
+        }
+    },
    computed:{
        list(){
            return this.$store.getters.getList;

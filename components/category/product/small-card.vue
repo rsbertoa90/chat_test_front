@@ -21,8 +21,8 @@
                     itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     <div class="pck_price" >
-                        <div class="price-bg" itemprop="price">
-                            ${{product.pck_price | price}} C/U
+                        <div class="price-bg" >
+                            $<span itemprop="price">{{product.pck_price | price}}</span> C/U
                         </div>
                         <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
                     </div>                
@@ -33,15 +33,15 @@
                     itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     <div class="pck_price" >
-                        <div class="price-bg" itemprop="lowPrice">
-                            ${{product.pck_price | price}} C/U
+                        <div class="price-bg" >
+                            $<span itemprop="lowPrice">{{product.pck_price | price}}</span> C/U
                         </div>
                         <span class="min-sign" v-if="product.pck_price < product.price && product.pck_units > 1" > Más de {{product.pck_units}} unidades </span>
                     </div>
 
                     <div class="price" v-if="product.price > 0 && product.price != product.pck_price">
-                        <div class="price-bg" itemprop="highPrice">
-                            ${{product.price | price}} C/U
+                        <div class="price-bg" >
+                            $<span itemprop="highPrice">{{product.price | price}}</span> C/U
                         </div>
                     
                         <span class="min-sign" > Menos de {{product.pck_units}} unidades </span>

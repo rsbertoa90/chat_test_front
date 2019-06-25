@@ -65,13 +65,22 @@ export default {
         return{
             showModal : false,
             modalProduct:null,
-            units:null
+           
         }
     },
     watch:{
-        units(){
-            this.product.units = this.units;
+        'product.units'(){
+            if(this.product.units < this.minUnits)
+            {
+                this.product.units = 0;
+            }
             this.$store.commit('setList',this.product);
+        }
+    },
+    computed:{
+         minUnits(){
+            
+            return (this.product.price > 0) ? 1 : this.product.pck_units ;
         }
     },
      methods:{

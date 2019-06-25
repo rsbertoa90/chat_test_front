@@ -14,7 +14,7 @@
                     <tr v-for="product in list" :key="product.id">
                         <td> {{product.code}} </td>
                         <td> {{product.name}} </td>
-                        <td>  <input type="number" class="form-control" style="width:100px" v-model.lazy="product.units" > </td>
+                        <td>  <input type="number" class="form-control" style="width:100px" v-model.lazy="product.units" @change="updateList(product)" > </td>
                         <td v-if="product.units < product.pck_units"> ${{ product.price * product.units | price }} </td>
                         <td v-else> ${{ product.pck_price * product.units | price }} </td>
                         <td> <button class="btn btn-sm btn-outline-danger" @click="del(product)"> <fa-icon icon="times"></fa-icon> </button> </td>
@@ -39,9 +39,22 @@ export default {
        }
    },
     methods:{
+        getMinUnits(product){
+            return (product.price == 0) ? product.pck_units : 1 ;
+        },
+        updateList(product)
+        {
+            console.log(product.name,product.units)
+            if(product.units < this.getMinUnits(product))
+            {
+                swal('Cuidado:',`El mínimo de venta de ${product.name} es ${this.getMinUnits(product)} unidades`,'error');
+            }
+            this.$store.commit('setList',product);
+        },
         del(product)
         {
             product.units = 0;
+            this.$store.commit('setList',product);
           
         }
     }

@@ -7,7 +7,7 @@
 <style scoped lang="scss">
      .whatsapp{
         position:fixed;
-       width:260px;
+        width:260px;
         bottom:5px;
         left:15px;
         z-index:110;
@@ -17,6 +17,7 @@
         a{color:#D52B1E};
     }
     .fa-whatsapp{
+        max-width:25px;
       font-size: 1.3rem;
       color:#65BC54;
     }

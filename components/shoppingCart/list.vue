@@ -44,7 +44,7 @@ export default {
         },
         updateList(product)
         {
-            console.log(product.name,product.units)
+          //  console.log(product.name,product.units)
             if(product.units < this.getMinUnits(product))
             {
                 swal('Cuidado:',`El mínimo de venta de ${product.name} es ${this.getMinUnits(product)} unidades`,'error');

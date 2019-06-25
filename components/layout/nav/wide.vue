@@ -4,10 +4,10 @@
                                         'hideoverflow':loading}" >
              <div class="col-2 p-0 m-0 row">
                 <nuxt-link class="navbar-brand col-7 " to="/">
-                    <v-lazy-image  :src="imagePath('/storage/images/app/logo.png')" alt="Bazar Mayorista Maju" />
+                    <img  :src="imagePath('/storage/images/app/logo.png')" alt="Bazar Mayorista Maju" />
                 </nuxt-link>
                 <nuxt-link to="/carrito" class="carrito col-4" v-if="config && !config.maintenance">
-                            <fa-icon icon="shopping-cart"></fa-icon>
+                            <fa-icon icon="shopping-cart" class="fa-icon"  ></fa-icon>
                             <span class="nro-carrito" v-if="list">{{list.length}}</span>
                 </nuxt-link>
              </div>
@@ -15,7 +15,7 @@
              <div class="col-10 row">
                     <div class="col-12 d-flex justify-content-start pt-1">
                         <div class="nav-phone text-white">
-                            <fa-icon icon="phone"></fa-icon>
+                            <fa-icon icon="phone" ></fa-icon>
                             <span>11 27082683</span>
                         </div>
                         <search-bar></search-bar>
@@ -35,7 +35,7 @@
                           
                             <li class="nav-item text-white" v-if="config && !config.maintenance">
                                 <nuxt-link class="nav-link text-white" to="/cotizador">
-                                <fa-icon icon="shopping-cart"></fa-icon> Todos los productos <span class="sr-only">(current)</span>
+                                <fa-icon icon="shopping-cart" class="fa-icon"></fa-icon> Todos los productos <span class="sr-only">(current)</span>
                                 </nuxt-link>
                             </li>
                             <li class="nav-item text-white">
@@ -133,6 +133,9 @@ export default {
 .admin-nav-color{
     background-color: blue;
 }
+.fa-icon{
+    max-width:100px;
+}
 .nav-list{
        list-style: none;
     display: -webkit-box;
@@ -148,6 +151,8 @@ export default {
 .navbar-brand{
     margin-top:-5px;
     width:100%;
+    max-width: 100px;
+    overflow: hidden;
     img{
     
         width:100%;
@@ -162,6 +167,8 @@ export default {
     }
 
     .navbar{
+        max-height: 80px;
+        overflow: hidden;
         padding:0 .5rem 0 30px;
        /*  background-color: #D52B1E; */
         position:fixed;
@@ -170,7 +177,10 @@ export default {
         z-index:999;
           box-shadow: 2px 2px 5px #999;
     }
+svg{
+    max-width:60px;
 
+}
     .carrito{
         font-size:2rem;
         position:relative;

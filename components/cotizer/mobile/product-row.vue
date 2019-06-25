@@ -13,7 +13,7 @@
                     </td>
                     <td colspan="2" style="cursor:pointer" @click="show(product)">  {{product.name | ucFirst}} </td>
 
-                    <td rowspan="2"><input type="number" :min="getMin(product)" class="form-control" v-model.lazy="units">
+                    <td rowspan="2"><input type="number" :min="getMin(product)" class="form-control" v-model.lazy="product.units">
                         
                         <div v-if="$mq != 'lg' && product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
                             
@@ -72,7 +72,7 @@ export default {
         'product.units'(){
             if(this.product.units < this.minUnits)
             {
-                this.product.units = 0;
+                this.product.units = null;
             }
             this.$store.commit('setList',this.product);
         }
@@ -99,7 +99,7 @@ export default {
     
     },
     mounted(){
-       if(this.product && !this.product.units)
+       if(this.product && (!this.product.units || this.product.units == 0))
         {
             this.$set(this.product,'units',null);
         }

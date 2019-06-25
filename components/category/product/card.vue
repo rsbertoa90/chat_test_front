@@ -3,7 +3,7 @@
         class="d-flex flex-column align-items-center product-card  justify-content-between " 
         v-if="product"
         itemscope itemtype="http://schema.org/Product">
-        <nuxt-link :to="productUrl">
+        <nuxt-link :to="productUrl"  itemprop="url">
             <h2 v-show="!hideHead" class="text-center title"  itemprop="name">{{product.name | uc}}</h2>
         </nuxt-link>
         <div class="d-flex w-100">

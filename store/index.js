@@ -192,7 +192,7 @@ export const mutations = {
         //si esta digo que si existe,para no agregarlo de nuevo
         exists =true;
         //si units es cero lo saco de la lista
-        if (product.units < 1){
+        if (!product.units){
           state.list = state.list.filter(pr=>{
             return pr.id != product.id;
           });

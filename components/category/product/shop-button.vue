@@ -35,7 +35,7 @@ export default {
     methods:{
         addFirstUnit(){
             this.$set(this.product,'units',this.minUnits);
-            console.log(this.product.name,this.product.units);
+           // console.log(this.product.name,this.product.units);
         }
     },
     

@@ -2,12 +2,12 @@
     <div v-if="offers && offers[selected]" class="slider-container">
          <no-ssr>
 
-            <nuxt-link to="/ofertas" class="overflow-hidden">
+            <div class="overflow-hidden">
                     <transition leave-active-class="position-absolute animated slideOutRight">
                             <offerCard v-if="$mq=='lg'" :product="offers[selected]" :key="offers[selected].name" class="bg-white"></offerCard>
                             <small-card v-else :product="offers[selected]" :key="offers[selected].name" class="bg-white"></small-card>
                     </transition>
-            </nuxt-link>
+            </div>
          </no-ssr>
     </div>
 </template>

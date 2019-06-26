@@ -1,6 +1,9 @@
 <template>
 <div v-if="product" class="row">
     <div class="col-12  row p-0 m-0">    
+        <div class="col-12 text-right">
+            <h2 class="category-name text-secondary"> {{category.name | ucFirst}} </h2>
+        </div>
         <div class="red-ribbon col-12" v-if="$mq == 'lg'">
            
             <h1  class=" font-weight-bold" >
@@ -135,6 +138,12 @@ export default {
 
 
 <style lang="scss" scoped>
+
+
+.category-name{
+    font-size: 1.1rem;
+   
+}
 
 .descri{
     font-size:1.3rem;

@@ -7,7 +7,7 @@
         <div class="d-flex w-100 flex-column">
             
             <div class="image-container" @click="show" itemprop="image" >
-                <v-lazy-image :src-placeholder="noImage" itemprop="url" :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
+                <v-lazy-image :src-placeholder="loadingImage"  itemprop="url" :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
                 <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer && config && !config.maintenance">
                     <v-lazy-image :src="imagePath('/storage/images/app/oferta.png')" alt="oferta"></v-lazy-image>
                 </div>

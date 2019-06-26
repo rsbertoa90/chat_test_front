@@ -69,6 +69,9 @@ Vue.mixin({
        {
         return this.imagePath('/storage/images/app/no-image.png');
        },
+       loadingImage(){
+         return this.imagePath('/storage/images/app/loading-image.jpg');
+       },
        config(){
         return this.$store.getters.getConfig;
        },

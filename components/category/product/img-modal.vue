@@ -9,7 +9,7 @@
                 </div>
 
                 <div v-else>
-                    <v-lazy-image :src="imagePath(product.images[0])" :src-placeholder="noImage"></v-lazy-image>
+                    <v-lazy-image :src="imagePath(product.images[0])" :src-placeholder="loadingImage" ></v-lazy-image>
                 </div>
             </div>
         </modal>

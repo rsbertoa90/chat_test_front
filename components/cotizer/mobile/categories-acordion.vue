@@ -9,7 +9,7 @@
                                 
                                 <div class="d-flex align-items-center">
                                     <div class="category-image-container ml-lg-2">
-                                        <v-lazy-image v-if="category.image" :src="imagePath(category.image)" :src-placeholder="noImage"
+                                        <v-lazy-image v-if="category.image" :src="imagePath(category.image)" :src-placeholder="loadingImage" 
                                         :alt="category.name" class="category-image">
                                         </v-lazy-image>
                                     </div>

@@ -9,7 +9,7 @@
                 <nuxt-link class="d-flex align-items-center" :to="category.slug">
 
                     <div class="img-container" v-if="category.image" >
-                        <v-lazy-image :src="imagePath(category.image)" :src-placeholder="noImage" :alt="category.name"></v-lazy-image>
+                        <v-lazy-image :src="imagePath(category.image)" :src-placeholder="loadingImage"  :alt="category.name"></v-lazy-image>
                     </div>
                     <span class="ml-1">
                         {{category.name}}

@@ -2,9 +2,10 @@
     <tbody v-if="product" >
         <tr>
                     <td rowspan="2" width="10%" @click="show(product)"> 
-                        <v-lazy-image v-if="product.images && product.images.length > 0" 
+                        
+                        <v-lazy-image v-if="product.sample_image" 
                                     class="sampleImage" 
-                                    :src="imagePath(product.images[0])"
+                                    :src="imagePath(product.sample_image)"
                                     :src-placeholder="loadingImage" 
                                     :alt="product.name" />
                         <v-lazy-image v-else :alt="product.name" 

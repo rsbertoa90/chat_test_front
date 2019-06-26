@@ -10,7 +10,12 @@ export default {
     components:{appcategory},
     layout:'categories',
     head() {
+          let canonical =this.backendpath+this.$route.path;
+        //console.log(canonical);
         return {
+              link:[
+                {rel:'canonical',href:canonical}
+            ],
             titleTemplate: this.metatitle,
             meta: [
                 { name: 'description', content: this.metadescription, hid:'description' }

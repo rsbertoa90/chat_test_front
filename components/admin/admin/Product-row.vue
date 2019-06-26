@@ -143,14 +143,14 @@ export default {
                 this.$emit('refresh');
             },
             saveChange(product,field){
-                if(this.validate()){
+                
                     var data = {
                         product : product.id,
                         field : field,
                         value : product[field]
                     }
                    this.$axios.put('/product',data);
-                }
+                
               
             },
             togglePause(product){

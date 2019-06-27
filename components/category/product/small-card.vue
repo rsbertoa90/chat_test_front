@@ -83,10 +83,12 @@ export default {
         }
     },
     methods:{
-         show(){
-               this.showModal = true;
-             
-             
+        show(){
+            if(this.$router.path.includes(this.product.slug) ){
+                this.showModal = true;
+            }else{
+                this.$router.push(this.productSlug(this.product));
+            }
         },
        
     },

@@ -7,7 +7,7 @@
                                
                                 @click="setSelected(category)">
                                 
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center" :ref="`ref-c${category.id}`">
                                     <div class="category-image-container ml-lg-2">
                                         <v-lazy-image v-if="category.image" :src="imagePath(category.image)" :src-placeholder="loadingImage" 
                                         :alt="category.name" class="category-image">
@@ -45,7 +45,30 @@ export default {
         }
     },
     methods:{
+         getOffsetTop( elem )
+        {
+            var offsetTop = 0;
+            do {
+            if ( !isNaN( elem.offsetTop ) )
+            {
+                offsetTop += elem.offsetTop;
+            }
+            } while( elem = elem.offsetParent );
+            //console.log(offsetTop);
+            return offsetTop - 80;
+        },
         setSelected(c){
+            //scroll category acordion head to top
+            if(process.browser){
+
+                let ref = `ref-c${c.id}`;
+                let el = this.$refs[ref];
+                //console.log(el[0].scrollTop);
+                let top = this.getOffsetTop(el[0]);
+                window.scroll(0,top);
+               
+            }
+
             if(this.selectedCategory == c.id)
             {
                 this.selectedCategory = null;

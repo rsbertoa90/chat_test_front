@@ -7,7 +7,10 @@
                                     class="sampleImage" 
                                     :src="imagePath(product.sample_image)"
                                     :src-placeholder="loadingImage" 
-                                    :alt="product.name" />
+                                    :alt="product.name"
+                                    @intersect="intersect"
+                                    @load="loaded" />
+
                         <v-lazy-image v-else :alt="product.name" 
                                     :src="noImage" /> 
                                     
@@ -94,6 +97,12 @@ export default {
         }
     },
      methods:{
+         intersect(){
+           // console.log('intersecccted');
+         },
+         loaded(){
+           //  console.log('loaded');
+         },
         getMin(product){
             return product.price == 0 ? product.pck_units : 1;
         },

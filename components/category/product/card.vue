@@ -98,7 +98,9 @@ export default {
     }, 
     methods:{
         show(){
-            if(this.$router.path.includes(this.product.slug) ){
+           
+           
+            if(this.$route.path.includes(this.product.slug) ){
                 this.showModal = true;
             }else{
                 this.$router.push(this.productSlug(this.product));

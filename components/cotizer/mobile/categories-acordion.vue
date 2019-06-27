@@ -59,15 +59,7 @@ export default {
         },
         setSelected(c){
             //scroll category acordion head to top
-            if(process.browser){
-
-                let ref = `ref-c${c.id}`;
-                let el = this.$refs[ref];
-                //console.log(el[0].scrollTop);
-                let top = this.getOffsetTop(el[0]);
-                window.scroll(0,top);
-               
-            }
+          
 
             if(this.selectedCategory == c.id)
             {
@@ -75,6 +67,17 @@ export default {
             }else{
                 this.selectedCategory = c.id;
             }
+            setTimeout(() => {
+                if(process.browser){
+    
+                    let ref = `ref-c${c.id}`;
+                    let el = this.$refs[ref];
+                    //console.log(el[0].scrollTop);
+                    let top = this.getOffsetTop(el[0]);
+                    window.scroll(0,top);
+                   
+                }
+            }, 150);
         },
         hasNotPausedProducts(category){
             let res = category.products.filter(p => {

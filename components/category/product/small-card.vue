@@ -84,13 +84,13 @@ export default {
     },
     methods:{
         show(){
+             this.showModal = true;
            
-           
-            if(this.$route.path.includes(this.product.slug) ){
-                this.showModal = true;
+         /*    if(this.$route.path.includes(this.product.slug) ){
+              
             }else{
                 this.$router.push(this.productSlug(this.product));
-            }
+            } */
         },
        
     },

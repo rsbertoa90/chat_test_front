@@ -99,12 +99,12 @@ export default {
     methods:{
         show(){
            
-           
-            if(this.$route.path.includes(this.product.slug) ){
+             this.showModal = true;
+         /*    if(this.$route.path.includes(this.product.slug) ){
                 this.showModal = true;
             }else{
                 this.$router.push(this.productSlug(this.product));
-            }
+            } */
         },
       
     },

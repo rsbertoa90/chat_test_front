@@ -3,15 +3,19 @@
         <tr>
                     <td rowspan="2" width="10%" @click="show(product)"> 
                         
-                        <v-lazy-image v-if="product.sample_image" 
+                        <!-- <v-lazy-image v-if="product.sample_image" 
                                     class="sampleImage" 
                                     :src="imagePath(product.sample_image)"
                                     :src-placeholder="loadingImage" 
                                     :alt="product.name"
                                     @intersect="intersect"
-                                    @load="loaded" />
+                                    @load="loaded" /> -->
+                        <img v-if="product.sample_image" 
+                                    class="sampleImage" 
+                                    :src="imagePath(product.sample_image)"
+                                    :alt="product.name" /> 
 
-                        <v-lazy-image v-else :alt="product.name" 
+                        <img v-else :alt="product.name" 
                                     :src="noImage" /> 
                                     
                     </td>
@@ -29,8 +33,8 @@
                         <input type="number" :min="getMin(product)" class="form-control" v-model="product.units">
                         
                         <div class="controls">
-                            <button class="btn-sm btn-danger btn-circle" @click="product.units--"><fa-icon icon="minus"></fa-icon></button>
-                            <button class="btn-sm btn-success btn-circle" @click="product.units++"><fa-icon icon="plus"></fa-icon></button>
+                            <button class="btn-sm btn-danger btn-circle" @click="removeUnit"><fa-icon icon="minus"></fa-icon></button>
+                            <button class="btn-sm btn-success btn-circle" @click="addUnit"><fa-icon icon="plus"></fa-icon></button>
                         </div>
 
                        
@@ -97,6 +101,21 @@ export default {
         }
     },
      methods:{
+         addUnit(){
+             if (!this.product.units || this.product.units < 1)
+             {
+                 this.product.units = this.minUnits;
+             }else{
+                 this.product.units++;
+             }
+         },
+         removeUnit(){
+             this.product.units--;
+             if (this.product.units < this.minUnits)
+             {
+                 this.product.units = null;
+             }
+         },
          intersect(){
            // console.log('intersecccted');
          },

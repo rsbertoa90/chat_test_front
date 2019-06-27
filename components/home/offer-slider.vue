@@ -2,11 +2,15 @@
     <div v-if="offers && offers[selected]" class="slider-container">
          <no-ssr>
 
-            <div class="overflow-hidden">
-                    <transition leave-active-class="position-absolute animated slideOutRight">
+            <div class="overflow-hidden relative" v-touch:tap="touchListener" v-touch:swipe.left="swipeL" v-touch:swipe.right="swipeR">
+                    <transition :leave-active-class="`position-absolute animated ${direction}`">
                             <offerCard v-if="$mq=='lg'" :product="offers[selected]" :key="offers[selected].name" class="bg-white"></offerCard>
                             <small-card v-else :product="offers[selected]" :key="offers[selected].name" class="bg-white"></small-card>
                     </transition>
+                    <div class="controls" v-if="offers && offers.length > 1 && touched">
+                        <span class="arrow-control" @click="swipeL"><fa-icon icon="chevron-left"></fa-icon></span>
+                        <span class="arrow-control" @click="swipeR"><fa-icon icon="chevron-right"></fa-icon></span>
+                    </div>
             </div>
          </no-ssr>
     </div>
@@ -20,11 +24,40 @@ export default {
     components:{offerCard,smallCard},
     data(){
         return{
-     
+            interval:null,
             selected: 0,
+            touched:false,
+            direction:'slideOutRight'
         }
     },
     methods:{
+        swipeL(){
+           // console.log('swipel')
+            this.direction='slideOutLeft';
+            if (!this.touched)
+            {
+                this.touchListener();
+            }
+                this.selected--;
+        },
+        swipeR(){
+            this.direction='slideOutRight';
+            //console.log('swiper')
+              if (!this.touched)
+            {
+                this.touchListener();
+            }
+                this.selected++;
+        },
+        touchListener(){
+           // console.log('touch')
+            if(!this.touched){
+                this.touched=true;
+               clearInterval(this.interval);
+               this.interval=null;
+            }
+
+        },
         getSlug(product)
         {
             return this.$store.getters.getProductSlug(product);
@@ -37,7 +70,7 @@ export default {
     },
     mounted(){
         if(process.browser){
-            setInterval(()=>{
+            this.interval = setInterval(()=>{
                 this.selected++
     
             },5000);
@@ -47,6 +80,7 @@ export default {
         selected()
         {
             if(process.browser){
+            console.log(this.selected);
 
                 if (this.selected < 0){this.selected = this.offers.length-1;}
                 else if (this.selected >= this.offers.length){this.selected=0;}
@@ -60,11 +94,35 @@ export default {
 
 
 <style lang="scss" scoped>
+.relative{
+    position:relative;
+}
+
+.controls{
+    position:absolute;
+    display: flex;
+    justify-content: space-between;
+    width:100%;
+    top:37%;
+    left:0;
+    .arrow-control{
+        color:#fff;
+        cursor: pointer;
+        font-size: 2rem;
+        width:40px;
+        height: 40px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        border-radius:50%;
+        background-color: #666e;
+    }
+}
 img{
     width:100%;
    
 }
-.slideOutRight{
+.slideOutRight, .slideOutLeft{
     z-index: 900;
     margin-top:-10px;
     }

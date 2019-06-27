@@ -121,6 +121,7 @@ export default {
     './plugins/filters.js',
     './plugins/v-click-outside.js',
     './plugins/faicons.js',
+    {src:'./plugins/v-touch-events.js', ssr:false},
     {src:'./plugins/swal.js', ssr:false},
     {src:'./plugins/lodash.js', ssr:false},
     {src:'./plugins/awesome-swiper.js', ssr:false},

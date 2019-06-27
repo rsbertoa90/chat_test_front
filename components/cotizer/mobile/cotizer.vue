@@ -29,7 +29,7 @@
         <categories-acordion v-if="searchTerm.trim().length < 3"></categories-acordion>
         
         
-         <div class="row" v-if="searchTerm.trim().length > 2 ">
+         <div class="row" v-if="searchTerm.trim().length > 2 && paginatedProducts ">
             <paginator class="col-12"
                             :selectedPage="selectedPage"   
                             :products="filteredProducts" 

@@ -3,6 +3,7 @@
 
     <div v-if="scrolled && !v" class="overlay">
         <div class="image-container">
+             <button class="btn btn-danger close-btn"  @click="setViewed"> <fa-icon icon="times"></fa-icon> </button>
             <v-lazy-image :src="imagePath(imagesrc)"></v-lazy-image>
             <transition enter-active-class=" animated slideInUp">
                 <div  v-if="enterhand" class="animation "
@@ -21,7 +22,7 @@
                         <span>Haz Click en una categoria para desplegar los productos</span>
                     </div>
         </transition>
-        <button class="btn btn-block btn-danger" style="max-width:400px"  @click="setViewed"> Cerrar </button>
+       
     </div>
 </transition>
 </template>
@@ -77,9 +78,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btn-danger{
-    width:80%;
-    font-size:1.3rem;
+.close-btn{
+    width:60px;
+    height: 60px;
+    position:absolute;
+    top:0;
+    right:0;
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px;
+    font-size:2rem;
+    z-index:200;
 }
     .redcircle{
         display:flex;

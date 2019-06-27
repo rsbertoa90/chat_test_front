@@ -29,9 +29,12 @@ export default {
    
     computed:{
         filteredProducts(){
-            return this.products.filter(p=> {
-                return !p.paused;
-            })
+            if(this.products){
+
+                return this.products.filter(p=> {
+                    return !p.paused;
+                })
+            }
         }
     },
    

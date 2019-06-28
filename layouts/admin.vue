@@ -28,15 +28,15 @@ export default {
               this.$store.commit('setFirstload');
            }, 100);
 
-           setTimeout(() => {
-              if (!this.admin && process.browser){
-                window.location.replace('/');
-              }
-           }, 600);
          
        }
 
        
+             setTimeout(() => {
+                if (!this.admin){
+                  window.location.replace('/');
+                }
+             }, 600);
 
         
      }

@@ -5,7 +5,7 @@
             <nuxt />
         </no-ssr>
         
-          <apploading v-if="loading"></apploading>
+                 <apploading v-if="loading || firstload"></apploading>
      
     </div>
 </template>
@@ -18,25 +18,26 @@ export default {
   computed:{
     loading(){
       return this.$store.getters.getLoading;
-    }
+    },
+    
   },
    mounted(){
-         if(this.$store.getters.getLoading && this.firstload){
-         //  console.log('quitar loading');
-           setTimeout(() => {
-              this.$store.commit('setLoading',false);
-              this.$store.commit('setFirstload');
-           }, 100);
-
+        if(this.$store.getters.getLoading || this.firstload){
          
-       }
-
-       
-             setTimeout(() => {
-                if (!this.admin){
-                  window.location.replace('/');
-                }
-             }, 600);
+          
+              this.$store.commit('setFirstload');
+         
+         }
+  
+            
+        if (!this.admin){
+          window.location.replace('/');
+        }else{
+          if(!this.orders || (typeof this.orders[0] == 'undefined'))
+          {
+            this.$store.dispatch('fetchOrders');
+          }
+        }
 
         
      }

@@ -3,11 +3,11 @@
         <div class="date-selectors w-100 d-flex">
                 <div class="d-flex flex-column">
                     <label>Fecha desde</label>
-                    <v-datepicker v-model="startDate" :lang="es"></v-datepicker>
+                    <v-datepicker v-model="startDate" lang="es"></v-datepicker>
                 </div>
                 <div class="d-flex flex-column">
                     <label>Fecha hasta</label>
-                    <v-datepicker v-model="endDate" :lang="es"></v-datepicker>
+                    <v-datepicker v-model="endDate" lang="es"></v-datepicker>
                 </div>
                 <div class="d-flex align-items-end font-weight-bold" >
                     <div v-if="totalorders" class="ml-4">
@@ -48,20 +48,19 @@
 
 <script>
 
-import Datepicker from 'vuejs-datepicker';
 import detailorder from './detail.vue'
-import { es } from 'vuejs-datepicker/dist/locale'
+
 import datamixin from '../../datamixin.js';
 export default {
     mixins:['datamixin'],
      components:{
-        'v-datepicker':Datepicker,
+      
         'detail':detailorder,
     },
     data(){
         return{
             selected:null,
-            es:es,
+       
             history:null,
             startDate:new Date(new Date().getFullYear(), new Date().getMonth(), 1),
             endDate: new Date(),

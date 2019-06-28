@@ -17,7 +17,9 @@ Vue.filter('text', value => {
 Vue.filter('datetime', val => {
 
     let date = new Date(val);
-    let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ' / ' + date.getHours() + ":" + date.getMinutes()
+    let minuts = date.getMinutes();
+    if (minuts < 10){minuts = `0${minuts}`}
+    let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ' / ' + date.getHours() + ":" + minuts
     return formatted_date;
   
 });

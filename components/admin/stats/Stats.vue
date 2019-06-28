@@ -31,8 +31,24 @@ export default {
             display:'month'
         }
     },
+    computed:{
+        orders(){
+            return this.$store.getters.getOrders;
+        }
+    },
+     watch:{
+       orders(){
+          if(this.orders && this.orders.length > 0){
+               
+               this.$store.commit('setLoading',false);
+           }
+       }
+   },
     mounted(){
         window.moment = require('moment');
+         if(!this.orders || this.orders.length < 1){
+               this.$store.commit('setLoading',true);
+           }
     }
 }
 </script>

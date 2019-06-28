@@ -119,12 +119,16 @@ export default {
     './plugins/datamixin.js',
     './plugins/v-lazy-image.js',
     './plugins/filters.js',
-    './plugins/v-click-outside.js',
     './plugins/faicons.js',
+    {
+      src: './plugins/v-click-outside.js',
+      ssr: false
+    },
     {src:'./plugins/v-touch-events.js', ssr:false},
     {src:'./plugins/swal.js', ssr:false},
     {src:'./plugins/lodash.js', ssr:false},
     {src:'./plugins/awesome-swiper.js', ssr:false},
+    {src:'./plugins/datepicker.js', ssr:false},
     { src: '@/plugins/ga.js', ssr: false }
   ],
 

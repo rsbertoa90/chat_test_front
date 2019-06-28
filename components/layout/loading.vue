@@ -1,7 +1,7 @@
 <template>
-    <div class="overlay" v-if="loading">
+    <div class="overlay" v-if="loading || firstload">
         <div class="dot-container">
-            <dot-loader :loading="loading" size="200px"></dot-loader>
+            <dot-loader :loading="loading || firstload" size="200px"></dot-loader>
         </div>
     </div>
 </template>

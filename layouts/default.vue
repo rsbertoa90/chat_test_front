@@ -21,7 +21,7 @@
         <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer>
 
          
-            <apploading v-if="loading"></apploading>
+            <apploading v-if="loading || firstload"></apploading>
         
     </div>
 </template>
@@ -48,12 +48,12 @@ export default {
         }
     },
       mounted(){
-     
-         if(this.$store.getters.getLoading && this.firstload){
-           setTimeout(() => {
-              this.$store.commit('setLoading',false);
+        console.log(this.firstload);
+         if(this.$store.getters.getLoading || this.firstload){
+         
+          
               this.$store.commit('setFirstload');
-           }, 100);
+         
          }
        
 

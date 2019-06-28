@@ -11,22 +11,22 @@
         <div class="bottom-space"></div>
       </div>
        
+            <apploading v-if="loading || firstload"></apploading>
     </div>
 </template>
 
 <script>
-
+import apploading from '@/components/layout/loading.vue';
 import navbar from '@/components/layout/Navbar.vue'
 /* import totalBouncer from '@/components/total-bouncer/total-bouncer.vue'; */
 export default {
-  components:{navbar},
+  components:{navbar,apploading},
    mounted(){
-      
-         if(this.$store.getters.getLoading && this.firstload){
-           setTimeout(() => {
-              this.$store.commit('setLoading',false);
+       if(this.$store.getters.getLoading || this.firstload){
+         
+          
               this.$store.commit('setFirstload');
-           }, 100);
+         
          }
        
    }

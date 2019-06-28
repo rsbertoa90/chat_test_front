@@ -1,23 +1,6 @@
 <template>
     <div class="containing p-4">
-       <!--  <div class="date-selectors w-100 d-flex">
-            <div class="d-flex flex-column">
-                <label>Fecha desde</label>
-                <v-datepicker v-model="startDate" :lang="es"></v-datepicker>
-            </div>
-            <div class="d-flex flex-column">
-                <label>Fecha hasta</label>
-                <v-datepicker v-model="endDate" :lang="es"></v-datepicker>
-            </div>
-            <div class="d-flex align-items-end font-weight-bold" >
-                <div v-if="totalorders" class="ml-4">
-                   Pedidos: {{totalorders}}
-                </div>
-                <div v-if="totalmoney" clasS="ml-4">
-                   Total: ${{totalmoney | price}}
-                </div>
-            </div>
-        </div> -->
+     
         <table class="table table-striped ml-4">
             <thead>
                 <th> Fecha </th>
@@ -41,17 +24,11 @@
 
 <script>
 
-import Datepicker from 'vuejs-datepicker';
-import { es } from 'vuejs-datepicker/dist/locale'
-import datamixin from '../../datamixin.js';
 export default {
-    mixins:['datamixin'],
-     components:{
-        'v-datepicker':Datepicker
-    },
+   
     data(){
         return{
-            es:es,
+          
             history:null,
             startDate:new Date(2018,1,1),
             endDate: new Date(),
@@ -67,11 +44,7 @@ export default {
             }
         }
     },
-    mounted(){
-        if(!this.$store.orders || this.$store.orders.length < 1){
-            this.$store.dispatch('fetchOrders');
-        }
-    },
+    
     computed:{
         totalorders(){
             let res = 0;

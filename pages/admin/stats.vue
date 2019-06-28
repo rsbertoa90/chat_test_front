@@ -7,6 +7,7 @@ import adminStats from '@/components/admin/stats/Stats.vue';
 export default {
     layout:'admin',
     middleware:'checkAdmin',
-    components:{adminStats}
+    components:{adminStats},
+    name:'adminstats'
 }
 </script>

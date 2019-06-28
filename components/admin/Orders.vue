@@ -126,14 +126,26 @@ export default {
             this.selected = null;
         }
     },
-   
+    mounted(){
+         if(!this.orders || this.orders.length < 1){
+               this.$store.commit('setLoading',true);
+           }
+    },
+   watch:{
+       orders(){
+          if(this.orders && this.orders.length > 0){
+               
+               this.$store.commit('setLoading',false);
+           }
+       }
+   },
     computed : {
         orders(){
             return this.$store.getters.getOrders;
         }
         ,
         filteredOrders(){
-            if(this.orders){
+            if(this.orders == undefined || this.orders.length > 0 || (typeof this.orders[0] == 'undefined') ){
 
                 var vm = this;
                /*  console.log(this.orders); */
@@ -157,23 +169,7 @@ export default {
             }
         }
     },
-  mounted(){
-
-       if(this.admin){
-
-         if (!this.orders || !this.orders.length) {
-           setTimeout(() => {
-             //this.$store.commit('setLoading', true);
-             this.$store.dispatch('fetchOrders')
-               .then(r => {
-                 setTimeout(() => {
-                   this.$store.commit('setLoading', false);
-                 }, 200);
-               });
-           }, 200);
-          }
-        }
-  }
+  
     
     
 }

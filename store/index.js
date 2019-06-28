@@ -217,7 +217,7 @@ export const mutations = {
     state.tutoSeen =true;
   },
   setFirstload(state){
-    state.firstload =false;
+    state.firstload = false;
   },
   updateProduct(state,payload){
     state.categories.forEach(c => {
@@ -324,7 +324,7 @@ export const actions = {
        await dispatch('fetchConfig');
        await dispatch('fetchMeta'); 
       await dispatch('fetchStates');
-       //commit('setLoading',false);
+       commit('setLoading',false);
        
     },
 
@@ -364,9 +364,11 @@ export const actions = {
     },
   
     async fetchOrders({commit}){
-        await this.$axios.get('/orders')
-        .then(r=>{
-            commit('setOrders',r.data);
+      //commit('setLoading',true);
+      await this.$axios.get('/orders')
+      .then(r=>{
+        commit('setOrders',r.data);
+        //commit('setLoading',false);
         });   
     },
 

@@ -7,6 +7,7 @@ import adminSearchs from '@/components/admin/search-statics/Search-statics.vue';
 export default {
     layout:'admin',
     middleware:'checkAdmin',
-    components:{adminSearchs}
+    components:{adminSearchs},
+     name:'adminsearches'
 }
 </script>

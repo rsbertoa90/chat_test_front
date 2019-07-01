@@ -8,7 +8,7 @@
             
             <div class="image-container" @click="show" itemprop="image" >
                  <div class="unit-price" v-if="product.unit_price">
-                        $ <span>{{product.unit_price}}</span> C/U
+                        $ <span>{{product.unit_price | price}}</span> C/U
                 </div>
                 <v-lazy-image :src-placeholder="loadingImage"  itemprop="url" :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
                 <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer && config && !config.maintenance">

@@ -5,7 +5,7 @@
                 <h4 class="m-auto text-center">{{product.name}}</h4>
                 <div class="relative">
                     <div class="unit-price" v-if="product.unit_price">
-                        ${{product.unit_price}} C/U
+                        ${{product.unit_price |price}} C/U
                     </div>
                     <div v-if="product.images && product.images.length > 1">
                         <bulletSwiper :images="product.images"></bulletSwiper>

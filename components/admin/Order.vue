@@ -46,37 +46,40 @@
                 <span v-if="order.comments"
                         class="mt-2"> -- {{order.comments}} -- </span>
             </div>
-            <table class="table table-striped table-bordered mt-3">
-            <thead>
-                <tr>
-                    <th>Codigo</th>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="op in order.order_products"
-                    :key="'op'+op.product.id">
-                    <td> {{op.product.code}} </td>
-                    <td> {{op.product.name}} </td>
-                    <td> ${{op.price | price}} </td>
-                    <td> {{op.units}} </td>
-                    <td> ${{op.units * op.price | price}} </td>
-                </tr>
-            
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td style="color : blue">TOTAL</td>
-                    <td style="color : blue"> ${{total | price}} </td>
-                    </tr>
-            </tfoot>
-        </table>
+            <div class="table-container">
+                
+                    <table class="table table-striped table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="op in order.order_products"
+                                :key="'op'+op.product.id">
+                                <td> {{op.product.code}} </td>
+                                <td> {{op.product.name}} </td>
+                                <td> ${{op.price | price}} </td>
+                                <td> {{op.units}} </td>
+                                <td> ${{op.units * op.price | price}} </td>
+                            </tr>
+                        
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color : blue">TOTAL</td>
+                                <td style="color : blue"> ${{total | price}} </td>
+                                </tr>
+                        </tfoot>
+                </table>
+            </div>
         </div>
         <div>
                 <ul>
@@ -167,3 +170,9 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+    .table-container{
+        width:100%;
+        overflow-x:scroll;
+    }
+</style>

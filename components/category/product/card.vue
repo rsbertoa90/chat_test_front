@@ -24,7 +24,7 @@
                     <meta itemprop="priceCurrency" content="ARS" />
                     
                     <div class="unit-price">
-                        $ <span>{{product.unit_price}}</span> C/U
+                        $ <span>{{product.unit_price |price}}</span> C/U
                     </div>
                     
                     <div class="pck_price mt-4" >

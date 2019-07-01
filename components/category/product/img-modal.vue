@@ -44,6 +44,7 @@ export default {
     color:#555;
     border-radius: 5px;
     box-shadow: 1px 1px 1px #000;
+    z-index: 20;
     &:hover{
         color:#D52B1E;
     }
@@ -63,5 +64,6 @@ export default {
     top:0;
     right:0;
         box-shadow: 2px 2px 2px #000;
+        z-index: 20;
     }   
 </style>

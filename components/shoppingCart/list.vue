@@ -15,7 +15,7 @@
                         <td> {{product.code}} </td>
                         <td> {{product.name}} </td>
                         <td>  <input type="number" class="form-control" style="width:100px" v-model.lazy="product.units" @change="updateList(product)" > </td>
-                        <td v-if="product.units < product.pck_units"> ${{ product.price * product.units | price }} </td>
+                        <td v-if="!product.unit_price && product.price > 0 && product.units < product.pck_units"> ${{ product.price * product.units | price }} </td>
                         <td v-else> ${{ product.pck_price * product.units | price }} </td>
                         <td> <button class="btn btn-sm btn-outline-danger" @click="del(product)"> <fa-icon icon="times"></fa-icon> </button> </td>
                     </tr>
@@ -40,7 +40,7 @@ export default {
    },
     methods:{
         getMinUnits(product){
-            return (product.price == 0) ? product.pck_units : 1 ;
+            return (!product.unit_price && product.price == 0) ? product.pck_units : 1 ;
         },
         updateList(product)
         {

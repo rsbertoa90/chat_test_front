@@ -23,7 +23,7 @@
                     itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     
-                    <div class="unit-price">
+                    <div class="unit-price" :class="{'unit-price-product-page':isProductPage}">
                         $ <span>{{product.unit_price |price}}</span> C/U
                     </div>
                     
@@ -127,6 +127,9 @@ export default {
       
     },
     computed:{
+        isProductPage(){
+            return (this.$route.params.product) ? true : false;
+        },
         productUrl(){
             let cats = this.$store.getters.getCategories;
             let category = cats.find(c => {
@@ -275,6 +278,9 @@ export default {
             right:20px;
             box-shadow: 2px 2px 2px #000;
         }   
-    
+
+        .unit-price-product-page{
+            top:5%;
+        }
 
 </style>

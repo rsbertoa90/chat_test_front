@@ -4,7 +4,17 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods:{
-      
+      downloadImage(image)
+      {
+        if(image && image.url)
+        {
+          if(process.browser){
+            let path= this.backendpath+'/download-image/'+image.id;
+            var win = window.open(path, '_blank');
+            win.focus();
+          }
+        }
+      },
       notPaused(category){
         return category.products.filter(p=>{
           return !p.paused;

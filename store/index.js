@@ -173,7 +173,7 @@ export const mutations = {
       state.list.forEach(product => {
         //console.log(product.units);
           if (product.units > 0) {
-            if (product.units >= product.pck_units){
+            if (product.units >= product.pck_units || product.unit_price){
               tot += product.pck_price * product.units;
             }else{
               tot += product.price * product.units

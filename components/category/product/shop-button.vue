@@ -41,8 +41,8 @@ export default {
     
     computed:{
         minUnits(){
+                return (this.product.unit_price || this.product.price > 0) ? 1 : this.product.pck_units ;
             
-            return (this.product.price > 0) ? 1 : this.product.pck_units ;
         }
     }, 
     mounted(){

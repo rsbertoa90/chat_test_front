@@ -80,7 +80,7 @@ export default {
         selected()
         {
             if(process.browser){
-            console.log(this.selected);
+            //console.log(this.selected);
 
                 if (this.selected < 0){this.selected = this.offers.length-1;}
                 else if (this.selected >= this.offers.length){this.selected=0;}

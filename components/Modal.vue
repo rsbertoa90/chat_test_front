@@ -62,7 +62,7 @@ export default {
         top:90px;
         left:50%;
         margin-left:-223px;
-        z-index:90;
+        z-index:990;
        /*  margin-top:100px; */
         width: 447px;
         

@@ -7,6 +7,9 @@
         <div class="d-flex w-100 flex-column">
             
             <div class="image-container" @click="show" itemprop="image" >
+                 <div class="unit-price" v-if="product.unit_price">
+                        $ <span>{{product.unit_price}}</span> C/U
+                </div>
                 <v-lazy-image :src-placeholder="loadingImage"  itemprop="url" :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
                 <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer && config && !config.maintenance">
                     <v-lazy-image :src="imagePath('/storage/images/app/oferta.png')" alt="oferta"></v-lazy-image>
@@ -16,32 +19,48 @@
             
              <div v-if="config && !config.maintenance">  
                 
+                <!-- Venta por bulto -->
+                <div  v-if="product.unit_price" class="prices-container"  
+                    itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                    <meta itemprop="priceCurrency" content="ARS" />
+                     
+                    <div class="pck_price mt-4" >
+                        <div class="price-bg" >
+                            $<span itemprop="price">{{product.pck_price | price}} </span> 
+                        </div>
+                        <span class="min-sign"> Bulto por {{product.pck_units}} unidades </span>
+                    </div>                
+                </div>
+                
                 <!-- UN precio -->
-                <div  v-if="product.pck_units == 1 || product.price == 0" class="prices-container"  
+                <div  v-if="!product.unit_price && (product.pck_units == 1 || product.price == 0 || product.price == product.pck_price)" class="prices-container"  
                     itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     <div class="pck_price" >
                         <div class="price-bg" >
-                            $<span itemprop="price">{{product.pck_price | price}}</span> C/U
+                            $<span itemprop="price">{{product.pck_price | price}} </span> C/U
                         </div>
                         <span class="min-sign" v-if="product.price==0 && product.pck_units > 1" > Mínimo {{product.pck_units}} unidades </span>
                     </div>                
                 </div>
 
                 <!-- Dos precios -->
-                <div  v-if="product.pck_units > 1 && product.price > 0 && product.price!=product.pck_price" class="prices-container"  
+                <div  v-if="!product.unit_price && (product.pck_units > 1 && product.price > 0 && product.price!=product.pck_price)" class="prices-container"  
                     itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     <div class="pck_price" >
                         <div class="price-bg" >
-                            $<span itemprop="lowPrice">{{product.pck_price | price}}</span> C/U
+                            $<span itemprop="lowPrice">{{product.pck_price | price}} </span> C/U
                         </div>
                         <span class="min-sign" v-if="product.pck_price < product.price && product.pck_units > 1" > Más de {{product.pck_units}} unidades </span>
                     </div>
 
                     <div class="price" v-if="product.price > 0 && product.price != product.pck_price">
                         <div class="price-bg" >
-                            $<span itemprop="highPrice">{{product.price | price}}</span> C/U
+                            $<span itemprop="highPrice">
+                                {{product.price | price}} 
+                            </span> 
+                            C/U
                         </div>
                     
                         <span class="min-sign" > Menos de {{product.pck_units}} unidades </span>
@@ -213,5 +232,21 @@ a:hover{
 
         
     }
+
+
+        .unit-price{
+            background-color: #fff;
+            color:#D52B1E;
+            border: 1px solid #D52B1E;
+            border-radius:5px;
+            width:40%;
+            font-size:1rem;
+            position:absolute;
+            text-align: center;
+            top:0;
+            right:0;
+            box-shadow: 2px 2px 2px #000;
+        }   
+    
 
 </style>

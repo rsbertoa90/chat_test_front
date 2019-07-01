@@ -17,8 +17,26 @@
             
             <div v-if="config && !config.maintenance" class="w-100">  
                 
+
+                <!-- Venta por bulto -->
+                <div  v-if="product.unit_price" class="prices-container"  
+                    itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                    <meta itemprop="priceCurrency" content="ARS" />
+                    
+                    <div class="unit-price">
+                        $ <span>{{product.unit_price}}</span> C/U
+                    </div>
+                    
+                    <div class="pck_price mt-4" >
+                        <div class="price-bg" >
+                            $<span itemprop="price">{{product.pck_price | price}} </span> 
+                        </div>
+                        <span class="min-sign"> Bulto por {{product.pck_units}} unidades </span>
+                    </div>                
+                </div>
+                
                 <!-- UN precio -->
-                <div  v-if="product.pck_units == 1 || product.price == 0" class="prices-container"  
+                <div  v-if="!product.unit_price && (product.pck_units == 1 || product.price == 0 || product.price == product.pck_price)" class="prices-container"  
                     itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     <div class="pck_price" >
@@ -30,7 +48,7 @@
                 </div>
 
                 <!-- Dos precios -->
-                <div  v-if="product.pck_units > 1 && product.price > 0 && product.price!=product.pck_price" class="prices-container"  
+                <div  v-if="!product.unit_price && (product.pck_units > 1 && product.price > 0 && product.price!=product.pck_price)" class="prices-container"  
                     itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
                     <meta itemprop="priceCurrency" content="ARS" />
                     <div class="pck_price" >
@@ -243,6 +261,20 @@ export default {
                 
             }
         }
+
+        .unit-price{
+                text-align: center;
+            background-color: #fff;
+            color:#D52B1E;
+            border: 1px solid #D52B1E;
+            border-radius:5px;
+            width:40%;
+            font-size:1.5rem;
+            position:absolute;
+            top:20%;
+            right:20px;
+            box-shadow: 2px 2px 2px #000;
+        }   
     
 
 </style>

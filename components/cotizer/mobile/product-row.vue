@@ -25,8 +25,8 @@
                         
                          <div v-if="$mq != 'lg' && product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
                             
-                            <span v-if="product.units < product.pck_units">  ${{(product.price * product.units) | price}} </span>
-                            <span v-if="product.units >= product.pck_units">  ${{(product.pck_price * product.units) | price}} </span>
+                            <span v-if="!product.unit_price && product.units < product.pck_units">  ${{(product.price * product.units) | price}} </span>
+                            <span v-if="product.unit_price || product.units >= product.pck_units">  ${{(product.pck_price * product.units) | price}} </span>
                             
                         </div>
                         
@@ -43,9 +43,8 @@
         </tr>
         <tr>
                    <!--  <td v-if="admin"> {{product.code}} </td> -->
-                    <td class="text-info text-center price"> 
-                        <span v-if="product.price > 0"> ${{product.price | price}} </span>
-                        <span v-else> - </span> 
+                    <td class="text-info text-center price" v-if="!product.unit_price  && product.price > 0 && product.price != product.pck_price"> 
+                        <span> ${{product.price | price}} </span>
                         <br>
                         <div v-if="product.pck_units > 1 && product.price > 0 ">
                             <span> - de {{product.pck_units}}  </span>
@@ -53,14 +52,21 @@
                             <span>Unidades</span>
                         </div>
                     </td>
-                    <td  class="text-center text-success font-weight-bold price"> 
-                        <span v-if="product.pck_units > 1"> ${{product.pck_price | price}} </span>
-                        <span v-else> - </span> <br>
-                        <div v-if="product.pck_units > 1">
-                            <span> + de {{product.pck_units}}  </span>
+
+                    <td  class="text-center text-success font-weight-bold price"  :colspan="priceColspan" > 
+                        <span> ${{product.pck_price | price}} <span v-if="!product.unit_price && (product.price <= 0 || product.price == product.pck_price)">C/U</span> </span>
+                         <br>
+                         <div v-if="product.unit_price">
+                             Bulto por {{product.pck_units}} unidades
+                         </div>
+                        <div v-else-if="product.pck_units > 1 && product.price != product.pck_price">
+                            <span v-if="product.price != 0"> + de {{product.pck_units}}  </span>
+                            <span v-else>Mínimo {{product.pck_units}} unidades</span>
                             <br>
                             <span>Unidades</span>
                         </div>
+                        
+                        
                     </td>
 
                  
@@ -95,9 +101,16 @@ export default {
         }
     },
     computed:{
+        priceColspan(){
+            if(this.product.unit_price || this.product.price <= 0 || this.product.price == this.product.pck_price || this.product.pck_units == 1 ){
+               return 2 
+            }else{
+                return 1
+            }
+        },
          minUnits(){
             
-            return (this.product.price > 0) ? 1 : this.product.pck_units ;
+            return (this.product.price > 0 || this.product.price == this.product.pck_price || this.product.unit_price) ? 1 : this.product.pck_units ;
         }
     },
      methods:{

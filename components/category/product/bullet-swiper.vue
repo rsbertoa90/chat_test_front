@@ -6,6 +6,7 @@
       <swiper ref="swiper"  :options="swiperOption" class="d-flex justify-content-center text-center">
        
         <swiper-slide v-for="image in images" :key="image.url">
+            <a   @click="downloadImage(image)" class="downloadImage"> <fa-icon icon="download"></fa-icon> Descargar </a>
             <v-lazy-image :src="imagePath(image)" :alt="alt"></v-lazy-image>
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
@@ -78,4 +79,20 @@
       width:40px;
 
     }
+
+    .downloadImage{
+    position:absolute;
+    bottom:0;
+    right:0;
+    border:1px solid #ccc;
+    background-color: #fff;
+    padding:5px;
+    font-size: 1.1rem;
+    color:#555;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #000;
+    &:hover{
+        color:#D52B1E;
+    }
+}
 </style>

@@ -14,6 +14,15 @@
                 <textarea placeholder="NOMBRE" rows="1" type="text" v-model.lazy="product.name" 
                 @change="saveChange(product,'name')" class="form-control"></textarea>
             </td>
+            <td class="d-flex flex-column">
+                <span class="text-center">Precio X unidad</span>
+                <input type="checkbox" class="form-control" v-if="!hasUnitPrice" @click="hasUnitPrice=true" >
+                <div class="relative" v-if="hasUnitPrice">
+                     <span class="input-icon">$</span>
+                    <input v-model.lazy="product.unit_price" @change="saveChange(product,'unit_price')"
+                        type="number" step=".01" class=" form-control smallField">
+                </div>
+            </td>
         </tr>
         <tr>
             <td>
@@ -45,10 +54,12 @@
             </td>
             <td>
                 <div class="d-flex">
-                    
-                        $
+                    <div class="relative">
+
+                        <span class="input-icon">$</span>
                         <input v-model.lazy="product.price" @change="saveChange(product,'price')"
                             type="number" step=".01" class=" form-control smallField">
+                    </div>
                 </div>
                             
             
@@ -62,12 +73,16 @@
                 </div>
             </td>
             <td>
-                <div class="d-flex align-items-center">
-                    
-                    $<input  v-model.lazy="product.pck_price" 
-                            @change="saveChange(product,'pck_price')"
-                            
-                    type="number" step=".01" class="form-control smallField">
+                <div >
+                    <div class="relative">
+                        <span class="input-icon">
+                            $
+                        </span>
+                        <input  v-model.lazy="product.pck_price" 
+                                @change="saveChange(product,'pck_price')"
+                        type="number" step=".01" class="form-control smallField">
+
+                    </div>
                 </div>
             
             </td>
@@ -100,7 +115,8 @@ export default {
     components:{imageModal},
     props:['product'],
     data(){return{
-        showModal:false
+        showModal:false,
+        hasUnitPrice :false
     }},
     computed:{
         supliers(){
@@ -108,6 +124,18 @@ export default {
         },
 
         
+    },
+    mounted(){
+            if(this.product && this.product.unit_price && this.product.unit_price > 0){
+                this.hasUnitPrice =true;
+            }
+    },
+    watch:{
+        'product.unit_price'(){
+            if(this.product.unit_price <= 0){
+                this.hasUnitPrice = false;
+            }
+        }
     },
     methods:{
         validate(){
@@ -216,7 +244,15 @@ export default {
 
 <style scoped lang="scss">
     
+.relative{
+    position:relative;
+}
 
+.input-icon{
+    position:absolute;
+    left:1px;
+    top:7px;
+}
 
 input[type="checkbox"]{
     width: 25px;

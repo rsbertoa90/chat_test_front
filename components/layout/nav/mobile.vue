@@ -79,7 +79,7 @@
                        
                         <!-- ADMIN -->
                       
-                        <li class="nav-item " v-if="user && user.role_id < 3" @click="closeNav">
+                        <li class="nav-item " v-if="admin" @click="closeNav">
                             <nuxt-link class="nav-link text-white" to="/admin"> <fa-icon icon="user-cog"></fa-icon> Pedidos</nuxt-link>
                         </li>
                         <li class="nav-item " v-if="isSuper" @click="closeNav">
@@ -88,7 +88,7 @@
                         <li class="nav-item " v-if="admin" @click="closeNav">
                             <nuxt-link class="nav-link text-white" to="/admin/busquedas"> <fa-icon icon="user-cog"></fa-icon> Busquedas</nuxt-link>
                         </li>
-                        <li class="nav-item " v-if="user && user.role_id < 3" @click="closeNav">
+                        <li class="nav-item " v-if="admin" @click="closeNav">
                             <nuxt-link class="nav-link text-white" to="/logout"> <fa-icon icon="user-cog"></fa-icon> Salir</nuxt-link>
                         </li>
                     </ul>
@@ -156,13 +156,13 @@ export default {
 }
 .ccollapsed{
     z-index:900;
-    height: 0px;
+    max-height: 0px;
     overflow: hidden;
     //transition: all .3s
 }
 .nonCollapsed{
 
-    height: 60vh;
+    max-height: 90vh;
     width:100vw;
     transition: all .3s
 }

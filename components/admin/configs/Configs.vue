@@ -115,26 +115,30 @@ export default {
         /*
           Make the request to the POST /single-file URL
         */
+        this.$store.commit('setLoading',true);
             this.$axios.post( '/replace-catalogo',
                 formData,
                 {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                 }
               }
             ).then(function(){
+            this.$store.commit('setLoading',false);
            swal('Catalogo subido','veras los cambios reflejados en unos segundos','success');
         })
         .catch(function(){
+            this.$store.commit('setLoading',false);
             swal('!!!!!','Ocurrio un error durante la subida','error');
         });
       },
         uploadcatalogo(){
             if(this.fd){
+                this.$store.commit('setLoading',true);
                  this.$axios.post('/replace-catalogo', this.fd)
                     .then(res => {
                         setTimeout(() => {
-                           
+                            this.$store.commit('setLoading',false);
                         }, 200);
                     });
             }

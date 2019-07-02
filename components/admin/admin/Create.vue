@@ -109,6 +109,7 @@
                         swal('error','No ingreso un nombre para la nueva categoria','error');
                         return false;
                     }
+                   
                 }
                 if (vm.formData.suplier_id == 'new'){
                    
@@ -126,9 +127,9 @@
                         duplicated = e;
                     }
                 });
-
+                
                 if (duplicated!=null){
-                    swal('error','ya existe un producto con el codigo'+vm.formData.code,'error');
+                    swal('error','ya existe un producto con el codigo '+vm.formData.code,'error');
                     return false;
                 } 
                 else {return true;}
@@ -148,6 +149,7 @@
                 {
                     
                     var vm=this;
+                    
                     vm.$axios.post('/product/',vm.formData)
                                         .then(response => {
                                         vm.$emit('productSaved',response.data);

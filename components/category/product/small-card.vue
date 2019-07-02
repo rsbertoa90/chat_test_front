@@ -1,16 +1,16 @@
 <template>
     <div @mouseenter="hovered=true" @mouseleave="hovered=false" class="ml-lg-2 d-flex flex-column align-items-center product-card  justify-content-between h-100" v-if="product"
         itemscope itemtype="http://schema.org/Product">
-        <nuxt-link :to="productUrl">
+        <nuxt-link :to="productUrl"  itemprop="url">
             <h2 class="text-center title" itemprop="name">{{product.name | uc}}</h2>
         </nuxt-link>
         <div class="d-flex w-100 flex-column">
             
-            <div class="image-container" @click="show" itemprop="image" >
+            <div class="image-container" @click="show" >
                  <div class="unit-price" v-if="product.unit_price">
                         $ <span>{{product.unit_price | price}}</span> C/U
                 </div>
-                <v-lazy-image :src-placeholder="loadingImage"  itemprop="url" :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
+                <v-lazy-image :src-placeholder="loadingImage"  itemprop="image"  :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
                 <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer && config && !config.maintenance">
                     <v-lazy-image :src="imagePath('/storage/images/app/oferta.png')" alt="oferta"></v-lazy-image>
                 </div>

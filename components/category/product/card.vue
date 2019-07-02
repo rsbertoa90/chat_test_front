@@ -8,8 +8,8 @@
         </nuxt-link>
         <div class="d-flex w-100">
             
-                <div class="image-container" @click="show" itemprop="image" >
-                    <v-lazy-image :src="imagePath(image.url)" :src-placeholder="loadingImage"  :alt="product.name"></v-lazy-image>
+                <div class="image-container" @click="show"  >
+                    <v-lazy-image itemprop="image" :src="imagePath(image.url)" :src-placeholder="loadingImage"  :alt="product.name"></v-lazy-image>
                      <div class="offer-ribbon" :class="{'hovered-ribbon':hovered}" v-if="product.offer">
                         <v-lazy-image :src="imagePath('/storage/images/app/oferta.png')" alt="oferta"></v-lazy-image>
                     </div>

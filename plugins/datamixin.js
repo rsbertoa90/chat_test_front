@@ -79,6 +79,7 @@ Vue.mixin({
     },
      computed: {
           devmode() {
+         
            let res = this.$axios.defaults.baseURL == 'http://localhost:8000/api' ;
 
           /*   console.log('devmode', this.$axios.defaults.baseURL, res); */

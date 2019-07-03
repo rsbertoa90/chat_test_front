@@ -4,6 +4,7 @@ import brotli from 'brotli';
 import shrinkRay from 'shrink-ray-current'
 
 
+
 export default {
   
   optimization:{
@@ -49,12 +50,6 @@ export default {
 
 
 
-  env: {
-     dev: (process.env.NODE_ENV !== 'production'),
-     baseURL: process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:8000/api/' : 'https://back.mayoristamaju.com/api',
-
-     PROD_API: 'https://back.mayoristamaju.com/api/',
-  },
 
 
   mode: 'universal',
@@ -73,7 +68,8 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css?family=Cabin'
+          href: 'https://fonts.googleapis.com/css?family=Cabin',
+          defer:true
         },
       {
         rel: "stylesheet"
@@ -171,9 +167,9 @@ export default {
   */
  
   axios: {
-    //baseURL: 'https://back.mayoristamaju.com/api' , 
+    
     baseURL: process.env.NODE_ENV == 'production' ? 'https://back.mayoristamaju.com/api' : 'http://localhost:8000/api'
-    // See https://github.com/nuxt-community/axios-module#options
+  
   },
 
 
@@ -210,11 +206,16 @@ export default {
   ** Build configuration
   */
   build: {
-    analize:true,
+    extend(config, {
+        isDev,
+        isClient
+      }) {
+        config.mode="production"
+    }
+    //analize:true,
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
-    }
+  
   }
 }

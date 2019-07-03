@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'mayoristamaju.com',
-    script: './node_modules/nuxt/bin/nuxt.js',
+    script: './node_modules/nuxt/bin/nuxt-start',
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
    /*  args: 'one two', */
@@ -11,7 +11,7 @@ module.exports = {
     watch: false,
     max_memory_restart: '1G',
     env: {
-      NODE_ENV: 'development'
+      NODE_ENV: 'production'
     },
     env_production: {
       NODE_ENV: 'production'

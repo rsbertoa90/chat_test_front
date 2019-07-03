@@ -1,14 +1,14 @@
 {
   "name": "Maju",
   "version": "1.0.0",
-  "description": "My wondrous Nuxt.js project",
+  "description": "Mayorista Maju",
   "author": "rsbertoa90",
   "private": true,
   "scripts": {
     "analyze": "nuxt build --analyze",
     "dev": " cross-env NODE_ENV=development nuxt",
-    "build": "cross-env NODE_ENV=production nuxt build ",
-    "start": "cross-env NODE_ENV=production pm2 start ecosystem.config.js --env production",
+    "build": "nuxt build ",
+    "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {

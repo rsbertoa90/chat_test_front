@@ -8,6 +8,10 @@ import metaMixin from '@/plugins/metadataMixin.js';
 export default {
     mixins:[metaMixin],
     name:'home',
-    components:{homepage}
+    components:{homepage},
+    loading:false,
+    mounted(){
+        console.log(process.env.NODE_ENV);
+    }
 }
 </script>

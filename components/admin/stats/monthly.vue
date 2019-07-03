@@ -97,6 +97,7 @@ export default {
             
         },
         sortedData(){
+           // console.log('why this not uploading on git');
             if(this.tabledata){
             
                 

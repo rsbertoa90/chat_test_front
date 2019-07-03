@@ -10,7 +10,7 @@
             <tbody>
                 <tr v-for="(d, key) in sortedData" :key="key">
                     <td>
-                        {{d.date.format('MM/YYYY') }}
+                        {{d.date }}
                     </td>
                     <td>{{d.times}}</td>
                     <td>${{d.total | price}}</td>
@@ -23,17 +23,30 @@
 
 
 <script>
-
 export default {
    
     data(){
         return{
-          
+            months:['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'],
             history:null,
             startDate:new Date(2018,1,1),
             endDate: new Date(),
             
 
+        }
+    },
+    methods:{
+        formatDate(val){
+               let date = new Date(val);
+                
+                let formatted_date =  (this.months[date.getMonth()]) + " " + date.getFullYear();
+           //     console.log(date.getMonth(),this.months[date.getMonth()])
+                return formatted_date;
+  
+        },
+        removeHours(val)
+        {
+            return val.setHours(0,0,0,0);
         }
     },
     watch:{
@@ -86,34 +99,41 @@ export default {
         sortedData(){
             if(this.tabledata){
             
-                const Moment = require('moment')
+                
                 const array = this.tabledata;
-                const sortedArray  = array.sort((a,b) => new Moment(a.rawdate).format('YYYYMMDD') - new Moment(b.rawdate).format('YYYYMMDD'))
+                let res = [];
+                res = array.sort((a,b) => {
+                    if (a.rawdate < b.rawdate) {
+                        return -1;
+                    }
+                    if (a.rawdate > b.rawdate) {
+                        return 1;
+                    }
+                    // a debe ser igual b
+                    return 0;
+                });
                 
                /*  console.log(sortedArray); */
-                return sortedArray.reverse();
+                return res.reverse();
             }
         },
         tabledata(){
             if (this.orders)
             {
-               /*  let startDate= moment(this.startDate)
-                let endDate =moment(this.endDate); */
-               /*  console.log('startdate',startDate);
-                console.log('endtdate',endDate);
-                 */
+              
                 let res = [];
                 this.orders.forEach(order => {
                 
                  /*    console.log('crudo',order.created_at); */
-                  const moment = require('moment')
-                    let date = moment(order.created_at);
+               
+                    let date = new Date(order.created_at)
+                    date = this.formatDate(date);
                    /*  console.log('procesado',date); */
                    
                     /*     console.log('date in range'); */
                         let isNew = true;
                         res.forEach(o => {
-                            if (date.format('YYYYMM') == o.date.format('YYYYMM'))
+                            if (date == o.date)
                             {
                          /*        console.log('not new'); */
                                 isNew =false;
@@ -132,7 +152,7 @@ export default {
                         }
                     
                 });
-                return _.orderBy(res,'date','desc');
+                return res;
             }
         }
     },

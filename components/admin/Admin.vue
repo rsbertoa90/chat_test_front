@@ -83,7 +83,7 @@
                                  <template  >
 
                                     
-                                    <tbody v-for="product in filteredProducts" :key="'data'+product.name" is="product-row" 
+                                    <tbody v-for="product in filteredProducts" :key="product.id+product.code+product.name" is="product-row" 
                                                     :product="product"
                                                     :supliers="supliers"
                                                     :categories="categories"
@@ -178,8 +178,8 @@ import paginator from './admin/paginator.vue';
                             var filtered = this.products.filter(prod => {
                                     return prod[prop].id == this.selector.id;     
                             });
-                            return _.orderBy(filtered,this.orderBy)
-                        } else{ return _.orderBy(this.products,this.orderBy) }
+                            return this.orderArray(filtered,this.orderBy)
+                        } else{ return this.orderArray(this.products,this.orderBy) }
                     }
                     return [];
                 }
@@ -193,7 +193,7 @@ import paginator from './admin/paginator.vue';
         },
          watch : {
             orderBy(){
-                this.products = _.sortBy(this.products,this.orderBy);
+                this.products = this.orderArray(this.products,this.orderBy);
                 this.selector.id ='all';
                 this.resetFilters();
             },
@@ -334,7 +334,7 @@ import paginator from './admin/paginator.vue';
                 this.$axios.get('/products')
                 .then(response => {
                      vm.products = response.data;
-                    vm.products = _.sortBy(vm.products, vm.orderBy);
+                    vm.products = this.orderArray(vm.products, vm.orderBy);
                     vm.loading=false;
                 });
                 

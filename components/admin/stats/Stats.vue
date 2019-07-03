@@ -1,19 +1,19 @@
 <template>
 <div>
     <div class="row">
-        <button class="btn btn-block col-6" :class="{'btn-info':display=='month','btn-outline-info':display!='month'}" @click="display='month'">
+       <!--  <button class="btn btn-block col-6" :class="{'btn-info':display=='month','btn-outline-info':display!='month'}" @click="display='month'">
             MENSUAL
         </button>
         <button class="btn btn-block col-6" :class="{'btn-info':display=='day','btn-outline-info':display!='day'}" @click="display='day'">
             DIARIO
-        </button>
+        </button> -->
     </div>
     <div class="row mt-4">
         <div v-if="display=='month'">
             <statsmont></statsmont>
         </div>
         <div v-else>
-            <statsday></statsday>
+         <!--    <statsday></statsday> -->
         </div>
     </div>
 </div>    
@@ -22,10 +22,10 @@
 
 <script>
 import statsmont from './monthly.vue';
-import statsday from './daily.vue';
+/* import statsday from './daily.vue'; */
 
 export default {
-    components:{statsmont,statsday},
+    components:{statsmont},
     data(){
         return{
             display:'month'
@@ -45,7 +45,7 @@ export default {
        }
    },
     mounted(){
-        window.moment = require('moment');
+      
          if(!this.orders || this.orders.length < 1){
                this.$store.commit('setLoading',true);
            }

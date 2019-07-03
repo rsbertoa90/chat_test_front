@@ -162,7 +162,7 @@ export default {
                     });
                 }
     
-                res = _.sortBy(res,'created_at');
+                res = this.orderArray(res,'created_at');
                 res = res.reverse();
              
                 return res;

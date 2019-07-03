@@ -73,7 +73,6 @@ import paginator from '../admin/paginator.vue';
                 searchTerm:'',
                 selectedPage:1,
                 productsPerPage:30,
-                selector : {id :'all', checked : false},
               
                 
                
@@ -111,20 +110,7 @@ import paginator from '../admin/paginator.vue';
                     return this.searchFilter();
                 }
                 else {
-                    if (this.products.length > 0)
-                    {
-                        var prop = null;
-                        if (this.orderBy == 'category.name'){prop = 'category'}
-                       
-                        
-                        if (prop && this.selector.id != 'all'){
-                            var filtered = this.products.filter(prod => {
-                                    return prod[prop].id == this.selector.id;     
-                            });
-                            return _.orderBy(filtered,this.orderBy)
-                        } else{ return _.orderBy(this.products,this.orderBy) }
-                    }
-                    return [];
+                    return this.products;                 
                 }
             },
             filteredProducts()
@@ -134,31 +120,17 @@ import paginator from '../admin/paginator.vue';
               return this.paginate(prods,this.selectedPage);  
             }
         },
-         watch : {
-            orderBy(){
-                this.products = _.sortBy(this.products,this.orderBy);
-                this.selector.id ='all';
-                this.resetFilters();
-            },
-            'selector.id'()
-            {
-                this.resetFilters();
-            }
+       
 
 
-        },
+        
         methods : {
-            
-            resetFilters(){
-                this.resetCheckboxes();
-                this.selectedPage = 1;
-                this.searchMode=false;
-                this.searchTerm='';
-            },
+           
+         
             search(){
                 
                 let term = this.searchTerm;
-                this.selector.id = 'all';
+              
                 this.selectedPage = 1;
                 setTimeout(() => {
                     this.searchTerm = term;

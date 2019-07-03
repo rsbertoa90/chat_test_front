@@ -25,8 +25,14 @@ Vue.filter('datetime', val => {
 });
 
 Vue.filter('date', val => {
-  const moment = require('moment');
-  return moment(val).format('DD/MM/YYYY');
+    let date = new Date(val);
+    let minuts = date.getMinutes();
+    if (minuts < 10) {
+      minuts = `0${minuts}`
+    }
+    let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    return formatted_date;
+  
 });
 
 

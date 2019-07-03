@@ -68,11 +68,17 @@ export default {
                             }
                         }
                     });
-                    return _.orderBy(res,'times','desc');
+                    res  = res.sort((a,b)=>{
+                        return b.times - a.times
+                    })
+                    return res;
+                    
                 }
             }
         }
     },
+    
+    
     mounted(){
      
         this.$store.commit('setLoading',true);

@@ -5,6 +5,10 @@ import shrinkRay from 'shrink-ray-current'
 
 
 export default {
+  
+  optimization:{
+    minimize: true,
+  },
 
    router: {
      scrollBehavior: async (to, from, savedPosition) => {
@@ -126,7 +130,6 @@ export default {
     },
     {src:'./plugins/v-touch-events.js', ssr:false},
     {src:'./plugins/swal.js', ssr:false},
-    {src:'./plugins/lodash.js', ssr:false},
     {src:'./plugins/awesome-swiper.js', ssr:false},
     {src:'./plugins/datepicker.js', ssr:false},
     { src: '@/plugins/ga.js', ssr: false }
@@ -207,6 +210,7 @@ export default {
   ** Build configuration
   */
   build: {
+    analize:true,
     /*
     ** You can extend webpack config here
     */

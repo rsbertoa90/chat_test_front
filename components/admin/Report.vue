@@ -51,7 +51,7 @@ export default {
             return res;
         },
         products(){
-            return _.sortBy(this.productsList,'total').reverse();
+            return this.orderArray(this.productsList,'total').reverse();
         },
         productsList(){
             var vm = this;

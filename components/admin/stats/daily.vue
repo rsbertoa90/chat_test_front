@@ -122,12 +122,9 @@ export default {
         sortedData(){
             if(this.tabledata){
             
-                const Moment = require('moment')
-                const array = this.tabledata;
-                const sortedArray  = array.sort((a,b) => new Moment(a.rawdate).format('YYYYMMDD') - new Moment(b.rawdate).format('YYYYMMDD'))
+               
+            
                 
-               /*  console.log(sortedArray); */
-                return sortedArray.reverse();
             }
         },
         tabledata(){
@@ -170,7 +167,9 @@ export default {
                         }
                     }
                 });
-                return _.orderBy(res,'date','desc');
+                //falta orden<ar
+                return res;
+
             }
         }
     },

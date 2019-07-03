@@ -5,6 +5,7 @@
   "author": "rsbertoa90",
   "private": true,
   "scripts": {
+    "analyze": "nuxt build --analyze",
     "dev": " cross-env NODE_ENV=development nuxt",
     "build": "cross-env NODE_ENV=production nuxt build ",
     "start": "cross-env NODE_ENV=production pm2 start ecosystem.config.js --env production",
@@ -23,8 +24,6 @@
     "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
     "intersection-observer": "^0.7.0",
-    "lodash": "^4.17.11",
-    "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "node-zopfli-es": "^1.0.3",
     "nuxt": "^2.4.0",

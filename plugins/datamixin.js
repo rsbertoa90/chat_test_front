@@ -4,6 +4,21 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods:{
+      orderArray(array,field)
+      {
+        //console.log(field);
+        return array.sort((a,b) => {
+          if(a[field] < b[field]){
+           // console.log(a[field],b[field])
+            return -1
+          }
+          if(a[field] > b[field]){
+           // console.log(a[field],b[field])
+            return 1
+          }
+          return 0;
+        })
+      },
       downloadImage(image)
       {
         if(image && image.url)

@@ -40,7 +40,7 @@ export default {
     methods:{
         remove(p){
             p.units = 0;
-            console.log(p.name,p.units)
+           // console.log(p.name,p.units)
             this.$store.commit('setList',p);
         }
     },

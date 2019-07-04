@@ -66,17 +66,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css?family=Cabin',
-          defer:true
-        },
-     /*  {
-        rel: "stylesheet"
-        ,href: "https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        ,integrity: "sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
-       , crossorigin :"anonymous"
-      } */
+      {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com"
+      }, {
+        rel: "preconnect",
+        href: "https://back.mayoristamaju.com"
+      },
+    
       
     ],
     script:[
@@ -135,6 +132,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    'nuxt-webfontloader',
     ["nuxt-compress"],
   /*    ['@nuxtjs/google-analytics', {
        id: "UA-126973762-1",dev:true
@@ -156,6 +154,13 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth'
   ],
+
+  webfontloader: {
+    google: {
+      families: ['Cabin']
+    }
+  },
+
 
   render: {
     compressor: shrinkRay(),

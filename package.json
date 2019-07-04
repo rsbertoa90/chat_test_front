@@ -9,7 +9,8 @@
     "dev": " cross-env NODE_ENV=development nuxt",
     "build": "nuxt build ",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "pm2s":"pm2 start --name 'mayoristamaju.com' npm -- start"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
@@ -29,6 +30,7 @@
     "nuxt": "^2.4.0",
     "nuxt-compress": "^1.0.2",
     "nuxt-mq": "^2.0.0",
+    "nuxt-webfontloader": "^1.1.0",
     "sass-loader": "^7.1.0",
     "shrink-ray-current": "^4.0.0",
     "sweetalert": "^2.1.2",

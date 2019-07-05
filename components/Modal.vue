@@ -3,7 +3,9 @@
         <transition appear enter-active-class="animated slideInDown">
             <div class="modal-window bordered">
                 <div class="close-button bordered clickable mb-4" @click="$emit('close')">
-                    <span class="fa fa-times"></span>
+                   <span>
+                       <fa-icon icon="times"></fa-icon>
+                    </span> 
                 </div>
                 <div class="content mt-3">
                     <slot></slot>

@@ -106,14 +106,14 @@ export default {
         product(){
             let vm =this;
             let res = null;
+            let routeParam = '/'+vm.$route.params.product;
+            routeParam = routeParam.replace('//','/');
              this.categories.forEach(c => {
                  let p = c.products.find(pr => {
                      if(pr.slug){
                        
                          let productSlug = '/'+pr.slug;
                          productSlug = productSlug.replace('//','/');
-                         let routeParam = '/'+vm.$route.params.product;
-                         routeParam = routeParam.replace('//','/');
                         
                          return routeParam.trim().toLowerCase() == productSlug.trim().toLowerCase(); 
                      }

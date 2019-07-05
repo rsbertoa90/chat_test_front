@@ -30,12 +30,12 @@ export default {
           product()
         {
             let res = null;
+            let param = '/' + this.$route.params.product;
+            param =param.replace('//','/');
             this.categories.forEach(c=>{
                let prod  = c.products.find(p => {
                    let slug = '/'+p.slug;
                     slug =slug.replace('//','/');
-                    let param = '/' + this.$route.params.product;
-                    param =param.replace('//','/');
                     return slug == param;
                });
                if(prod){
@@ -48,7 +48,6 @@ export default {
           metatitle(){
             if (this.product )
             {
-                
                 return this.product.metatitle ? this.product.metatitle : this.product.name+' por mayor'
             }else{return ''}
             

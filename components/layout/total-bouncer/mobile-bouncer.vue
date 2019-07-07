@@ -1,18 +1,18 @@
 <template>
 <transition  enter-active-class="animated bounceIn">
 
-         <nuxt-link to="/carrito" v-if="total>0" key="bouncer" id="total" >
-            <div>
-                <div  class="bg-red p-1">
+         <nuxt-link to="/carrito" v-if="total>0" key="bouncer" id="total"  >
+            <div> 
+                <div  class="bg-first p-1">
                     <div class=" bg-white d-flex justify-content-center p-1">
-                         <fa-icon icon="shopping-cart" class="red mt-1 mr-2"></fa-icon>
+                         <span  class="fa fa-shopping-cart first mt-1 mr-2"></span>
                         ${{total | price}}
                     </div>
                 </div>
                
-                <div  class="bg-red p-1">
+                <div  class="bg-first p-1">
                     <div class="bg-white d-flex justify-content-center p-1">
-                        <div class="finish" >  Terminar pedido </div>
+                        <div class="finish"  >  Terminar pedido </div>
                     </div>
                 </div>
             </div>    
@@ -26,15 +26,26 @@ export default {
        total(){
            return this.$store.getters.getTotal;
        }
+   },
+   methods:{
+       scrollDown(){
+            
+                setTimeout(() => {
+                    console.log();
+    
+                    window.scrollTo(0,document.body.scrollHeight-1550);
+                }, 300);
+            
+        }
    }
 }
 </script>
 
 <style lang="scss" scoped>
 .finish{
-    color:#D52B1E;
+    color:#b2037a;
     a{
-        color:#D52B1E;
+        color:#b2037a;
         &:hover{
             color:#D52B1E;
         }
@@ -45,7 +56,7 @@ export default {
         position: fixed;
         /* margin-left:50vw; */
         bottom: 25px;
-        right:10px;
+        right:50%;
         z-index: 900;
     }
 

@@ -1,135 +1,104 @@
 <template>
-    <div class="d-flex justify-content-around footer">
-        <div class="logo-container"> 
-            <v-lazy-image :src="imagePath('/storage/images/app/logo.png')" alt="Logo Maju"></v-lazy-image>
-        </div>
-        <div class="cat-container">
-            <h3>Categorias:</h3>
-            <ul>
-                <li v-for="c in cats1" :key="c.name">
-                    <nuxt-link :to="c.slug" >
-                        {{c.name}}
-                    </nuxt-link>
-                </li>
-            </ul>
-        </div>
-        <div class="cat-container mt-3">
-            <ul>
-                <li v-for="c in cats2" :key="c.name">
-                    <nuxt-link :to="c.slug" >
-                        {{c.name}}
-                    </nuxt-link>
-                </li>
-            </ul>
-        </div>
-        <div class="cat-container mt-3">
-            <ul>
-                <li v-for="c in cats3" :key="c.name">
-                   <nuxt-link :to="c.slug" >
-                        {{c.name}}
-                    </nuxt-link>
-                </li>
-            </ul>
-        </div>
-        <div class="contacts">
-            <h3>Contactanos</h3>
-            <span class="phone"> 
-                <fa-icon :icon="['fab','whatsapp']" class="mb-1"></fa-icon> 
-                11 27082683
-            </span>
-            <div>
-                <fa-icon icon="clock" class="mb-1"></fa-icon>
-                Lunes a viernes 9hs a 18hs
-            </div>
-            <div>
-                <fa-icon icon="home" class="mb-1"></fa-icon>
-                Pasteur 394 - ONCE
-            </div>
-            <div>
-                <fa-icon icon="envelope" class="mb-1"></fa-icon>
-                multibazarmaju@gmail.com
-            </div>
-            <div class="mt-4 social">
-                <a href="https://www.facebook.com/BazarmayoristaMaju/" rel="noreferrer">
-                    <v-lazy-image class="socialimage" :src="imagePath('/storage/images/app/social/fb.png')" alt="facebook"></v-lazy-image>             
-                </a>
-                <a href="https://www.instagram.com/bazar_mayorista_maju/" rel="noreferrer">
-                    <v-lazy-image class="socialimage" :src="imagePath('/storage/images/app/social/instagram.png')" alt="instagram"></v-lazy-image>             
-                </a>
-            </div>
+    <div class="mt-4">
 
+        
+        <div class="row bg-first footer-row ">
+            <nuxt-link  to="/cotizador" class=" col-12 col-lg-3 offset-lg-1 white-bold d-flex 
+                        justify-content-center align-items-center bg-focus p-2 ">
+                <h5 class="white-bold">Cotizador Online</h5>
+            </nuxt-link>
+         
+        </div>
+        <hr>
+        <div class="row d-flex justify-content-center ml-2">
+            <div class="col-12 col-lg-4 row">
+                <div class="col-2 offset-1  ">
+                    <div class="mt-2 btn  btn-circle bg-second white-bold">
+                        <span class="fa fa-map-marker"></span>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <ul>
+                        <li>Pasteur 428 - CABA</li>
+                        <li>Sarmiento 2268, CABA   </li>
+                        <li>Castelli 203, CABA </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 row">
+                <div class="col-2 offset-1  ">
+                    <div class="mt-2 btn  btn-circle bg-second white-bold">
+                        <span class="fa fa-envelope"></span>
+                    </div>
+                </div>
+                <div class="col-9 mt-3">
+                   <p>Email: MatesFabi@gmail.com  </p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 row">
+                <div class="col-2 offset-1  ">
+                    <div class="mt-2 btn  btn-circle bg-second white-bold">
+                        <span class="fab fa-whatsapp"></span>
+                    </div>
+                </div>
+                <div class="col-9 mt-3">
+                    <p> 11 3008 5414 </p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import redlimp from '../../banners/redlimp.vue';
+import mfcarteras from '../../banners/mfcarteras.vue';
 export default {
-    computed:{
-        categories(){
-            return this.$store.getters.getNotPaused;
-        },
-        cats1(){
-            if (this.categories){
-                let i = Math.round(this.categories.length / 3);
-                return this.categories.slice(0,i);
+    components:{
+        mfcarteras,redlimp
+    },
+    data(){
+        return{
+            suscriptionMail:null
+        }
+    },
+    methods:{
+        suscribe()
+        {
+            if (suscriptionMail && suscriptionMail.length > 3){
+
+            
+                this.$http.post('/suscription',{'email':this.suscriptionMail})
+                    .then(r => {
+                        swal('Gracias por suscribirte','Recibiras todas las novedades de Mates Fabi en tu casilla de correo','success');
+                    });
             }
-        },
-        cats2(){
-            let i = Math.round(this.categories.length / 3);
-                return this.categories.slice(i,i*2);
-        },
-        cats3(){
-            let i = Math.round(this.categories.length / 3);
-            return this.categories.slice(i*2,i*3);
-
-        },
-    }
-}
-</script>
-
-<style lang="scss" scoped>
-.logo-container{
-    width:450px;
-    margin-right: 30px;
-}
-.footer{
-    width:100vw;
-    margin: 5% 0;
-    padding: 0 5%;
-    background-color: #fff;
-    border-top: 2px solid #868686;
-    padding-top:10px;
-}
-h4{
-    font-size:1rem;
-    font-weight: bold;
-}
-ul{
-    list-style: none;
-    font-size:.9rem;
-    margin:0;
-    padding:0;
-}
-a:hover{
-    color:#000;
-}
-
-.phone{
-    font-size: 1.5rem;
-    font-weight: bold;
-    color:#D52B1E;
-}
-
-.social{
-    .a{
-        max-width:48px;
-        img{
-            width:50px;
         }
     }
 }
-.socialimage{
-    width:50px;
-}
+</script> 
+
+<style lang="scss" scoped>
+   ul li{
+       font-size: 0.7rem;
+   }
+   .fa-mobile{
+       font-size: 2rem;
+       margin-top: -5px;
+   }
+   @media(min-width: 900px){
+       .footer-row{
+          
+          width:100vw;
+          margin-left: 0;
+       }
+   }
+   a:hover{
+       color:white;
+   }
+   row{
+       margin:0;
+
+   }
 </style>
 

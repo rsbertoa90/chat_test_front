@@ -13,7 +13,7 @@ export default {
 
     head() {
           let canonical =this.backendpath+this.$route.path;
-       // console.log(canonical);
+    
         return {
              link:[
                 {rel:'canonical',href:canonical}
@@ -43,6 +43,7 @@ export default {
                     return res;
                }
             });
+      
              return res;
         },
           metatitle(){

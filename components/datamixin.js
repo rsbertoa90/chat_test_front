@@ -16,9 +16,6 @@ export default {
        },
        super(){
            return (this.user && (this.user.email ==  'rsbertoa90@gmail.com' || this.user.email=='roominagii@gmail.com'));
-       },
-       loading(){
-           return this.$store.getters.getLoading;
        }
        
     },

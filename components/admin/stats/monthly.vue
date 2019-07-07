@@ -84,15 +84,17 @@ export default {
                     return (o.status != 'cancelado');
                 });
             }
-            
-            res.forEach(o =>{
-                let total = 0;
-                o.order_products.forEach(op => {
-                    total+=(op.price*op.units);
+            if(res){
+
+                res.forEach(o =>{
+                    let total = 0;
+                    o.order_products.forEach(op => {
+                        total+=(op.price*op.units);
+                    });
+                    
+                    o.total=total;
                 });
-                
-                o.total=total;
-            });
+            }
             return res;
             
         },

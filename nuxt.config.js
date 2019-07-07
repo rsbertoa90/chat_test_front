@@ -71,7 +71,7 @@ export default {
         href: "https://fonts.googleapis.com"
       }, {
         rel: "preconnect",
-        href: "https://back.mayoristamaju.com"
+        href: "https://back.matesfabi.com"
       },
     
       
@@ -157,7 +157,11 @@ export default {
 
   webfontloader: {
     google: {
-      families: ['Cabin']
+      families: ['Raleway']
+    },
+    custom:{
+      families:['fontawesome'],
+      urls: ['https://use.fontawesome.com/releases/v5.2.0/css/all.css']
     }
   },
 
@@ -173,7 +177,7 @@ export default {
  
   axios: {
     
-    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.mayoristamaju.com/api' : 'http://localhost:8000/api'
+    baseURL: process.env.NODE_ENV == 'production' ? 'https://back.matesfabi.com/api' : 'http://localhost:8000/api'
   
   },
 

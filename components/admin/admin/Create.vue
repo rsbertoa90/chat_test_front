@@ -7,25 +7,9 @@
                  <label for="" class="col-12">Codigo</label>
                  <input required v-model.trim="formData.code" type="text" class="col-12">
              </div>
-                 <!-- proveedor -->
-             <div class="col-2 row">
-                 <label class="col-12">Proveedor</label>
-                 <select required   v-model.trim="formData.suplier_id" 
-                        class="col-12 form-control">
-                     <option  v-for="suplier in supliers" 
-                             :key="suplier.id"
-                             :value="suplier.id" >
-                        {{suplier.name}}
-                     </option>
-                     <option value="new" class="text-success">Nuevo</option>
-                 </select>
-                 <input v-model.trim="newSuplier"
-                        v-if="formData.suplier_id=='new'" 
-                        placeholder="Nuevo proveedor" 
-                        type="text">
-                
-              
-             </div>
+          
+            
+             
              <!-- categoria -->
              <div class="col-2 row">
                  <label for="" class="col-12">Categoria</label>
@@ -82,24 +66,20 @@
                 editProvider:false,
                 editCategory:false,
                 newCategory :null,
-                newSuplier :null,
+             
                 formData: {
 
                     price :null,
                     pck_price :null,
                     pck_units :null,
                     category_id : null,
-                    suplier_id : null,
+                  
                     name : null,
                     code :null
                 }
             }
         },
-        computed:{
-            supliers(){
-                return this.$store.getters.getSupliers;
-            }
-        },
+     
         methods : {
             valid(){
                 var vm = this;
@@ -111,13 +91,7 @@
                     }
                    
                 }
-                if (vm.formData.suplier_id == 'new'){
-                   
-                    if (!vm.newSuplier){
-                        swal('error','No ingreso un nombre para el nuevo proveedor','error');
-                        return false;
-                    }
-                }
+           
                 var duplicated = null;
                 vm.categories.forEach(el => {
                     let e = el.products.find(p => {
@@ -180,25 +154,7 @@
                                 });
                          }
                 },
-            saveSuplier(callback)
-                {
-                   
-                   var vm=this;
-                         var duplicated = vm.supliers.find(function(el){
-                             return el.name.toLowerCase() == vm.newSuplier.toLowerCase();
-                         });
-                         
-                         if (duplicated != null){
-                             swal ('Error', `Ya existe el proveedor ${vm.newSuplier}`,'error');
-                         }else {
-                             vm.$axios.post('/suplier/',{name : this.newSuplier})
-                                .then(response => {
-                                    var suplier = response.data;
-                                    vm.formData.suplier_id = suplier.id;
-                                    vm.saveProduct();
-                                });
-                         }
-                },
+      
             save()
             {
                 var vm = this;
@@ -207,20 +163,14 @@
                     if (this.formData.category_id == 'new')
                     {
                     // Si categoria y proveedor son nuevos.
-                        if (this.formData.suplier_id == 'new')
-                        {
-                            vm.saveCategory(vm.saveSuplier);
-                        }
+                      
                         // si solo categoria es nuevo
-                        else {
+                         
                             vm.saveCategory(vm.saveProduct);
-                        }
+                        
                     }
                     // si solo proveedor es nuevo
-                    else if (this.formData.suplier_id == 'new')
-                    {
-                      vm.saveSuplier();
-                    }
+                   
                     // si ninguno es nuevo
                     else {
                         vm.saveProduct();

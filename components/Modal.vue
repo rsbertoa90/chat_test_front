@@ -3,9 +3,7 @@
         <transition appear enter-active-class="animated slideInDown">
             <div class="modal-window bordered">
                 <div class="close-button bordered clickable mb-4" @click="$emit('close')">
-                   <span>
-                       <fa-icon icon="times"></fa-icon>
-                    </span> 
+                    <span class="fa fa-times"></span>
                 </div>
                 <div class="content mt-3">
                     <slot></slot>
@@ -41,7 +39,7 @@ export default {
     align-items: center;
     color:#fff;
     font-weight: bold;
-    background-color: #D52B1E;
+    background-color: #F2B742;
     span{
         font-size: 30px;
     }
@@ -53,18 +51,16 @@ export default {
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 10;
+        z-index: 50;
         display: flex;
         justify-content: center;
     }
 
     .modal-window{
         
+        margin-top:90px;
         position:absolute;
-        top:90px;
-        left:50%;
-        margin-left:-223px;
-        z-index:990;
+        z-index:10;
        /*  margin-top:100px; */
         width: 447px;
         
@@ -81,11 +77,7 @@ export default {
 
     @media(max-width:660px){
         .modal-window{
-             position:absolute;
-            top:90px;
-            left:50%;
-            margin-left:-150px;
-            width:300px;
+            width:327px;
         }
     }
 </style>

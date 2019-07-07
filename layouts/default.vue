@@ -1,13 +1,15 @@
 <template>
-    <div class=" app-container" >
+    <div class=" app-container">
        
-        <header class="p-4 pt-0 mt-0" >
+        <header class=" pt-0 mt-0">
             <app-nav></app-nav>
         </header>    
-        <div class="py-4 row">
-            
+        <div class=" row">
+            <div class="col-3" v-if="$mq=='lg'">
+                <categories-pannel></categories-pannel>
+            </div>
           <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
-            <div class="col-12 p-0 m-0 p-lg-4 " >
+            <div class="col-12 col-lg-9 p-0 m-0 p-lg-4 ">
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>
                 </transition>
@@ -20,9 +22,8 @@
         
         <total-bouncer :total="total" v-if="$route.path != '/carrito'" ></total-bouncer>
 
-         
+     
             <apploading v-if="loading || firstload"></apploading>
-        
     </div>
 </template>
 
@@ -34,8 +35,9 @@ import appFooter from '@/components/layout/footer/Footer.vue';
 import appNav from '@/components/layout/Navbar.vue';
 import totalBouncer from '@/components/layout/total-bouncer/total-bouncer.vue'; 
 import apploading from '@/components/layout/loading.vue';
+import categoriesPannel from '@/components/layout/Side-menu.vue';
 export default {
-    components:{appNav,appFooter,whatsappBtn,totalBouncer,apploading},
+    components:{appNav,appFooter,whatsappBtn,totalBouncer,apploading,categoriesPannel},
     computed:{
         user(){
             return this.$store.getters.getUser;
@@ -48,7 +50,7 @@ export default {
         }
     },
       mounted(){
-        console.log(this.firstload);
+      
          if(this.$store.getters.getLoading || this.firstload){
          
           

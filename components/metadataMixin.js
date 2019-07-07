@@ -10,24 +10,22 @@ export default {
     },
     computed: {
         metadata() {
-            let allmeta = this.$store.getters.getMeta;
             let page = this.$route.name;
-            if (allmeta) {
-                return allmeta.find(m => {
-                    return m.page == page;
-                });
-            }
+            
+            return this.$store.getters.getMeta(page);
+                    
             
         },
         metatitle() {
             if (this.metadata) {
+                
              
-                return this.metadata.metatitle ? this.metadata.metatitle : 'Bazar Mayorista Maju';
+                return this.metadata.metatitle ? this.metadata.metatitle : 'Mates Fabi';
             }
         },
         metadescription() {
             if (this.metadata) {
-                return this.metadata.metadescription ? this.metadata.metadescription : 'Bazar Mayorista Maju';
+                return this.metadata.metadescription ? this.metadata.metadescription : 'Mates Fabi';
             }
 
         },

@@ -30,10 +30,12 @@ Vue.mixin({
           }
         }
       },
-      notPaused(category){
-        return category.products.filter(p=>{
-          return !p.paused;
-        })
+      notPaused(products){
+        if(products && products.length > 0){
+          return products.filter(p=>{
+            return !p.paused;
+          })
+        }
       },
       productSlug(product)
       {

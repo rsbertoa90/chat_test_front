@@ -1,13 +1,13 @@
 <template>
 <transition enter-active-class="animated bounceIn">
             <div id="total" key="bouncer" v-if="total>0">
-                <div  class="bg-red p-1">
+                <div  class="bg-first p-1">
                     <div class="btn-desplegar " @click="desplegar = !desplegar ">
-                         <fa-icon icon="shopping-cart" class=" mt-2 mr-2"></fa-icon>
+                         <span  class="fa fa-shopping-cart  mr-2"></span>
                         Mi pedido  
                        <span class="font-weight-bold ml-1"> ${{total | price}} </span>
-                        <fa-icon v-if="desplegar" icon="chevron-down" class="mt-2 ml-3"></fa-icon>
-                        <fa-icon v-else icon="chevron-up" class="mt-2 ml-3"></fa-icon>
+                        <span v-if="desplegar"  class=" ml-3 fa fa-chevron-down"></span>
+                        <span v-else class="fa fa-chevron-up  ml-3"></span>
                      
                     </div>
                 </div>
@@ -17,13 +17,13 @@
                             <tr v-for="product in list" :key="product.code">
                                 <td class="nametd">{{product.name}}</td>
                                 <td class="unitstd">{{product.units}}</td>
-                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="remove(product)"> <fa-icon icon="times"></fa-icon> </button> </td>
+                                <td class="btn-td"> <button class="btn btn-sm btn-danger" @click="remove(product)"> <span class="fas fa-times"></span> </button> </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div  class="border-red">
-                    <div class="bg-white d-flex justify-content-center p-1">
+                <div  class="border-first">
+                    <div class="bg-white d-flex justify-content-center p-1" >
                         <nuxt-link to="/carrito" class="finish bg-white w-100 text-center" >  Terminar pedido </nuxt-link>
                     </div>
                 </div>
@@ -37,13 +37,6 @@ export default {
     data(){return{
         desplegar:true,
     }},
-    methods:{
-        remove(p){
-            p.units = 0;
-           // console.log(p.name,p.units)
-            this.$store.commit('setList',p);
-        }
-    },
    computed:{
        list(){
            return this.$store.getters.getList;
@@ -51,6 +44,21 @@ export default {
        total(){
            return this.$store.getters.getTotal;
        }
+   },
+    methods:{
+        remove(p){
+            p.units = 0;
+            this.$store.commit('setList',p);
+        },
+       scrollDown(){
+            
+                setTimeout(() => {
+                    console.log();
+    
+                    window.scrollTo(0,document.body.scrollHeight-1200);
+                }, 300);
+            
+        }
    }
 }
 </script>
@@ -58,17 +66,17 @@ export default {
 <style lang="scss" scoped>
 
 
-.border-red{
-    border:2px solid red;
+.border-first{
+    border:2px solid #b2037a;
     padding:0;
     background-color: #fff;
 }
 .finish{
-    color:#D52B1E;
+    color:#b2037a;
     a{
-        color:#D52B1E;
+        color:#b2037a;
         &:hover{
-            color:#D52B1E;
+            color:#b2037a;
         }
     }
 }
@@ -77,13 +85,13 @@ export default {
         position: fixed;
         /* margin-left:50vw; */
         bottom: 0;
-        right:0;
+        right:50%;
         z-index: 900;
-        width:250px;
+        width:270px;
     }
 
     .btn-desplegar{
-        background-color: #D52B1E;
+        background-color: #b2037a;
         color:#fff;
         display: flex;
         justify-content: center;
@@ -122,6 +130,10 @@ export default {
                max-width:50px;
             }
         }
+    }
+
+    .fa-times{
+        font-size:.6rem;
     }
 </style>
 

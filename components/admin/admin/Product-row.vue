@@ -14,32 +14,14 @@
                 <textarea placeholder="NOMBRE" rows="1" type="text" v-model.lazy="product.name" 
                 @change="saveChange(product,'name')" class="form-control"></textarea>
             </td>
-            <td class="d-flex flex-column">
-                <span class="text-center">Precio X unidad</span>
-                <input type="checkbox" class="form-control" v-if="!hasUnitPrice" @click="hasUnitPrice=true" >
-                <div class="relative" v-if="hasUnitPrice">
-                     <span class="input-icon">$</span>
-                    <input v-model.lazy="product.unit_price" @change="saveChange(product,'unit_price')"
-                        type="number" step=".01" class=" form-control smallField">
-                </div>
-            </td>
+           
         </tr>
         <tr>
             <td>
                 <input v-model.lazy="product.code" @change="saveChange(product,'code')" 
                         type="text" class="form-control smallField">
             </td>
-            <td >
-                <select class="form-control" v-model="product.suplier_id" 
-                        @change="changed(product,'suplier')">
-                    <option v-for="suplier in supliers" 
-                            :key="suplier.id" 
-                            :value="suplier.id"
-                            :selected="suplier.id == product.suplier_id"> 
-                        {{suplier.name}} 
-                    </option>
-                </select>
-            </td>
+           
             <td>
                 <select class="form-control" v-model="product.category_id"
                         @change="changed(product,'category')" >
@@ -65,27 +47,8 @@
             
             
             </td>
-            <td >
-                <div class="d-flex">
-                    
-                    <input step="1" v-model.lazy="product.pck_units" @change="saveChange(product,'pck_units')"
-                        type="number" class="form-control smallField ">
-                </div>
-            </td>
-            <td>
-                <div >
-                    <div class="relative">
-                        <span class="input-icon">
-                            $
-                        </span>
-                        <input  v-model.lazy="product.pck_price" 
-                                @change="saveChange(product,'pck_price')"
-                        type="number" step=".01" class="form-control smallField">
-
-                    </div>
-                </div>
-            
-            </td>
+           
+           
             <td class="d-flex flex-column justify-content-center align-items-center p-0">
             <!--  <input class="form-control" type="checkbox" v-model="product.selected"> -->
                 <button @click.prevent="deleteProduct(product)" class="btn btn-sm btn-outline-danger m-1">
@@ -118,13 +81,7 @@ export default {
         showModal:false,
         hasUnitPrice :false
     }},
-    computed:{
-        supliers(){
-            return this.$store.getters.getSupliers;
-        },
-
-        
-    },
+    
     mounted(){
             if(this.product && this.product.unit_price && this.product.unit_price > 0){
                 this.hasUnitPrice =true;

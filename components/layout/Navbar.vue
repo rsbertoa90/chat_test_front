@@ -1,45 +1,28 @@
 <template>
-    <div :class="{'hideoverflow':loading}">
-        <div v-if="admin" class="top-space"></div>
-       <navMobile v-if="$mq!='lg'"></navMobile>
-       <navWide v-if="$mq == 'lg'"></navWide>
-    </div>
+      <div>
+            <navbar-mobile v-if="$mq != 'lg'"></navbar-mobile>
+            <navbar-wide v-else></navbar-wide>
+      </div>
+
 </template>
-
-
 <script>
-import navMobile from './nav/mobile.vue';
-import navWide from './nav/wide.vue';
-/* import navWide from './nav-admin.vue'; */
+import navbarMobile from './navbar/Navbar-mobile.vue'
+import navbarWide from './navbar/Navbar-wide.vue'
 export default {
-    components:{navMobile,navWide},
-    computed:{
-        user(){
-            return this.$store.getters.getUser;
-        },
-        loading(){
-            return this.$store.getters.getLoading;
-        }
-    }
+    components : {
+        navbarMobile,
+        navbarWide
 
+    }
 }
 </script>
 
 
 <style scoped>
-.hideoverflow{
-    width:100vw;
-    height:50px;
-    overflow: hidden;
-}
-    .top-space{
-        width:100vw;
-        height: 200px;
+    .bg-turquesa {
+        background-color: turquoise;
     }
+    
 
-    @media(max-width:600px){
-        .top-space{
-            height: 50px;
-        }
-    }
+
 </style>

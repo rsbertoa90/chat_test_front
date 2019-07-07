@@ -1,20 +1,18 @@
 <template>
     <div class="container m-auto">   
-          <div v-if="loading" class="loader">
+         <!--  <div v-if="loading" class="loader">
             <dotLoader :loading="loading" size="200px"></dotLoader>
-         </div> 
+         </div>  -->
          <div v-if="$mq == 'sm'" class="w-100 d-flex flex-column align-items-center jusify-content-center">
             <h2 class="text-warning">
                 Lo sentimos. El administrador no esta disponible en dispositivos moviles.
             </h2>
         </div>
 
-        <div v-else class="row">
+        <div v-else class="row mt-4">
             
-             <div class="col-12 d-flex justify-content-center">
-                 <img :src="imagePath('/storage/images/app/MAJU.jpg')" style="width : 200px ; height: 110px" alt="logo">
-             </div>
-             <hr>
+          
+         
              <div class="col-12">
                 <admin-create  @productSaved="refresh"></admin-create>
              </div>
@@ -29,7 +27,6 @@
                     <div class="col-6 row">
                         <label class="text-info font-weight-bold col-4">Ordenar por</label>
                         <select class="form-control col-6" v-model="orderBy" id="">
-                            <option value="suplier.name">Proveedor</option>
                             <option value="category.name">Categoria</option>
                             <option value="name">Producto</option>
                             <option value="price">Precio</option>
@@ -45,10 +42,7 @@
                                         v-for="category in categories" :key="category.id" :value="category.id"> 
                                         {{category.name}}
                                 </option>
-                                <option v-if="orderBy == 'suplier.name'" 
-                                        v-for="suplier in supliers" :key="suplier.id" :value="suplier.id"> 
-                                        {{suplier.name}}
-                                </option>
+                               
                             </select>
                         </div>
                     </div>
@@ -70,11 +64,8 @@
                                 <thead class="">
                                     <th>imagen</th>
                                     <th>Codigo</th>
-                                    <th>Proveedor</th>
                                     <th>Categoria</th>
                                     <th>Precio</th>
-                                    <th >Unidades x bulto</th>
-                                    <th >Precio en bulto</th>
                                 </thead>
                                 <!-- <transition-group tag="tbody" 
                                                     enter-active-class="animated slideInLeft faster "
@@ -85,7 +76,7 @@
                                     
                                     <tbody v-for="product in filteredProducts" :key="product.id+product.code+product.name" is="product-row" 
                                                     :product="product"
-                                                    :supliers="supliers"
+                    
                                                     :categories="categories"
                                                     @refresh="refresh"
                                                     >
@@ -144,13 +135,12 @@ import paginator from './admin/paginator.vue';
                
                
                 showModal : false,
-                orderBy : 'suplier.name'
+                orderBy : 'category.name'
             }
         },
+        
         computed:{
-            supliers(){
-                return this.$store.getters.getSupliers;
-            },
+          
             selectedProducts()
             {
                 var list =[];
@@ -172,7 +162,7 @@ import paginator from './admin/paginator.vue';
                     {
                         var prop = null;
                         if (this.orderBy == 'category.name'){prop = 'category'}
-                        else if (this.orderBy == 'suplier.name'){prop = 'suplier'}
+                    
                         
                         if (prop && this.selector.id != 'all'){
                             var filtered = this.products.filter(prod => {
@@ -205,7 +195,15 @@ import paginator from './admin/paginator.vue';
 
         },
         methods : {
-            
+            setProducts(){
+                let res = [];
+                if (this.categories){
+                    this.categories.forEach(c => {
+                        res = res.concat(c.products);
+                    });
+                }
+                this.products = res;
+            },
             resetFilters(){
               /*   this.resetCheckboxes(); */
                 this.selectedPage = 1;
@@ -228,13 +226,12 @@ import paginator from './admin/paginator.vue';
                   let prodName = prod.name.toLowerCase().trim();
                   term = term.toLowerCase().trim();
                   let categoryName = prod.category.name.toLowerCase().trim();
-                  let suplierName = prod.suplier.name.toLowerCase().trim();
+                
                   let code = prod.code.toLowerCase().trim();
 
                   if (
                       prodName.indexOf(term) > -1
                       || categoryName.indexOf(term) > -1
-                      || suplierName.indexOf(term) > -1
                       || code.indexOf(term) > -1
                   ){return true;}
                   else{return false;}
@@ -269,76 +266,15 @@ import paginator from './admin/paginator.vue';
             },
 
            
-           /*  resetCheckboxes(){
-                this.selector.checked =false;
-                this.products.forEach(prod => {
-                    if (prod.selected == undefined)
-                    {
-                        Vue.set(prod,'selected',false);
-                    }else {
-
-                        prod.selected = false;
-                    }
-                });
-            }, */
-            checkSelect(){
-                if (this.selector.id == 'all')
-                {
-                    this.products.forEach(prod => {
-                        if (prod.selected == undefined)
-                        {
-                            Vue.set(prod,'selected',true);
-                        }
-                        prod.selected = this.selector.checked;
-                    });
-                }else{
-                    if (this.orderBy == 'category.name')
-                    {
-                        this.products.forEach(prod => {
-                            if (prod.category.id == this.selector.id)
-                            {
-                                if (prod.selected == undefined)
-                                {
-                                    Vue.set(prod,'selected',true);
-                                }
-                                prod.selected = this.selector.checked;
-                            }
-                        });
-                    } else if (this.orderBy == 'suplier.name')
-                    {
-                         this.products.forEach(prod => {
-                            if (prod.suplier.id == this.selector.id)
-                            {
-                                if (prod.selected == undefined)
-                                {
-                                    Vue.set(prod,'selected',true);
-                                }
-                                prod.selected = this.selector.checked;
-                            }
-                        });
-                    }
-                }
-
-
-            },
+        
+          
            
           
          
          
             refresh(){
                 var vm = this;
-                this.$store.dispatch('fetchCategories');
-
-               this.$store.dispatch('fetchSupliers');
-                
-                this.$axios.get('/products')
-                .then(response => {
-                     vm.products = response.data;
-                    vm.products = this.orderArray(vm.products, vm.orderBy);
-                    vm.loading=false;
-                });
-                
-
+                this.$store.dispatch('fetchCategories').then(()=>{this.setProducts()});
             },
             saveChange(product,field){
                 var data = {

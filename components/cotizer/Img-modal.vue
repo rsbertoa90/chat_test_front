@@ -2,8 +2,8 @@
     <div  ref="modal" class="modal fade" id="image-modal" tabindex="-1" role="dialog">
    <div class="modal-dialog" role="document">
     <div  v-if="product" class="modal-content">
-      <div class="modal-header text-center">
-        <h5 class="modal-title w-100 text-center "> {{product.name}} </h5>
+      <div class="modal-header">
+        <h5 class="modal-title"> {{product.name}} </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -23,18 +23,17 @@
             </transition>  
                 <img v-if="!product.images || ! product.images.length > 0" :src="noImage" :alt="product.name">
 
-            <div class="controls"  v-if="product.images && product.images[1]" >
-                <span  @click="changeImage('prev')" class="ctr"> <fa-icon icon="chevron-left"></fa-icon> </span>
-                <span  @click="changeImage('next')" class="ctr"> <fa-icon icon="chevron-right"></fa-icon> </span>
+            <div class="controls"  v-if="product.images && product.images.length > 1" >
+                <span class="fa fa-chevron-left " @click="changeImage('prev')" ></span>
+                <span class="fa fa-chevron-right " @click="changeImage('next')" ></span>
             </div>
 
-       
-
+          
           </div>
-        
+      
        
       </div>
-   
+ 
     </div>
   </div>
 </div>
@@ -48,6 +47,7 @@
             return {
                file : null,
                i:0,
+            
                show:true
             }
         },
@@ -61,20 +61,24 @@
         methods : {
             preloadImages(){
                 /* console.log('preload'); */
-                let images = [];
-                this.product.images.forEach(image => {
-                    let img = new Image();
-                    img.src = this.imagePath(image.url);
-                    images.push(img);
-                   /*  console.log(img); */
-                });
+                if (this.product &&  this.product.images && this.product.images.length>0){
+
+                    let images = [];
+                    this.product.images.forEach(image => {
+                        let img = new Image();
+                        img.src = this.imagePath(image.url);
+                        images.push(img);
+                       /*  console.log(img); */
+                    });
+                }
             },
             close(){
                 this.i = 0;
-                this.$emit('close');
+                this.$emit('closeModal');
+                
             },
 
-          
+            
 
         changeImage(where){
             if (where == 'next'){
@@ -99,17 +103,9 @@
 
 <style lang="scss" scoped>
 
-
-   .modal-dialog{
-            max-width: 400px;
-        }
     .image-container{
         position:relative;
         overflow: hidden;
-       
-        img{
-            width:100%;
-        }
     }
 
     .close-button{
@@ -126,28 +122,15 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        .ctr{
+        .fa{
             font-size:2rem;
             cursor: pointer;
-            background-color:#D52B1Edd;
-            color:#fff;
-            display:flex;
-            width:50px;
-            height: 50px;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-           &:hover{
-               background-color: #0000ffdd;
-           }
+            background-color: #09cca299;
+            color: #ff0aaf; 
+            font-weight: bold;
+            padding: 5px;
         }
 
-    }
-
-    @media(max-width:600){
-        .modal-dialog{
-            max-width: 300px;
-        }
     }
 
 </style>

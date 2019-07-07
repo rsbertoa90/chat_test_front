@@ -1,167 +1,190 @@
 <template>
-<div class="contain-all m-auto">
-
-     <div v-if="!categories || categories.length < 1  || !config" class="loader">
-            <dot-loader :loading="loading" size="200px"></dot-loader>
-    </div>
-    
-    <div v-if="config && user && config.maintenance && user.role_id > 2">
-        <div class="d-flex flex-column text-center w-100">
-            <h1>
-                Estamos Actualizando nuestros precios
-            </h1>
-            <h2>
-                Vuelve a intentar mas adelante
-            </h2>
+    <div class="container">   
+        <div class="row">
+            <h1 class="col-12 col-lg-6 text-center" v-if="user && user.role_id > 2">Hace tu pedido Online</h1>
+            <h1 class="col-12 col-lg-6 text-center" v-else>Tomar pedido</h1>
+            <a href="/descargar-lista-de-precios" target="_blank" class="col-12 col-lg-6 btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
         </div>
+        <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs">
+           
+                <span><i class="fa fa-check fucsia"></i>  Los precios publicados son sin IVA</span>
+                <span><i class="fa fa-check fucsia"></i> Acercándote personalmente a las sucursales la compra mínima es de ${{configs.minbuy}}.</span>
+                <span><i class="fa fa-check fucsia"></i> La Compra minima <b> ONLINE </b> es de ${{configs.minbuy_ship}}</span>
+                <span><i class="fa fa-check fucsia"></i> Los despachos o retiros de las compras online se realizan de 2 a 6 días hábiles luego del informe y acreditación de pago.</span>
+                <span><i class="fa fa-check fucsia"></i> <b> Envío: </b> la elección del trasporte y el costo del mismo corre a cargo del comprador. Mates Fabi lo lleva sin cargo  desde la fabrica hasta el transporte de tu elección.</span>
+                <span><i class="fa fa-check fucsia"></i> <b> Formas de pago: </b> Efectivo o Deposito /Transferencia Bancaria.</span>
+           
+        </div>
+
+        
+           
+             
+            
+             
+        <div id="accordion">
+            <div v-for="category in categories" 
+                  :key="'category-'+category.id" 
+                  class="card flex-wrap">
+                <div class="card-header" :id="'card'+category.id">
+                  
+                    <h5 class="mb-0">
+                        <button class="btn  btn-link w-100 text-left text-big d-flex align-items-center w-100" 
+                                data-toggle="collapse" 
+                                :data-target="'#acordion'+category.id" 
+                                aria-expanded="true" 
+                                :aria-controls="category.name"
+                                @click="selectedCategory=category.id">
+                                   <div class="category-miniature">
+                                        <v-lazy-image :src="imagePath(category.image)"></v-lazy-image>
+                                    </div>
+                                    <span class="white-space-normal">
+                                        {{category.name | ucFirst}}
+                                    </span>
+                                   
+                        </button>
+                    </h5>
+                </div>
+                <div :id="'acordion'+category.id" class="collapse collapsed " aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                       <table class="table table-striped table-bordered " >
+                           <thead>
+                               <tr>
+                                    <th>Foto</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Quiero</th>
+                               </tr>
+                           </thead>
+                           <tbody v-if="selectedCategory==category.id">
+                               <tr is="productRow" v-for="product in notPaused(category.products)" :key="product.id" :product="product">  
+                               </tr>
+                           </tbody>
+                       </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <hr>
+        
+       <div v-if="!tutoseen">
+            <tutorial v-if="!user || user.role_id > 2"></tutorial>
+       </div>
     </div>
-
-    <div v-if="categories && config && !config.maintenance" class=" w-100" :class="{'bg-white' : user != null && user.role_id > 2}">   
-        <mobileCotizer v-if="$mq!='lg'"></mobileCotizer>
-        <web-cotizer v-if="$mq=='lg'"></web-cotizer>
-    </div>
-
-   
-
-   
-
-
-</div>
 </template>
 
 <script>
-import webCotizer from './web/cotizer.vue';
-import mobileCotizer from './mobile/cotizer.vue'
-import appBanner from './banner.vue';
-import metaMixin from '@/plugins/metadataMixin.js';
-
-
-
+import productRow from './product-row.vue';
+import metadataMixin from '../metadataMixin.js';
+ import { mapActions } from 'vuex';
+ import { mapGetters } from 'vuex';
+   
+   
+    import tutorial from './tutorial.vue'
+   
     export default {
-      mixins:[metaMixin],
-        components:{
-          webCotizer,mobileCotizer,
-         
-            },
+        mixins:[metadataMixin],
+        components : {tutorial,productRow},
         data(){
             return {
-                selectedPage:1,
-                 productsPerPage:30,
-              
-                loading:true,
-             
+                selectedCategory:null,              
             }
         },
+
+       
      
         computed: {
-          
-            list(){
-                return this.$store.getters.getList;
-            },
-           
-            categories(){
-                return this.$store.getters.getNotPaused;
-            },
-            config(){
-                return this.$store.getters.getConfig;
-            },
-            user(){
-                return this.$store.getters.getUser;
-            },
-
-            total() {
-               return this.$store.getters.getTotal;
-            },
+            ...mapGetters({
+                categories : 'getCategories',
+               user : 'getUser',
+               configs: 'getConfig',
+                total:'getTotal',
+                list:'getList',
+                tutoseen:'getTutoSeen'
+            }),
             
+          
         },
-      
-       
-        methods:
+
+        mounted()
         {
-            paginate(array,page){
-                if(array && array.length>0){
-                    page--; 
-                   return array.slice(page * this.productsPerPage, (page + 1) * this.productsPerPage);
-                }
-            },
-         
-        },
-        filters : {
-            price(value){
-                return  value.toFixed(2);
+            if (this.user && this.user.role_id < 3)
+            {
+                this.$store.dispatch('fetchCategories');
             }
         }
+
+      
     }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 
-.contain-all{
-    width: 97vw;
-    padding:5px;
-    margin-left:-3%;
-    overflow: hidden;
+.icono{
+    font-size: 2.75rem;
+    margin-right: 15px;
+    margin-top:-15px
 }
 
-   @media(max-width: 660px){
-       .contain-all{
-           width:99vw;
-       }
-   }
- 
 
-
-    .lglogo{
-        width : 200px ; 
-        height: 100px;
-    }
-    .smlogo{
-        width : 100px ; 
-        height: 50px;
-        margin-bottom: 15px;
-        margin-top: 10px;
+.white-space-normal{
+    white-space: normal;
+}
+.text-big{
+    font-size: 1.5rem;
+}
+.category-miniature{
+    min-width: 100px;
+    width: 100px;
+    margin-right: 15px;
+}
+.container{
     
+    margin-bottom: 100px;
+  
     }
 
-    
+    td{
+        white-space:normal;
+    }
+    input[type="number"]{
+        width: 70px;
+    }
 
-   
-   
-   
+    .sampleImage{width: 100px;}
+
+
+   .btn-link {color : black;}
    
     img{width:100%}
 
-   
-
-    .loader {
-    position : fixed;
-    height: 100%;
-    width: 100%;
-    z-index: 110;
-    background-color: #ddddddaa;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 5%;
-}
-
-.search-bar{
-    border:1px solid #D52B1E;
-    padding:3px;
-    margin-top:20px;
-    text-align: center;
+    @media(max-width: 600px){
+        .card-header{
+            padding:0;
+        }
+        .container{
     
-
-    &::placeholder{
-        color: #D52B1E;
-        text-align:center;
+            margin-left: -7%;
+            width: 100vw;
+            padding: 15px;
+            }
+        .sampleImage{width: 80px;}
+        td { white-space :normal;}
+        table {
+            font-size: 0.66rem;
+            font-weight: bold;
+        }
+       
+        .card-body,table th, table td{padding:5px;}
     }
-}
-
-
-
-
-
+    
+    @media(min-width: 600px){
+        .sampleImage{width: 150px;}
+        table{ font-size: 1rem; font-weight: normal}
+        td {white-space: normal;}
+        .card-body,.container{padding:1.25rem}
+        
+    }
+   
 </style>

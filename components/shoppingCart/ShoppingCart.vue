@@ -1,25 +1,43 @@
 <template>
-    <div class="d-flex flex-column">
-        <div class="p-3">
-             <cotizer-form></cotizer-form>
+    <div>
+        <div>
+            <cotizer-form ></cotizer-form>
         </div>
-    
-        <list></list>
-        <div class="col-12" style="height:100px"></div>
-    </div> 
+        <div v-if="list && list.length > 0">
+            <pedido ></pedido>
+        </div>
+        <div v-if="total" class="mt-3">
+            <span class="total fucsia">TOTAL: ${{total |price}}</span>
+        </div>
+    </div>
 </template>
 
+
 <script>
-import cotizerForm from './form.vue';
-import list from './list.vue';
-import metaMixin from '@/plugins/metadataMixin.js';
+ import pedido from './pedido.vue';
+ import cotizerForm from './Cotizer-form.vue'
+
+import metadataMixin from '../metadataMixin.js';
+ import { mapActions } from 'vuex';
+ import { mapGetters } from 'vuex';
 export default {
-    mixins:[metaMixin],
     name:'carrito',
-    components:{
-        cotizerForm,list
-    },
-   
-   
+    mixins:[metadataMixin],
+        components : {pedido,cotizerForm},
+    computed:{
+        list(){
+            return this.$store.getters.getList;
+        },
+        total(){
+            return this.$store.getters.getTotal;
+        }
+    }
 }
 </script>
+
+
+<style lang="scss" scoped>
+    .total{
+        font-size:35px;
+    }
+</style>

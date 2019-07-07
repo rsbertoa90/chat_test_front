@@ -1,69 +1,46 @@
 <template>
-    <div >
-        <div class="col-12" v-if="!product.units || product.units < minUnits">
-            <button class="btn btn-block bg-red hover-border" style="cursor:pointer" @click="addFirstUnit">
-                  <fa-icon icon="shopping-cart"></fa-icon> Agregar al carrito 
-            </button>
-        </div>
-
-        <div v-if="product.units >= minUnits" class="d-flex justify-content-start">
-            <div style="font-size:2rem" class="mr-1 d-2 d-flex flex-column justify-content-center cart-flex">
-                    <fa-icon icon="shopping-cart" class="bg-white text-red"></fa-icon>
+<div v-if="product">
+    <button v-if="!product.units || product.units < 1 " type="button"  class="btn btn-lg btn-outline-success" @click="addProduct"> 
+        <fa-icon icon="shopping-cart"></fa-icon> 
+        Comprar
+    </button>    
+     <div v-if="product.units && product.units > 0" class="d-flex justify-content-center">
+            <div style="font-size:2rem" class="mr-1 d-2 d-flex flex-column justify-content-center">
+                    <fa-icon icon="shopping-cart" ></fa-icon>
             </div>
             <div class=" d-flex  justify-content-center units-control">
-                <button @click="product.units--" class="btn-red"> <fa-icon icon="minus"></fa-icon> </button>
-                <input type="text" v-model.lazy="product.units" class=" units-field">
-                <button @click="product.units++" class="btn-red"> <fa-icon icon="plus"></fa-icon> </button>
+                <button @click="product.units--" class="btn-info"> <span class="fa fa-minus"></span> </button>
+                <input type="text" v-model="product.units" class=" units-field">
+                <button @click="product.units++" class="btn-info"> <span class="fa fa-plus"></span> </button>
             </div>
                 
-        </div>
     </div>
+</div>
 </template>
 
 
 <script>
 export default {
     props:['product'],
-   
+    methods:{
+        addProduct()
+        {
+            this.$set(this.product,'units',1);
+            this.$store.commit('setList',this.product);
+        }
+    },
     watch:{
         'product.units'(){
-            if(this.product.units < this.minUnits){this.product.units = 0;}
             this.$store.commit('setList',this.product);
-            
-        }
-    },
-    methods:{
-        addFirstUnit(){
-            this.$set(this.product,'units',this.minUnits);
-           // console.log(this.product.name,this.product.units);
-        }
-    },
-    
-    computed:{
-        minUnits(){
-                return (this.product.unit_price || this.product.price > 0) ? 1 : this.product.pck_units ;
-            
-        }
-    }, 
-    mounted(){
-        if(this.product && !this.product.units)
-        {
-            this.$set(this.product,'units',null);
-        }
-        if(this.product && this.product.units){
-            this.units = this.product.units;
         }
     }
-
 }
 </script>
 
 
-<style lang="scss" scoped>
 
-.cart-flex{
-    width:50px;
-}
+
+<style lang="scss" scoped>
 
 .hover-border:hover{
     border:2px solid #868686;
@@ -72,7 +49,6 @@ export default {
         border:1px solid #868686;
         padding:5px;
         border-radius: 15%;    
-        max-width:150px;
     }
 
     .bg-red
@@ -109,3 +85,4 @@ export default {
 
         }
 </style>
+

@@ -1,17 +1,17 @@
 <template>
-    <appcategory></appcategory>
+    <appcategory v-if="obj" :category="obj"></appcategory>
 </template>
 
 
 <script>
-import appcategory from '@/components/category/categoryIndex.vue';
+import appcategory from '@/components/category/Category.vue';
 export default {
     name:'category-decider',
     components:{appcategory},
     layout:'categories',
     head() {
           let canonical =this.backendpath+this.$route.path;
-        //console.log(canonical);
+      
         return {
               link:[
                 {rel:'canonical',href:canonical}
@@ -44,7 +44,7 @@ export default {
                         return slug == param;
                     });
                }    
-        
+          
              return res;
         },
           metatitle(){

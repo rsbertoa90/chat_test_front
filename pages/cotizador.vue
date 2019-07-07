@@ -1,13 +1,16 @@
 <template>
-    <cotizer></cotizer>
+    
+    <appComponent></appComponent>
+
 </template>
 
 <script>
-import metamixin from '@/plugins/metadataMixin.js'
-import cotizer from '@/components/cotizer/Cotizer.vue';
+import appComponent from '@/components/cotizer/Cotizer.vue';
+import metaMixin from '@/plugins/metadataMixin.js';
 export default {
     name:'cotizador',
-    mixins:[metamixin],
-    components:{cotizer}
+    layout:'categories',
+    mixins:[metaMixin],
+    components:{appComponent}
 }
 </script>

@@ -1,215 +1,128 @@
 <template>
-<div v-if="product" class="row">
-    <div class="col-12  row p-0 m-0">    
-        <div class="col-12 text-right">
-            <h2 class="category-name text-secondary"> {{category.name | ucFirst}} </h2>
-        </div>
-        <div class="red-ribbon col-12" v-if="$mq == 'lg'">
-           
-            <h1  class=" font-weight-bold" >
-                 {{product.name|uc}}
-            </h1>
-            <div col-lg-3>
-
-            </div>
-        </div>
-        <div class="col-12 row">
-            <div class="col-12 col-lg-8">
-                <div class="row">
-                    <card :i="i" v-if="$mq=='lg'" :hideHead="true" :product="product"></card>
-                    <small-card :i="i" v-else :product="product"></small-card>
+    <div v-if="product">
+        <div class="row justify-content-center" itemscope itemtype="http://schema.org/Product">
+            <div class="col-12 col-lg-6 row">
+                <div class="col-12" @click="show">
+                    <v-lazy-image v-if="!product.images[0]"  :src="noImage" alt="sin foto"/>
+                    <v-lazy-image  itemprop="image" v-else 
+                        :src="imagePath(product.images[selectedImage])" 
+                        :alt="product.name" />
                 </div>
-                <div class="small-images row" v-if="product.images[1]">
-                    <div  class="small-image col-3" v-for="(image,key) in product.images" :key="image.url" @click="i =key">
-                        <v-lazy-image  :src="imagePath(image.url)" :alt="product.name"></v-lazy-image>
+                <div class="col-12 row" v-if="product.images[1]">
+                    <div class="col-4" v-for="i in product.images.length" :key="i" @click="selectedImage=i-1">
+                        <v-lazy-image :src="imagePath(product.images[i-1])" :alt="product.name"  />
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-4">
-                <info-row></info-row>
+            <div class="col-12 col-lg-6" itemprop="offer">
+                <div class="d-flex flex-column align-items-start justify-content-around h-100">
+                    <div class="d-flex flex-column">
+                        <h2 itemprop="name"> {{product.name | ucFirst}} </h2>
+                        <span class="text-secondary"> {{product.category.name |ucFirst}} </span>
+                    </div>
+                    <div  class="d-flex align-items-center">
+                        <h2 itemprop="price">  ${{product.price}} </h2>
+                        <h5> <del class="text-secondary ml-2"> ${{product.price*1.4 |price}} </del> </h5>
+                    </div>
+                    <div class="d-flex flex-column mt-3" v-if="product.description">
+                        <h4>Sobre el producto:</h4>
+                        <p class="texto"> {{product.description | ucFirst}} </p>
+                        <span style="font-size: 0.7rem ; font-style:italic">* Los diseños estan sujetos a disponibilidad</span>
+                    </div>
+                    <div class="mt-3">
+                        <shop-button :product="product"></shop-button>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6 d-flex align-items-center">
+                             <fa-icon icon="truck" class="mr-2"></fa-icon>
+                             <span class="ml-2">Envio a todo el país</span>
+                        </div>
+                        <div class="col-6 d-flex align-items-center">
+                            <fa-icon icon="hand-holding-usd"></fa-icon>
+                            <span class="ml-2">Somos fabricantes!</span>
+                        </div>
+                        <div class="col-12 d-flex flex-column" v-if="configs">
+                            <span> <fa-icon icon="check"></fa-icon>  Los precios publicados son sin IVA</span>
+                            <span> <fa-icon icon="check"></fa-icon> Acercándote personalmente a las sucursales la compra mínima es de ${{configs.minbuy}}.</span>
+                            <span> <fa-icon icon="check"></fa-icon> La Compra minima <b> ONLINE </b> es de ${{configs.minbuy_ship}}</span>
+                            <span> <fa-icon icon="check"></fa-icon> Los despachos o retiros de las compras online se realizan de 2 a 6 días hábiles luego del informe y acreditación de pago.</span>
+                            <span> <fa-icon icon="check"></fa-icon> <b> Envío: </b> la elección del trasporte y el costo del mismo corre a cargo del comprador. Mates Fabi lo lleva sin cargo  desde la fabrica hasta el transporte de tu elección.</span>
+                            <span> <fa-icon icon="check"></fa-icon> <b> Formas de pago: </b> Efectivo o Deposito /Transferencia Bancaria.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-       
-        <div class="col-12 descri" v-if="product.description">
-           <p> {{product.description |ucFirst}} </p>
-        </div>
-
-        <div class="col-12 mt-4" v-if="category">
-            <related-products :products="category.products"></related-products>
-        </div>
-        
-    </div>
-
-        
+        <div class="row">
            
-</div>
+                <related-products :category_id="product.category_id"></related-products>
+           
+        </div>
+    </div>
 </template>
 
 <script>
-import relatedProducts from './related-products.vue';
-
-import infoRow from './info.vue';
-import card from './card.vue';
-import smallCard from './small-card.vue';
+import shopButton from './shop-button.vue';
+import relatedProducts from './related.vue';
 export default {
-    components:{card,smallCard,infoRow,relatedProducts},
-    metaInfo(){
-        return{
-            title:this.metatitle,
-            meta: [
-                { charset: 'utf-8' },
-                { vmid: 'description', name: 'description', content: this.metadescription }
-            ]
-        }
-    },
+    components:{relatedProducts,shopButton},
+    
     data(){
         return{
-            i:0
+            selectedImage : 0
         }
     },
     computed:{
-
-        metatitle(){
-            if (this.product )
-            {
-                
-                return this.product.metatitle ? this.product.metatitle : this.product.name+' por mayor'
-            }else{return ''}
-            
-        },
-        metadescription(){
-            if (this.product){
-                if (this.product.metadescription)
-                {
-                    return this.product.metadescription;
-                }
-                else if (this.product.description)
-                {
-                    return this.product.description;
-                }
-                else return this.product.name+" "+'por mayor';
-                    
-            }  else{return ''}
-            
+        configs(){
+            return this.$store.getters.getConfig;
         },
         categories(){
-            return this.$store.getters.getNotPaused;
-        },
-        category(){
-            if(this.product && this.categories)
-            {
-                return this.categories.find(c => {
-                    return c.id == this.product.category_id;
-                });
-            }
+            return this.$store.getters.getCategories;
         },
         product(){
-            let vm =this;
+              
             let res = null;
-            let routeParam = '/'+vm.$route.params.product;
-            routeParam = routeParam.replace('//','/');
-             this.categories.forEach(c => {
-                 let p = c.products.find(pr => {
-                     if(pr.slug){
-                       
-                         let productSlug = '/'+pr.slug;
-                         productSlug = productSlug.replace('//','/');
-                        
-                         return routeParam.trim().toLowerCase() == productSlug.trim().toLowerCase(); 
-                     }
-                   
-                 });
-                 if (p){
-                     res = p;
-                  
-                     return res;
-                 }
+            let param = '/' + this.$route.params.product;
+            param =param.replace('//','/');
+            this.categories.forEach(c=>{
+               let prod  = c.products.find(p => {
+                   let slug = '/'+p.slug;
+                    slug =slug.replace('//','/');
+                    return slug == param;
+               });
+               if(prod){
+                   res = prod;
+                    return res;
+               }
             });
-            return res;
+         
+             return res;
+        
         },
-        config(){
-            return this.$store.getters.getConfig;
+    },
+    methods:{
+        show(){
+            if (this.product.images[0]){
+                let url = this.product.images[this.selectedImage].url;
+                let image = document.createElement('img');
+                image.setAttribute('src',imagePath(url));
+                swal({
+                    content:image,
+                });
+            }else{
+                    var content = document.createElement("img");
+                    $(content).attr('src',this.noImage);
+                    content.style.width = '100%';
+                    swal({content : content});
+            }
         }
-
     }
-
 }
 </script>
 
 
-<style lang="scss" scoped>
-
-
-.category-name{
-    font-size: 1.1rem;
-   
-}
-
-.descri{
-    font-size:1.3rem;
-}
-    .fixed-pannel{
-        position:fixed;
-        top:55px;
-        left:20px;
+<style scope>
+    .fa,.fas{
+        font-size: 1.5rem;
     }
-
-    .red-ribbon{
-    background-color: #D52B1E;
-    width:100%;
-    height:50px;
-    display:flex;
-    align-items:center;
-    justify-content: space-around;
-    color:#fff;
-    margin-bottom:20px;
-    margin-top:10px;
-    
-    .logo-square{
-        background-color: #fff;
-        border: 3px solid #868686;
-        font-size:2rem;
-        color:#D52B1E;
-        /* padding:5px; */
-        display: flex;
-        justify-content: center;
-        align-items:center;
-        height:75px;
-        width:75px;
-    }
-}
-
-h1{
-    font-size: 2rem;
-    white-space: nowrap;
-}
-img{
-    width:100%;
-}
-.small-images{
-   padding:10px;
-   margin-left:10px;
-}
-.small-image{
-    padding:5px;
-    border:1px solid #868686;
-    margin-left:5px;
-    cursor:pointer;
-}
-
-@media(max-width:600px){
-    .red-ribbon{
-        margin-top: 20px;
-        width:100vw;
-        height: 60px;
-        h1{
-            margin-left:10px;
-            font-size:1.3rem;
-            white-space:normal;
-          
-        }
-    }
-}
-
-
 </style>

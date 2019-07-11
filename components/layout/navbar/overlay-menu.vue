@@ -3,7 +3,16 @@
         <div class="row w-100 p-0 m-0 d-flex ">
            
                 <div class="col-9 col-lg-4 p-0">
-                    <ul v-on-click-outside="close"> 
+                     <ul v-if="admin" v-click-outside="close">    
+                        <li v-for="route in adminroutes" :key="route.url" @click="close">
+                            <nuxt-link :to="route.url" class="text-danger">
+                               Admin - {{route.name | ucFirst}}
+                            </nuxt-link>
+                        </li>
+                        
+                    
+                    </ul>
+                    <ul v-click-outside="close">    
                         <li v-for="route in routes" :key="route.url" @click="close">
                             <nuxt-link :to="route.url">
                                 {{route.name | ucFirst}}
@@ -16,6 +25,7 @@
                         </li>
                     
                     </ul>
+                   
                 </div>
        
         </div>
@@ -23,18 +33,20 @@
 </template>
 
 <script>
-
-import imageLogo from '../images/image-logo.vue';
-import overlayMenu from './overlay-menu.vue'
+import vClickOutside from 'v-click-outside'
 import {mapGetters} from 'vuex';
 export default {
-    components : {
-        imageLogo,
-        overlayMenu
+    directives: {
+      clickOutside: vClickOutside.directive
     },
     data(){
         return{
             showMenu : false,
+            adminroutes: [
+                  {url : '/admin',name : 'pedidos'},
+                  {url : '/admin/busquedas',name : 'busquedas'},
+                  {url : '/logout',name : 'salir'},
+            ],
             routes : [
             {url : '/',name : 'home'},
             {url : '/regalos-empresariales',name : 'Regalos empresariales'},

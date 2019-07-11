@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="m-auto p-4">
         <div>
             <cotizer-form ></cotizer-form>
         </div>

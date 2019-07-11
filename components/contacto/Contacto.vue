@@ -8,7 +8,7 @@
             <img :src="imagePath('/storage/images/app/contacto.png')" alt="contacto">
         </div>
         <div class="col-12 col-lg-8">
-            <form ref="form" class="form" method="post" action="/contacto">
+            <form ref="form" @submit.prevent="submit">
                 
                 <div class="row">
                     <label class="col-12 col-lg-4">
@@ -19,18 +19,25 @@
                 </div>
                 <div class="row">
                     <label class="col-12 col-lg-4">
+                        Telefono
+                    </label>
+                    <input  name="name" v-model="formdata.phone" required
+                            type="text" class="form-control col-12 col-lg-8">
+                </div>
+                <div class="row">
+                    <label class="col-12 col-lg-4">
                         Mail
                     </label>
                     <input  name="mail" v-model="formdata.email" required
                             type="email" class="form-control col-12 col-lg-8">
                 </div>
-                <div class="row">
+               <!--  <div class="row">
                     <label class="col-12 col-lg-4">
                         Asunto
                     </label>
                     <input  name="subject" v-model="formdata.topic" required
                             type="text" class="form-control col-12 col-lg-8">
-                </div>
+                </div> -->
                 <div class="row">
                     <label class="col-12 col-lg-4">
                         Mensaje
@@ -39,7 +46,7 @@
                               class="form-control col-12 col-lg-8" rows="5"></textarea>
                 </div>
                 <div class="row mt-4">
-                    <button type="submit" @click.prevent="submit" class="btn btn-lg bg-second offset-4 white-bold">Enviar</button>
+                    <button type="submit" class="btn btn-lg bg-second offset-4 white-bold">Enviar</button>
                 </div>
             </form>
         </div>
@@ -58,7 +65,7 @@ export default {
             formdata : {
                 name : '',
                 email : '',
-                topic : '',
+                phone:'',
                 message : ''
             }
         }
@@ -66,10 +73,15 @@ export default {
     methods:{
         submit(){
             var vm = this;
+            this.$store.commit('setLoading',true);
+            this.$axios.post('/contacto',this.formdata)
+            .then(()=>{
                 swal('Mensaje enviado','Nos comuicaremos con usted a la brevedad','success')
                     .then (response => {
-                        $(vm.$refs.form).submit();
-                    });
+                        this.$store.commit('setLoading',false);
+                        this.$router.push('/');
+            });
+        });
             
         }
     }

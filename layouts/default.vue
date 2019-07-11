@@ -9,7 +9,7 @@
                 <categories-pannel></categories-pannel>
             </div>
           <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
-            <div class="col-12 col-lg-9 p-0 m-0 p-lg-4 ">
+            <div class="col-12 col-lg-9 p-0 m-auto p-lg-4 ">
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>
                 </transition>

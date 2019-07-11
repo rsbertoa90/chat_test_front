@@ -62,7 +62,7 @@
                                 style="cursor:pointer"
                                 :class="{'bg-info' : order == selected}">
                             <td>{{order.created_at | datetime}}</td>
-                            <td>{{order.name}}</td>
+                            <td>{{order.client}}</td>
                             <td> <input type="checkbox" v-model="order.viewed" @change="viewed(order)" class="form-control checkbox"> </td>
                         </tr>
                     </tbody>
@@ -93,7 +93,7 @@ export default {
             searchTerm:'',
            
             status : 'pendiente',
-            source : 'online',
+          
             filtered : [],
             selected : null,
 
@@ -113,10 +113,7 @@ export default {
             }
             this.$axios.put('/order',data);
         },
-        setSource(src){
-            this.source = src;
-            this.selected = null;
-        },
+        
         statusChanged(event){
             this.status = event.status;
         },
@@ -145,21 +142,26 @@ export default {
         }
         ,
         filteredOrders(){
-            if(this.orders == undefined || this.orders.length > 0 || (typeof this.orders[0] == 'undefined') ){
-
+            
+            if( this.orders ){
+               
                 var vm = this;
                /*  console.log(this.orders); */
                 let res = this.orders.filter(order => {
-                  
-                    return (order.source == vm.source 
-                            && order.status == vm.status);
+                    return (order.status == vm.status);
                 });
-    
-                let st = this.searchTerm.trim().toLowerCase();
-                if (st){
-                    res = res.filter(order => {
-                        return order.name.trim().toLowerCase().indexOf(st) > -1 ;
-                    });
+
+                if(res && this.searchTerm){
+
+                    let st = this.searchTerm.trim().toLowerCase();
+                    if (st){
+                        res = res.filter(order => {
+                            if(order.client){
+
+                                return order.client.trim().toLowerCase().indexOf(st) > -1 ;
+                            }
+                        });
+                    }
                 }
     
                 res = this.orderArray(res,'created_at');

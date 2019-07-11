@@ -59,13 +59,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="op in order.order_products"
-                                :key="'op'+op.product.id">
-                                <td> {{op.product.code}} </td>
-                                <td> {{op.product.name}} </td>
+                            <tr v-for="op in order.order_items"
+                                :key="'op'+op.product_id">
+                                <td> {{op.code}} </td>
+                                <td> {{op.name}} </td>
                                 <td> ${{op.price | price}} </td>
-                                <td> {{op.units}} </td>
-                                <td> ${{op.units * op.price | price}} </td>
+                                <td> {{op.qty}} </td>
+                                <td> ${{op.qty * op.price | price}} </td>
                             </tr>
                         
                         </tbody>
@@ -129,9 +129,9 @@ export default {
         total(){
    
             var tot = 0;
-            if (this.order.order_products && this.order.order_products.length > 0){
-                this.order.order_products.forEach(op => {
-                    tot+= (op.price * op.units);
+            if (this.order.order_items && this.order.order_items.length > 0){
+                this.order.order_items.forEach(op => {
+                    tot += (op.price * op.qty);
                 });
             }
         

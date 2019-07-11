@@ -1,6 +1,6 @@
 
 <template>
-<div class="container" v-if="offers.length > 0" >
+<div class="container m-auto pr-4" v-if="offers.length > 0" >
   <hr>
   <h2 class="mb-4">Ofertas de Mates Fabi</h2>
       <!-- swiper -->

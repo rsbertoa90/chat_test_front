@@ -12,7 +12,7 @@
             <textarea  placeholder="URL" rows="1" type="text" v-model.lazy="product.slug" 
                     @change="saveSlug(product,'slug')" class="form-control"></textarea>
         </td>
-        <td >
+       <!--  <td >
              <textarea  placeholder="Meta titulo" rows="2" type="text" v-model.lazy="product.metatitle" 
                     @change="saveChange(product,'metatitle')" class="form-control"></textarea>
         </td>
@@ -23,7 +23,7 @@
         <td>
              <textarea  placeholder="meta descripcion" rows="3" type="text" v-model.lazy="product.metadescription" 
                     @change="saveChange(product,'metadescription')" class="form-control"></textarea>
-        </td>
+        </td> -->
         
        
      

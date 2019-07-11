@@ -16,7 +16,7 @@
             </div>
         </div>
         <!-- LINKS -->
-        <div class="row links mt-3">
+        <div class="row links mt-3" v-if="$mq == 'lg'">
             <div class="col-2 col-lg-2 p-0">
                 <button @click="display = 'grid'"
                         class="btn btn-sm "

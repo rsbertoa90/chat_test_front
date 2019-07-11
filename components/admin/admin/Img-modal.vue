@@ -1,63 +1,64 @@
 <template>
-    <div class="modal fade" id="image-modal" tabindex="-1" role="dialog">
-   <div class="modal-dialog" role="document">
-    <div  v-if="product" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"> {{product.name}} </h5>
-        <button @click="closedModal()" type="button" class="close" 
+    <div class="modal fade" id="image-modal" tabindex="-1" role="dialog" ref="modal" v-if="product">
+        <div class="modal-dialog" role="document">
+           <div  v-if="product" class="modal-content">
+             <div class="modal-header">
+                <h5 class="modal-title"> {{product.name}} </h5>
+                <button @click="closedModal()" type="button" class="close" 
                 data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body"  >
-          <div class="image-container">
-            <transition  leave-active-class=" animated slideOutRight faster position-absolute">
-            
-                <img v-if="product.images && product.images.length > 0 && product.images[i]" 
-                        :key="product.images[i].id"
-                        class="w-100 " 
-                        :src="imagePath(product.images[i])" 
-                        :alt="product.name">
-            </transition>  
-                <img v-if="!product.images || ! product.images.length > 0" :src="noImage" :alt="product.name">
-
-            <div class="controls"  v-if="product.images && product.images.length > 1" >
-                <span class="chevron-button" v-on:click.prevent="changeImage('prev')" >
-                    <fa-icon icon="chevron-left" class="text-info"></fa-icon>
-                
-                </span>
-                <span class="chevron-button text-info" v-on:click.prevent="changeImage('next')" >
-                    <fa-icon icon="chevron-right"></fa-icon>
-                </span>
+                  <span aria-hidden="true">&times;</span>
+                 </button>
             </div>
-
-           
-            <button v-if="product.images && product.images.length > 0" type="submit" class="close-button btn btn-danger btn-sm" @click="destroyImage()">X</button>
+            <div class="modal-body"  >
+                <div class="image-container">
+                    <transition  leave-active-class=" animated slideOutRight faster position-absolute">
             
+                        <img v-if="product.images && product.images.length > 0" 
+                            :key="product.images[i].id"
+                            class="w-100 " 
+                            :src="imagePath(product.images[i])" 
+                            :alt="product.name">
+                    </transition>  
+                     <img v-if="!product.images || ! product.images.length > 0" :src="noImage" :alt="product.name">
 
-            <button v-if="product.images && product.images.length > 0"   
-                    @click="setFirst()" class="btn btn-info set-first">Definir primera imagen</button>
+                    <div class="controls"  v-if="product.images && product.images.length > 1" >
+                        <span class="fa fa-chevron-left text-info" @click="changeImage('prev')" ></span>
+                        <span class="fa fa-chevron-right text-info" @click="changeImage('next')" ></span>
+                    </div>
 
-          </div>
-          <form enctype="multipart/form-data" name="uploader" >
-          
-            <div class="d-flex flex-column">
-                <label class="text-info text-center">  
-                    Subir una imagen   
-                </label>
-                 <input type="file" ref="daFile" name="file"  accept="image/x-png,image/gif,image/jpeg" class="display-none" >
-            </div>   
-           
-          </form>
+                    <button v-if="product.images[0]" class="btn btn-sm btn-danger close-button"
+                                        @click.prevent="deleteImage(product.images[i])">X</button>
+
+                    <div class="order-select"  v-if="product.images.length > 1">
+                        <label @click="orderChange(product.images[i],index)"  v-for="index in product.images.length" :key="index"
+                                class="btn btn-sm"
+                                :class="{'btn-success' : product.images[i].order == index,
+                                        'btn-outline-info' : product.images[i].order != index}"
+                                >
+                            {{index}}
+                        </label>
+                    </div>
+
+                 </div>
+                <form enctype="multipart/form-data" name="uploader" >
+                <input type="hidden" name="_token" >
+                    <div class="d-flex flex-column">
+                        <label class="text-info text-center">  
+                            Subir una imagen   
+                        </label>
+                        <input @change="imageUploaded = true" type="file" name="file"  accept="image/x-png,image/gif,image/jpeg" class="display-none" >
+                    </div>   
+                
+                </form>
        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" @click="save">Guardar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
+             </div>
+            <div class="modal-footer">
+                <button v-if="imageUploaded" type="button" class="btn btn-primary" @click.prevent="save">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+         </div>
+       </div>
     </div>
-  </div>
-</div>
 </template>
 
 <script>
@@ -66,9 +67,10 @@
         props: ['product'],
         data: function(){
             return {
+               imageUploaded :false,
                file : null,
                i:0,
-               
+            
                show:true
             }
         },
@@ -76,75 +78,85 @@
         watch:{
             product(){
                 this.show=true;
-
+                this.preloadImages();
+        
             }
         },
         methods : {
-            destroyImage(){
+               preloadImages(){
+                /* console.log('preload'); */
+                if (this.product &&  this.product.images && this.product.images.length>0){
+
+                    let images = [];
+                    this.product.images.forEach(image => {
+                        let img = new Image();
+                        img.src = this.imagePath(image.url);
+                        images.push(img);
+                       /*  console.log(img); */
+                    });
+                }
+            },
+              deleteImage(image){
+                this.$axios.delete('/product/image/'+image.id)
+                    .then(()=>{
+                        this.product.images.splice(this.i,1);
+                         this.$emit('refresh');
+                         this.i=0;
+                        });
+            },
+             orderChange(img,i){
+                img.order = i ;
                 var vm = this;
                 let data = {
-                    id : vm.product.images[vm.i].id
+                    id : img.id,
+                    field : 'order',
+                    value : i
                 }
-                this.$axios.post('/product/deleteImage',data)
-                    .then(res => {
-                        console.log('deleted');
-                        vm.product.images.splice(vm.i,1);
-                        vm.i = 0 ;
-                    });
+
+                vm.$axios.put('/product/image',data);
+
             },
-           setFirst(){
-               var vm = this;
-               this.product.images.forEach(image => {
-                   image.first = 0;
-               });
-
-               this.product.images[this.i].first = 1;
-               
-               let data = {
-                   product : this.product.id,
-                   first : this.product.images[this.i].id
-               }
-               this.$axios.put('/product/setFirstImage',data).then(res => {
-                   $('#image-modal').modal('hide');
-                        vm.$emit('closedModal');
-                        vm.$emit('refresh');
-               })
-
-               ;
-           },
+       
             closedModal(){
                 this.i = 0;
                 this.$emit('closedModal');
+            
+                
+                $('#image-modal').modal('hide');
+               
                
             },
 
             save :  function(event){
                 var vm =this;
-                 
-                var file = vm.$refs.daFile.files[0];
-                 
-                
-                
-                var fdata =  new FormData();
-              
-                fdata.append('image',file);
-                fdata.append('product',this.product.id)
-                
-                this.$axios.post('/product/image',fdata, {  emulateHTTP: true, emulateJSON: true, headers: { 'X-File-Name': 'image',  'Content-Type': 'multipart/form-data', 'Content-Type': 'application/x-www-form-urlencoded' } } )
-                .then(res => {
-                   
-                      $('#image-modal').modal('hide');
-                        vm.$emit('refresh'); 
-                         vm.$emit('closedModal');
-                });
+                var file = $('input[type="file"]')[0].files[0];
+                if (file == null){
+                    swal('No se ha seleccionado una imagen','','error');
+                } else {
 
+                    this.file = file;
+                    // console.log(file);
+                    
+                    
+                    var fdata =  new FormData();
+                    fdata.append('image',file);
+                    fdata.append('product',this.product.id)
               
+                    // console.log(fdata);
+                    this.$axios.post('/product/image',fdata)
+                    .then(r => {
+                            vm.$emit('refresh');
+                           vm.closedModal();
+                           vm.i=0;
+                    })
+    
+                   
+                }
 
         
         },
 
         changeImage(where){
-       
             if (where == 'next'){
                 this.i++;
                 if (! this.product.images[this.i]){
@@ -156,7 +168,6 @@
                         this.i = this.product.images.length - 1
                     }
                 }
-           
         }
             
         
@@ -167,21 +178,6 @@
 
 <style lang="scss" scoped>
 
-    .modal-content{
-        height: 90vh;
-        overflow-y:auto;
-    }
-
-    .chevron-button{
-        
-        font-size: 1.5rem;
-        padding: 3px;
-        cursor: pointer;
-        z-index: 300;
-        background-color: #0000;
-
-    }
-
     .image-container{
         position:relative;
         overflow: hidden;
@@ -191,6 +187,7 @@
         position:absolute;
         bottom:10px;
         left:50%;
+        
 
     }
 

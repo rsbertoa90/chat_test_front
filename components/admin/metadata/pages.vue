@@ -35,13 +35,13 @@
                     <textarea rows="5" v-model.lazy.trim="selected.metadescription" @change="save(selected,'metadescription')" 
                         type="text" class="col-12 col-lg-8 form-control"></textarea>
                 </div>
-                <div class="p2 row">
+              <!--   <div class="p2 row">
                     <label class="col-12 col-lg-4">
                         Descripcion
                     </label>
                     <textarea rows="5" v-model.lazy.trim="selected.description" @change="save(selected,'description')" 
                         type="text" class="col-12 col-lg-8 form-control"></textarea>
-                </div>
+                </div> -->
             </div>
           
         </div>

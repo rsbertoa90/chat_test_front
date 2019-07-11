@@ -58,6 +58,10 @@
                 </ul>
             </div>
         </div>
+        <nuxt-link to="/logout" class="out-button" v-if="admin">
+            <fa-icon icon="user-cog"></fa-icon> 
+            Salir
+        </nuxt-link>
     </div>
 </template>
 
@@ -108,6 +112,16 @@ $color-focus: #ff0aaf;
 // Rosa claro es ff97dd
 $color-back: #ff97dd;
 
+
+.out-button{
+    font-size:2rem;
+    position:absolute;
+    top:10px;
+    right: 10px;
+    width:120px;
+    cursor: pointer;
+    color:red;
+}
 .nav-row{
     width:99vw;
     margin-left:-4%;

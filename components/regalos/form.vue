@@ -1,7 +1,7 @@
 <template>
     <div>
         
-        <form id="form" ref="form" enctype="multipart/form-data" method="post" action="/regalos-empresariales">
+        <form id="form" @submit.prevent="submit" >
          
             <div class="form-group row">
                 <label class="col-12 col-lg-4">Nombre</label>
@@ -27,14 +27,14 @@
                 <label class="col-12 col-lg-4" for="">¿Para cuando lo necesitas?</label>
                 <input name="date" required class=" form-control col-12 col-lg-8" type="date" v-model="formData.date">
             </div>
-            <div class="form-group row">
+           <!--  <div class="form-group row">
                 <label class="col-12 col-lg-4">Mandanos tu diseño</label>
                 <label class="btn btn-lg btn-outline-info  col-4">
                     Subir archivo <input name="image" type="file" style="display: none;" @change="file=true">
                 </label>
                 <span v-if="file" class="text-warning mt-2 col-4">Archivo subido</span>
-            </div>
-            <button class="col-12 col-lg-4 offset-lg-4 btn btn-outline-success btn-lg" @click.prevent="submit">Enviar</button>
+            </div> -->
+            <button type="submit" class="col-12 col-lg-4 offset-lg-4 btn btn-outline-success btn-lg">Enviar</button>
         </form>
     </div>
 </template>
@@ -61,10 +61,15 @@ export default {
             var vm = this;
             if (this.formValid())
             {
+                this.$axios.post('/regalos-empresariales',this.formData)
+                .then(()=>{
                 swal('Mensaje enviado','Nos comuicaremos con usted a la brevedad','success')
                     .then (response => {
-                        $(vm.$refs.form).submit();
-                    });
+                        this.$store.commit('setLoading',false);
+                        this.$router.push('/');
+                 });
+                
+            });
             }
         },
         formValid(){

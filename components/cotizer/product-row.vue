@@ -7,15 +7,15 @@
             <v-lazy-image class="sampleImage" v-else :src="noImage" 
                 alt="Sin foto" />
         </td>
-        <td v-if="user && user.role_id < 3"> {{product.code}} </td>
+        <td v-if="admin">{{product.code}}</td>
         <td style="cursor:pointer" @click="show(product)">  {{product.name | ucFirst}} </td>
-        <td class="text-info text-center font-weight-bold">${{product.price | price}}</td>
+        <td class="text-info text-center font-weight-bold"  >  <span v-if="config && !config.hide_prices"> ${{product.price | price}} </span></td>
         
-        <td v-if="!product.paused"><input type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
+        <td> <input type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
             
             <div v-if="product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
                 
-                <span class="text-success font-weight-bold">  ${{(product.price * product.units) | price}} </span>
+                <span class="text-success font-weight-bold" v-if="config && !config.hide_prices">  ${{(product.price * product.units) | price}} </span>
                 
             </div>
         

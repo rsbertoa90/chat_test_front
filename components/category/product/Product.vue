@@ -20,7 +20,7 @@
                         <h2 itemprop="name"> {{product.name | ucFirst}} </h2>
                         <span class="text-secondary"> {{product.category.name |ucFirst}} </span>
                     </div>
-                    <div  class="d-flex align-items-center">
+                    <div  class="d-flex align-items-center" v-if="config && !config.hide_prices">
                         <h2 itemprop="price">  ${{product.price}} </h2>
                         <h5> <del class="text-secondary ml-2"> ${{product.price*1.4 |price}} </del> </h5>
                     </div>

@@ -6,7 +6,12 @@ import shrinkRay from 'shrink-ray-current'
 
 
 export default {
-  
+  server: {
+    port: 3004, // default: 3000
+    /* host: '0.0.0.0', */ // default: localhost
+  },
+
+
   optimization:{
     minimize: true,
   },

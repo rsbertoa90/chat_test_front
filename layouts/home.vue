@@ -7,7 +7,7 @@
         <div class=" row">
             
           <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
-            <div class="col-12 p-0 m-0  " >
+            <div class="col-12 p-0 m-auto  " >
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>
                 </transition>

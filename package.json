@@ -10,7 +10,7 @@
     "build": "nuxt build ",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "pm2s":"pm2 start --name 'matesfabi.com' npm -- start"
+    "pm2s": "pm2 start --name 'matesfabi.com' npm -- start"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",

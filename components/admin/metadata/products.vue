@@ -26,9 +26,9 @@
                                 <thead class="">
                                     <th>imagen</th>
                                     <th>URL</th>
-                                    <th>Descripcion</th>
+                                   <!--  <th>Descripcion</th>
                                     <th>Meta titulo</th>
-                                    <th>Meta descripcion</th>
+                                    <th>Meta descripcion</th> -->
                                 </thead>
                                 <!-- <transition-group tag="tbody" 
                                                     enter-active-class="animated slideInLeft faster "

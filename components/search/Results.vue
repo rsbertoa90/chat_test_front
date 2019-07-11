@@ -9,7 +9,7 @@
             </div>
             
             <!-- LINKS -->
-            <div class="row links mt-3">
+            <div class="row links mt-3" v-if="$mq=='lg'">
                 <div class="col-2 col-lg-2 p-0">
                     <button @click="display = 'grid'"
                             class="btn btn-sm "
@@ -98,7 +98,7 @@
                             <span> {{p}} </span>
                         </button>
                         
-                        <button v-if="page != pages" class=" bg-transparent"
+                        <button v-if="page < pages-1" class=" bg-transparent"
                                 @click="page++">
                             <span class="fa fa-chevron-right"></span>
                         </button>
@@ -114,8 +114,8 @@
 </template>
 
 <script>
-import productsGrid from './products-grid.vue';
-import productsList from './products-list.vue';
+import productsGrid from '@/components/category/products-grid.vue';
+import productsList from '@/components/category/products-list.vue';
 export default {
     components : {productsGrid,productsList},
     computed : {
@@ -154,7 +154,7 @@ export default {
                                     term = term.substring(0, term.length-1);
                                  
                                 }
-                                    console.log(term,productName,categoryName);
+                                   // console.log(term,productName,categoryName);
                                 if (    addtores 
                                       && productName.indexOf(term) < 0 
                                         && categoryName.indexOf(term) < 0  
@@ -181,7 +181,7 @@ export default {
                 if (this.products && this.products.length > 0){
 
                     let prods = this.products;
-                    prods = _.sortBy(prods,this.sortby);
+                    prods = this.orderArray(prods,this.sortby);
                     if (this.order == 'desc'){
                         prods = prods.reverse();
                     }
@@ -219,7 +219,9 @@ export default {
             }
         },
         pages(){
-             return Math.round(this.products.length / this.show);
+             let res = Math.round(this.products.length / this.show)+1;
+             if (this.products.length % this.show != 0){res++}
+             return res;
         },
     },
         data(){

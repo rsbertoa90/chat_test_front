@@ -17,7 +17,7 @@
             <span class="fa fa-bars"></span>
             </button>
             <div class="form-inline col-10">
-                <div class="input-group">
+                <div class="input-group relative">
                     <input type="text" class="form-control" 
                             aria-label="Buscar productos"
                             name="search"
@@ -77,8 +77,14 @@ export default {
 }
 </script>
 
-<style>
-  
+<style scoped>
+  .input-group-prepend{
+        position: absolute;
+    right: 13px;
+    top: 0;
+    width: 30px;
+    height: 100%;
+  }
 
 
 </style>

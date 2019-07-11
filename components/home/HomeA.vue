@@ -25,12 +25,6 @@ export default {
         },
 
     },
-    mounted(){
-        setTimeout(() => {
-            if (this.user && this.user.role_id < 3 ){
-                this.$router.push('/admin');
-            }
-        }, 300);
-    }
+   
 }
 </script>

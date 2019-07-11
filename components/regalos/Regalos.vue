@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h1>¿Buscas un Regalo Empresarial original?</h1>
+    <div class="p-3 m-auto">
+        <h1 class="text-center">¿Buscas un Regalo Empresarial original?</h1>
         <p style="text-align: left;"> Impacta con un regalo empresarial fabricado por Mates Fabi. Somos especialistas en brindar soluciones a medida. Ofrecemos productos personalizados que se adaptan a las necesidades de nuestro cliente. </p>
         <p dir="ltr" style="text-align: left;"><span>Trabajamos para que quedes satisfecho y puedas lograr tus objetivos de marketing. Nos interesa que tus clientes queden felices y gratamente sorprendidos. Tenemos un equipo especializado que sabe cómo hacerlo.</span></p>
         <p dir="ltr" style="text-align: left;"><span>Mira algunos de nuestros trabajos.</span></p>

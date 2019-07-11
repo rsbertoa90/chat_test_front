@@ -1,9 +1,10 @@
 <template>
-    <div class="container">   
+    <div class="container m-auto">   
         <div class="row">
-            <h1 class="col-12 col-lg-6 text-center" v-if="user && user.role_id > 2">Hace tu pedido Online</h1>
-            <h1 class="col-12 col-lg-6 text-center" v-else>Tomar pedido</h1>
-            <a href="/descargar-lista-de-precios" target="_blank" class="col-12 col-lg-6 btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
+            <h1 class="col-12 col-lg-6 text-center">Hace tu pedido Online</h1>
+            <div class="col-12 col-lg-6">
+                <a href="/descargar-lista-de-precios" target="_blank" class=" btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
+            </div>
         </div>
         <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs">
            
@@ -16,7 +17,11 @@
            
         </div>
 
-        
+        <no-ssr>
+            <div v-if="admin" class="mt-4 mb-4">
+                <codeSelector></codeSelector>
+            </div>
+        </no-ssr>
            
              
             
@@ -49,7 +54,9 @@
                        <table class="table table-striped table-bordered " >
                            <thead>
                                <tr>
+                                    
                                     <th>Foto</th>
+                                    <th v-if="admin">Cod</th>
                                     <th>Producto</th>
                                     <th>Precio</th>
                                     <th>Quiero</th>
@@ -69,7 +76,7 @@
         <hr>
         
        <div v-if="!tutoseen">
-            <tutorial v-if="!user || user.role_id > 2"></tutorial>
+            <tutorial v-if="!admin"></tutorial>
        </div>
     </div>
 </template>
@@ -77,6 +84,7 @@
 <script>
 import productRow from './product-row.vue';
 import metadataMixin from '../metadataMixin.js';
+import codeSelector from './code-selector.vue';
  import { mapActions } from 'vuex';
  import { mapGetters } from 'vuex';
    
@@ -85,7 +93,7 @@ import metadataMixin from '../metadataMixin.js';
    
     export default {
         mixins:[metadataMixin],
-        components : {tutorial,productRow},
+        components : {tutorial,productRow,codeSelector},
         data(){
             return {
                 selectedCategory:null,              
@@ -109,7 +117,7 @@ import metadataMixin from '../metadataMixin.js';
 
         mounted()
         {
-            if (this.user && this.user.role_id < 3)
+            if (this.admin)
             {
                 this.$store.dispatch('fetchCategories');
             }

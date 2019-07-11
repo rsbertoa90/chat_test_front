@@ -4,12 +4,12 @@
             <button @click="job('prices-list-job')" class="btn btn-outline-info">  
                 Refrescar Lista de Precios
             </button>
-            <button @click="job('catalogo-job')" class="btn btn-outline-warning">  
+          <!--   <button @click="job('catalogo-job')" class="btn btn-outline-warning">  
                 Refrescar Catalogo Digital
-            </button>
-             <a class="btn btn-outline-danger" target="_blank" :href="backendpath+'/catalogo-grande'">
+            </button> -->
+           <!--   <a class="btn btn-outline-danger" target="_blank" :href="backendpath+'/catalogo-grande'">
                     Descargar catalogo crudo
-            </a>
+            </a> -->
           <!--   <a href="/super/failed-jobs" class="btn btn-outline-danger">  
                 Failed jobs
             </a> -->
@@ -20,26 +20,28 @@
                 <input type="number" @change="updateconfig('minbuy')" v-model.lazy="configs.minbuy">
             </div>
             <div class="col-12 mt-2">
-                compra minima envios: 
+                compra minima online: 
                 <input type="number" @change="updateconfig('minbuy_ship')" v-model.lazy="configs.minbuy_ship">
             </div>
         </div>
         <hr>
         <div class="col-12 row">
             <div class="col-12 mt-4" >
-                <button v-if="configs && !configs.maintenance" class="btn btn-outline-danger" @click="toggleMaintenance">Ocultar precios</button>
-                <button v-if="configs && configs.maintenance" class="btn btn-outline-success" @click="toggleMaintenance">Mostrar precios</button>
+                <button v-if="configs && !configs.hide_prices" class="btn btn-outline-danger" @click="toggleMaintenance">Ocultar precios</button>
+                <button v-if="configs && configs.hide_prices" class="btn btn-outline-success" @click="toggleMaintenance">Mostrar precios</button>
             </div>
         </div>
         <div class="mt-4 p-2">
            
-            <div>
+         <!--    <div>
                 <input type="hidden" name="_token" :value="csrf">
                 <label class="btn btn-md btn-outline-info mt-3">Subir catalogo comprimido
                    <input type="file" id="file" ref="file" v-on:change="bindFile()"/>
                 </label>
-              <button  class="btn btn-outline-success" @click="submitFile">Guardar</button> -->
+              <button  class="btn btn-outline-success" @click="submitFile">Guardar</button> 
             </div>
+            -->
+
         </div>
         <!-- <div class="col-12 row">
             <admin-slider></admin-slider>
@@ -69,9 +71,9 @@ export default {
     },
     methods:{
         toggleMaintenance(){
-            let val = this.configs.maintenance ? 0 : 1;
+            let val = this.configs.hide_prices ? 0 : 1;
             let data={
-                field:'maintenance',
+                field:'hide_prices',
                 value:val
             }
             this.$axios.put('/config',data)

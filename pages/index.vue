@@ -1,10 +1,10 @@
 <template>
 <div class="w-100">
     <div class="row">
-        <div class="col-3">
+        <div class="col-3" v-if="$mq == 'lg'">
             <sidePannel></sidePannel>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-lg-9">
             <homeA></homeA>
         </div>
     </div>

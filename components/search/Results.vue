@@ -9,52 +9,10 @@
             </div>
             
             <!-- LINKS -->
-            <div class="row links mt-3" v-if="$mq=='lg'">
-                <div class="col-2 col-lg-2 p-0">
-                    <button @click="display = 'grid'"
-                            class="btn btn-sm "
-                            :class="{'bg-focus white-bold' : display == 'grid'}">
-                            <span class="fa fa-th"></span>
-                    </button>
-                    <button @click="display = 'list'"
-                            class="btn btn-sm "
-                            :class="{'bg-focus white-bold' : display == 'list'}">
-                            <span class="fa fa-list-ul"></span>
-                    </button>
-                </div>
-                <div class="col-10 col-lg-7 row p-0 d-flex justify-content-start pl-4">
-                    <div class="col-5 row p-0">
-                        <label class=" p-0 pt-2 col-5 text-right pr-1">Ordenar</label>
-                        <select class="form-control col-7" v-model="sortby">
-                            <option value="name">Nombre</option>
-                            <option value="price">Precio</option>
-                        </select>
-                    </div>
-                    <div class="col-1 offset-1">
-                        <button v-if="order == 'asc'" 
-                                class="btn btn-sm bg-transparent" 
-                                @click="order='desc'">
-                            <span class="fa fa-arrow-up"></span>
-                        </button>
-                        <button v-else
-                                class="btn btn-sm bg-transparent" 
-                                @click="order = 'asc'">
-                            <span class="fas fa-arrow-down"></span>
-                        </button>
-                    </div>
-                    <div class="col-5 col-lg-4 row p-0">
-                        <label class=" col-6 pt-2 pr-1 ">Mostrar</label>
-                        <select class="form-control col-6 p-0" v-model="show">
-                            <option v-for="op in showOptions" 
-                                    :key="op"
-                                    :value="op"> 
-                                    {{op}} 
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-12 mt-2 mt-lg-0 col-lg-3">
-                    <div v-if="pages > 1">
+             <div class="row mt-4">
+                <div class="col-12 col-lg-4 offset-lg-8 ">
+                    
+                    <div v-if="pages > 1" class="justify-content-center d-flex">
                         <button v-if="page != 1" class=" bg-transparent"
                                 @click="page--">
                             <span class="fa fa-chevron-left"></span>
@@ -66,11 +24,12 @@
                             <span> {{p}} </span>
                         </button>
                         
-                        <button v-if="page != pages" class=" bg-transparent"
+                        <button v-if="page < pages-1" class=" bg-transparent"
                                 @click="page++">
                             <span class="fa fa-chevron-right"></span>
                         </button>
                     </div>
+                
                 </div>
             </div>
             <!-- END links -->

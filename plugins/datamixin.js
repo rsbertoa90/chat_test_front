@@ -107,7 +107,7 @@ Vue.mixin({
          return this.$store.getters.getUser;
        },
        admin(){
-        return this.user && this.user.role_id<3;
+        return this.user && this.user.role_id < 3;
        },
      isSuper() {
        return (this.user && (this.user.email == 'rsbertoa90@gmail.com' || this.user.email == 'roominagii@gmail.com'));

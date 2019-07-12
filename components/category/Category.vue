@@ -16,52 +16,10 @@
             </div>
         </div>
         <!-- LINKS -->
-        <div class="row links mt-3" v-if="$mq == 'lg'">
-            <div class="col-2 col-lg-2 p-0">
-                <button @click="display = 'grid'"
-                        class="btn btn-sm "
-                        :class="{'bg-focus white-bold' : display == 'grid'}">
-                        <fa-icon icon="th"></fa-icon>
-                </button>
-                <button @click="display = 'list'"
-                        class="btn btn-sm "
-                        :class="{'bg-focus white-bold' : display == 'list'}">
-                        <fa-icon icon="list-ul"></fa-icon>
-                </button>
-            </div>
-            <div class="col-10 col-lg-7 row p-0 d-flex justify-content-start pl-4">
-                <div class="col-5 row p-0">
-                    <label class=" p-0 pt-2 col-5 text-right pr-1">Ordenar</label>
-                    <select class="form-control col-7" v-model="sortby">
-                        <option value="name">Nombre</option>
-                        <option value="price">Precio</option>
-                    </select>
-                </div>
-                <div class="col-1 offset-1">
-                    <button v-if="order == 'asc'" 
-                            class="btn btn-sm bg-transparent" 
-                            @click="order='desc'">
-                        <fa-icon icon="arrow-up"></fa-icon>
-                    </button>
-                    <button v-else
-                            class="btn btn-sm bg-transparent" 
-                            @click="order = 'asc'">
-                        <span class="fas fa-arrow-down"></span>
-                    </button>
-                </div>
-                <div class="col-5 col-lg-4 row p-0">
-                    <label class=" col-6 pt-2 pr-1 ">Mostrar</label>
-                    <select class="form-control col-6 p-0" v-model="show">
-                        <option v-for="op in showOptions" 
-                                :key="op"
-                                :value="op"> 
-                                {{op}} 
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 mt-2 mt-lg-0 col-lg-3">
-                <div v-if="pages > 1">
+       <div class="row mt-4">
+            <div class="col-12 col-lg-4 offset-lg-8 ">
+                   
+                <div v-if="pages > 1" class="justify-content-center d-flex">
                     <button v-if="page != 1" class=" bg-transparent"
                             @click="page--">
                         <fa-icon icon="chevron-left"></fa-icon>
@@ -78,6 +36,7 @@
                         <fa-icon icon="chevron-right"></fa-icon>
                     </button>
                 </div>
+            
             </div>
         </div>
         <!-- END links -->
@@ -138,23 +97,19 @@ export default {
         products(){
             
             
-            if (this.category != null && this.category.products.length > 0){
-
+            if (this.category != null && this.category.products.length > 0)
+            {
+                
                 let prods = this.category.products;
                 
                 prods = prods.filter (prod => {
                     return !prod.paused;
                 });
 
-                prods = this.orderArray(prods,this.sortby);
-                if (this.order == 'desc'){
-                    prods = prods.reverse();
-                }
                 let from = (this.page-1)*this.show;
                 let to = from + this.show;
                 prods = prods.slice(from,to);
-             
-               
+                
                 return prods;
             }
         },

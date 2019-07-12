@@ -69,23 +69,23 @@ export default {
 
         }
     },
-    computed:{
-        user(){
-            if(this.$store.auth){
-                return this.$store.auth.user;
-            }
-        }
-    },
+   
   
     methods:{
        async send(){
+           this.$store.commit('setLoading',true);
             await this.$auth.loginWith('local',{
                 data:this.formData
             });
 
             setTimeout(() => {
-                if(this.user){
+                this.$store.commit('setLoading',false);
+                if(this.admin){
                     this.$router.push('/');
+                }
+                else{
+                  //  console.log(this.user);
+                    swal('Error','Usuario o contraseña invalidos','error');
                 }
             }, 500);
         }

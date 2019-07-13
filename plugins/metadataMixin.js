@@ -18,7 +18,7 @@ export default {
     },
     computed: {
         canonical(){
-            return `https://mayoristamaju.com${this.$nuxt.$route.path}`
+            return `https://matesfabi.com${this.$nuxt.$route.path}`
         },
         metadata() {
             let page = this.$route.name;

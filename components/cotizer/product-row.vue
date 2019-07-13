@@ -1,10 +1,10 @@
 <template>
    <tr v-if="product">
         <td @click="show(product)" >
-            <v-lazy-image v-if="product.images.length > 0" 
+            <img v-if="product.images.length > 0" 
                 class="sampleImage" :src="imagePath(product.images[0])" 
                 :alt="product.name"  /> 
-            <v-lazy-image class="sampleImage" v-else :src="noImage" 
+            <img class="sampleImage" v-else :src="noImage" 
                 alt="Sin foto" />
         </td>
         <td v-if="admin">{{product.code}}</td>

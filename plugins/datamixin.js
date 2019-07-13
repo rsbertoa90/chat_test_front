@@ -89,7 +89,7 @@ Vue.mixin({
           },
          backendpath() {
           
-           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.mayoristamaju.com';
+           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.matesfabi.com';
        /*    console.log('backendpath',res); */
            return res;
          },

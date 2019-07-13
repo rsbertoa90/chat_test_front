@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name: 'mayoristamaju.com',
+    name: 'matesfabi.com',
     script: './node_modules/nuxt/bin/nuxt-start',
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
@@ -23,8 +23,8 @@ module.exports = {
       user: 'forge',
       host: '159.89.228.17',
       ref: 'origin/master',
-      repo: 'git@github.com:resbertoa90/majufront.git',
-      path: '/home/forge/maju.com',
+      repo: 'git@github.com:resbertoa90/matesfabifront.git',
+      path: '/home/forge/matesfabi.com',
       'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }

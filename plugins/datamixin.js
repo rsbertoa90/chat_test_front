@@ -95,7 +95,8 @@ Vue.mixin({
          },
        noImage()
        {
-        return this.imagePath('/storage/images/app/no-image.png');
+        return this.imagePath('/storage/images/app/no-photo.png');
+        image
        },
        loadingImage(){
          return this.imagePath('/storage/images/app/loading-image.jpg');

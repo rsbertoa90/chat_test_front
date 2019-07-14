@@ -2,7 +2,7 @@
     <div v-if="product">
         <div class="row justify-content-center" itemscope itemtype="http://schema.org/Product">
             <div class="col-12 col-lg-6 row">
-                <div class="col-12" @click="show">
+                <div class="col-12" >
                     <v-lazy-image v-if="!product.images[0]"  :src="noImage" alt="sin foto"/>
                     <v-lazy-image  itemprop="image" v-else 
                         :src="imagePath(product.images[selectedImage])" 
@@ -54,8 +54,10 @@
             </div>
         </div>
         <div class="row">
-           
+           <no-ssr>
+
                 <related-products :category_id="product.category_id"></related-products>
+           </no-ssr>
            
         </div>
     </div>
@@ -105,7 +107,7 @@ export default {
             if (this.product.images[0]){
                 let url = this.product.images[this.selectedImage].url;
                 let image = document.createElement('img');
-                image.setAttribute('src',imagePath(url));
+                image.setAttribute('src',this.imagePath(url));
                 swal({
                     content:image,
                 });

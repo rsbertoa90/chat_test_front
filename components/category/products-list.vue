@@ -40,7 +40,7 @@
 
 <script>
 import shopButton from './product/shop-button.vue';
- import carousel from '../cotizer/Img-modal.vue';
+ import carousel from './product/Img-modal.vue';
 export default {
     components:{carousel,shopButton},
     props:['products'],

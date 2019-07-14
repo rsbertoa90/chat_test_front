@@ -115,13 +115,7 @@ import codeSelector from './code-selector.vue';
           
         },
 
-        mounted()
-        {
-            if (this.admin)
-            {
-                this.$store.dispatch('fetchCategories');
-            }
-        }
+      
 
       
     }

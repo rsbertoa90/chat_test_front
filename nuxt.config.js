@@ -65,8 +65,9 @@ export default {
   head: {
     title: pkg.name,
     meta: [
-      {'og:image':'https://back.matesfabi.com/storage/images/app/logo.png'},
-      {'og:title':'Mates Fabi'},
+      { name: 'theme-color', content:'#b2037a'},
+      {property:'og:image', content:'https://back.matesfabi.com/storage/images/app/logo.png'},
+      {property:'og:title',content:'Mates Fabi'},
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }

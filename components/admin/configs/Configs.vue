@@ -82,9 +82,11 @@ export default {
             });
         },
         job(route){
-            console.log('route',route);
+            this.$store.commit('setLoading',true);
+            //console.log('route',route);
             this.$axios.get('/'+route)
             .then(res => {
+                this.$store.commit('setLoading',false);
                 swal('Procedimiento puesto en cola','Los cambios seran visibles en unos minutos','success');
             });
         },

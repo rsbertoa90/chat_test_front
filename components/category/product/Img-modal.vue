@@ -28,7 +28,8 @@
                 <span class="fa fa-chevron-right " @click="changeImage('next')" ></span>
             </div>
 
-          
+                <a   @click="downloadImage(product.images[0])" class="downloadImage"> <fa-icon icon="download"></fa-icon> Descargar </a>
+            
           </div>
       
        
@@ -59,6 +60,17 @@
             }
         },
         methods : {
+             downloadImage(image)
+            {
+                if(image && image.url)
+                {
+                if(process.browser){
+                    let path= this.backendpath+'/download-image/'+image.id;
+                    var win = window.open(path, '_blank');
+                    win.focus();
+                }
+                }
+            },
             preloadImages(){
                 /* console.log('preload'); */
                 if (this.product &&  this.product.images && this.product.images.length>0){
@@ -102,6 +114,22 @@
 </script>
 
 <style lang="scss" scoped>
+.downloadImage{
+    position:absolute;
+    bottom:0;
+    right:0;
+    border:1px solid #ccc;
+    background-color: #fff;
+    padding:5px;
+    font-size: 1.1rem;
+    color:#555;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #000;
+    z-index: 20;
+    &:hover{
+        color:#D52B1E;
+    }
+}
 
     .image-container{
         position:relative;

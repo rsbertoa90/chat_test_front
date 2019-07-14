@@ -14,14 +14,14 @@
                
             </transition>        
 
-        
+             <button class="btn-close" style="max-width:400px"  @click="setShowed"> <fa-icon icon="times"></fa-icon> </button>
         </div>
          <transition enter-active-class="animate animated bounceIn">
                     <div class="speech-bubble" v-if="clicknow">
                         <span>Click en una categoria para ver detalles de productos</span>
                     </div>
         </transition>
-        <button class="btn btn-block btn-danger" style="max-width:400px"  @click="setShowed"> Cerrar </button>
+       
     </div>
 </transition>
 </template>
@@ -74,6 +74,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.btn-close{
+    background-color: red;
+    color:#fff;
+    font-size: 2rem;
+    display: flex;
+    width:45px;
+    height: 45px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    position:absolute;
+    right: 0;
+    top:0;
+}
 
     .redcircle{
         display:flex;

@@ -7,13 +7,15 @@
       <swiper :options="swiperOption" v-if="render">
         <swiper-slide  v-for="product in notpausedoffers" :key="product.id" 
                        class="slide-container">
-            <div class="card slide" itemscope itemtype="https://schema.org/Product">
+            <div class="card slide" itemscope itemtype="https://schema.org/Product" >
+              <div class="image-container" @click="show(product)">
                 <v-lazy-image v-if="product.images[0]" class="card-img card-img-top" 
                       :src="imagePath(product.images[0])"
                       :title="product.name"
                       itemprop="image" 
                       alt="Card image cap" />
                   <v-lazy-image v-else :src="noImage" :src-placeholder="loadingImage" alt="no image" />
+              </div>
                   <div class="card-img-overlay">
                     <span v-if="product.offer" class=" badge bg-focus white-bold"> Oferta! </span>
                   </div>
@@ -33,16 +35,19 @@
         <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
-  
+    <imgModal :product="carouselProduct" v-if="showCarousel && carouselProduct" @close="showCarousel=false" ref="modal"></imgModal>
 </div>
 </template>
 
 <script>
+import imgModal from '@/components/category/product/Img-modal.vue'
 import shopButton from '../category/product/shop-button.vue';
   export default {
-    components:{shopButton},
+    components:{shopButton,imgModal},
     data() {
       return {
+        carouselProduct:null,
+        showCarousel:false,
         render:false,
         swiperOption: {
           slidesPerView: null,
@@ -93,6 +98,27 @@ import shopButton from '../category/product/shop-button.vue';
         }
     },
     methods: {
+      show(product){
+        console.log('show');
+                if (product.images[0]){
+                    this.carouselProduct = product;
+                    this.showCarousel = true;
+    
+                   setTimeout(() => {
+                        
+                        let element = this.$refs.modal.$el;
+                      
+                        $(element).modal('show');
+                    }, 100);
+                }
+                else
+                {
+                    var content = document.createElement("img");
+                    $(content).attr('src',this.noImage);
+                    content.style.width = '100%';
+                    swal({content : content});
+                }
+        },
        getSlug(product){
             let cat = this.categories.find(c => {
                 return product.category_id == c.id;

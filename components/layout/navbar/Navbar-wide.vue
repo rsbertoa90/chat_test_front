@@ -33,7 +33,7 @@
 
         <div class="row bg-first nav-row">
             <div class="row col-12" v-if="admin">
-                <ul class="navbar admin-navbar">
+                <ul class="navbar admin-navbar p-2">
                     <li> <nuxt-link to="/admin"> Pedidos</nuxt-link></li>
                     <li> <nuxt-link to="/admin/productos"> Administrar productos</nuxt-link></li>
                     <li> <nuxt-link to="/admin/stats" v-if="isSuper"> Stats</nuxt-link></li>

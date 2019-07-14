@@ -147,7 +147,7 @@ export default {
                             }
                         });
                         if (isNew){
-                          /*   console.log('new'); */
+                            console.log('new',order.created_at);
                             res.push({
                                 date:date,
                                 times:1,

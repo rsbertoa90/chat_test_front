@@ -17,20 +17,22 @@ export default {
         }
     },
     computed: {
+       
         canonical(){
             return `https://matesfabi.com${this.$nuxt.$route.path}`
         },
         metadata() {
             let page = this.$route.name;
             
-            return this.$store.getters.getMeta(page);
+            let res = this.$store.getters.getMeta(page);
+         
+            return res;
                     
-            
         },
         metatitle() {
             if (this.metadata) {
                 
-             
+                
                 return this.metadata.metatitle ? this.metadata.metatitle : 'Mates de fabrica';
             }
         },

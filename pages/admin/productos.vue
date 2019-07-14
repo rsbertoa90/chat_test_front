@@ -8,6 +8,10 @@ export default {
     layout:'admin',
     middleware:'checkAdmin',
     components:{adminProducts},
-    name:'adminProductos'
+    name:'adminProductos',
+    beforeDestroy()
+    {
+        this.$store.dispatch('fetchCategories');
+    }
 }
 </script>

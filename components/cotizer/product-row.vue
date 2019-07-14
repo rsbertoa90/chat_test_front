@@ -11,12 +11,20 @@
         <td style="cursor:pointer" @click="show(product)">  {{product.name | ucFirst}} </td>
         <td class="text-info text-center font-weight-bold"  >  <span v-if="config && !config.hide_prices"> ${{product.price | price}} </span></td>
         
-        <td> <input type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
-            
+        <td> 
             <div v-if="product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
                 
                 <span class="text-success font-weight-bold" v-if="config && !config.hide_prices">  ${{(product.price * product.units) | price}} </span>
                 
+            </div>
+            <input type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
+            <div class="controls d-flex justify-content-between p-2">
+                <span  @click="susone">
+                    <fa-icon icon="minus" class="control-btn bg-danger"></fa-icon>
+                </span>
+                <span @click="addone">
+                    <fa-icon icon="plus" class="control-btn bg-success" ></fa-icon>
+                </span>
             </div>
         
         </td>
@@ -29,7 +37,7 @@
 
 
 <script>
- import carousel from './Img-modal.vue';
+ import carousel from '@/components/category/product/Img-modal.vue';
 export default {
     props:['product'],
     components:{carousel},
@@ -39,6 +47,23 @@ export default {
         }
     },
     methods:{
+        addone(){
+            if(!this.product.units){
+                this.$set(this.product,'units',1);
+            }else{
+
+                this.product.units++;
+            }
+           // console.log(this.product.units)
+            this.setList();
+        },
+        susone(){
+            if(this.product.units >0){
+                this.product.units--;
+            }
+            //console.log(this.product.units)
+            this.setList();
+        },
         setList(){
             this.$store.commit('setList',this.product);
         },
@@ -58,17 +83,26 @@ export default {
                 }
             }
     },
-    watch:
-    {
-        'product.units'(){
-            this.$store.commit('setProductUnits',this.product);
-        }
-    }
+    
 }
 </script>
 
 
-<style scoped>
+<style  lang="scss" scoped>
+.controls{
+    width:70px;
+    .control-btn{
+        cursor: pointer;
+        border-radius:50%;
+        width:20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        color:#fff;
+    }    
+}
+
 
 .icono{
     font-size: 2.75rem;

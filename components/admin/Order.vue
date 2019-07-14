@@ -102,6 +102,15 @@
                     - Retira en local.
                 </div>
         </div>
+        <!-- Comentarios -->
+          <div class="row">
+            <div class="col-12">
+            <hr>
+            <label class="label" >Comentarios</label>
+            <textarea @change="saveComments" v-model.lazy="order.comments" 
+                    class="form-control" rows="5"></textarea>
+            </div>
+        </div>
        
     </div>
 </template>
@@ -111,6 +120,14 @@ export default {
     props : ['order'],
    
     methods : {
+         saveComments(){
+            let data = {
+                order : this.order.id,
+                field : 'comments',
+                value : this.order.comments
+            }
+            this.$axios.put('/order',data);
+        },
         setStatus(status){
             var vm = this;
             this.order.status = status;

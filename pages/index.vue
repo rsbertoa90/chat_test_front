@@ -20,7 +20,9 @@
 import sidePannel from '@/components/layout/Side-menu.vue';
 import homeA from '@/components/home/HomeA.vue';
 import homeB from '@/components/home/HomeB.vue';
+import metaMixin from '@/plugins/metadataMixin.js';
 export default {
+    mixins:[metaMixin],
     layout:'home',
     name:'home',
     components:{sidePannel,homeA,homeB}

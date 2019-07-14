@@ -145,7 +145,13 @@ import shopButton from '../category/product/shop-button.vue';
 </script>
 
 <style scoped>
-
+.image-container{
+  cursor: pointer;
+}
+.card-img-overlay{
+  width:50%;
+  height: 50px;
+}
 .card-body{
   text-align: center;
     justify-content: flex-end;

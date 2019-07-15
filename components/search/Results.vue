@@ -9,61 +9,29 @@
             </div>
             
             <!-- LINKS -->
-             <div class="row mt-4">
-                <div class="col-12 col-lg-4 offset-lg-8 ">
-                    
-                    <div v-if="pages > 1" class="justify-content-center d-flex">
-                        <button v-if="page != 1" class=" bg-transparent"
-                                @click="page--">
-                            <span class="fa fa-chevron-left"></span>
-                        </button>
-                        <button v-for="p in pagination" :key="p" 
-                                class=" bg-transparent"
-                                :class="{'text-focus' : page == p }"
-                                @click="page = p">
-                            <span> {{p}} </span>
-                        </button>
-                        
-                        <button v-if="page < pages-1" class=" bg-transparent"
-                                @click="page++">
-                            <span class="fa fa-chevron-right"></span>
-                        </button>
-                    </div>
-                
-                </div>
-            </div>
+            
+        <paginator v-if="products" @setpage="setpage" 
+                    :page="page" @pageup="page++" 
+                    @pagedown="page--" 
+                    :products="products" 
+                    @setPaginatedProducts="setPaginatedProducts">
+        </paginator>
             <!-- END links -->
 
             <div class="row">
-                <div class="col-12" v-if="display == 'grid'">
+                <div class="col-12">
                     <products-grid :products="filteredProducts"></products-grid>
                 </div>
-                <div class="col-12" v-else>
-                    <products-list :products="filteredProducts"></products-list>
-                </div>
+              
             </div>
             <div class="row mt-4">
-                <div class="col-12 col-lg-4 offset-lg-8 ">
-                    
-                    <div v-if="pages > 1" class="justify-content-center d-flex">
-                        <button v-if="page != 1" class=" bg-transparent"
-                                @click="page--">
-                            <span class="fa fa-chevron-left"></span>
-                        </button>
-                        <button v-for="p in pagination" :key="p" 
-                                class=" bg-transparent"
-                                :class="{'text-focus' : page == p }"
-                                @click="page = p">
-                            <span> {{p}} </span>
-                        </button>
-                        
-                        <button v-if="page < pages-1" class=" bg-transparent"
-                                @click="page++">
-                            <span class="fa fa-chevron-right"></span>
-                        </button>
-                    </div>
                 
-                </div>
+                <paginator v-if="products" @setpage="setpage" 
+                    :page="page" @pageup="page++" 
+                    @pagedown="page--" 
+                    :products="products" 
+                    @setPaginatedProducts="setPaginatedProducts">
+                </paginator>
             </div>
         </div>
         <div v-if="!products || products.length < 1">
@@ -75,8 +43,9 @@
 <script>
 import productsGrid from '@/components/category/products-grid.vue';
 import productsList from '@/components/category/products-list.vue';
+import paginator from '@/components/category/product/paginator.vue';
 export default {
-    components : {productsGrid,productsList},
+    components : {productsGrid,productsList,paginator},
     computed : {
         searchTerm(){
             return this.$store.getters.getSearchTerm;
@@ -113,7 +82,7 @@ export default {
                                     term = term.substring(0, term.length-1);
                                  
                                 }
-                                   // console.log(term,productName,categoryName);
+                                   /*  console.log(term,productName,categoryName); */
                                 if (    addtores 
                                       && productName.indexOf(term) < 0 
                                         && categoryName.indexOf(term) < 0  
@@ -135,69 +104,27 @@ export default {
                 }
             },
         
-            filteredProducts(){
-            
-                if (this.products && this.products.length > 0){
-
-                    let prods = this.products;
-                    prods = this.orderArray(prods,this.sortby);
-                    if (this.order == 'desc'){
-                        prods = prods.reverse();
-                    }
-                    let from = (this.page-1)*this.show;
-                    let to = from + this.show;
-                    prods = prods.slice(from,to);
-            
-                    return prods;
-                }
-            },
-        pagination(){
-            if (this.pages <= 6){
-                let array = [];
-                for (var i = 1; i < this.pages ;i++)
-                {
-                    array.push(i);
-                }
-                return array;
-            }
-            else {
-                let current = this.page;
-                if(current >= this.pages){
-                    return [1,current-4,current-3,current-2,current-1,current];
-                }
-                else if (current >= this.pages-1){
-                    return [1,current-2,current-1,current,this.pages];
-                }
-                else if (current > 2){
-                    return [1,current-1,current,current+1,this.pages];
-                }else if (current == 1){
-                    return [1,2,3,4,5,this.pages];
-                }else if (current == 2){
-                    return [1,2,3,4,this.pages];
-                }
-            }
+         
         },
-        pages(){
-             let res = Math.round(this.products.length / this.show)+1;
-             if (this.products.length % this.show != 0){res++}
-             return res;
-        },
-    },
-        data(){
+        
+    
+    data(){
         return{
-            display : 'grid',
-            sortby : 'name',
-            order : 'desc',
-            showOptions :[3,6,9,12],
-            show:12,
             page:1,
+            filteredProducts:null
         }
     },
-    watch : {
-        show(){
-            this.page = 1 ;
+    methods:{
+        setpage(evt){
+            this.page=evt;
+        },
+        setPaginatedProducts(evt)
+        {
+           // console.log('evt',evt);
+            this.filteredProducts = evt;
         }
     }
+    
 }
 </script>
 

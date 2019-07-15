@@ -16,70 +16,37 @@
             </div>
         </div>
         <!-- LINKS -->
-       <div class="row mt-4">
-            <div class="col-12 col-lg-4 offset-lg-8 ">
-                   
-                <div v-if="pages > 1" class="justify-content-center d-flex">
-                    <button v-if="page != 1" class=" bg-transparent"
-                            @click="page--">
-                        <fa-icon icon="chevron-left"></fa-icon>
-                    </button>
-                    <button v-for="p in pagination" :key="p" 
-                            class=" bg-transparent"
-                            :class="{'text-focus' : page == p }"
-                            @click="page = p">
-                        <span> {{p}} </span>
-                    </button>
-                    
-                    <button v-if="page != pages" class=" bg-transparent"
-                            @click="page++">
-                        <fa-icon icon="chevron-right"></fa-icon>
-                    </button>
-                </div>
-            
-            </div>
-        </div>
+        <paginator @setpage="setpage" 
+                    :page="page" @pageup="page++" 
+                    @pagedown="page--" 
+                    :products="category.products" 
+                    @setPaginatedProducts="setPaginatedProducts">
+        </paginator>
         <!-- END links -->
 
         <div class="row">
-            <div class="col-12" v-if="display == 'grid'">
+            <div class="col-12" v-if="products">
                 <products-grid :products="products"></products-grid>
             </div>
-            <div class="col-12" v-else>
-                <products-list :products="products"></products-list>
-            </div>
+          
         </div>
-        <div class="row mt-4">
-            <div class="col-12 col-lg-4 offset-lg-8 ">
-                   
-                <div v-if="pages > 1" class="justify-content-center d-flex">
-                    <button v-if="page != 1" class=" bg-transparent"
-                            @click="page--">
-                        <fa-icon icon="chevron-left"></fa-icon>
-                    </button>
-                    <button v-for="p in pagination" :key="p" 
-                            class=" bg-transparent"
-                            :class="{'text-focus' : page == p }"
-                            @click="page = p">
-                        <span> {{p}} </span>
-                    </button>
-                    
-                    <button v-if="page != pages" class=" bg-transparent"
-                            @click="page++">
-                        <fa-icon icon="chevron-right"></fa-icon>
-                    </button>
-                </div>
-            
-            </div>
-        </div>
+
+         <paginator @setpage="setpage" 
+                    :page="page" @pageup="page++" 
+                    @pagedown="page--" 
+                    :products="category.products" 
+                    @setPaginatedProducts="setPaginatedProducts">
+        </paginator>
+       
     </div>
 </template>
 
 <script>
+import paginator from './product/paginator.vue';
 import productsGrid from './products-grid.vue';
 import productsList from './products-list.vue';
 export default {
-    components : {productsGrid,productsList},
+    components : {productsGrid,productsList,paginator},
     props:['category'],
     
     mounted(){
@@ -92,70 +59,20 @@ export default {
         categories(){
             return this.$store.getters.getCategories;
         },
-        
-    
-        products(){
-            
-            
-            if (this.category != null && this.category.products.length > 0)
-            {
-                
-                let prods = this.category.products;
-                
-                prods = prods.filter (prod => {
-                    return !prod.paused;
-                });
-
-                let from = (this.page-1)*this.show;
-                let to = from + this.show;
-                prods = prods.slice(from,to);
-                
-                return prods;
-            }
+    },
+    methods:{
+        setpage(evt){
+            this.page=evt;
         },
-        pagination(){
-            if (this.pages <= 6){
-                let array = [];
-                for (var i = 1; i <= this.pages ;i++)
-                {
-                    array.push(i);
-                }
-                return array;
-            }
-            else {
-                let current = this.page;
-                if(current >= this.pages){
-                    return [1,current-4,current-3,current-2,current-1,current];
-                }
-                else if (current >= this.pages-1){
-                    return [1,current-2,current-1,current,this.pages];
-                }
-                else if (current > 2){
-                    return [1,current-1,current,current+1,this.pages];
-                }else if (current == 1){
-                    return [1,2,3,4,5,this.pages];
-                }else if (current == 2){
-                    return [1,2,3,4,this.pages];
-                }
-            }
+        setPaginatedProducts(evt)
+        {
+           // console.log('evt',evt);
+            this.products = evt;
         },
-        pages(){
-             let res = Math.round(this.category.products.length / this.show);
-             if (this.category.products.length % this.show != 0){
-                 res++;
-             }
-             return res;
-             
-           
-        }
-      
     },
     data(){
         return{
-            display : 'grid',
-            sortby : 'name',
-            order : 'asc',
-            showOptions :[3,6,9,12],
+            products:null,
             show:12,
             page:1,
         }

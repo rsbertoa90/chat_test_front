@@ -28,7 +28,7 @@
                 <span class="fa fa-chevron-right " @click="changeImage('next')" ></span>
             </div>
 
-                <a   @click="downloadImage(product.images[0])" class="downloadImage"> <fa-icon icon="download"></fa-icon> Descargar </a>
+                <a   @click="downloadImage(product.images[i])" class="downloadImage"> <fa-icon icon="download"></fa-icon> Descargar </a>
             
           </div>
       

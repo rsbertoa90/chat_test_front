@@ -12,7 +12,7 @@ export default {
     name:'producto',
 
     head() {
-          let canonical =this.backendpath+this.$route.path;
+         let canonical ='https://matesfabi.com'+this.$route.path;
     
         return {
              link:[
@@ -20,8 +20,8 @@ export default {
             ],
             titleTemplate: this.metatitle,
             meta: [
-                { name: 'description', content: this.metadescription, hid:'description' }
-
+                { name: 'description', content: this.metadescription, hid:'description' },
+                  { property:'og:url', content:canonical}
             ]
         }
     },

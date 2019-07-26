@@ -48,7 +48,11 @@ import productsList from './products-list.vue';
 export default {
     components : {productsGrid,productsList,paginator},
     props:['category'],
-    
+    created(){
+        if(!this.category){
+            this.$router.push('/');
+        }
+    },
     mounted(){
         if (this.category && this.category.description)
         {

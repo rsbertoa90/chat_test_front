@@ -1,5 +1,5 @@
 <template>
-    <productpage></productpage>
+    <productpage v-if="product"></productpage>
 </template>
 
 
@@ -43,8 +43,15 @@ export default {
                     return res;
                }
             });
+             if(!res)
+               {
+                   this.$router.push('/');
+               }else{
+
+                   return res;
+               }
       
-             return res;
+             
         },
           metatitle(){
             if (this.product )

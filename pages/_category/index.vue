@@ -9,9 +9,10 @@ export default {
     name:'category-decider',
     components:{appcategory},
     layout:'categories',
+    
     head() {
         let canonical ='https://matesfabi.com'+this.$route.path;
-      
+        
         return {
               link:[
                 {rel:'canonical',href:canonical}
@@ -29,25 +30,24 @@ export default {
     computed:{
           obj()
         {
-            let res = null;
-                res  = this.categories.find(c => {
-                   let slug = '/'+c.slug;
-                    slug =slug.replace('//','/');
-                    let param = '/' + this.$route.params.category;
-                    param =param.replace('//','/');
-                    return slug == param;
-               });
-               if(!res){
-                     res  = this.supercategories.find(c => {
-                        let slug = '/'+c.slug;
+            if(this.categories){
+
+                let res = null;
+                    res  = this.categories.find(c => {
+                       let slug = '/'+c.slug;
                         slug =slug.replace('//','/');
                         let param = '/' + this.$route.params.category;
                         param =param.replace('//','/');
                         return slug == param;
-                    });
-               }    
-          
-             return res;
+                   });
+                
+                 
+                  if(res){
+                      return res;
+                  }else{
+                      this.$router.push('/');
+                  }          
+            }
         },
           metatitle(){
             if (this.obj )

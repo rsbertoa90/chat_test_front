@@ -91,7 +91,7 @@ export default {
     data(){
         return {
             searchTerm:'',
-           
+            canceledLoaded:false,
             status : 'pendiente',
           
             filtered : [],
@@ -119,8 +119,19 @@ export default {
         },
         changestatus(status)
         {
-            this.status = status;
-            this.selected = null;
+            if(!this.canceledLoaded && status=='cancelado'){
+                this.$store.commit('setLoading',true);
+                this.canceledLoaded=true;
+                this.$store.dispatch('fetchCanceledOrders')
+                    .then( ()=>{
+                        this.status = status;
+                        this.selected = null;
+                        this.$store.commit('setLoading',false);
+                    })
+            }else{
+                this.status = status;
+                this.selected = null;
+            }
         }
     },
     mounted(){

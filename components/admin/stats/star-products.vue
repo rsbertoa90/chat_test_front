@@ -1,45 +1,52 @@
 <template>
-    <div class="containing row w-100 p-4">
+    <div class="containing row w-100">
         
         <div class="col-12">
-
-          
+            <h4> <span class="fa fa-star"></span> Productos mas vendidos del mes</h4>
+            <div>
+                <span>ordenar por</span>
+                <select v-model="orderby" class="form-control">
+                    <option value="presence">Presencia</option>
+                    <option value="total">$$</option>
+                    <option value="qty">Vendidos</option>
+                </select>
+            </div>
             <table class="table table-striped">
                 <thead>
-                    <th> Fecha </th>
-                    <th> Pedidos</th>
-                    <th>Total de la fecha</th>
+                    <th> producto </th>
+                    <th>presencia</th>
+                    <th> cantidad</th>
+                    <th>$$</th>
                 </thead>
                 <tbody>
                     <tr v-for="(d, key) in sortedData" :key="key" @click="selected=d" style="cursor:pointer;">
-                        <td>
-                            {{d.date |date }}
-                        </td>
-                        <td>{{d.times}}</td>
+                        <td>{{d.product.name}}</td>
+                        <td>{{d.presence}} </td>
+                        <td>{{d.qty}}</td>
                         <td>${{d.total | price}}</td>
                     </tr>
                     
                 </tbody>
             </table>
         </div>
-        <div class="col-12">
-            <starProducts :month="month"></starProducts>
-        </div>
+       
     </div>
 </template>
 
 
 <script>
-import starProducts from './star-products.vue';
+
+
 
 export default {
     props:['month'],
-    
-  components:{starProducts},
+
+     
     data(){
         return{
             selected:null,
             history:null,
+            orderby:'presence'
           
             
 
@@ -103,9 +110,9 @@ export default {
         },
         sortedData(){
             if(this.tabledata){
-                let res = this.orderArray(this.tabledata,'date');
+                let res = this.orderArray(this.tabledata,this.orderby);
                 res = res.reverse();
-                return res;
+                return res.slice(1,10);
             }
         },
         tabledata(){
@@ -113,32 +120,28 @@ export default {
             {
                 let res = [];
                 this.orders.forEach(order => {
-                
-                 /*    console.log('crudo',order.created_at); */
-                     let date = new Date(order.created_at)
-                   /*  console.log('procesado',date); */
-                    /*     console.log('date in range'); */
+                    order.order_items.forEach(op => {
                         let isNew = true;
                         res.forEach(o => {
-                            if (this.formatDate(date) == this.formatDate(o.date))
+                            if (op.product_id == o.product_id)
                             {
-                         /*        console.log('not new'); */
                                 isNew =false;
-                                o.times++;
-                                o.total=o.total+order.total;
-                                o.detail.push(order);
+                                o.qty+=op.qty;
+                                o.total+=op.qty*op.price;
+                                o.presence++;
                             }
                         });
                         if (isNew){
                           /*   console.log('new'); */
                             res.push({
-                                date:date,
-                                times:1,
-                                total:order.total,
-                                rawdate:order.created_at,
-                                detail:[order]
+                                product_id:op.product_id,
+                                product:op.product,
+                                presence:1,
+                                qty:op.qty,
+                                total:op.qty*op.price
                             });
                         }
+                    });
                     
                 });
                 //falta orden<ar

@@ -1,7 +1,24 @@
 <template>
     <div class="containing row w-100 p-4">
-        
-        <div class="col-12">
+        <div class="date-selectors w-100 d-flex">
+                <div class="d-flex flex-column">
+                    <label>Fecha desde</label>
+                    <v-datepicker v-model="startDate" lang="es"></v-datepicker>
+                </div>
+                <div class="d-flex flex-column">
+                    <label>Fecha hasta</label>
+                    <v-datepicker v-model="endDate" lang="es"></v-datepicker>
+                </div>
+                <div class="d-flex align-items-end font-weight-bold" >
+                    <div v-if="totalorders" class="ml-4">
+                    Pedidos: {{totalorders}}
+                    </div>
+                    <div v-if="totalmoney" clasS="ml-4">
+                    Total: ${{totalmoney | price}}
+                    </div>
+                </div>
+        </div>
+        <div class="col-6">
 
           
             <table class="table table-striped">
@@ -22,46 +39,47 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-12">
-            <starProducts :month="month"></starProducts>
+        <div class="col-6" v-if="selected">
+            <detail :orders="selected.detail"></detail>
         </div>
     </div>
 </template>
 
 
 <script>
-import starProducts from './star-products.vue';
 
+import detailorder from './detail.vue'
+
+import datamixin from '../../datamixin.js';
 export default {
-    props:['month'],
-    
-  components:{starProducts},
+    mixins:['datamixin'],
+     components:{
+      
+        'detail':detailorder,
+    },
     data(){
         return{
             selected:null,
+       
             history:null,
-          
+            startDate:new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+            endDate: new Date(),
             
 
         }
     },
     watch:{
-        isSuper()
+        super()
         {
-            if (!this.isSuper){
+            if (!this.super){
                 window.location.replace('/');
             }
         }
-    },   
-    methods:{
-         formatDate(val){
-               let date = new Date(val);
-                
-                let formatted_date =  date.getDay() + " " + date.getMonth() + " " + date.getFullYear();
-           //     console.log(date.getMonth(),this.months[date.getMonth()])
-                return formatted_date;
-  
-        },
+    },
+    mounted(){
+        if(!this.$store.orders || this.$store.orders.length < 1){
+            this.$store.dispatch('fetchOrders');
+        }
     },
     computed:{
         totalorders(){
@@ -82,8 +100,8 @@ export default {
             }
             return res;
         },
-        orders(){
-            let res =  this.month.orders;
+            orders(){
+            let res =  this.$store.getters.getOrders;
             if(res && res.length > 0){
                 res = res.filter(o => {
                     return (o.status != 'cancelado');
@@ -92,8 +110,8 @@ export default {
             
             res.forEach(o =>{
                 let total = 0;
-                o.order_items.forEach(op => {
-                    total+=(op.price*op.qty);
+                o.order_products.forEach(op => {
+                    total+=(op.price*op.units);
                 });
                 
                 o.total=total;
@@ -103,24 +121,32 @@ export default {
         },
         sortedData(){
             if(this.tabledata){
-                let res = this.orderArray(this.tabledata,'date');
-                res = res.reverse();
-                return res;
+            
+               
+            
+                
             }
         },
         tabledata(){
             if (this.orders)
             {
+                let startDate= moment(this.startDate)
+                let endDate =moment(this.endDate);
+               /*  console.log('startdate',startDate);
+                console.log('endtdate',endDate);
+                 */
                 let res = [];
                 this.orders.forEach(order => {
                 
                  /*    console.log('crudo',order.created_at); */
-                     let date = new Date(order.created_at)
+                    let date = moment(order.created_at);
                    /*  console.log('procesado',date); */
+                    if ( moment(order.created_at).isBetween(this.startDate, this.endDate) )
+                    {
                     /*     console.log('date in range'); */
                         let isNew = true;
                         res.forEach(o => {
-                            if (this.formatDate(date) == this.formatDate(o.date))
+                            if (date.format('YYYYMMDD') == o.date.format('YYYYMMDD'))
                             {
                          /*        console.log('not new'); */
                                 isNew =false;
@@ -139,7 +165,7 @@ export default {
                                 detail:[order]
                             });
                         }
-                    
+                    }
                 });
                 //falta orden<ar
                 return res;

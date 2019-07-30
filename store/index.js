@@ -285,6 +285,9 @@ export const mutations = {
      setOrders(state, payload) {
        state.orders = payload;
      },
+     setCanceledOrders(state, payload) {
+       state.orders = state.orders.concat(payload);
+     },
      setMeta(state, payload) {
        state.meta = payload;
      },
@@ -367,6 +370,15 @@ export const actions = {
       .then(r=>{
         commit('setOrders',r.data);
         //commit('setLoading',false);
+        });   
+    },
+
+    async fetchCanceledOrders({commit})
+    {
+      //commit('setLoading',true);
+      await this.$axios.get('/canceled-orders')
+      .then(r=>{
+        commit('setCanceledOrders',r.data);
         });   
     },
 

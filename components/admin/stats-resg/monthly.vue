@@ -1,6 +1,6 @@
 <template>
-    <div class="containing p-4 row">
-     <div class="col-12 col-lg-6">
+    <div class="containing p-4">
+     
         <table class="table table-striped ml-4">
             <thead>
                 <th> Fecha </th>
@@ -8,7 +8,7 @@
                 <th>Total</th>
             </thead>
             <tbody>
-                <tr v-for="(d, key) in sortedData" :key="key" @click="selected = d">
+                <tr v-for="(d, key) in sortedData" :key="key">
                     <td>
                         {{d.date }}
                     </td>
@@ -18,25 +18,19 @@
                 
             </tbody>
         </table>
-     </div>
-     <div class="col-12 col-lg-6" v-if="selected">
-         <daily :month="selected">    </daily>
-     </div>
     </div>
 </template>
 
 
 <script>
-import daily from './daily.vue';
 export default {
-   components:{daily},
+   
     data(){
         return{
             months:['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'],
             history:null,
             startDate:new Date(2018,1,1),
             endDate: new Date(),
-            selected:null
             
 
         }
@@ -90,15 +84,19 @@ export default {
                     return (o.status != 'cancelado');
                 });
             }
-            
-            res.forEach(o =>{
-                let total = 0;
-                o.order_items.forEach(op => {
-                    total+=(op.price*op.qty);
+            if( res && res.length > 0){
+                res.forEach(o =>{
+                    let total = 0;
+                    if(o.order_items){
+
+                        o.order_items.forEach(op => {
+                            total+=(op.price*op.qty);
+                        });
+                    }
+                    
+                    o.total=total;
                 });
-                
-                o.total=total;
-            });
+            }
             return res;
             
         },
@@ -146,17 +144,15 @@ export default {
                                 isNew =false;
                                 o.times++;
                                 o.total=o.total+order.total;
-                                o.orders.push(order);
                             }
                         });
                         if (isNew){
-                          /*   console.log('new'); */
+                            console.log('new',order.created_at);
                             res.push({
                                 date:date,
                                 times:1,
                                 total:order.total,
-                                rawdate:order.created_at,
-                                orders:[order]
+                                rawdate:order.created_at
                             });
                         }
                     
@@ -171,12 +167,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-tr{
-    cursor: pointer;
-    &:hover{
-        background-color: green !important;
-    }
-}
 .containing{
     min-height: 100vh;
     

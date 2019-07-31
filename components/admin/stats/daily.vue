@@ -13,7 +13,7 @@
                 <tbody>
                     <tr v-for="(d, key) in sortedData" :key="key" @click="selected=d" style="cursor:pointer;">
                         <td>
-                            {{d.date |date }}
+                            {{d.date }}
                         </td>
                         <td>{{d.times}}</td>
                         <td>${{d.total | price}}</td>
@@ -57,7 +57,7 @@ export default {
          formatDate(val){
                let date = new Date(val);
                 
-                let formatted_date =  date.getDay() + " " + date.getMonth() + " " + date.getFullYear();
+                let formatted_date =  date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
            //     console.log(date.getMonth(),this.months[date.getMonth()])
                 return formatted_date;
   
@@ -103,7 +103,7 @@ export default {
         },
         sortedData(){
             if(this.tabledata){
-                let res = this.orderArray(this.tabledata,'date');
+                let res = this.orderArray(this.tabledata,'rawdate');
                 res = res.reverse();
                 return res;
             }
@@ -115,12 +115,12 @@ export default {
                 this.orders.forEach(order => {
                 
                  /*    console.log('crudo',order.created_at); */
-                     let date = new Date(order.created_at)
+                     let date = this.formatDate(order.created_at);
                    /*  console.log('procesado',date); */
                     /*     console.log('date in range'); */
                         let isNew = true;
                         res.forEach(o => {
-                            if (this.formatDate(date) == this.formatDate(o.date))
+                            if (date == o.date)
                             {
                          /*        console.log('not new'); */
                                 isNew =false;

@@ -15,6 +15,10 @@
             
             </div>
         </div>
+
+        <div v-if="category && !products">
+            <products-grid :products="category.products"></products-grid>
+        </div>
         <!-- LINKS -->
         <paginator @setpage="setpage" 
                     :page="page" @pageup="page++" 
@@ -27,6 +31,7 @@
         <div class="row">
             <div class="col-12" v-if="products">
                 <products-grid :products="products"></products-grid>
+                
             </div>
           
         </div>

@@ -17,7 +17,7 @@
             <div class="col-12 col-lg-6" itemprop="offer">
                 <div class="d-flex flex-column align-items-start justify-content-around h-100">
                     <div class="d-flex flex-column">
-                        <h2 itemprop="name"> {{product.name | ucFirst}} </h2>
+                        <h1 itemprop="name"> {{product.name | ucFirst}} </h1>
                         <span class="text-secondary"> {{product.category.name |ucFirst}} </span>
                     </div>
                     <div  class="d-flex align-items-center" v-if="config && !config.hide_prices">

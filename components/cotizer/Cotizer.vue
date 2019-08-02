@@ -83,7 +83,7 @@
 
 <script>
 import productRow from './product-row.vue';
-import metadataMixin from '../metadataMixin.js';
+
 import codeSelector from './code-selector.vue';
  import { mapActions } from 'vuex';
  import { mapGetters } from 'vuex';
@@ -92,7 +92,7 @@ import codeSelector from './code-selector.vue';
     import tutorial from './tutorial.vue'
    
     export default {
-        mixins:[metadataMixin],
+       
         components : {tutorial,productRow,codeSelector},
         data(){
             return {

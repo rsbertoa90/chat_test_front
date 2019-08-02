@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import metadataMixin from '../metadataMixin.js';
+
 export default {
-    mixins:[metadataMixin],
+   
     data(){
         return{
             csrf:window.csrf,

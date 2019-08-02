@@ -11,17 +11,12 @@ export default {
                 { name: 'description', content: this.metadescription,hid:'description' },
                 { property:'og:url', content:canonical}
 
-            ],
-            link:[
-                {rel:'canonical',href:this.canonical}
             ]
         }
     },
     computed: {
        
-        canonical(){
-            return `https://matesfabi.com${this.$nuxt.$route.path}`
-        },
+      
         metadata() {
             let page = this.$route.name;
             

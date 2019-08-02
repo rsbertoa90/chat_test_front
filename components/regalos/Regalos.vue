@@ -53,11 +53,11 @@
 </template>
 
 <script>
-import metadataMixin from '../metadataMixin.js';
+
 import regalosFotos from './fotos';
 import regalosForm from './form.vue';
 export default {
-    mixins:[metadataMixin],
+  
     components : {
         regalosForm,
         regalosFotos

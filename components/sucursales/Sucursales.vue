@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import metadataMixin from '../metadataMixin.js';
+
 import sucursalesWeb from './sucursales-wide.vue';
 import sucursalesMobile from './sucursales-mobile.vue';
 export default {
-    mixins:[metadataMixin],
+
     components : {
         sucursalesWeb,
         sucursalesMobile

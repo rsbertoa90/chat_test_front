@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import metadataMixin from '../metadataMixin.js';
+
 import homeBanners from './banners.vue';
 import homeIcons from './icons.vue';
 export default {
-    mixins:[metadataMixin],
+   
     components:{
         homeBanners,
         homeIcons

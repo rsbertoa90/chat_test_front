@@ -25,7 +25,7 @@
             </div>
             <div class="col-12 col-lg-4" v-if="order.status != 'cancelado'" >
                 <button 
-                        @click="setStatus('cancelado')"
+                        @click="cancelOrder"
                     class="btn btn-block btn-outline-danger">
                      <fa-icon icon="times"></fa-icon>
                     Marcar como Cancelado
@@ -41,6 +41,11 @@
         </div>
 
         <div>
+            <div v-if="order.status == 'cancelado'">
+                <span class="font-weight-bold text-danger">Cancelado: {{order.cancelation}} </span> <br>
+                <span v-if="order.comments"
+                        class="mt-2"> -- {{order.comments}} -- </span>
+            </div>
             <div>
                 <span class="font-weight-bold text-primary">Fecha: {{order.created_at | datetime}} </span> <br>
                 <span v-if="order.comments"
@@ -111,15 +116,23 @@
                     class="form-control" rows="5"></textarea>
             </div>
         </div>
-       
+       <cancelOrderModal v-if="showModal" :order="order" @close="showModal=false"></cancelOrderModal>
     </div>
 </template>
 
 <script>
+import cancelOrderModal from './cancelOrderModal.vue'
 export default {
+    components:{cancelOrderModal},
     props : ['order'],
-   
+   data(){return{
+       showModal:false
+   }},
     methods : {
+        cancelOrder()
+        {   
+            this.showModal=true;
+        },
          saveComments(){
             let data = {
                 order : this.order.id,

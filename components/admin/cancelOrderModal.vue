@@ -3,7 +3,7 @@
         <appModal @close="$emit('close')">
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <h1 class="text-center">Motivo de cancelacion</h1>
-                <div class="radio">
+                <div class="radio d-flex flex-column">
                     <label class="radio" v-for="option in options" :key="option">
                         <input type="radio" name="motive" :value="option" v-model="motive">
                         {{option}}
@@ -91,3 +91,4 @@ methods:{
 }
 }
 </script>
+

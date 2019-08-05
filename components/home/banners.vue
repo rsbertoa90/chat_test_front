@@ -42,8 +42,8 @@ export default {
     data(){
         return{
             gifImages : [
-                '/storage/images/app/cotizador1.png',
-                '/storage/images/app/cotizador2.png'
+                '/storage/images/app/ncotizador1.jpg',
+                '/storage/images/app/ncotizador2.jpg'
             ]
         }
     }

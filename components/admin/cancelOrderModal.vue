@@ -33,6 +33,7 @@ data(){
             'No poder elegir modelos y colores',
             'Por demora en confirmar el stock',
             'Por demora en armado y envio de pedido',
+            'Es un pedido de prueba',
             'Otro'
         ],
         motive:null
@@ -69,6 +70,7 @@ methods:{
                 }
 
                 this.order.status='cancelado';
+                this.order.cancelation=this.motive;
 
                 
                 let data = {

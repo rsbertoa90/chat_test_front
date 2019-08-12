@@ -3,7 +3,7 @@
         <div class="row">
             <h1 class="col-12 col-lg-6 text-center">Hace tu pedido Online</h1>
             <div class="col-12 col-lg-6">
-                <a href="/descargar-lista-de-precios" target="_blank" class=" btn btn-lg btn-outline-info"> <span class="fa fa-download"></span> Descargar lista de precios</a>
+                <a href="/descargar-lista-de-precios" target="_blank" class=" btn btn-lg btn-outline-info" v-if="!hidePrices"> <span class="fa fa-download"></span> Descargar lista de precios</a>
             </div>
         </div>
         <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs">

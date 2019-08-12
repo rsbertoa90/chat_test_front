@@ -9,7 +9,7 @@
         </td>
         <td v-if="admin">{{product.code}}</td>
         <td style="cursor:pointer" @click="show(product)">  {{product.name | ucFirst}} </td>
-        <td class="text-info text-center font-weight-bold"  >  <span v-if="config && !config.hide_prices"> ${{product.price | price}} </span></td>
+        <td class="text-info text-center font-weight-bold"  >  <span v-if="!hidePrices"> ${{product.price | price}} </span></td>
         
         <td> 
             <div v-if="product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
@@ -17,8 +17,8 @@
                 <span class="text-success font-weight-bold" v-if="config && !config.hide_prices">  ${{(product.price * product.units) | price}} </span>
                 
             </div>
-            <input type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
-            <div class="controls d-flex justify-content-between p-2">
+            <input v-if="!hidePrices" type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
+            <div v-if="!hidePrices" class="controls d-flex justify-content-between p-2">
                 <span  @click="susone">
                     <fa-icon icon="minus" class="control-btn bg-danger"></fa-icon>
                 </span>

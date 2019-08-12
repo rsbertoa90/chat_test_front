@@ -104,6 +104,9 @@ Vue.mixin({
        config(){
         return this.$store.getters.getConfig;
        },
+       hidePrices(){
+        return (this.config && this.config.hide_prices); 
+       },
        user() {
          return this.$store.getters.getUser;
        },

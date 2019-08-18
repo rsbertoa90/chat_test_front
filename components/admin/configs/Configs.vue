@@ -4,15 +4,10 @@
             <button @click="job('prices-list-job')" class="btn btn-outline-info">  
                 Refrescar Lista de Precios
             </button>
-          <!--   <button @click="job('catalogo-job')" class="btn btn-outline-warning">  
-                Refrescar Catalogo Digital
-            </button> -->
-           <!--   <a class="btn btn-outline-danger" target="_blank" :href="backendpath+'/catalogo-grande'">
-                    Descargar catalogo crudo
-            </a> -->
-          <!--   <a href="/super/failed-jobs" class="btn btn-outline-danger">  
-                Failed jobs
-            </a> -->
+            <button @click="job('catalogo-job')" class="btn btn-outline-info">  
+                Refrescar Catalogo
+            </button>
+            <a target="_blank" :href="backendpath+'/descargar-catalogo-grande'"> Desargar catalogo crudo</a>       
         </div>
         <div class="col-12 row" v-if="configs">
             <div class="col-12 mt-2">

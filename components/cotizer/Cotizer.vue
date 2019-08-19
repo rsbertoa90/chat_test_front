@@ -3,7 +3,9 @@
         <div class="row">
             <h1 class="col-12 col-lg-6 text-center">Hace tu pedido Online</h1>
             <div class="col-12 col-lg-6">
-                <a href="/descargar-lista-de-precios" target="_blank" class=" btn btn-lg btn-outline-info" v-if="!hidePrices"> <span class="fa fa-download"></span> Descargar lista de precios</a>
+                <a href="/descargar-lista-de-precios" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Lista de precios</a>
+                <a href="/descargar-catalogo-digital" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Catalogo con precios</a>
+                <a href="/descargar-catalogo-sin-precios" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Catalogo sin precios</a>
             </div>
         </div>
         <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs">
@@ -122,6 +124,18 @@ import codeSelector from './code-selector.vue';
 </script>
 
 <style scoped>
+.btn-download{
+    width:250px;
+    text-align: center;
+    border:1px solid #333;
+    background-color: #ff0aaf;
+    margin:10px;
+    padding:4px;
+    box-shadow: 2px 2px  2px #666;
+    color:#fff;
+    font-size: 1.1rem;
+}
+
 
 .icono{
     font-size: 2.75rem;

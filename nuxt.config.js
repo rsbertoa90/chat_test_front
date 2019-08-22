@@ -65,6 +65,7 @@ export default {
   head: {
     title: pkg.name,
     meta: [
+      { name: "google-site-verification", content:"NYmY4PL-kI89JjTkAUhCTkR8oWiGfabLWvgngOyFnf8"},
       { name: 'theme-color', content:'#b2037a'},
       {property:'og:image', content:'https://back.matesfabi.com/storage/images/app/logo.png'},
       {property:'og:title',content:'Mates Fabi'},

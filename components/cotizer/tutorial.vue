@@ -15,12 +15,12 @@
             </transition>        
 
              <button class="btn-close" style="max-width:400px"  @click="setShowed"> <fa-icon icon="times"></fa-icon> </button>
+            <transition enter-active-class="animate animated bounceIn">
+                        <div class="speech-bubble" v-if="clicknow">
+                            <span>Click en una categoria para ver detalles de productos</span>
+                        </div>
+            </transition>
         </div>
-         <transition enter-active-class="animate animated bounceIn">
-                    <div class="speech-bubble" v-if="clicknow">
-                        <span>Click en una categoria para ver detalles de productos</span>
-                    </div>
-        </transition>
        
     </div>
 </transition>
@@ -86,8 +86,9 @@ export default {
     justify-content: center;
     align-items: center;
     position:absolute;
-    right: 0;
-    top:0;
+    right: -10px;
+    top:-40px;
+    z-index:90;
 }
 
     .redcircle{
@@ -128,9 +129,10 @@ export default {
     }
 
     .speech-bubble{
-       position: fixed;
-       top:50px;
-       right: 50px;
+        max-width: 180px;
+       position: absolute;
+       top:0px;
+       right: 0px;
         background: #EB1889;
         border-radius: .4em;
         width: 50%;
@@ -169,7 +171,8 @@ export default {
      
 
       .speech-bubble{
-           top:150px;
+           top:0px;
+           right:143px;
       }
   }
 </style>

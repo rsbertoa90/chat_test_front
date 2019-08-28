@@ -141,6 +141,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/pwa',
     'nuxt-webfontloader',
     ["nuxt-compress"],
   /*    ['@nuxtjs/google-analytics', {
@@ -163,6 +164,21 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth'
   ],
+
+  manifest: {
+    name: "Mates Fabi",
+    lang: "es",
+    theme_color: "#b2037a"
+  },
+
+  workbox: {
+    config: {
+      debug: true
+    },
+    offlinePage: "/offline.html",
+    offlineAssets: ["/offline.html", "/favicon.ico"]
+  },
+
 
   webfontloader: {
     google: {

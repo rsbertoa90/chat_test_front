@@ -17,13 +17,8 @@
                         <span class="fa fa-map-marker"></span>
                     </div>
                 </div>
-                <div class="col-9">
-                    <ul>
-                        <li>Pasteur 428 - CABA</li>
-                        <li>Sarmiento 2268, CABA   </li>
-                        <li>Castelli 203, CABA </li>
-
-                    </ul>
+                 <div class="col-9 mt-3">
+                   <p>Pasteur 410/412 - CABA  </p>
                 </div>
             </div>
             <div class="col-12 col-lg-4 row">
@@ -47,10 +42,12 @@
                 </div>
             </div>
         </div>
+       
     </div>
 </template>
 
 <script>
+
 import redlimp from '../../banners/redlimp.vue';
 import mfcarteras from '../../banners/mfcarteras.vue';
 export default {

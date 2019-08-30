@@ -15,6 +15,7 @@
             <div class="bottom-space"></div>
         </div>
         <app-footer v-if="$mq=='lg'"></app-footer>
+        <momwebfooter></momwebfooter>
          <whatsappBtn v-if="!admin"></whatsappBtn>
      
         
@@ -29,13 +30,14 @@
 <script>
 /* 
 import totalBouncer from './layout/total-bouncer/total-bouncer.vue';*/
+import momwebfooter  from '@/components/layout/footer/momwebfooter.vue'
 import whatsappBtn from '@/components/layout/whatsapp.vue'; 
 import appFooter from '@/components/layout/footer/Footer.vue';
 import appNav from '@/components/layout/Navbar.vue';
 import totalBouncer from '@/components/layout/total-bouncer/total-bouncer.vue'; 
 import apploading from '@/components/layout/loading.vue';
 export default {
-    components:{appNav,appFooter,whatsappBtn,totalBouncer,apploading},
+    components:{momwebfooter,appNav,appFooter,whatsappBtn,totalBouncer,apploading},
     computed:{
         user(){
             return this.$store.getters.getUser;

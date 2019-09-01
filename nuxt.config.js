@@ -144,13 +144,10 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // '@nuxtjs/pwa',
+    '@nuxtjs/pwa',
     "nuxt-webfontloader",
     ["nuxt-compress"],
-    /*    ['@nuxtjs/google-analytics', {
-       id: "UA-126973762-1",dev:true
-     }], */
-
+    
     [
       "nuxt-mq",
       {
@@ -168,22 +165,24 @@ export default {
     "@nuxtjs/auth"
   ],
 
-  /*
+  
   manifest: {
     name: "Mates Fabi",
     lang: "es",
-    theme_color: "#b2037a"
+    theme_color: "#b2037a",
+    background_color: "#b2037a"
   },
 
-     workbox: {
-    config: {
+  workbox: {
+  /*   config: {
       debug: true
     },
+   */
     offlinePage: "/offline.html",
     offlineAssets: ["/offline.html", "/favicon.ico"]
   },
 
-*/
+
   webfontloader: {
     google: {
       families: ["Raleway"]

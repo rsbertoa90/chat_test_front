@@ -1,8 +1,10 @@
 <template>
     <a  class="mt40" target="_blank" href="https://momwebdigital.com" rel="dofollow" title="MoM Web Servicios Digitales">
-        <div class="foot">
-            <span class="fa fa-copyright"  alt="mom web servicios digitales"></span> &nbsp;  Hecho por M<span class="fa fa-heart"></span>M Web - Servicios Digitales - 2019
-        </div>
+        
+            <div class="foot">
+                <span class="fa fa-copyright"></span> &nbsp;  Hecho por M<span class="fa fa-heart"></span>M Web - Servicios Digitales - 2019
+            </div>
+        
     </a>
 </template>
 
@@ -23,7 +25,7 @@
          color:#fff;
             font-weight: bold;
             font-size: .85rem;
-        padding:10px 30px;
+        padding:10px 80px;
         
         a,.fa{
             color:#fff;

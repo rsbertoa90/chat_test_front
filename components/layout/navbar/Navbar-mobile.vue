@@ -1,7 +1,7 @@
 <template>
     <div class="w-100">
         <div class=" d-flex justify-content-center">
-            <div class="w-50 p-3 ">
+            <div class="">
                 <image-logo></image-logo>
             </div>
         </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import imageLogo from '../images/image-logo.vue';
+import imageLogo from '../images/mobile-logo.vue';
 import overlayMenu from './overlay-menu.vue'
 import {mapGetters} from 'vuex';
 export default {

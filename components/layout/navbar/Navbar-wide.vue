@@ -37,7 +37,7 @@
                     <li> <nuxt-link to="/admin"> Pedidos</nuxt-link></li>
                     <li> <nuxt-link to="/admin/productos"> Administrar productos</nuxt-link></li>
                     <li> <nuxt-link to="/admin/stats" v-if="isSuper"> Stats</nuxt-link></li>
-                    <li> <nuxt-link to="/admin/busquedas"> Busquedas</nuxt-link></li>
+                    <li> <nuxt-link to="/admin/estadisticas"> Estadisticas </nuxt-link></li>
                     <li> <nuxt-link to="/admin/config"> Configs</nuxt-link></li>
                     <li> <nuxt-link to="/admin/metadata"> Metadata</nuxt-link></li>
                 </ul>

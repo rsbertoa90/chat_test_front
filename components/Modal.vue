@@ -2,7 +2,7 @@
     <div class="overlay">
         <transition appear enter-active-class="animated slideInDown">
             <div class="modal-window bordered">
-                <div class="close-button bordered clickable mb-4" @click="$emit('close')">
+                <div v-if="!noclosebutton" class="close-button bordered clickable mb-4" @click="$emit('close')">
                     <span class="fa fa-times"></span>
                 </div>
                 <div class="content mt-3">
@@ -15,7 +15,12 @@
 
 <script>
 export default {
-    
+    props:{
+        noclosebutton:{
+            type:Boolean,
+            default:false,
+        }
+}
 }
 </script>
 
@@ -39,7 +44,7 @@ export default {
     align-items: center;
     color:#fff;
     font-weight: bold;
-    background-color: #F2B742;
+    background-color: #09cca2;
     span{
         font-size: 30px;
     }
@@ -58,8 +63,9 @@ export default {
 
     .modal-window{
         
-        margin-top:90px;
+       
         position:absolute;
+        top:40px;
         z-index:10;
        /*  margin-top:100px; */
         width: 447px;

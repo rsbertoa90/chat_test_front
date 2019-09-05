@@ -115,22 +115,27 @@
                         Enviar
                 </button>
         </form>
+        <survey @send="getSurveyData" v-if="showSurvey"></survey>
     </div>
 </template>
 
 <script>
+import survey from './survey.vue';
 export default{
-    
-
+    components:{
+        survey
+    },
     data(){return{
         state:null,
-       
+        showSurvey:false,
         phone : {
             code: '',
             number: '',
             whatsapp: false
         },
         formData : {
+            surveyOption:null,
+            surveyComment:'',
             shipping:false,
             cp:'',
             address:'',
@@ -169,6 +174,12 @@ export default{
     },
     
     methods : {
+        getSurveyData(e){
+            this.formData.surveyComment = e.comment;
+            this.formData.surveyOption = e.option;
+            this.showSurvey=false;
+            this.send();
+        },
         validateEmail(email) {
           
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -224,12 +235,12 @@ export default{
                      /*   dangerMode: true, */
                        }).then(function(isConfirm) {
                        if (isConfirm) {
-                           vm.send();
+                           vm.showSurvey=true;
                        } 
                        });
                 }
                 else {
-                    vm.send();
+                   vm.showSurvey=true;
                 }
                
             }
@@ -250,6 +261,7 @@ export default{
         send(){
                 
                 var data = this.formData;
+                console.log(this.formData);
                 let list = this.compactList();
                 data.list = JSON.stringify(list);
                 data.total = this.total;

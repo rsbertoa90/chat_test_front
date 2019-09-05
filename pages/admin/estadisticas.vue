@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import adminSearchs from '@/components/admin/search-statics/Search-statics.vue';
+import adminSearchs from '@/components/admin/estadisticas/Estadisticas.vue';
 export default {
     layout:'admin',
     middleware:'checkAdmin',

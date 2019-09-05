@@ -53,6 +53,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h2{
+    font-size: 1.35rem;
+    font-weight: bold;
+}
+h3{
+    font-size: 1.1rem;
+}
+h4{
+    font-size: 1rem;
+}
+
 .radio{
     width:20px;
     height: 20px;

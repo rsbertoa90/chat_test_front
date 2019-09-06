@@ -1,7 +1,7 @@
 <template>
     <div class="row mb-4">
 
-            <div class="col-12 p-2">
+           <!--  <div class="col-12 p-2">
                 <v-lazy-image :src="imagePath('/storage/images/app/regalos07.png')" alt="muestra de regalo"/>
             </div>
             <div class="col-12 col-lg-6 p-2">
@@ -12,7 +12,7 @@
             </div>
             <div class="col-12 p-2">
                 <v-lazy-image :src="imagePath('/storage/images/app/regalos10.png')" alt="muestra de regalo"/>
-            </div>
+            </div> -->
 
             <div class="col-12 col-lg-6 p-2">
                 <v-lazy-image :src="imagePath('/storage/images/app/regalos05.png')" alt="muestra de regalo"/>

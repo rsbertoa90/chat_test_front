@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h1>survey</h1>
+        <h1>Ecnuesta:</h1>
         <piechart></piechart>
     </div>
 </template>
 
 <script>
-import piechart from './piechart';
+import piechart from './piechartcontainer';
 export default {
     components:{piechart}
 }

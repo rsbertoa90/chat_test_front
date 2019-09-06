@@ -5,7 +5,7 @@
                 <button class="btn btn-block btn-outline-info" @click="selected='searchs'">Busquedas</button>
             </div>
             <div class="col-12 col-lg-6">
-                <button class="btn btn-block btn-outline-info" >Encuesta</button>
+                <button class="btn btn-block btn-outline-info" @click="selected='survey'" >Encuesta</button>
             
             </div>
         </div>

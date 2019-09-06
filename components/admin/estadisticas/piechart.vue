@@ -1,34 +1,41 @@
-<template>
-  <div>
-    <pie-chart :data="chartData" :options="chartOptions"></pie-chart>
-  </div>
-</template>
+
+
+
 <script>
-import PieChart from "./piechartt.vue";
+import { Pie } from 'vue-chartjs'
 export default {
-  name: "App",
-  components: {
-    PieChart
+  extends: Pie,
+  props:['chartdata'],
+  
+  mounted () {
+    this.renderChart(this.chartdata, this.options)
   },
-  data() {
-    return {
-      chartOptions: {
-        hoverBorderWidth: 20
-      },
-      chartData: {
-        hoverBackgroundColor: "red",
-        hoverBorderWidth: 10,
-        labels: ["Green", "Red", "Blue"],
-        datasets: [
-          {
-            label: "Data One",
-            backgroundColor: ["#41B883", "#E46651", "#00D8FF"],
-            data: [1, 10, 5]
-          }
-        ]
+  computed:{
+    options(){
+      return{
+        
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: this.handle
+    
       }
-    };
+    }
+  },
+  methods:{
+    
+      handle (point, event) {
+    	const item = event[0]
+    	this.$emit('clicked', {
+      	index: item._index,
+        backgroundColor: item._view.backgroundColor,
+      
+      })
+    }
+    
   }
-};
+}
 </script>
 
+
+<style>
+</style>

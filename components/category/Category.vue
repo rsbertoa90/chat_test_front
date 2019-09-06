@@ -6,10 +6,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-3">
                 <img :src="imagePath(category.image)" :alt="category.name">
             </div>
-            <div class="col-12 col-lg-6 ">
+            <div class="col-12 col-lg-8 ">
                 
                   <p v-html="category.description" v-if="category.description">  </p>  
             

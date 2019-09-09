@@ -1,5 +1,8 @@
 <template>
     <div class="container m-auto">
+        <div class="row" v-if="$mq=='lg'">
+                <homeOffers></homeOffers>
+        </div>
         <div class="row p-5 d-flex flex-column info" v-if="config">
             <h1>Mayorista Mates Fabi</h1>
             
@@ -44,7 +47,7 @@
             </p>
         </div>
      
-            <home-offers></home-offers>
+          
         <hr>
         <div class="mt-4">
             <h2>Productos de Mayorista Mates Fabi  </h2>

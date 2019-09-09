@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Ecnuesta:</h1>
+      
         <piechart></piechart>
     </div>
 </template>

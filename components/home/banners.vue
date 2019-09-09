@@ -6,6 +6,13 @@
                    <v-gif :images="gifImages" alt="cotizador" :speed="500" />
                 </nuxt-link>
             </div>
+
+            <div class="col-12" v-if="$mq!='lg'">
+                <no-ssr>
+                    <offerSlider></offerSlider>
+                </no-ssr>
+            </div>
+
             <div class="col-12 col-lg-4 row p-1 pl-lg-4">
                <div class="col-12 p-1">
                      <div class="small-banner">
@@ -36,9 +43,10 @@
 </template>
 
 <script>
+import offerSlider from './offers.vue'
 import vGif from './gif.vue';
 export default {
-    components: {vGif},
+    components: {vGif,offerSlider},
     data(){
         return{
             gifImages : [

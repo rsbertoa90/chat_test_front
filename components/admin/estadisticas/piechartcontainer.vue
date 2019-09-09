@@ -24,8 +24,8 @@ export default {
         this.$axios.get('/surveys')
             .then(r => {
                 this.surveys = r.data;
-                console.log(this.surveys);
-            })
+             
+            });
     },
     computed:{
         chartdata(){
@@ -89,6 +89,9 @@ export default {
         }
     },
     methods:{
+        cleanSurveys(){
+           
+        },
         clicked(e)
         {
           this.comms = this.comments[e.index];

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <no-ssr>
+        
 
-        <home-banners></home-banners>
-        <home-icons></home-icons>
-        </no-ssr>
+            <home-banners></home-banners>
+            <home-icons></home-icons>
+    
         
     </div>
 </template>

@@ -64,6 +64,9 @@
                 <button @click.prevent="toggleFirst(product)" class="btn btn-sm m-1" :class="{'btn-secondary' : !product.first, 'btn-warning': product.first}">
                     Ver primero
                 </button>
+                <button @click.prevent="toggleNew(product)" class="btn btn-sm m-1" :class="{'btn-secondary' : !product.new, 'btn-warning': product.new}">
+                    Nuevo
+                </button>
                 
             </td>
             <image-modal v-if="product && showModal" :product="product"  
@@ -159,6 +162,12 @@ export default {
                 var vm = this;
                 product.first = !product.first;
                 vm.saveChange(product,'first');
+                
+            },
+            toggleNew(product){
+                var vm = this;
+                product.new = !product.new;
+                vm.saveChange(product,'new');
                 
             },
             deleteProduct(product){

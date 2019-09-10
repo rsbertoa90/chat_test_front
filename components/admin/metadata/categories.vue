@@ -19,9 +19,11 @@
             <div v-if="selected">
                 <h2> {{selected.name}} </h2>
                  <div class="p2 row">
-                    <button @click="toggleFirst" class="btn" :class="{'btn-secondary':!selected.first, 'btn-info':selected.first}">
-                        Mostrar Primero
-                    </button>
+                     <label for="" class="col-12 col-lg-4">
+
+                        ORDEN
+                     </label>
+                    <input type="text" @change="save(selected,'order')" v-model.lazy="selected.order" class=" ml-2 col-6 col-lg-2 form-control">
                 </div>
 
                 <div class="p2 row">
@@ -91,17 +93,7 @@ export default {
         }
     },
     methods :{
-        toggleFirst()
-        {   
-            this.selected.first =! this.selected.first;
-            let value = this.selected.first ? 1 : 0;
-            var data = {
-                id : this.selected.id,
-                field : 'first',
-                value : value
-            }
-            this.$axios.put('/category',data);
-        },
+       
         bindFile(e){
             var vm=this;
             var fileUploadFormData=new FormData();

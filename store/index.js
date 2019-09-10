@@ -145,6 +145,21 @@ export const getters = {
 
          return prods;
        },
+       getNews(state) {
+         let prods = [];
+         if (state.categories.length > 0) {
+           state.categories.forEach(category => {
+             category.products.forEach(product => {
+
+               if (product.new && !product.paused) {
+                 prods.push(product);
+               }
+             });
+           });
+         }
+
+         return prods;
+       },
     getUser(state)
     {
         return state.auth.user;

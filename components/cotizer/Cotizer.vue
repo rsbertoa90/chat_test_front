@@ -29,6 +29,90 @@
             
              
         <div id="accordion">
+            <!-- Ofertas  -->
+            <div   class="card flex-wrap" v-if="offers && offers.length">
+                <div class="card-header" :id="'ofertas'">
+                  
+                    <h5 class="mb-0">
+                        <button class="btn  btn-link w-100 text-left text-big d-flex align-items-center w-100" 
+                                data-toggle="collapse" 
+                                :data-target="'#acordionofertas'" 
+                                aria-expanded="true" 
+                                :aria-controls="'ofertas'"
+                                @click="selectedCategory='ofertas'">
+                                   <div class="category-miniature">
+                                        <v-lazy-image :src="imagePath('/storage/images/app/cotizador-ofertas.jpg')"></v-lazy-image>
+                                    </div>
+                                    <span class="white-space-normal">
+                                        Ofertas
+                                    </span>
+                        </button>
+                    </h5>
+                </div>
+                <div :id="'acordionofertas'" class="collapse collapsed " aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                       <table class="table table-striped table-bordered " >
+                           <thead>
+                               <tr>
+                                    
+                                    <th>Foto</th>
+                                    <th v-if="admin">Cod</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Quiero</th>
+                               </tr>
+                           </thead>
+                           <tbody v-if="selectedCategory=='ofertas'">
+                               <tr is="productRow" v-for="product in notPaused(offers)" :key="product.id" :product="product">  
+                               </tr>
+                           </tbody>
+                       </table>
+                    </div>
+                </div>
+            </div>
+           <!-- novedades -->
+            <div   class="card flex-wrap" v-if="news && news.length">
+                <div class="card-header" :id="'novedades'">
+                  
+                    <h5 class="mb-0">
+                        <button class="btn  btn-link w-100 text-left text-big d-flex align-items-center w-100" 
+                                data-toggle="collapse" 
+                                :data-target="'#acordionnovedades'" 
+                                aria-expanded="true" 
+                                :aria-controls="'novedades'"
+                                @click="selectedCategory='novedades'">
+                                   <div class="category-miniature">
+                                        <v-lazy-image :src="imagePath('/storage/images/app/cotizador-novedades.jpg')"></v-lazy-image>
+                                    </div>
+                                    <span class="white-space-normal">
+                                        Novedades
+                                    </span>
+                        </button>
+                    </h5>
+                </div>
+                <div :id="'acordionnovedades'" class="collapse collapsed " aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                       <table class="table table-striped table-bordered " >
+                           <thead>
+                               <tr>
+                                    
+                                    <th>Foto</th>
+                                    <th v-if="admin">Cod</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Quiero</th>
+                               </tr>
+                           </thead>
+                           <tbody v-if="selectedCategory=='novedades'">
+                               <tr is="productRow" v-for="product in notPaused(news)" :key="product.id" :product="product">  
+                               </tr>
+                           </tbody>
+                       </table>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- CATEGORIAS -->
             <div v-for="category in categories" 
                   :key="'category-'+category.id" 
                   class="card flex-wrap">
@@ -111,7 +195,9 @@ import codeSelector from './code-selector.vue';
                configs: 'getConfig',
                 total:'getTotal',
                 list:'getList',
-                tutoseen:'getTutoSeen'
+                tutoseen:'getTutoSeen',
+                offers:'getOffers',
+                news:'getNews'
             }),
             
           

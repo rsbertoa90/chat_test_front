@@ -11,14 +11,19 @@
         </div>
         <hr>
         <div class="row d-flex justify-content-center ml-2">
-            <div class="col-12 col-lg-4 row">
+             <div class="col-12 col-lg-4 row">
                 <div class="col-2 offset-1  ">
                     <div class="mt-2 btn  btn-circle bg-second white-bold">
-                        <span class="fa fa-map-marker"></span>
+                        <span class="fa fa-map-marker-alt"></span>
                     </div>
                 </div>
-                 <div class="col-9 mt-3">
-                   <p>Pasteur 410/412 - CABA  </p>
+                <div class="col-9">
+                    <ul>
+                        <li>Pasteur 410 - CABA</li>
+                        <li>Sarmiento 2268, CABA   </li>
+                        <li>Castelli 203, CABA </li>
+
+                    </ul>
                 </div>
             </div>
             <div class="col-12 col-lg-4 row">

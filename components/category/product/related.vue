@@ -1,7 +1,7 @@
 
 <template>
 <div class="container w-100" v-if="products.length > 0" >
-  <hr>
+  
   <h2 class="mb-4">Productos relacionados</h2>
       <!-- swiper -->
       <swiper :options="swiperOption" v-if="render">

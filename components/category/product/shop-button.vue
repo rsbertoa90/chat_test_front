@@ -10,7 +10,7 @@
             </div>
             <div class=" d-flex  justify-content-center units-control">
                 <button @click="product.units--" class="btn-info"> <span class="fa fa-minus"></span> </button>
-                <input type="text" v-model="product.units" class=" units-field">
+                <input type="number" step="1" v-model="product.units" class=" units-field">
                 <button @click="product.units++" class="btn-info"> <span class="fa fa-plus"></span> </button>
             </div>
                 

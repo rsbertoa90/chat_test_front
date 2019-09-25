@@ -133,8 +133,27 @@ export default {
             refresh(){
                 this.$emit('refresh');
             },
+            isDuplicated(product){
+                let res = false;
+                this.categories.forEach(c => {
+                    c.products.forEach(p=>{
+                        if (p.code == product.code && p.id != product.id )
+                        {
+                            res =true;
+                        }
+                    })
+                })
+                return res;
+            },
             saveChange(product,field){
                 
+                if(field=='code'){
+                   if ( this.isDuplicated(product) ){
+                       swal('Error','Ya existe un producto con ese codigo, no se guardará el cambio','error');
+                       return;
+                    };
+                }
+
                     var data = {
                         product : product.id,
                         field : field,

@@ -34,9 +34,11 @@
             <span v-if="!formData.shipping" class="warn">*IMPORTANTE: Coordinar con la asesora de ventas antes de ir a buscar el pedido . La demora habitual en que el pedido este listo es de 2 a 6 dias hábiles luego de el informe y acreditación de pago </span>
             
                 
-                <span class=" warn" v-if="formData.shipping">*El despacho de la mercaderia se realiza de 2 a 6 días hábiles luego del  informe y acreditacion de pago.  </span>
+            <span class=" warn" v-if="formData.shipping">*El despacho de la mercaderia se realiza de 2 a 6 días hábiles luego del  informe y acreditacion de pago.  </span>
             
             <span class="warn">*Los precios no incluyen IVA</span>
+
+            <span class="warn" v-if="formData.shipping">*Los diseños de los productos se envían en base a lo disponible en la Fabrica, no se pueden elegir ya que son discontinuos.</span>
         </div>
 
              

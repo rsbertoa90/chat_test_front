@@ -19,6 +19,10 @@
            
         </div>
 
+        <div v-if="hidePrices" class="pricesHided">
+            Estamos actualizando nuestra Web, pronto precios y toma de pedidos disponible. Disculpa la molestia! Cualquier consulta el numero del área de venta es 11 3008 5414
+        </div>
+
         <no-ssr>
             <div v-if="admin" class="mt-4 mb-4">
                 <codeSelector></codeSelector>
@@ -229,7 +233,12 @@ import codeSelector from './code-selector.vue';
     margin-top:-15px
 }
 
-
+.pricesHided{
+    background-color: #666;
+    color:#fff;
+    padding:10px;
+    font-size: 1.15rem;
+}
 .white-space-normal{
     white-space: normal;
 }

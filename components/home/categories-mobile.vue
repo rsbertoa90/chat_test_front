@@ -2,7 +2,7 @@
 <div class="container mt-4">
     <div class="mt-4 row">
         <div class="col-12" 
-              v-for="category in categories" 
+              v-for="category in notPausedCategories" 
               :key="category.id">
               
             <div class="card" >

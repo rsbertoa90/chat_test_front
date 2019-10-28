@@ -2,7 +2,7 @@
     <div class="mt-4 row">
         <swiper :options="swiperOption" class="col-12">
             <swiper-slide
-                v-for="category in categories" 
+                v-for="category in notPausedCategories" 
                 :key="category.id" class="d-flex align-items-stretch">
                 
                 <div class="card">

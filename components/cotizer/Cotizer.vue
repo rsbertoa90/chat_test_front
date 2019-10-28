@@ -117,7 +117,7 @@
             </div>
            
             <!-- CATEGORIAS -->
-            <div v-for="category in categories" 
+            <div v-for="category in notPausedCategories" 
                   :key="'category-'+category.id" 
                   class="card flex-wrap">
                 <div class="card-header" :id="'card'+category.id">

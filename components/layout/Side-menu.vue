@@ -3,7 +3,7 @@
         <div >
                 <div class="side-borders">
                    <ul clas="d-flex pl-4">
-                       <li v-for="category in categories" :key ="category.id">
+                       <li v-for="category in notPausedCategories" :key ="category.id">
                            <nuxt-link :to="category.slug">
                             <span class="fa fa-chevron-right"></span>   {{category.name| ucFirst}}
                            </nuxt-link>

@@ -31,6 +31,7 @@ data(){
         other:'',
         options:[
             'No poder elegir modelos y colores',
+            'No poder pagar con tarjeta',
             'Por demora en confirmar el stock',
             'Por demora en armado y envio de pedido',
             'Es un pedido de prueba',

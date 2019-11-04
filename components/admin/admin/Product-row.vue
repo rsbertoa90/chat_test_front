@@ -34,6 +34,29 @@
                     </option>
                 </select>
             </td>
+
+            <td>
+                <label>
+                    <input  type="checkbox" v-model="product.stock_managed" @change="toggleStockManaged">
+                    Controlar Stock: 
+                </label>
+                <br/>
+                <div v-if="product.stock_managed">
+                    <label  >
+                        Stock disponible: 
+                        <span>{{product.stock_units}}</span>    
+                    </label>
+                    <br>
+
+                    <label for="">  
+                        Agregar o quitar:
+                        <input class="formControl smallField" type="number" min="0" step="1" v-model="stock_alt">
+                    </label>
+                    <button class="btn btn-success" @click="addStock()"> <span class="fa fa-plus"></span> </button>
+                    <button class="btn btn-danger" @click="removeStock()"> <span class="fa fa-minus"></span> </button>
+                </div>
+            </td>
+
             <td>
                 <div class="d-flex">
                     <div class="relative">
@@ -85,7 +108,8 @@ export default {
     props:['product'],
     data(){return{
         showModal:false,
-        hasUnitPrice :false
+        hasUnitPrice :false,
+        stock_alt:0
     }},
     
     mounted(){
@@ -101,6 +125,29 @@ export default {
         }
     },
     methods:{
+        addStock(){
+            if(this.stock_alt>0){
+                this.product.stock_units = parseInt(this.product.stock_units) + parseInt(this.stock_alt);
+                this.saveChange(this.product,'stock_units');
+                this.stock_alt=0;
+            }
+        },
+        removeStock(){
+            if(this.stock_alt){
+                this.product.stock_units -= this.stock_alt;
+                this.saveChange(this.product,'stock_units');
+                this.stock_alt=0;
+            }
+        },
+        toggleStockManaged(){
+            let value = this.product.stock_managed ? 1:0;
+            let data={
+                field:'stock_managed',
+                value:value,
+                product:this.product.id
+            }
+            this.$axios.put('/product',data);
+        },
         validate(){
             let u = this.product.pck_units;
             let p = this.product.price;

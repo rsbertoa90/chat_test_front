@@ -65,6 +65,7 @@
                                     <th>imagen</th>
                                     <th>Codigo</th>
                                     <th>Categoria</th>
+                                    <th>Stock</th>
                                     <th>Precio</th>
                                 </thead>
                                 <!-- <transition-group tag="tbody" 

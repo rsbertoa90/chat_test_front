@@ -16,11 +16,15 @@ export const state = () => {
         list:[],
         total:0,
         firstload:true,
+        canceledOrders:null,
        
     }
 }
 
 export const getters = {
+  getCanceledOrders(store){
+    return store.canceledOrders;
+  },
   getFirstload(store){
     return store.firstload;
   },
@@ -301,8 +305,11 @@ export const mutations = {
        state.orders = payload;
      },
      setCanceledOrders(state, payload) {
-       state.orders = state.orders.concat(payload);
-     },
+      state.canceledOrders=payload;
+
+      state.orders = state.orders.concat(payload);
+     
+    },
      setMeta(state, payload) {
        state.meta = payload;
      },
@@ -393,8 +400,8 @@ export const actions = {
       //commit('setLoading',true);
       await this.$axios.get('/canceled-orders')
       .then(r=>{
-        commit('setCanceledOrders',r.data);
-        });   
+          commit('setCanceledOrders',r.data);
+      });   
     },
 
     async fetchSupliers({commit}){

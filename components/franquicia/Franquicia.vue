@@ -17,7 +17,7 @@
         </div>
         <div class="col-12 col-lg-8">
             <form ref="form" class="form" method="post" action="/franquicia">
-                <input type="hidden" name="_token" :value="csrf">
+              
                 <div class="row">
                     <label class="col-12 col-lg-4">
                         Nombre
@@ -62,7 +62,7 @@ export default {
    
     data(){
         return{
-            csrf:window.csrf,
+           
             formdata : {
                 name : '',
                 email : '',

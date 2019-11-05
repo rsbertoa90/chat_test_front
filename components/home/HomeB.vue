@@ -1,5 +1,8 @@
 <template>
     <div class="container m-auto">
+        <div class="row">
+            <providers-banner></providers-banner>
+        </div>
         <div class="row" v-if="$mq=='lg'">
                 <homeOffers></homeOffers>
         </div>
@@ -59,12 +62,14 @@
 </template>
 
 <script>
+import providersBanner from './providers-banner.vue'
 import homeMaps from './maps.vue';
 import homeOffers from './offers.vue';
 import homeCategoriesMobile from './categories-mobile.vue';
 import homeCategoriesWide from './categories-wide.vue';
 export default {
     components:{
+        providersBanner,
         homeMaps,
         homeOffers,
         'home-categories-mobile' : homeCategoriesMobile,

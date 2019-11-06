@@ -13,7 +13,7 @@
                 <tr v-for="product in list" :key="product.id">
                     <td> {{product.code}} </td>
                     <td> {{product.name}} </td>
-                    <td>  <input type="number" class="form-control" style="width:100px" v-model.lazy="product.units" @change="setList(product)" > </td>
+                    <td>   <qty-field :product="product"></qty-field> </td>
                     <td > ${{ product.price * product.units | price }} </td>
                     <td> <button class="btn btn-sm btn-outline-danger" @click="del(product)"> <span class="fa fa-times"></span> </button> </td>
                 </tr>
@@ -23,7 +23,9 @@
 </template>
 
 <script>
+import qtyField from '@/components/category/product/qty-field.vue';
 export default {
+    components:{qtyField},
    computed:{
        list(){
            return this.$store.getters.getList;

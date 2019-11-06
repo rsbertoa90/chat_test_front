@@ -43,7 +43,7 @@
                 <br/>
                 <div v-if="product.stock_managed">
                     <label  >
-                        Stock disponible: 
+                        Disponible: 
                         <span>{{product.stock_units}}</span>    
                     </label>
                     <br>
@@ -102,6 +102,7 @@
 </template>
 
 <script>
+
 import imageModal from './Img-modal.vue';
 export default {
     components:{imageModal},

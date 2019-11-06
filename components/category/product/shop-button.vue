@@ -9,20 +9,40 @@
                     <fa-icon icon="shopping-cart" ></fa-icon>
             </div>
             <div class=" d-flex  justify-content-center units-control">
-                <button @click="product.units--" class="btn-info"> <span class="fa fa-minus"></span> </button>
-                <input type="number" step="1" v-model="product.units" class=" units-field">
-                <button @click="product.units++" class="btn-info"> <span class="fa fa-plus"></span> </button>
+                <button @click="removeone" class="btn-info"> <span class="fa fa-minus"></span> </button>
+                <qty-field :product="product"></qty-field>
+                <button @click="addone" class="btn-info"> <span class="fa fa-plus"></span> </button>
             </div>
                 
     </div>
+    <span v-if="showmaxwarn" class="text-danger font-weight-bold warn" > {{warn}}  </span>
 </div>
 </template>
 
 
 <script>
+import qtyField from './qty-field.vue';
 export default {
+    components:{qtyField},
     props:['product'],
+    data(){
+        return{
+            showmaxwarn:false
+        }
+    },
     methods:{
+        addone(){
+            if(this.product.units < this.max){
+                this.product.units++
+            }else{
+                this.showmaxwarn =true;
+            }
+        },
+        removeone(){
+            if(this.product.units > 0){
+                this.product.units--
+            }
+        },
         addProduct()
         {
             this.$set(this.product,'units',1);
@@ -33,6 +53,29 @@ export default {
         'product.units'(){
             this.$store.commit('setList',this.product);
         }
+    },
+    computed:{
+          warn(){
+            if(this.product.stock_managed)
+            {
+                
+                if(this.product.stock_units > 1)
+                {
+                    return `Quedan ${this.product.stock_units} unidades`
+                }else{
+                    return "Queda solo 1 unidad!"
+                }
+            }
+        },
+        max(){
+            if(this.product.stock_managed)
+            {
+                return this.product.stock_units;
+            }
+            else{
+                return 99999;
+            }
+        },
     }
 }
 </script>

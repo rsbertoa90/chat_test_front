@@ -17,7 +17,7 @@
                 <span class="text-success font-weight-bold" v-if="config && !config.hide_prices">  ${{(product.price * product.units) | price}} </span>
                 
             </div>
-            <input v-if="!hidePrices" type="number" min="0" class="form-control " v-model="product.units" @blur="setList">
+            <qty-field :product="product" />
             <div v-if="!hidePrices" class="controls d-flex justify-content-between p-2">
                 <span  @click="susone">
                     <fa-icon icon="minus" class="control-btn bg-danger"></fa-icon>
@@ -26,6 +26,7 @@
                     <fa-icon icon="plus" class="control-btn bg-success" ></fa-icon>
                 </span>
             </div>
+            <span v-if="showmaxwarn" class="text-danger font-weight-bold warn" > {{warn}}  </span>
         
         </td>
         
@@ -37,11 +38,38 @@
 
 
 <script>
+import qtyField from '@/components/category/product/qty-field.vue';
  import carousel from '@/components/category/product/Img-modal.vue';
 export default {
     props:['product'],
-    components:{carousel},
+    components:{carousel,qtyField},
+    data(){
+        return{
+            showmaxwarn:false
+        }
+    },
     computed:{
+        warn(){
+            if(this.product.stock_managed)
+            {
+                
+                if(this.product.stock_units > 1)
+                {
+                    return `Quedan ${this.product.stock_units} unidades`
+                }else{
+                    return "Queda solo 1 unidad!"
+                }
+            }
+        },
+        max(){
+            if(this.product.stock_managed)
+            {
+                return this.product.stock_units;
+            }
+            else{
+                return 99999;
+            }
+        },
         user(){
             return this.$store.getters.getUser;
         }
@@ -51,8 +79,11 @@ export default {
             if(!this.product.units){
                 this.$set(this.product,'units',1);
             }else{
-
-                this.product.units++;
+                if(this.product.units<this.max){
+                    this.product.units++;
+                }else{
+                    this.showmaxwarn=true;
+                }
             }
            // console.log(this.product.units)
             this.setList();
@@ -89,6 +120,12 @@ export default {
 
 
 <style  lang="scss" scoped>
+.warn{
+    display: flex;
+    max-width: 60px;
+    text-align: center;
+    font-size: .8rem;
+}
 .controls{
     width:70px;
     .control-btn{

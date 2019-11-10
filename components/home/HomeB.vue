@@ -36,10 +36,10 @@
         </div>
 
         <div mt-4>
-            <nuxt-link to="/cotizador" class="d-flex w-100 justify-content-center">
-                <v-lazy-image v-if="$mq == 'lg'" :src="imagePath('/storage/images/app/bannerCotizador.png')" alt="presupuesto" />
-                <v-lazy-image v-else :src="imagePath('/storage/images/app/banner-cotizador-mobile.png')" alt="presupuesto" />
-            </nuxt-link>
+            <a target="_blank" href="/descargar-lista-de-precios" class="d-flex w-100 justify-content-center">
+                <v-lazy-image v-if="$mq == 'lg'" :src="imagePath('/storage/images/app/rpreciosw.jpg')" alt="presupuesto" />
+                <v-lazy-image v-else :src="imagePath('/storage/images/app/rpreciosm.jpg')" alt="presupuesto" />
+            </a>
         </div>
 
        <!--  <home-maps></home-maps> -->

@@ -17,14 +17,14 @@
                <div class="col-12 p-1">
                      <div class="small-banner">
                         <nuxt-link to="/regalos-empresariales" class="w-100 d-block">
-                            <v-lazy-image :src="imagePath('/storage/images/app/regalos-empresariales.png')" alt="regalos-empresariales" />
+                            <v-lazy-image :src="imagePath('/storage/images/app/rregalos.jpg')" alt="regalos-empresariales" />
                         </nuxt-link>
                      </div>
                 </div>
                 <div class="col-12 p-1">
                       <div class="small-banner ">
                         <nuxt-link to="/sucursales" class="w-100 d-block">
-                            <v-lazy-image :src="imagePath('/storage/images/app/sucursales.png')" alt="sucursales" />
+                            <v-lazy-image :src="imagePath('/storage/images/app/rsucursales.jpg')" alt="sucursales" />
                         </nuxt-link>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                      
                     <div class="small-banner ">
                         <nuxt-link to="/franquicia" class="w-100 d-block">
-                            <v-lazy-image :src="imagePath('/storage/images/app/franquicia.png')" alt="franquicia" />
+                            <v-lazy-image :src="imagePath('/storage/images/app/rfranquicia.jpg')" alt="franquicia" />
                         </nuxt-link>
                     </div>
                 </div>
@@ -50,8 +50,8 @@ export default {
     data(){
         return{
             gifImages : [
-                '/storage/images/app/ncotizador1.jpg',
-                '/storage/images/app/ncotizador2.jpg'
+                '/storage/images/app/hgif1.jpg',
+                '/storage/images/app/hgif2.jpg'
             ]
         }
     }

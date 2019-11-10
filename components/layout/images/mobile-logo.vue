@@ -1,7 +1,7 @@
 <template>
 <div class="fondo">
      <nuxt-link to="/" title="home">
-        <img :src="imagePath('/storage/images/app/logo-wide.jpeg')" alt="fondo" > 
+        <img :src="imagePath('/storage/images/app/rlogo-wide.jpg')" alt="fondo" > 
     <!--  <img :src="imagePath('/storage/images/app/logo.png')" alt="Mates Fabi">
      --> 
     </nuxt-link> 

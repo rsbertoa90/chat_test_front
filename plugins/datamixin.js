@@ -33,7 +33,12 @@ Vue.mixin({
       notPaused(products){
         if(products && products.length > 0){
           return products.filter(p=>{
-            return !p.paused;
+            if(p.stock_managed){
+              return (!p.paused && p.stock_units > 0)
+            }
+            else{
+              return !p.paused;
+            }
           })
         }
       },

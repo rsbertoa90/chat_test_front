@@ -89,12 +89,7 @@ import shopButton from '../category/product/shop-button.vue';
         return this.$store.getters.getOffers;
         },
         notpausedoffers(){
-          if (this.offers)
-          {
-            return this.offers.filter(prod => {
-              return !prod.paused;
-            });
-          }
+         return this.notPaused(this.offers);
         }
     },
     methods: {

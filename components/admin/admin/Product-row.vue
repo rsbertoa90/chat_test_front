@@ -147,6 +147,9 @@ export default {
                 value:value,
                 product:this.product.id
             }
+            if(!this.product.stock_units){
+                this.product.stock_units = 0;
+            }
             this.$axios.put('/product',data);
         },
         validate(){

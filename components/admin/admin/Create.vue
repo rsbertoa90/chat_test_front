@@ -39,17 +39,8 @@
                  <input min='0' step=".01" required v-model.trim="formData.price"  
                  type="number" class="col-12">
              </div>
-             <!-- unidades x bulto -->
-             <div  class="col-2 row">
-                 <label for="" class="col-12">Unidades x bulto</label>
-                 <input   min='0' required  v-model.trim="formData.pck_units" type="number" step="1" class="col-12">
-             </div>
-             <!-- precio x mayor -->
-             <div class="col-2 row">
-                 <label for="" class="col-12">Precio x mayor</label>
-                 <input  step=".01" min='0' required v-model.trim="formData.pck_price"  
-                 type="number" class="col-12">
-             </div>
+            
+         
              <div class="offset-11">
                 <button type="submit" class="btn btn-outline-success align-self-end justify-self-end"> GUARDAR </button>
              </div>
@@ -70,8 +61,7 @@
                 formData: {
 
                     price :null,
-                    pck_price :null,
-                    pck_units :null,
+                  
                     category_id : null,
                   
                     name : null,
@@ -112,8 +102,7 @@
                 this.formData =  {
 
                     price :null,
-                    pck_price :null,
-                    pck_units :null,
+                 
                     category_id : null,
                     name : null,
                     code :null

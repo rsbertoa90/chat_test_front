@@ -8,7 +8,7 @@
                 <button class="btn btn-block btn-outline-info" @click="selected='survey'" >Encuesta</button>
             
             </div>
-            <div class="col-12 col-lg-4">
+            <div class="col-12 col-lg-4" v-if="isSuper">
                 <button class="btn btn-block btn-outline-info" @click="selected='canceleds'" >Cancelados</button>
             </div>
         </div>

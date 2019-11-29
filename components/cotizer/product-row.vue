@@ -17,7 +17,7 @@
                 <span class="text-success font-weight-bold" v-if="config && !config.hide_prices">  ${{(product.price * product.units) | price}} </span>
                 
             </div>
-            <qty-field :product="product" />
+            <qty-field :product="product" class="brd" />
             <div v-if="!hidePrices" class="controls d-flex justify-content-between p-2">
                 <span  @click="susone">
                     <fa-icon icon="minus" class="control-btn bg-danger"></fa-icon>
@@ -139,7 +139,9 @@ export default {
         color:#fff;
     }    
 }
-
+.brd{
+    border:1px solid #000;
+}
 
 .icono{
     font-size: 2.75rem;

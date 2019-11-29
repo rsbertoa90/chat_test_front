@@ -108,16 +108,15 @@
                 let img =this.product.images.find(i => {
                     return i.order == 1;
                 });
-                img.order = 2 ;
-
-                let data = {
-                    id : img.id,
-                    field : 'order',
-                    value : 2
+                if(img){
+                    img.order = 2 ;
+                    let data = {
+                        id : img.id,
+                        field : 'order',
+                        value : 2
+                    }
+                    this.$axios.put('/product/image',data);
                 }
-
-                this.$axios.put('/product/image',data);
-
             },
              orderChange(img,i){
                 /* si quiero definir primera imagen, busco la que tenga 1 y la paso a 2 */

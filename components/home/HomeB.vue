@@ -3,6 +3,7 @@
         <div class="row">
             <providers-banner></providers-banner>
         </div>
+        
         <div class="row" v-if="$mq=='lg'">
                 <homeOffers></homeOffers>
         </div>

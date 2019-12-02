@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+    
          <div class="col-12 mt-4">
             <button @click="job('prices-list-job')" class="btn btn-outline-info">  
                 Refrescar Lista de Precios
@@ -48,6 +49,9 @@
            
 
         </div>
+        <div class="col-12 row mt-4">
+            <homegif></homegif>
+        </div>
         <!-- <div class="col-12 row">
             <admin-slider></admin-slider>
         </div> -->
@@ -55,11 +59,12 @@
 </template>
 
 <script>
+import homegif from './homegif.vue';
 import adminSlider from './admin-slider.vue';
 export default {
      metaInfo(){return{
         title: 'ADMIN'   }},
-    components:{adminSlider},
+    components:{adminSlider,homegif},
     data(){
         return {
             catalogoreemplazar:'con',

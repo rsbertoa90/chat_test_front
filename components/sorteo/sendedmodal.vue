@@ -6,7 +6,7 @@
             <div>
                 <ul>
                     <li> <span class="fa fa-check fucsia"></span>Avisales a tus amigos para que también participen</li>
-                    <li><span class="fa fa-check fucsia"></span>El sorteo es el Lunes 30 de Noviembre a las 14 hs. Se trasmite en vivo por Facebook e Instagram, seguinos para enterarte si Ganas.</li>
+                    <li><span class="fa fa-check fucsia"></span>El sorteo es el Lunes 30 de Diciembre a las 14 hs. Se trasmite en vivo por Facebook e Instagram, seguinos para enterarte si Ganas.</li>
                 </ul>
             </div>
             <div class="social">

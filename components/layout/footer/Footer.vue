@@ -7,8 +7,20 @@
                         justify-content-center align-items-center bg-focus p-2 ">
                 <h5 class="white-bold">Cotizador Online</h5>
             </nuxt-link>
+            <div class="col-12 col-lg-2 offset-lg-4 social bg-focus">
+                <a rel="noopener" target="_blank"  href="https://www.facebook.com/mayoristaMatesFabi/" class="   white-bold d-flex 
+                            justify-content-center align-items-center p-2 ">
+                    <v-lazy-image :src="imagePath('/storage/images/app/social/fb.png')"></v-lazy-image>
+                </a>
+                <a  href="https://www.instagram.com/matesfabi/" rel="noopener" target="_blank" class="   white-bold d-flex 
+                            justify-content-center align-items-center  p-2 ">
+                    <v-lazy-image :src="imagePath('/storage/images/app/social/instagram.png')"></v-lazy-image>
+                </a>
+            </div>
          
         </div>
+
+
         <hr>
         <div class="row d-flex justify-content-center ml-2">
              <div class="col-12 col-lg-4 row">
@@ -81,6 +93,11 @@ export default {
 </script> 
 
 <style lang="scss" scoped>
+   .social{
+       display: flex;
+       justify-content: space-around;
+   }
+
    ul li{
        font-size: 0.7rem;
    }

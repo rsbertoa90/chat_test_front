@@ -5,14 +5,14 @@
             <div class="col-12 col-lg-6">
                 <a href="/descargar-lista-de-precios" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Lista de precios</a>
                 <a href="/descargar-catalogo-digital" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Catalogo con precios</a>
-                <a href="/descargar-catalogo-sin-precios" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Catalogo sin precios</a>
+              <!--   <a href="/descargar-catalogo-sin-precios" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Catalogo sin precios</a> -->
             </div>
         </div>
         <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs">
            
                 <span><i class="fa fa-check fucsia"></i>  Los precios publicados son sin IVA</span>
-                <span><i class="fa fa-check fucsia"></i> Acercándote personalmente a las sucursales la compra mínima es de ${{configs.minbuy}}.</span>
-                <span><i class="fa fa-check fucsia"></i> La Compra minima <b> ONLINE </b> es de ${{configs.minbuy_ship}}</span>
+                <span><i class="fa fa-check fucsia"></i> Personalmente en las sucursales la compra mínima es de ${{configs.minbuy}} y se pueden elegir los diseños.</span>
+                <span><i class="fa fa-check fucsia"></i> La Compra minima <b> ONLINE </b> es de ${{configs.minbuy_ship}}  y no se pueden elegir los diseños. Los mismos se envían en base a lo disponible. </span>
                 <span><i class="fa fa-check fucsia"></i> Los despachos o retiros de las compras online se realizan de 2 a 6 días hábiles luego del informe y acreditación de pago.</span>
                 <span><i class="fa fa-check fucsia"></i> <b> Envío: </b> la elección del trasporte y el costo del mismo corre a cargo del comprador. Mates Fabi lo lleva sin cargo  desde la fabrica hasta el transporte de tu elección.</span>
                 <span><i class="fa fa-check fucsia"></i> <b> Formas de pago: </b> Efectivo o Deposito /Transferencia Bancaria.</span>

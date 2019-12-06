@@ -24,6 +24,7 @@
       
 
         <app-footer v-if="$mq=='lg'"></app-footer>
+        <socialfooter v-if="$mq!='lg'"></socialfooter>
         <momwebfooter></momwebfooter>
          <whatsappBtn v-if="!admin"></whatsappBtn>
      
@@ -39,8 +40,10 @@
 
 <script>
 /* 
+
 import totalBouncer from './layout/total-bouncer/total-bouncer.vue';*/
 import momwebfooter from '@/components/layout/footer/momwebfooter.vue'
+import socialfooter from '@/components/layout/footer/social-footer.vue'
 import redlimpbanner from '@/components/banners/redlimp.vue'
 import whatsappBtn from '@/components/layout/whatsapp.vue'; 
 import appFooter from '@/components/layout/footer/Footer.vue';
@@ -49,7 +52,7 @@ import totalBouncer from '@/components/layout/total-bouncer/total-bouncer.vue';
 import apploading from '@/components/layout/loading.vue';
 import categoriesPannel from '@/components/layout/Side-menu.vue';
 export default {
-    components:{momwebfooter,redlimpbanner,appNav,appFooter,whatsappBtn,totalBouncer,apploading,categoriesPannel},
+    components:{socialfooter,momwebfooter,redlimpbanner,appNav,appFooter,whatsappBtn,totalBouncer,apploading,categoriesPannel},
     computed:{
         user(){
             return this.$store.getters.getUser;

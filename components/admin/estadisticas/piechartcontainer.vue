@@ -2,10 +2,17 @@
 <div>
     <piechart v-if="chartdata" :chartdata="chartdata" @clicked="clicked" class="clickable"></piechart>
     <br>
+
     <div class="mt-4" v-if="comms">
-        <p v-for="c in comms" :key="c">
-            {{c}}
-        </p>
+        <table class="table table-striped">
+            <tbody>
+                <tr v-for="c in comms" :key="c">
+                    <td >
+                        {{c}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </template>
@@ -31,11 +38,11 @@ export default {
         chartdata(){
             if(this.datas){
                 return  {
-                    labels: ['Bueno', 'Regular','Malo'],
+                    labels: ['Facebook', 'Google','Locales en Once', 'Me lo recomendo un/a amigo/a','Otro'],
                     datasets: [
                         {
                         label: "Data",
-                            backgroundColor: ["#41B883", "#00D8FF", "#E46651"],
+                            backgroundColor: ["#3b5998", "#DB4437", "#0F9D58",'#F4B400','#ccc'],
                             data: this.datas
                         },
                     
@@ -47,44 +54,61 @@ export default {
 
             if(this.surveys){
             
-                let bueno = 0;
-                let malo = 0;
-                let regular = 0;
+                let f = 0;
+                let g = 0;
+                let l = 0;
+                let r = 0;
+                let o = 0;
                 this.surveys.forEach(s => {
-                    if (s.option == 'Bueno'){
-                        bueno++
+                    if (s.option == 'Facebook'){
+                        f++
                     } 
-                    if (s.option == 'Regular'){
-                        regular++
+                    if (s.option == 'Google'){
+                        g++
                     } 
-                    if (s.option == 'Malo'){
-                        malo++
+                    if (s.option == 'Locales en Once'){
+                        l++
+                    } 
+                    if (s.option == 'Me lo recomendo un/a amigo/a'){
+                        r++
+                    } 
+                    if (s.option == 'Otro'){
+                        o++
                     } 
                 })
               //  console.log(bueno,regular,malo);
-                return [bueno,regular,malo]
+                return [f,g,l,r,o];
             } 
         },
         comments(){
             if(this.surveys){
             
-                let bueno = [];
-                let malo = [];
-                let regular = [];
+                let f = [];
+                let g = [];
+                let l = [];
+                let r = [];
+                let o = [];
+                
                 this.surveys.forEach(s => {
-                    if (s.option == 'Bueno' && s.comment){
-                        bueno.push(s.comment)
+                    if (s.option == 'Facebook' && s.comment){
+                        f.push(s.comment)
                     } 
-                    if (s.option == 'Regular' && s.comment){
-                        regular.push(s.comment)
+                    if (s.option == 'Google' && s.comment){
+                        g.push(s.comment)
                     } 
-                    if (s.option == 'Malo' && s.comment){
-                        malo.push(s.comment)
+                    if (s.option == 'Locales en Once' && s.comment){
+                        l.push(s.comment)
+                    } 
+                    if (s.option == 'Me lo recomendo un/a amigo/a' && s.comment){
+                        r.push(s.comment)
+                    } 
+                    if (s.option == 'Otro' && s.comment){
+                        o.push(s.comment)
                     } 
                     
                 })
               //  console.log(bueno,regular,malo);
-                return [bueno,regular,malo]
+                return [f,g,l,r,o];
             } 
         }
     },

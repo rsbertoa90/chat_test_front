@@ -2,8 +2,8 @@
     <appmodal  :noclosebutton="true">
         <div>
             <h2 class="text-center">Gracias por elegir Mates Fabi</h2>
-            <h3>Tu opinion nos importa</h3>
-            <h4>Que te parecio el proceso de compra?</h4>
+            <h3>Nos gustaria saber</h3>
+            <h4>Como conociste Mates Fabi?</h4>
             <ul>
                 <li v-for="opt in options" :key="opt.name" >
                     <label for="" class="d-flex align-items-center">
@@ -16,7 +16,7 @@
                     
                 </li>
             </ul>
-            <textarea placeholder="Alguna sugerencia?"  cols="40" rows="3" v-model="formData.comment"></textarea>
+            <textarea placeholder="Contanos un poco mas..."  cols="40" rows="3" v-model="formData.comment"></textarea>
             <br>
             <transition enter-active-class="animated slideInUp" >
                 <div class="d-flex w-100 justify-content-end"  v-if="formData.option">
@@ -39,9 +39,11 @@ export default {
     data(){
         return{
             options:[
-                { name:'Bueno', icon: 'fa fa-smile-beam' },
-                { name:'Regular', icon: 'fa fa-meh' },
-                { name:'Malo', icon: 'fas fa-frown' },
+                { name:'Facebook', icon: 'fab fa-facebook-r' },
+                { name:'Google', icon: 'fab fa-google' },
+                { name:'Locales en Once', icon: 'fas fa-store' },
+                { name:'Me lo recomendo un/a amigo/a', icon: 'fas fa-user-friends' },
+                { name:'Otro', icon: 'fas fa-star' },
             ],
             formData:{
                 option:null,

@@ -137,7 +137,7 @@ export default {
     { src: "./plugins/swal.js", ssr: false },
     { src: "./plugins/awesome-swiper.js", ssr: false },
     { src: "./plugins/datepicker.js", ssr: false },
-    { src: "@/plugins/ga.js", ssr: false }
+    { src: "@/plugins/ga.js", ssr: false },
     { src: "@/plugins/pixel.js", ssr: false }
   ],
 

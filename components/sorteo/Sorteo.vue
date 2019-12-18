@@ -173,6 +173,15 @@ export default {
                     });
             }
         }
+    },
+    watch:{
+        'formdata.dni'(){
+            //console.log(this.formdata.dni);
+            if(this.formdata.dni.includes('.')){
+                let arr = this.formdata.dni.split('.').join("");
+                this.formdata.dni = arr;
+            }
+        }
     }
 }
 </script>

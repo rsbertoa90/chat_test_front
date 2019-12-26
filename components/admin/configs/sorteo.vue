@@ -19,6 +19,22 @@
                     </a>       
              </div>
         </div>
+
+        <div class="col-12 mt-4">
+            <div class="fcc row">
+                <div class="col-3">
+                    <span>Buscar por DNI</span>
+                    <input type="text" class="form-control" v-model="dnis">
+                </div>
+                <div class="col-4" v-if="sresult">
+                    <div class="fcc">
+                        <div>{{sresult.name}} {{sresult.lastname}}</div>
+                        <div>DNI: {{sresult.dni}}</div>
+                        <div>Whatsapp: {{sresult.wha}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
        
       
 
@@ -32,6 +48,8 @@ export default {
         title: 'ADMIN'   }},
     data(){
         return {
+            dnis:0,
+            sresult:null,
             ppl:null,
             catalogoreemplazar:'con',
             file:null,
@@ -74,6 +92,18 @@ export default {
             .then(r=>{
                this.ppl = r.data;
             })
+    },
+    watch:{
+        dnis()
+        {
+            let res = this.ppl.find(p => {
+                return p.dni == this.dnis
+            })
+            if (res)
+            {
+                this.sresult = res;
+            }
+        }
     }
 
 }

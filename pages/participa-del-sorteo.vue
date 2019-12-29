@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import appComponent from '@/components/sorteo/Sorteo.vue';
+import appComponent from '@/components/sorteo/fin.vue';
 import metaMixin from '@/plugins/metadataMixin.js';
 export default {
     name:'sorteo',

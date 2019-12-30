@@ -2,15 +2,39 @@
 <div>
     <piechart v-if="chartdata" :chartdata="chartdata" @clicked="clicked" class="clickable"></piechart>
     <br>
-
-    <div class="mt-4" v-if="comms">
+    <div class="row mt-4">
+         <table class="table table-striped">
+            <tbody>
+                <tr v-for="c in percents" :key="c">
+                    <td >
+                        {{c.option}}
+                    </td>
+                    <td >
+                        {{c.percent|price}}%
+                    </td>
+                    <td>{{c.n}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>TOTAL</td>
+                    <td v-if="surveys">{{surveys.length}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4" v-if="comments">
         <table class="table table-striped">
             <tbody>
-                <tr v-for="c in comms" :key="c">
-                    <td >
-                        {{c}}
-                    </td>
-                </tr>
+                <tbody v-for="(r,i) in comments" :key="'asd'+i">
+                    <tr v-for="c in r" :key="c">
+                        <td >
+                            {{options[i]}}
+                        </td>
+                        <td >
+                            {{c}}
+                        </td>
+                    </tr>
+                </tbody>
             </tbody>
         </table>
     </div>
@@ -23,6 +47,7 @@ export default {
     components:{piechart},
     data(){
         return{
+            options:  ['Facebook', 'Google','Locales en Once', 'Me lo recomendo un/a amigo/a','Otro'],
             surveys:null,
             comms:null
         }
@@ -38,7 +63,7 @@ export default {
         chartdata(){
             if(this.datas){
                 return  {
-                    labels: ['Facebook', 'Google','Locales en Once', 'Me lo recomendo un/a amigo/a','Otro'],
+                    labels: this.options,
                     datasets: [
                         {
                         label: "Data",
@@ -48,6 +73,27 @@ export default {
                     
                     ]
                 }
+            }
+        },
+        percents(){
+            if(this.datas)
+            {
+             let   totalsurveys = this.surveys.length;
+                let res = [];
+                let i=0;
+                this.options.forEach(o => {
+                    let percent =( this.datas[i] / totalsurveys)*100;
+                   
+                   let topush = {
+                        option:this.options[i],
+                        n:this.datas[i],
+                        percent: percent
+                    }
+                   res.push(topush);
+                    i++;
+                });
+                return res;
+
             }
         },
         datas(){

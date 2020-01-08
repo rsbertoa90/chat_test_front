@@ -7,7 +7,7 @@
         </div>
          <transition enter-active-class="animated slideInLeft faster"
                         leave-active-class="animated slideOutLeft faster">
-            <overlay-menu v-if="showMenu" :categories='categories' 
+            <overlay-menu v-if="showMenu" :categories='notPausedCategories' 
                         @close="showMenu=false"></overlay-menu>
         </transition>
         <nav class="navbar navbar-expand-lg navbar-dark bg-first row">

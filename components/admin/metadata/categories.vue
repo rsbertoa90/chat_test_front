@@ -25,7 +25,18 @@
                      </label>
                     <input type="text" @change="save(selected,'order')" v-model.lazy="selected.order" class=" ml-2 col-6 col-lg-2 form-control">
                 </div>
-
+                 <div class="row p2 mt-2">
+                     <button @click="deleteCategory(selected)" class="btn btn-danger" v-if="!selected.products || !selected.products.length">
+                         Borrar categoria
+                     </button>
+                </div>   
+                <div class="p2 row">
+                    <label class="col-12 col-lg-4">
+                        Nombre
+                    </label>
+                    <textarea rows="1" v-model.lazy.trim="selected.name" @change="save(selected,'name')" 
+                        type="text" class="col-12 col-lg-8 form-control"></textarea>
+                </div>
                 <div class="p2 row">
                     <label class="col-12 col-lg-4">
                         URL
@@ -93,7 +104,13 @@ export default {
         }
     },
     methods :{
-       
+       deleteCategory(selected){
+           this.$axios.delete('/category/'+selected.id)
+                .then(r=>{
+                    this.$store.dispatch('fetchCategories');
+                    this.selected=null;
+                });
+       },
         bindFile(e){
             var vm=this;
             var fileUploadFormData=new FormData();

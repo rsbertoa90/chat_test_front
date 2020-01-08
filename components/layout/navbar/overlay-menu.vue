@@ -18,7 +18,7 @@
                                 {{route.name | ucFirst}}
                             </nuxt-link>
                         </li>
-                        <li v-for="category in categories" :key="category.id" @click="close">
+                        <li v-for="category in notPausedCategories" :key="category.id" @click="close">
                             <nuxt-link :to="category.slug">
                                 {{category.name | ucFirst}}
                             </nuxt-link>

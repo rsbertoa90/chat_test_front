@@ -112,7 +112,7 @@
 
            
                
-                <button class="button btn-lg btn-outline-success offset-2 mt-2" 
+                <button class="button btn-block bg-fucsia text-white dabtn col-12 col-lg-8 p-2 mt-2" 
                         @click.prevent.stop="confirmSend">
                         Enviar
                 </button>
@@ -176,7 +176,8 @@ export default{
     },
     
     methods : {
-        getSurveyData(e){
+        
+            getSurveyData(e){
             this.formData.surveyComment = e.comment;
             this.formData.surveyOption = e.option;
             this.showSurvey=false;
@@ -238,11 +239,13 @@ export default{
                        }).then(function(isConfirm) {
                        if (isConfirm) {
                            vm.showSurvey=true;
+                           window.gtag_report_conversion('https://matesfabi.com/carrito');
                        } 
                        });
                 }
                 else {
                    vm.showSurvey=true;
+                   window.gtag_report_conversion('https://matesfabi.com/carrito');
                 }
                
             }
@@ -293,7 +296,10 @@ export default{
 </script>
 
 <style scoped lang="scss">
+    .dabtn{
+        font-size: 25px;
 
+    }
     .warn{
         font-size: 0.8rem;
         color: red;

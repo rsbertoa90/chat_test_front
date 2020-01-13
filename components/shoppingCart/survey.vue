@@ -39,7 +39,7 @@ export default {
     data(){
         return{
             options:[
-                { name:'Facebook', icon: 'fab fa-facebook-r' },
+                { name:'Facebook', icon: 'fab fa-facebook' },
                 { name:'Google', icon: 'fab fa-google' },
                 { name:'Locales en Once', icon: 'fas fa-store' },
                 { name:'Me lo recomendo un/a amigo/a', icon: 'fas fa-user-friends' },

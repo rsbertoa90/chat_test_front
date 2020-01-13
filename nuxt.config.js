@@ -145,6 +145,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
+     '@nuxtjs/google-gtag',
     '@nuxtjs/pwa',
     "nuxt-webfontloader",
     ["nuxt-compress"],
@@ -166,7 +167,20 @@ export default {
     "@nuxtjs/auth"
   ],
 
-  
+  'google-gtag': {
+    id: 'AW-873841569',
+    config: {
+      anonymize_ip: true, // anonymize IP 
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+      linker: {
+        domains: ['matesfabi.com']
+      }
+    },
+    debug: true, // enable to track in dev mode
+    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
+  },
+
+
   manifest: {
     name: "Mates Fabi",
     lang: "es",

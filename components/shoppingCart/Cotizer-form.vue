@@ -127,6 +127,14 @@ export default{
     components:{
         survey
     },
+     mounted() {
+    if (process.browser) {
+      this.$gtag('config', 'AW-873841569', {
+        page_title: 'Envianos tu pedido',
+        page_path: this.$route.fullPath,
+      })
+    }
+  },
     data(){return{
         state:null,
         showSurvey:false,
@@ -239,13 +247,13 @@ export default{
                        }).then(function(isConfirm) {
                        if (isConfirm) {
                            vm.showSurvey=true;
-                           window.gtag_report_conversion('https://matesfabi.com/carrito');
+                           this.$gtag('event', 'conversion', { 'send_to': 'AW-873841569/xxrPCNrbsrkBEKGH16AD' });
                        } 
                        });
                 }
                 else {
                    vm.showSurvey=true;
-                   window.gtag_report_conversion('https://matesfabi.com/carrito');
+                   this.$gtag('event', 'conversion', { 'send_to': 'AW-873841569/xxrPCNrbsrkBEKGH16AD' });
                 }
                
             }

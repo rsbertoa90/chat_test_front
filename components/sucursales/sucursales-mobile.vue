@@ -81,7 +81,8 @@
                        <div class="col-12">
                             <ul>
                                 <li> <b> Dirección: </b> Sarmiento 2268</li>
-                                <li> <b>Atención: </b>  Lunes a viernes de 9 a 18 hs  </li>
+                               <!--  <li> <b>Atención: </b>  Lunes a viernes de 9 a 18 hs  </li> -->
+                                <li> <b>Atención: </b>   Sucursal cerrada por remodelaciones hasta nuevo aviso  </li>
                                 <li>  <b> Teléfono:</b> 4951-1128   </li>
                             </ul>
                             <p> Mates Fabi sucursal Sarmiento está ubicada en el corazón de barrio Once.</p>

@@ -16,7 +16,7 @@
                     
                 </li>
             </ul>
-            <textarea placeholder="Contanos un poco mas..."  cols="40" rows="3" v-model="formData.comment"></textarea>
+            <textarea placeholder="Contanos un poco mas..."  class="form-control"  rows="2" v-model="formData.comment"></textarea>
             <br>
             <transition enter-active-class="animated slideInUp" >
                 <div class="d-flex w-100 justify-content-end"  v-if="formData.option">
@@ -75,8 +75,8 @@ h4{
     display: flex;
     justify-content: center;
     align-items:center;
-    width:40px;
-    height: 40px;
+    width:30px;
+    height: 30px;
     font-size: 1.6rem;
     border-radius: 50%;
     color:#fff;

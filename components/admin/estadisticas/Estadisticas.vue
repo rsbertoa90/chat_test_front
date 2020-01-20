@@ -21,7 +21,7 @@
 <script>
 import canceleds from './canceleds/canceleds.vue'
 import searchs from  './Search-statics.vue'
-import survey from  './Survey.vue'
+import survey from  './survey/Survey.vue'
 export default {
     components:{
         searchs,survey,canceleds

@@ -1,7 +1,8 @@
 <template>
 <nuxt-link to="/" title="home" >
 
-    <img :src="imagePath('/storage/images/app/rlogo.png')" alt="Mates Fabi">
+    <img :src="imagePath('/storage/images/app/rlogo.png')" alt="Mates Fabi" v-if="$mq!='lg'">
+    <img :src="imagePath('/storage/images/app/logo-cuadrado.jpg')" v-else alt="Mates Fabi">
 </nuxt-link>
 </template>
 

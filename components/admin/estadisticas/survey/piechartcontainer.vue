@@ -5,7 +5,7 @@
     <div class="row mt-4">
          <table class="table table-striped">
             <tbody>
-                <tr v-for="c in percents" :key="c">
+                <tr v-for="c in percents" :key="c.option">
                     <td >
                         {{c.option}}
                     </td>
@@ -45,20 +45,14 @@
 import piechart from './piechart.vue'
 export default {
     components:{piechart},
+    props:['surveys'],
     data(){
         return{
             options:  ['Facebook', 'Google','Locales en Once', 'Me lo recomendo un/a amigo/a','Otro'],
-            surveys:null,
             comms:null
         }
     },
-    mounted(){
-        this.$axios.get('/surveys')
-            .then(r => {
-                this.surveys = r.data;
-             
-            });
-    },
+    
     computed:{
         chartdata(){
             if(this.datas){

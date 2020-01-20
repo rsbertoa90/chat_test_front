@@ -1,13 +1,13 @@
 <template>
     <div>
-      
-        <piechart></piechart>
+        <monthly></monthly>
     </div>
 </template>
 
 <script>
+import monthly from './monthly.vue'
 import piechart from './piechartcontainer';
 export default {
-    components:{piechart}
+    components:{monthly,piechart}
 }
 </script>

@@ -1,8 +1,7 @@
 <template>
     <appmodal  :noclosebutton="true">
-        <div>
-            <h2 class="text-center">Gracias por elegir Mates Fabi</h2>
-            <h3>Nos gustaria saber</h3>
+        <div >
+       <!--      <h4 class="text-center">Gracias por elegir Mates Fabi</h4> -->
             <h4>Como conociste Mates Fabi?</h4>
             <ul>
                 <li v-for="opt in options" :key="opt.name" >
@@ -65,7 +64,6 @@ h3{
 h4{
     font-size: 1rem;
 }
-
 .radio{
     width:20px;
     height: 20px;

@@ -117,6 +117,7 @@
                         Enviar
                 </button>
         </form>
+        
         <survey @send="getSurveyData" v-if="showSurvey"></survey>
     </div>
 </template>

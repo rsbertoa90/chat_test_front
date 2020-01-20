@@ -65,12 +65,14 @@ export default {
         
        
         position:absolute;
-        top:40px;
+        top:10vw;
         z-index:10;
        /*  margin-top:100px; */
         width: 447px;
         
-        min-height: 400px;
+       // min-height: 350px;
+        max-height: 85vh;
+        overflow-y:auto;
       /*   min-height:600px; */
        
         border:1  px solid #000;

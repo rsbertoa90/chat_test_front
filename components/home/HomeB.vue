@@ -1,6 +1,9 @@
 <template>
     <div class="container m-auto">
         <div class="row">
+            <reopening-banner></reopening-banner>
+        </div>
+        <div class="row">
             <providers-banner></providers-banner>
         </div>
         
@@ -64,6 +67,7 @@
 
 <script>
 import providersBanner from './providers-banner.vue'
+import reopeningBanner from './reopening-banner.vue'
 import homeMaps from './maps.vue';
 import homeOffers from './offers.vue';
 import homeCategoriesMobile from './categories-mobile.vue';
@@ -71,6 +75,7 @@ import homeCategoriesWide from './categories-wide.vue';
 export default {
     components:{
         providersBanner,
+        reopeningBanner,
         homeMaps,
         homeOffers,
         'home-categories-mobile' : homeCategoriesMobile,

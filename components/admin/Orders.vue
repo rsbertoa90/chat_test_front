@@ -63,7 +63,12 @@
                                 :class="{'bg-info' : order == selected}">
                             <td>{{order.created_at | datetime}}</td>
                             <td>{{order.client}}</td>
-                            <td> <input type="checkbox" v-model="order.viewed" @change="viewed(order)" class="form-control checkbox"> </td>
+                            <td> 
+                                <div class="d-flex flex-column aling-items-center">
+                                    <input type="checkbox" v-model="order.viewed" @change="viewed(order)" class="form-control checkbox"> 
+                                    <span v-if="order.viewed_at && isSuper">{{order.viewed_at | datetime}}</span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -28,8 +28,8 @@
 export default {
     data() {
         return {
-            showmodal:true,
-            bouncenow:true,
+            showmodal:false,
+            bouncenow:false,
         }
     },
     methods:{

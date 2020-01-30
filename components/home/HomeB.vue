@@ -1,8 +1,8 @@
 <template>
     <div class="container m-auto">
-        <div class="row">
+      <!--   <div class="row">
             <reopening-banner></reopening-banner>
-        </div>
+        </div> -->
         <div class="row">
             <providers-banner></providers-banner>
         </div>

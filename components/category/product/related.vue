@@ -6,12 +6,12 @@
       <!-- swiper -->
       <swiper :options="swiperOption" v-if="render">
         <swiper-slide  v-for="product in products" :key="product.id">
-            <router-link :to="getSlug(product)" class="card" itemscope itemtype="https://schema.org/Product">
+            <router-link :to="getSlug(product)" class="card" >
                 <div>
                   <v-lazy-image v-if ="product.images[0]" class="card-img card-img-top" 
                         :src="imagePath(product.images[0])"
                         :title="product.name"
-                        itemprop="image" 
+                      
                         alt="Card image cap" />
                   <v-lazy-image v-else :src="noImage" alt="no image" />
                     <div v-if="product.offer" class="card-img-overlay">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title" itemprop="name" style="height:60px"> {{product.name | ucFirst}}  </h5>
+                    <h5 class="card-title" style="height:60px"> {{product.name | ucFirst}}  </h5>
                     <h4 v-if="!$store.getters.getConfig.hide_prices" class="second">  
                       ${{product.price | price}} 
                       <strike style="font-size:1rem"  v-if="product.offer && !$store.getters.getConfig.hide_prices" class="text-secondary"> ${{product.price * 1.67 | price}}</strike> 

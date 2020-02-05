@@ -22,7 +22,7 @@ export default {
         nophotoproducts()
         {
             let res = [];
-            if(this.categories){
+            if(this.notPausedCategories){
                 this.categories.forEach(c => {
                     c.products.forEach(p => {
                         if (!p.images || !p.images[0])

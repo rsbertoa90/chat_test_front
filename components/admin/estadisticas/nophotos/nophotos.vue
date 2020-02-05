@@ -22,9 +22,10 @@ export default {
         nophotoproducts()
         {
             let res = [];
-            if(this.notPausedCategories){
+            if(this.categories){
                 this.categories.forEach(c => {
-                    c.products.forEach(p => {
+                    let prods = this.notPaused(c.products);
+                    prods.forEach(p => {
                         if (!p.images || !p.images[0])
                         {
                             res.push(p)

@@ -25,12 +25,14 @@ export default {
             if(this.categories){
                 this.categories.forEach(c => {
                     let prods = this.notPaused(c.products);
-                    prods.forEach(p => {
-                        if (!p.images || !p.images[0])
-                        {
-                            res.push(p)
-                        }
-                    })
+                    if(prods){
+                        prods.forEach(p => {
+                            if (!p.images || !p.images[0])
+                            {
+                                res.push(p)
+                            }
+                        })
+                    }
                 })
             }
             return res;

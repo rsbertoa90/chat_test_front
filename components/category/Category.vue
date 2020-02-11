@@ -2,7 +2,7 @@
     <div class="container" v-if="category">
         <div class="row">
             <div class="col-12">
-                <h1> {{category.name | ucFirst}} </h1>
+                <h1> {{category.name | ucFirst}} por mayor </h1>
             </div>
         </div>
         <div class="row">

@@ -38,7 +38,7 @@ Vue.mixin({
             }
             else{
               return !p.paused;
-            }
+            } 
           })
         }
       },

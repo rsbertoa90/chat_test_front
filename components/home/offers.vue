@@ -13,7 +13,7 @@
                       :src="imagePath(product.images[0])"
                       :title="product.name"
                       itemprop="image" 
-                      alt="Card image cap" />
+                      :alt="product.name" />
                   <v-lazy-image v-else :src="noImage" :src-placeholder="loadingImage" alt="no image" />
               </div>
                   <div class="card-img-overlay">

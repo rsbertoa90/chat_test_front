@@ -7,10 +7,10 @@
                 </a>
             </div>
             <div @click="close" class="mt-4">
-                <div ref="tocats" @click="gotocategories" to="/#idcategorias" class="item">
+                <nuxt-link  to="/categorias" class="item">
                     <span class="fa fa-chevron-right mr-1"></span>
                     Categorias Productos
-                </div>
+                </nuxt-link>
             </div>
             <div @click="close">
                 <a  @click="close" target="_blank" href="/descargar-catalogo-digital" class="item">

@@ -1,6 +1,6 @@
 <template>
     <div>
-          <h2 class="text-center">Productos de Mayorista Mates Fabi  </h2>
+          <h2 class="text-center">Categorias de Productos en Mayorista Mates Fabi  </h2>
         <home-categories-mobile v-if="$mq!='lg'"></home-categories-mobile>
     </div>
 </template>

@@ -43,7 +43,7 @@
 
 <script>
 import imageLogo from '../images/mobile-logo.vue';
-import overlayMenu from './overlay-menu.vue'
+import overlayMenu from './mob-menu.vue'
 import {mapGetters} from 'vuex';
 export default {
     components : {

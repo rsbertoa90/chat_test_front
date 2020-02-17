@@ -7,10 +7,10 @@
                 </a>
             </div>
             <div @click="close" class="mt-4">
-                <nuxt-link   to="/#categorias" class="item">
+                <div ref="tocats" @click="gotocategories" to="/#idcategorias" class="item">
                     <span class="fa fa-chevron-right mr-1"></span>
                     Categorias Productos
-                </nuxt-link>
+                </div>
             </div>
             <div @click="close">
                 <a  @click="close" target="_blank" href="/descargar-catalogo-digital" class="item">
@@ -63,6 +63,18 @@ export default {
       clickOutside: vClickOutside.directive
     },
     methods:{
+        gotocategories(){
+            this.$router.push('/');
+            setTimeout(() => {
+                let el = document.getElementById('idcategorias');
+               // console.log(el);
+                if(el){
+                    var topPoss = el.getBoundingClientRect().top - 1300;
+                   // console.log('y pos', topPoss);
+                }
+                window.scrollTo(0,topPoss);
+            }, 500);
+        },
           close(){
             this.$emit('close');
         }

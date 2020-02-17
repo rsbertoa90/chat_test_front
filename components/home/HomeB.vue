@@ -57,7 +57,7 @@
           
         <hr>
         <div class="mt-4">
-            <h2  id="categorias">Productos de Mayorista Mates Fabi  </h2>
+            <h2 class="text-center">Productos de Mayorista Mates Fabi  </h2>
             <home-categories-mobile v-if="$mq!='lg'"></home-categories-mobile>
             <home-categories-wide v-else></home-categories-wide>
         </div>

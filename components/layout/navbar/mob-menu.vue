@@ -2,53 +2,59 @@
     <div class="overlay">
         <div class="pannel" v-click-outside="close">
             <div @click="close">
-                <a target="_blank" href="/descargar-lista-de-precios" class="btn-outline-aqua">
-                    Lista Precios Mayorista
-                </a>
+                   <imageLogo></imageLogo>
             </div>
-            <div @click="close" class="mt-4">
-                <nuxt-link  to="/categorias" class="item">
-                    <span class="fa fa-chevron-right mr-1"></span>
-                    Categorias Productos
-                </nuxt-link>
-            </div>
-            <div @click="close">
-                <a  @click="close" target="_blank" href="/descargar-catalogo-digital" class="item">
-                    <span class="fa fa-chevron-right mr-1"></span>
-                    Catalogo Digital
-                </a>
-            </div>
-            <div @click="close">
-                <nuxt-link   to="/regalos-empresariales" class="item">
-                    <span class="fa fa-chevron-right mr-1"></span>
-                    Regalo Empresarial
-                </nuxt-link>
-            </div>
+            <div class="p-4">
 
-            <div @click="close">
-                <nuxt-link    to="/cotizador" class="btn-outline-aqua mt-4">
-                    Pedido Online Mayorista
-                </nuxt-link>
-            </div>
+                <div @click="close">
+                    <a target="_blank" href="/descargar-lista-de-precios" class="btn-outline-aqua">
+                        Lista Precios Mayorista
+                    </a>
+                </div>
+                <div @click="close" class="mt-4">
+                    <nuxt-link  to="/categorias" class="item">
+                        <span class="fa fa-chevron-right mr-1"></span>
+                        Categorias Productos
+                    </nuxt-link>
+                </div>
+                <div @click="close">
+                    <a  @click="close" target="_blank" href="/descargar-catalogo-digital" class="item">
+                        <span class="fa fa-chevron-right mr-1"></span>
+                        Catalogo Digital
+                    </a>
+                </div>
+                <div @click="close">
+                    <nuxt-link   to="/regalos-empresariales" class="item">
+                        <span class="fa fa-chevron-right mr-1"></span>
+                        Regalo Empresarial
+                    </nuxt-link>
+                </div>
 
-            <div @click="close">
-                <nuxt-link  to="/contacto" class="item mt-4">
-                    <span class="fa fa-chevron-right mr-1"></span>
-                    Contacto
-                </nuxt-link>
-            </div>
+                <div @click="close">
+                    <nuxt-link    to="/cotizador" class="btn-outline-aqua mt-4">
+                        Pedido Online Mayorista
+                    </nuxt-link>
+                </div>
 
-            <div @click="close">
-                <nuxt-link  @click="close" to="/sucursales" class="item">
-                    <span class="fa fa-chevron-right mr-1"></span>
-                    Sucursales
-                </nuxt-link>
-            </div>
+                <div @click="close">
+                    <nuxt-link  to="/contacto" class="item mt-4">
+                        <span class="fa fa-chevron-right mr-1"></span>
+                        Contacto
+                    </nuxt-link>
+                </div>
 
-             <div @click="close">
-                <a target="_blank"  href="https://wa.me/541130085414" class="btn-outline-aqua mt-4">
-                    Whatsapp
-                </a>
+                <div @click="close">
+                    <nuxt-link  @click="close" to="/sucursales" class="item">
+                        <span class="fa fa-chevron-right mr-1"></span>
+                        Sucursales
+                    </nuxt-link>
+                </div>
+
+                <div @click="close">
+                    <a target="_blank"  href="https://wa.me/541130085414" class="btn-outline-aqua mt-4">
+                        Whatsapp
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -57,11 +63,13 @@
 
 
 <script>
+import imageLogo from '../images/mobile-logo.vue';
 import vClickOutside from 'v-click-outside'
 export default {
     directives: {
       clickOutside: vClickOutside.directive
     },
+    components:{imageLogo},
     methods:{
         gotocategories(){
             this.$router.push('/');
@@ -109,10 +117,10 @@ export default {
 
     .pannel{
         position:absolute;
-        left:5px;
-        top:120px;
+        left:0px;
+        top:0px;
         width: 270px;
-        padding:15px;
+        //padding:15px;
         border:1px solid #B03B8A;
         background-color: #fff;
         z-index: 999;

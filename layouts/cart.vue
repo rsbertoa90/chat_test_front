@@ -11,7 +11,7 @@
         <div class="bottom-space"></div>
       </div>
        
-            <apploading v-if="loading || firstload"></apploading>
+            <apploading v-if="ldng || firstload"></apploading>
     </div>
 </template>
 
@@ -29,6 +29,11 @@ export default {
          
          }
        
+   },
+   computed:{
+     ldng(){
+       return this.$store.getters.getLoading;
+     }
    }
 }
 </script>

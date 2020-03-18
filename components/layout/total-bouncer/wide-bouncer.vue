@@ -53,7 +53,7 @@ export default {
        scrollDown(){
             
                 setTimeout(() => {
-                    console.log();
+                  
     
                     window.scrollTo(0,document.body.scrollHeight-1200);
                 }, 300);

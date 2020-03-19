@@ -3,10 +3,10 @@
 
     <div class="w-100" @click="openmodal">
         
-        <div class="d-flex justify-content-center m-auto w-50 " v-if="$mq=='lg'">
-                <v-lazy-image  :src="imagePath('/storage/images/app/covmf.jpeg')"></v-lazy-image> 
+        <div class="d-flex justify-content-center m-auto w-50 p-4 " v-if="$mq=='lg'">
+                <v-lazy-image  :src="imagePath('/storage/images/app/cov2.jpg')"></v-lazy-image> 
         </div>
-        <v-lazy-image v-if="$mq!='lg'" :src="imagePath('/storage/images/app/covmf.jpeg')"></v-lazy-image>
+        <v-lazy-image v-if="$mq!='lg'" :src="imagePath('/storage/images/app/cov2.jpg')"></v-lazy-image>
     </div>
      <!--    <div v-if="showmodal">
             <div class="overlay">

@@ -2,10 +2,13 @@
 <div>
 
     <div class="w-100" @click="openmodal">
-        <v-lazy-image v-if="$mq=='lg'" :src="imagePath('/storage/images/app/covw.jpg')"></v-lazy-image>
-        <v-lazy-image v-else :src="imagePath('/storage/images/app/covm.jpg')"></v-lazy-image>
+        
+        <div class="d-flex justify-content-center m-auto w-50 " v-if="$mq=='lg'">
+                <v-lazy-image  :src="imagePath('/storage/images/app/covmf.jpeg')"></v-lazy-image> 
+        </div>
+        <v-lazy-image v-if="$mq!='lg'" :src="imagePath('/storage/images/app/covmf.jpeg')"></v-lazy-image>
     </div>
-        <div v-if="showmodal">
+     <!--    <div v-if="showmodal">
             <div class="overlay">
                 <div  class="modalcontainer">
                     <transition enter-active-class="animated bounceIn">
@@ -19,7 +22,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
 </div>
 </template>
 

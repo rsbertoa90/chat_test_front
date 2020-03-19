@@ -41,6 +41,17 @@
         </div>
 
         <div>
+        
+            <div v-if="order.seller=='pasteur'">
+                <h2 class="text-info">RETIRA SUCURSAL PASTEUR</h2>
+            </div>
+            
+            <div v-if="order.seller=='castelli'">
+                <h2 class="text-success">RETIRA SUCURSAL CASTELLI</h2>
+            </div>
+
+
+
             <div v-if="order.status == 'cancelado'">
                 <span class="font-weight-bold text-danger">Cancelado: {{order.cancelation}} </span> <br>
                 <span v-if="order.comments"

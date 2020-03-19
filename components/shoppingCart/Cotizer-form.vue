@@ -42,7 +42,21 @@
         </div>
 
              
+            
+
              
+                <div class="col-12 row form-group-row" v-if="!formData.shipping">
+                        <label class="col-12 col-lg-4 font-weight-bold" for=""> Donde retiras ? </label>
+                        <select v-model="formData.seller" class="form-control col-12 col-lg-4">
+                            <option   value="pasteur"> 
+                                Sucursal Pasteur 410 - CABA
+                            </option>
+                           <!--  <option   value="castelli"> 
+                                Sucursal Castelli 203 - CABA
+                            </option> -->
+                        </select>
+                </div>
+
                <div class="col-12 row form-group-row ">
                    <label class="col-12 col-lg-4 font-weight-bold" for="">Nombre y Apellido  </label>
                    <input required type="text" v-model="formData.client"  class="form-control col-12 col-lg-4">
@@ -145,6 +159,7 @@ export default{
             whatsapp: false
         },
         formData : {
+            seller:null,
             surveyOption:null,
             surveyComment:'',
             shipping:false,
@@ -221,7 +236,17 @@ export default{
             {
                 swal('El minimo de compra es de $'+this.minBuy,'','error');
                 return false;
-            } else {return true;}
+            } else if(!this.formData.shipping && !this.formData.seller.length)
+            {
+                swal('Por favor, seleccione en que sucursal va a retirar su pedido','','error');
+                return false;
+            }
+            
+            else {
+                console.table(this.formData);
+                console.log(this.formData.seller.length);
+                return true;
+            }
         },
         confirmSend(){
             var vm = this;
@@ -275,13 +300,14 @@ export default{
         send(){
                 
                 var data = this.formData;
-                console.log(this.formData);
+               // console.log(this.formData);
                 let list = this.compactList();
                 data.list = JSON.stringify(list);
                 data.total = this.total;
                 data['_token'] = window.csrf;
                 if (data.shipping){
                     data.shipping = 1;
+                    data.seller=null;
                 } else {data.shipping = 0;}
                 
                 var vm = this;

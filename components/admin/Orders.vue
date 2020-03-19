@@ -60,7 +60,9 @@
                                 :key="'order'+order.id"
                                 @click ="selected = order"
                                 style="cursor:pointer"
-                                :class="{'bg-info' : order == selected}">
+                                :class="{'bg-info' : order == selected,
+                                        'bg-success' : order.seller=='castelli',
+                                        'bg-info' : order.seller=='pasteur'}">
                             <td>{{order.created_at | datetime}}</td>
                             <td>{{order.client}}</td>
                             <td> 

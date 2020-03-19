@@ -3,6 +3,9 @@
       <!--   <div class="row">
             <reopening-banner></reopening-banner>
         </div> -->
+       <div class="row">
+            <covid-banner></covid-banner>
+        </div>
         <div class="row">
             <providers-banner></providers-banner>
         </div>
@@ -66,6 +69,7 @@
 </template>
 
 <script>
+import covidBanner from './covid-banner.vue'
 import providersBanner from './providers-banner.vue'
 import reopeningBanner from './reopening-banner.vue'
 import homeMaps from './maps.vue';
@@ -74,6 +78,7 @@ import homeCategoriesMobile from './categories-mobile.vue';
 import homeCategoriesWide from './categories-wide.vue';
 export default {
     components:{
+        covidBanner,
         providersBanner,
         reopeningBanner,
         homeMaps,

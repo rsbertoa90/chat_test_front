@@ -42,7 +42,7 @@
               
         </div>
 
-        <div mt-4>
+        <div class="mt-4" v-if="!hidePrices">
             <a target="_blank" href="/descargar-lista-de-precios" class="d-flex w-100 justify-content-center">
                 <v-lazy-image v-if="$mq == 'lg'" :src="imagePath('/storage/images/app/rpreciosw.jpg')" alt="presupuesto" />
                 <v-lazy-image v-else :src="imagePath('/storage/images/app/rpreciosm.jpg')" alt="presupuesto" />

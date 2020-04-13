@@ -10,7 +10,7 @@
         </div>
         <form id="form" class="col-12">
         <!-- Retiro en local -->
-              <div class="col-12 row form-group-row mb-3">
+            <!--   <div class="col-12 row form-group-row mb-3">
                   <div class="col-12 col-lg-4">
                     <input  type="radio"
                            v-model="formData.shipping" :value="false"> 
@@ -18,7 +18,7 @@
                         <span class="fa fa-building"></span> Retiro en el local
                      </span>
                   </div>
-              </div>
+              </div> -->
               <div class="col-12 row form-group-row mb-3">
                   <div class="col-12 col-lg-4">
                     <input  type="radio"
@@ -32,6 +32,7 @@
         <div class="warnings mb-4 mt-4 d-flex flex-column">
 
             <span v-if="!formData.shipping" class="warn">*IMPORTANTE: Coordinar con la asesora de ventas antes de ir a buscar el pedido . La demora habitual en que el pedido este listo es de 2 a 6 dias hábiles luego de el informe y acreditación de pago </span>
+            <span class="warn">*Por ahora solo funciona la venta online. Los locales mates fabi permanecen cerrados. </span>
             
                 
             <span class=" warn" v-if="formData.shipping">*El despacho de la mercaderia se realiza de 2 a 6 días hábiles luego del  informe y acreditacion de pago.  </span>
@@ -162,7 +163,7 @@ export default{
             seller:null,
             surveyOption:null,
             surveyComment:'',
-            shipping:false,
+            shipping:true,
             cp:'',
             address:'',
             transport:'',

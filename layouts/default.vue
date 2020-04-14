@@ -15,6 +15,11 @@
             </div>
           <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
             <div class="col-12 col-lg-9 p-0 m-auto p-lg-4 ">
+                <!-- banner solo envios -->
+                <div class="mt-3 mb-3">
+                    <img :src="imagePath('/storage/images/app/online-solo-web.jpg')" alt="Solo pedidos online" v-if="$mq=='lg'">
+                    <img :src="imagePath('/storage/images/app/online-solo1.jpg')" alt="Solo pedidos online" v-else>
+                </div>
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>
                 </transition>

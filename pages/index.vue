@@ -11,8 +11,15 @@
                 </div>                
             </div>
         </div>
-        <div class="col-12 col-lg-9">
+        <div class="col-12 col-lg-9 p-0">
+            <!-- banner solo envios -->
+        <div class="mt-3 mb-2">
+            <img :src="imagePath('/storage/images/app/online-solo-web.jpg')" alt="Solo pedidos online" v-if="$mq=='lg'">
+            <img :src="imagePath('/storage/images/app/online-solo2.jpg')" alt="Solo pedidos online" v-else>
+        </div>
+        <div class="p-3">
             <homeA></homeA>
+        </div>
         </div>
     </div>
     <div class="w-100 row">

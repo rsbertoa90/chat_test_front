@@ -2,7 +2,7 @@
 <template>
 <div class="container m-auto pr-4" v-if="offers.length > 0" >
   <hr>
-  <h2 class="mb-4">Ofertas de Mates Fabi</h2>
+  <h2 class="mb-4 text-center">Ofertas de Mayorista Mates Fabi</h2>
       <!-- swiper -->
       <swiper :options="swiperOption" v-if="render">
         <swiper-slide  v-for="product in notpausedoffers" :key="product.id" 

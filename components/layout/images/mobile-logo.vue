@@ -14,7 +14,7 @@
     position:relative;
     width:100%;
     margin:auto;
-    height: 170px;
+   // height: 170px;
 }
 
 .logo{

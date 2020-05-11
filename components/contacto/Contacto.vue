@@ -1,54 +1,38 @@
 <template>
 <div class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-center">
             <h1>Contactate con Mates Fabi</h1>
         </div>
-        <div class="col-12 col-lg-4">
-            <img :src="imagePath('/storage/images/app/contacto.png')" alt="contacto">
+       
+        <div class="col-12 mt-4">
+            <div class="fcc">
+                <div>
+                    <p class="msg">
+                        Podes contactarte con el área de venta online por Whatsapp al <b> 11 3008 5414 </b> de lunes a viernes de 9 a 18hs. Locales en Once temporalmente cerrados, solo toma de pedidos online.
+                    </p>
+                    <p class="msgg">
+                        Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay un poco de demora en la atención. Estamos trabajando para brindarles lo mejor posible dentro de las limitaciones que impone el momento que estamos pasando como sociedad. Todos van a recibir respuesta, agradecemos su paciencia y comprensión
+                    </p>
+                </div>
+                <div v-if="!hidePrices">
+                    <div v-if="$mq=='lg'" class="d-flex justify-content-around" >
+                        <nuxt-link class="button btn btn-info" to="/descargar-lista-de-precios">Descargar lista de precios</nuxt-link>
+                        <nuxt-link class="button btn btn-info" to="/descargar-catalogo-digital">Descargar catalogo digital</nuxt-link>
+                    </div>
+                    <div v-else class="fcc" >
+                        <div class="fcc">
+                            <nuxt-link class="button btn btn-info" to="/descargar-lista-de-precios">Descargar lista de precios</nuxt-link>
+                        </div>
+                        <div class="mt-3 fcc">
+                            <nuxt-link class="button btn btn-info" to="/descargar-catalogo-digital">Descargar catalogo digital</nuxt-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-12 col-lg-8">
-            <form ref="form" @submit.prevent="submit">
-                
-                <div class="row">
-                    <label class="col-12 col-lg-4">
-                        Nombre
-                    </label>
-                    <input  name="name" v-model="formdata.name" required
-                            type="text" class="form-control col-12 col-lg-8">
-                </div>
-                <div class="row">
-                    <label class="col-12 col-lg-4">
-                        Telefono
-                    </label>
-                    <input  name="name" v-model="formdata.phone" required
-                            type="text" class="form-control col-12 col-lg-8">
-                </div>
-                <div class="row">
-                    <label class="col-12 col-lg-4">
-                        Mail
-                    </label>
-                    <input  name="mail" v-model="formdata.email" required
-                            type="email" class="form-control col-12 col-lg-8">
-                </div>
-               <!--  <div class="row">
-                    <label class="col-12 col-lg-4">
-                        Asunto
-                    </label>
-                    <input  name="subject" v-model="formdata.topic" required
-                            type="text" class="form-control col-12 col-lg-8">
-                </div> -->
-                <div class="row">
-                    <label class="col-12 col-lg-4">
-                        Mensaje
-                    </label>
-                    <textarea name="msg" required v-model="formdata.message" 
-                              class="form-control col-12 col-lg-8" rows="5"></textarea>
-                </div>
-                <div class="row mt-4">
-                    <button type="submit" class="btn btn-lg bg-second offset-4 white-bold">Enviar</button>
-                </div>
-            </form>
+        <div class="col-12 mt-4 p-4">
+            <img :src="imagePath('/storage/images/app/envio40.jpg')" alt="Como comprar">
         </div>
     </div>
 
@@ -102,12 +86,20 @@ $color-focus: #ff0aaf;
 // Rosa claro es ff97dd
 $color-back: #ff97dd;
 
-
-    button.bg-second{
-        &:hover{
-            background-color: #fff;
-            border: 2px solid $color-second;
-            color: $color-second;
-        }
-    }
+.msg{
+    font-size: 24px;
+    text-align: center;
+}
+.msgg{
+    font-size: 18px;
+}
+.fcc{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+}
+.btn{
+    font-size: 20px;
+}
 </style>

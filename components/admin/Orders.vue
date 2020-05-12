@@ -171,12 +171,14 @@ export default {
 
                 if(res && this.searchTerm){
 
-                    let st = this.searchTerm.trim().toLowerCase();
+                    let st = this.normalizeString(this.searchTerm);
+                  
                     if (st){
                         res = res.filter(order => {
                             if(order.client){
-
-                                return order.client.trim().toLowerCase().indexOf(st) > -1 ;
+                                let clientName = this.normalizeString(order.client);
+                               
+                                return clientName.indexOf(st) > -1 ;
                             }
                         });
                     }

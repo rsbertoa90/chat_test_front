@@ -4,6 +4,10 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods:{
+      normalizeString(string)
+      {
+          return string.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      },
       orderArray(array,field)
       {
         //console.log(field);

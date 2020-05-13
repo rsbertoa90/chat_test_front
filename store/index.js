@@ -4,7 +4,8 @@ export const strict = false
 
 export const state = () => {
     return{
-       orders: [],
+        orders: [],
+        nvorders: [],
         config: null,
         states: [],
         meta: [],
@@ -34,7 +35,7 @@ export const getters = {
   getSupliers(store){
     return store.supliers;
   },
-     getNotPaused(store) {
+  getNotPaused(store) {
        let res = [];
        store.categories.forEach(cat => {
 
@@ -47,35 +48,38 @@ export const getters = {
        });
        return res;
      },
-     getSearchTerm(store) {
+    getSearchTerm(store) {
          return store.searchTerm;
        },
-       getOrders(store) {
-         return store.orders;
-       },
-       getLoading(store) {
-         return store.loading;
-       },
-       getTotal(store) {
-         return store.total;
-       },
-       getList(store) {
-         return store.list;
-       },
-       getAllMeta(store){
-        if(store.meta){
-          return store.meta;
-        }
-       },
-       getMeta: store => page => {
-         if (store.meta) {
-           if(page=='index'){page='home'}
-           return store.meta.find(m => {
-             
-             return m.page.trim().toLowerCase() == page.trim().toLowerCase();
-           });
-         }
-       },
+    getOrders(store) {
+      return store.orders;
+    },
+    getNVOrders(store) {
+      return store.nvorders;
+    },
+    getLoading(store) {
+      return store.loading;
+    },
+    getTotal(store) {
+      return store.total;
+    },
+    getList(store) {
+      return store.list;
+    },
+    getAllMeta(store){
+    if(store.meta){
+      return store.meta;
+    }
+    },
+    getMeta: store => page => {
+      if (store.meta) {
+        if(page=='index'){page='home'}
+        return store.meta.find(m => {
+          
+          return m.page.trim().toLowerCase() == page.trim().toLowerCase();
+        });
+      }
+    },
 
        getConfig(store) {
          return store.config;
@@ -304,6 +308,9 @@ export const mutations = {
      setOrders(state, payload) {
        state.orders = payload;
      },
+     setNotViewedOrders(state, payload) {
+       state.nvorders = payload;
+     },
      setCanceledOrders(state, payload) {
       state.canceledOrders=payload;
 
@@ -391,6 +398,15 @@ export const actions = {
       await this.$axios.get('/orders')
       .then(r=>{
         commit('setOrders',r.data);
+        //commit('setLoading',false);
+        });   
+    },
+
+    async fetchNVOrders({commit}){
+      //commit('setLoading',true);
+      await this.$axios.get('/notViewedOrders')
+      .then(r=>{
+        commit('setNotViewedOrders',r.data);
         //commit('setLoading',false);
         });   
     },

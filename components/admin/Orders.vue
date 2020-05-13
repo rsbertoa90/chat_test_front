@@ -1,36 +1,8 @@
 <template>
     <div>
-        <div class="row">
-            
-            <div class="col-12 row mt-2">
-                   <div class="col-6 col-lg-3 m-0 p-0">
-                    <button @click="changestatus('pendiente')" 
-                        class="btn btn-block "
-                        :class="{'btn-outline-warning':status != 'pendiente',
-                                'btn-warning' : status == 'pendiente'}">
-                        <fa-icon icon="clock"></fa-icon>
-                        Pendientes
-                    </button>
-                </div>
-                 <div class="col-6 col-lg-3 m-0 p-0">
-                    <button @click="changestatus('pagado')" 
-                        class="btn btn-block"
-                        :class="{'btn-outline-success':status != 'pagado',
-                                'btn-success' : status == 'pagado'}">
-                        <fa-icon icon="dollar-sign"></fa-icon>
-                        Pagadas
-                    </button>
-                </div>
-                 <div class="col-6 col-lg-3 m-0 p-0">
-                    <button @click="changestatus('enviado')" 
-                        class="btn btn-block"
-                        :class="{'btn-outline-info':status != 'enviado',
-                                'btn-info' : status == 'enviado'}">
-                        <fa-icon icon="truck"></fa-icon>
-                        Enviadas
-                    </button>
-                </div>
-                <div class="col-6 col-lg-3 m-0 p-0">
+        <div class="row mt-2">
+            <div class="row d-flex justify-content-end">
+                 <div class="col-6 offset-lg-9 col-lg-3 m-0 p-0">
                     <button @click="changestatus('cancelado')" 
                         class="btn btn-block"
                         :class="{'btn-outline-danger':status != 'cancelado',
@@ -39,6 +11,48 @@
                        Canceladas
                     </button>
                 </div>
+            </div>
+            <div class="col-12 row mt-2">
+                <div class="col-6 col-lg-3 m-0 p-0">
+                    <button @click="changestatus('nv')" 
+                        class="btn btn-block "
+                        :class="{'btn-outline-warning':status != 'nv',
+                                'btn-warning' : status == 'nv'}">
+                        <fa-icon icon="clock"></fa-icon>
+                        Pendientes
+                    </button>
+                </div>
+                <div class="col-6 col-lg-3 m-0 p-0" v-if="!loadingOrders">
+                    <button @click="changestatus('pendiente')" 
+                        class="btn btn-block "
+                        :class="{'btn-outline-primary':status != 'pendiente',
+                                'btn-primary' : status == 'pendiente'}">
+                        <fa-icon icon="clock"></fa-icon>
+                        Vistos
+                    </button>
+                </div>
+                 <div class="col-6 col-lg-3 m-0 p-0" v-if="!loadingOrders">
+                    <button @click="changestatus('pagado')" 
+                        class="btn btn-block"
+                        :class="{'btn-outline-success':status != 'pagado',
+                                'btn-success' : status == 'pagado'}">
+                        <fa-icon icon="dollar-sign"></fa-icon>
+                        Pagadas
+                    </button>
+                </div>
+                 <div class="col-6 col-lg-3 m-0 p-0" v-if="!loadingOrders">
+                    <button @click="changestatus('enviado')" 
+                        class="btn btn-block"
+                        :class="{'btn-outline-info':status != 'enviado',
+                                'btn-info' : status == 'enviado'}">
+                        <fa-icon icon="truck"></fa-icon>
+                        Enviadas
+                    </button>
+                </div>
+                <div class="col-6 col-lg-3 m-0 p-0 ml-4 text-secondary" v-if="loadingOrders">
+                    Cargando otros pedidos...
+                </div>
+               
                
             </div>
         </div>
@@ -60,11 +74,16 @@
                                 :key="'order'+order.id"
                                 @click ="selected = order"
                                 style="cursor:pointer"
-                                :class="{'bg-info' : order == selected,
+                                :class="{'selectedOrder' : order == selected,
+                                        'bg-info' : order == selected,
                                         'bg-success' : order.seller=='castelli',
                                         'bg-info' : order.seller=='pasteur'}">
                             <td>{{order.created_at | datetime}}</td>
-                            <td>{{order.client}}</td>
+                            <td>
+                                <span class="client-name-container">
+                                    {{order.client}}
+                                </span>
+                            </td>
                             <td> 
                                 <div class="d-flex flex-column aling-items-center">
                                     <input type="checkbox" v-model="order.viewed" @change="viewed(order)" class="form-control checkbox"> 
@@ -99,8 +118,8 @@ export default {
         return {
             searchTerm:'',
             canceledLoaded:false,
-            status : 'pendiente',
-          
+            status : 'nv',
+            loadingOrders:true,
             filtered : [],
             selected : null,
 
@@ -126,7 +145,10 @@ export default {
         },
         changestatus(status)
         {
-            if(!this.canceledLoaded && status=='cancelado'){
+            if(!this.orders || !this.orders.length){
+                 this.$store.commit('setLoading',true);
+            }
+            else if(!this.canceledLoaded && status=='cancelado'){
                 this.$store.commit('setLoading',true);
                 this.canceledLoaded=true;
                 this.$store.dispatch('fetchCanceledOrders')
@@ -144,24 +166,42 @@ export default {
     mounted(){
          if(!this.orders || this.orders.length < 1){
                this.$store.commit('setLoading',true);
+               this.$store.dispatch('fetchNVOrders')
+                
            }
     },
    watch:{
-       orders(){
-          if(this.orders && this.orders.length > 0){
+       nvorders(){
+          if(this.nvorders && this.nvorders.length > 0){
                
                this.$store.commit('setLoading',false);
+           }
+       },
+       orders(){
+           if(this.orders && this.orders.length)
+           {
+             
+               this.loadingOrders=false;
            }
        }
    },
     computed : {
         orders(){
             return this.$store.getters.getOrders;
-        }
-        ,
+        },
+        nvorders(){
+            return this.$store.getters.getNVOrders;
+        },
+        
         filteredOrders(){
+            if(this.status=='nv' && this.nvorders){
+                let res = this.nvorders;
+                res = this.orderArray(res,'created_at');
+                res = res.reverse();
+                return res;
+            }
             
-            if( this.orders ){
+            else if( this.orders ){
                
                 var vm = this;
                /*  console.log(this.orders); */
@@ -198,6 +238,18 @@ export default {
 </script>
 
 <style>
+.client-name-container
+{
+    display: flex;
+    max-width: 170px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+.selectedOrder{
+    border: 1px solid #000;
+    background-color: #2233ff55;
+
+}
 .checkbox{
     width: 30px;
     height: 20px;

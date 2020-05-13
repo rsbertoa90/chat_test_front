@@ -32,11 +32,6 @@ export default {
             
         if (!this.admin){
           window.location.replace('/');
-        }else{
-          if(!this.orders || (typeof this.orders[0] == 'undefined'))
-          {
-            this.$store.dispatch('fetchOrders');
-          }
         }
 
         

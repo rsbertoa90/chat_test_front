@@ -17,8 +17,8 @@
             <div class="col-12 col-lg-9 p-0 m-auto p-lg-4 ">
                 <!-- banner solo envios -->
                 <div class="mt-3 mb-3">
-                    <img :src="imagePath('/storage/images/app/online-solo-web.jpg')" alt="Solo pedidos online" v-if="$mq=='lg'">
-                    <img :src="imagePath('/storage/images/app/online-solo1.jpg')" alt="Solo pedidos online" v-else>
+                    <img :src="imagePath('/storage/images/app/usaw.jpg')" alt="Unica sucursal abierta Pasteur 410" v-if="$mq=='lg'">
+                    <img :src="imagePath('/storage/images/app/usam.jpg')" alt="Unica sucursal abierta Pasteur 410" v-else>
                 </div>
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>

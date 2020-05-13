@@ -37,7 +37,7 @@
                         :class="{'btn-outline-success':status != 'pagado',
                                 'btn-success' : status == 'pagado'}">
                         <fa-icon icon="dollar-sign"></fa-icon>
-                        Pagadas
+                        Pagados
                     </button>
                 </div>
                  <div class="col-6 col-lg-3 m-0 p-0" v-if="!loadingOrders">
@@ -46,7 +46,7 @@
                         :class="{'btn-outline-info':status != 'enviado',
                                 'btn-info' : status == 'enviado'}">
                         <fa-icon icon="truck"></fa-icon>
-                        Enviadas
+                        Enviados
                     </button>
                 </div>
                 <div class="col-6 col-lg-3 m-0 p-0 ml-4 text-secondary" v-if="loadingOrders">
@@ -166,6 +166,7 @@ export default {
     mounted(){
          if(!this.orders || this.orders.length < 1){
                this.$store.commit('setLoading',true);
+               this.$store.dispatch('fetchOrders')
                this.$store.dispatch('fetchNVOrders')
                 
            }
@@ -194,21 +195,20 @@ export default {
         },
         
         filteredOrders(){
+            let res=[];
+            var vm=this;
             if(this.status=='nv' && this.nvorders){
-                let res = this.nvorders;
-                res = this.orderArray(res,'created_at');
-                res = res.reverse();
-                return res;
+                 res = this.nvorders;
+                
             }
             
             else if( this.orders ){
                
-                var vm = this;
-               /*  console.log(this.orders); */
-                let res = this.orders.filter(order => {
+                res = this.orders.filter(order => {
                     return (order.status == vm.status);
                 });
-
+            }
+            if(res){
                 if(res && this.searchTerm){
 
                     let st = this.normalizeString(this.searchTerm);

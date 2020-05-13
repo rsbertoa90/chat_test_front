@@ -47,7 +47,9 @@ export default {
     mounted(){
       
          if(!this.orders || this.orders.length < 1){
-               this.$store.commit('setLoading',true);
+             this.$store.commit('setLoading',true);
+               this.$store.dispatch('fetchOrders');
+               this.$store.dispatch('fetchNVOrders');
            }
     }
 }

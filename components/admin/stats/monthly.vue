@@ -84,7 +84,9 @@ export default {
             return res;
         },
         orders(){
-            let res =  this.$store.getters.getOrders;
+            let oldo =  this.$store.getters.getOrders;
+            let newo =  this.$store.getters.getNVOrders;
+            let res =  oldo.concat(newo);
             if(res && res.length > 0){
                 res = res.filter(o => {
                     return (o.status != 'cancelado');

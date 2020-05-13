@@ -2,9 +2,7 @@
     <div>
         
         <div v-if="hidePrices" class="pricesHided mt-4">
-            Cuidémonos entre todos: Ante el anuncio del Gobierno Nacional, Mates Fabi se encuentra temporalmente cerrado. 
-            <br>  En estos momentos permanecer en nuestros hogares es muy importante, seamos responsables.
-            <br> Seguiremos publicando las novedades en nuestra redes sociales.       
+           Estamos actualizando nuestros precios.
         </div>
       <!--   <div v-if="hidePrices" class="pricesHided mt-4">
             Estamos actualizando nuestra Web, pronto precios y toma de pedidos disponible. Disculpa la molestia! Cualquier consulta el numero del área de venta es 11 3008 5414

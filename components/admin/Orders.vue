@@ -119,7 +119,7 @@ export default {
             searchTerm:'',
             canceledLoaded:false,
             status : 'nv',
-            loadingOrders:true,
+           
             filtered : [],
             selected : null,
 
@@ -178,15 +178,12 @@ export default {
                this.$store.commit('setLoading',false);
            }
        },
-       orders(){
-           if(this.orders && this.orders.length)
-           {
-             
-               this.loadingOrders=false;
-           }
-       }
    },
     computed : {
+        loadingOrders()
+        {
+            return (!this.orders || this.orders.length < 1);
+        },
         orders(){
             return this.$store.getters.getOrders;
         },

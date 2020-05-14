@@ -123,8 +123,13 @@
             <div class="col-12">
             <hr>
             <label class="label" >Comentarios</label>
-            <textarea @change="saveComments" v-model.lazy="order.comments" 
+            <textarea @input="dirtyComment=true" v-model="order.comments" 
                     class="form-control" rows="5"></textarea>
+            </div>
+             <div class="d-flex justify-content-end overflow-hidden" >
+                <transition enter-active-class="animated slideInLeft" leave-active-class="animated slideOutRight">
+                    <button @click="saveComments" class="btn btn-info btn-lg" v-if="dirtyComment">Guardar</button>
+                </transition>
             </div>
         </div>
        <cancelOrderModal v-if="showModal" :order="order" @close="showModal=false"></cancelOrderModal>
@@ -137,7 +142,8 @@ export default {
     components:{cancelOrderModal},
     props : ['order'],
    data(){return{
-       showModal:false
+       showModal:false,
+       dirtyComment:false,
    }},
     methods : {
         cancelOrder()
@@ -150,7 +156,14 @@ export default {
                 field : 'comments',
                 value : this.order.comments
             }
-            this.$axios.put('/order',data);
+            this.$axios.put('/order',data)
+             .then(r=>{
+                    if (r.data == 1) {
+                        this.dirtyComment = false;
+                    } else {
+                        swal('Ocurrio un error',r.data,'error');
+                    }
+                });;
         },
         setStatus(status){
             var vm = this;

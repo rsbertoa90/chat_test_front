@@ -2,13 +2,13 @@
     <div>
         <div class="row mt-2">
             <div class="row d-flex justify-content-end">
-                 <div class="col-6 offset-lg-9 col-lg-3 m-0 p-0">
+                 <div class="col-6 offset-lg-9 col-lg-3 m-0 p-0" v-if="!loadingOrders">
                     <button @click="changestatus('cancelado')" 
                         class="btn btn-block"
                         :class="{'btn-outline-danger':status != 'cancelado',
                                 'btn-danger' : status == 'cancelado'}">
                       <fa-icon  icon="times"></fa-icon>
-                       Canceladas
+                       Cancelados
                     </button>
                 </div>
             </div>
@@ -145,19 +145,20 @@ export default {
         },
         changestatus(status)
         {
-            if(!this.orders || !this.orders.length){
-                 this.$store.commit('setLoading',true);
-            }
-            else if(!this.canceledLoaded && status=='cancelado'){
+            if(!this.canceledLoaded && status=='cancelado'){
                 this.$store.commit('setLoading',true);
-                this.canceledLoaded=true;
                 this.$store.dispatch('fetchCanceledOrders')
                     .then( ()=>{
                         this.status = status;
                         this.selected = null;
                         this.$store.commit('setLoading',false);
+                        this.canceledLoaded=true;
                     })
-            }else{
+            }
+            else if(!this.orders || !this.orders.length){
+                 this.$store.commit('setLoading',true);
+            }
+            else{
                 this.status = status;
                 this.selected = null;
             }

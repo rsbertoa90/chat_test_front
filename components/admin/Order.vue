@@ -119,14 +119,14 @@
                 </div>
         </div>
         <!-- Comentarios -->
-          <div class="row">
+          <div class="row mb-4">
             <div class="col-12">
             <hr>
             <label class="label" >Comentarios</label>
             <textarea @input="dirtyComment=true" v-model="order.comments" 
                     class="form-control" rows="5"></textarea>
             </div>
-             <div class="d-flex justify-content-end overflow-hidden" >
+             <div class="d-flex justify-content-end overflow-hidden mb4" >
                 <transition enter-active-class="animated slideInLeft" leave-active-class="animated slideOutRight">
                     <button @click="saveComments" class="btn btn-info btn-lg" v-if="dirtyComment">Guardar</button>
                 </transition>
@@ -151,6 +151,8 @@ export default {
             this.showModal=true;
         },
          saveComments(){
+            this.$store.commit('setLoading',true);
+            
             let data = {
                 order : this.order.id,
                 field : 'comments',
@@ -160,10 +162,16 @@ export default {
              .then(r=>{
                     if (r.data == 1) {
                         this.dirtyComment = false;
-                    } else {
-                        swal('Ocurrio un error',r.data,'error');
+                        this.$store.commit('setLoading',false);
+                        swal('Cambio guardado con exito','',"success");
                     }
-                });;
+                })
+            .catch(error => {
+                let txt = error.response;
+                console.log(error.response.data.message);
+                this.$store.commit('setLoading',false);
+                swal('Error', error.response.data.message,'error');
+            });
         },
         setStatus(status){
             var vm = this;

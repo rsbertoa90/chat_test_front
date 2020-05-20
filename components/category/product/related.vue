@@ -22,7 +22,6 @@
                     <h5 class="card-title" style="height:60px"> {{product.name | ucFirst}}  </h5>
                     <h4 v-if="!$store.getters.getConfig.hide_prices" class="second">  
                       ${{product.price | price}} 
-                      <strike style="font-size:1rem"  v-if="product.offer && !$store.getters.getConfig.hide_prices" class="text-secondary"> ${{product.price * 1.67 | price}}</strike> 
                     </h4>
                    
                     <router-link :to="getSlug(product)" style="cursor:pointer" class="btn btn-outline-second  white-bold mb-4 mt-1"> Ver mas</router-link>

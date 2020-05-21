@@ -9,14 +9,22 @@
             </h2>
         </div>
 
-        <div v-else class="row mt-4">
-            
-          
-         
-             <div class="col-12">
+        <div class="row mt-4">
+             <div class="col-6">
                 <admin-create  @productSaved="refresh"></admin-create>
              </div>
+             <div class="col-6">
+                  <button @click="job('prices-list-job')" class="btn btn-lg btn-info">  
+                    Refrescar Lista de Precios
+                </button>
+             </div>
+        </div>   
+
+        <div v-if="$mq != 'sm'" class="row mt-4">
+            
              <hr>
+          
+         
             <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center">
                 <change-prices :selectedProducts="selectedProducts"
                             @refresh="refresh()" @resetCheckboxes="resetCheckboxes()"></change-prices>
@@ -196,6 +204,15 @@ import paginator from './admin/paginator.vue';
 
         },
         methods : {
+             job(route){
+                this.$store.commit('setLoading',true);
+                //console.log('route',route);
+                this.$axios.get('/'+route)
+                .then(res => {
+                    this.$store.commit('setLoading',false);
+                    swal('Procedimiento iniciado','Los cambios seran visibles en unos minutos','success');
+                });
+            },
             setProducts(){
                 let res = [];
                 if (this.categories){

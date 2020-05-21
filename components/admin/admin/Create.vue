@@ -3,17 +3,17 @@
          <button class="btn btn-lg btn-info" @click="showForm=!showForm">Nuevo Producto</button>
          <form v-if="showForm" ref="form" @submit.prevent="save" class="form form-inline row ml-1 d-flex align-items-end">
             <!-- codigo -->
-            <div class="col-2 row">
-                 <label for="" class="col-12">Codigo</label>
-                 <input required v-model.trim="formData.code" type="text" class="col-12">
+            <div class="col-12 row mt-1">
+                 <label for="" class="col-6">Codigo</label>
+                 <input required v-model.trim="formData.code" type="text" class="col-6">
              </div>
           
             
              
              <!-- categoria -->
-             <div class="col-2 row">
-                 <label for="" class="col-12">Categoria</label>
-                 <select required  id="" v-model.trim="formData.category_id" class="col-12 form-control">
+             <div class="col-12 row mt-1">
+                 <label for="" class="col-6">Categoria</label>
+                 <select required  id="" v-model.trim="formData.category_id" class="col-6 form-control">
                      <option  v-for="category in categories" 
                              :key="category.id"
                              :value="category.id" >
@@ -28,22 +28,23 @@
              </div>
          
              <!-- producto -->
-             <div class="col-2 row">
-                 <label for="" class="col-12">Producto</label>
+             <div class="col-12 row mt-1">
+                 <label for="" class="col-6">Producto</label>
                  <textarea rows="2"  required  v-model.trim="formData.name" 
-                        type="text" class="col-12"></textarea>
+                        type="text" class="col-6"></textarea>
              </div>
             <!-- precio -->
-             <div  class="col-2 row">
-                 <label for="" class="col-12">Precio</label>
+             <div  class="col-12 row mt-1">
+                 <label for="" class="col-6">Precio</label>
                  <input min='0' step=".01" required v-model.trim="formData.price"  
-                 type="number" class="col-12">
+                 type="number" class="col-6">
              </div>
             
-         
-             <div class="offset-11">
-                <button type="submit" class="btn btn-outline-success align-self-end justify-self-end"> GUARDAR </button>
-             </div>
+            <div class="row-mt-2">
+                <div class="col-2 offset-2">
+                    <button type="submit" class="btn btn-outline-success align-self-end justify-self-end"> GUARDAR </button>
+                </div>
+            </div>
          </form>
     </div>
 </template>

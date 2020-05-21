@@ -71,7 +71,7 @@ export default {
             this.$axios.get('/'+route)
             .then(res => {
                 this.$store.commit('setLoading',false);
-                swal('Procedimiento puesto en cola','Los cambios seran visibles en unos minutos','success');
+                swal('Procedimiento iniciado','Los cambios seran visibles en unos minutos','success');
             });
         },
         updateconfig(field)

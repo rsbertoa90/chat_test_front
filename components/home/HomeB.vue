@@ -37,7 +37,7 @@
           </p>
           <p>
                <span class="fa fa-check fucsia"></span>
-              Los despachos se realizan de 2 a 6 días hábiles a partir del informe y acreditación de pago.
+              Los despachos se realizan de 2 a 10 días hábiles a partir del informe y acreditación de pago.
           </p>
               
         </div>

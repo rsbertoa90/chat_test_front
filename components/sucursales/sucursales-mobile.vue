@@ -21,7 +21,7 @@
                        <div class="col-12">
                             <ul>
                                 <li> <b> Dirección: </b> Pasteur 410 </li>
-                                <li> <b>Atención: </b> Lunes a viernes de 9 a 18 hs </li>
+                                <li> <b>Atención: </b> Lunes a viernes de 11 a 18 hs </li>
                                 <li>  <b> Teléfono:</b> 4951-5417   </li>
                             </ul>
                             <p> Mates Fabi sucursal Pasteur   se encuentra a metros de Avenida 
@@ -51,7 +51,7 @@
                        <div class="col-12">
                             <ul>
                                 <li> <b> Dirección: </b> Castelli 203 </li>
-                                <li> <b>Atención: </b> Lunes a viernes de 9 a 18 hs  </li>
+                                <li> <b>Atención: </b> TEMPORALMENTE CERRADA <!-- Lunes a viernes de 9 a 18 hs -->  </li>
                                 <li>  <b> Teléfono:</b> 4951-4521  </li>
                             </ul>
                             <p> Mates Fabi sucursal Castelli está a unas cuadras de la estación de tren de Once. (Linea Sarmiento).</p>
@@ -82,7 +82,7 @@
                             <ul>
                                 <li> <b> Dirección: </b> Sarmiento 2268</li>
                                <!--  <li> <b>Atención: </b>  Lunes a viernes de 9 a 18 hs  </li> -->
-                                <li> <b>Atención: </b>   Sucursal cerrada por remodelaciones hasta nuevo aviso  </li>
+                                <li> <b>Atención: </b>  TEMPORALMENTE CERRADA   </li>
                                 <li>  <b> Teléfono:</b> 4951-1128   </li>
                             </ul>
                             <p> Mates Fabi sucursal Sarmiento está ubicada en el corazón de barrio Once.</p>

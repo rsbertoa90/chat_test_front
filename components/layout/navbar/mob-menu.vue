@@ -1,7 +1,7 @@
 <template>
     <div class="overlay">
         <div class="pannel" v-click-outside="close">
-            <div @click="close">
+            <div @click="close" class="logo-container">
                    <imageLogo></imageLogo>
             </div>
             <div class="p-4">
@@ -94,6 +94,13 @@ export default {
 
 
 <style lang="scss" scoped>
+
+.logo-container{
+    width:10s0px;
+    margin:auto;
+}
+
+
 .item{
     font-size: 20px;
     display: flex;

@@ -9,7 +9,7 @@
             <div class="fcc">
                 <div>
                     <p class="msg">
-                        Podes contactarte con el área de venta online por Whatsapp al <b> 11 3008 5414 </b> de lunes a viernes de 9 a 18hs. Locales en Once temporalmente cerrados, solo toma de pedidos online.
+                       Podes contactarte con el área de venta online por Whatsapp al <b> 11 3008 5414 </b> de lunes a viernes de 9 a 18hs. Por el momento para comprar personalmente solo se encuentra abierta la sucursal de Pasteur 410 - ONCE (CABA) de lunes a viernes de  11hs a 18hs.
                     </p>
                     <p class="msgg">
                         Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay un poco de demora en la atención. Estamos trabajando para brindarles lo mejor posible dentro de las limitaciones que impone el momento que estamos pasando como sociedad. Todos van a recibir respuesta, agradecemos su paciencia y comprensión
@@ -31,8 +31,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 mt-4 p-4">
-            <img :src="imagePath('/storage/images/app/envio40.jpg')" alt="Como comprar">
+        <div class="row col-12">
+            <div class="col-12  mt-4 p-4">
+                <img :src="imagePath('/storage/images/app/envio10dias.jpg')" alt="Como comprar">
+            </div>
+            <div class="col-12  mt-4 p-4">
+                <img :src="imagePath('/storage/images/app/faq.jpg')" alt="Como comprar">
+            </div>
         </div>
     </div>
 

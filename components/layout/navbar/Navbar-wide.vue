@@ -7,7 +7,7 @@
                     <image-logo></image-logo>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 fcc">
                 <div class="form-inline">
                     <div class="input-group w-100 relative">
                         <input type="text" class="form-control" 
@@ -21,6 +21,16 @@
                             </span>
                         </div>
                     </div>  
+                </div>
+                <div class="d-flex mt-2">
+                    <transition>
+                        <div class="check-circle">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </transition>
+                    <span class="webprices">
+                        PRECIOS EN LA WEB ACTUALIZADOS AL {{today|date}} 
+                    </span>
                 </div>
             </div>
             <div class="col-3 flex-button">
@@ -84,6 +94,9 @@ export default {
         ...mapGetters({
             categories : 'getCategories'
         }),
+        today(){
+            return new Date();
+        },
     },
     methods:{
         search(){
@@ -112,6 +125,40 @@ $color-focus: #ff0aaf;
 // Rosa claro es ff97dd
 $color-back: #ff97dd;
 
+.webprices{
+    color: #B2037A;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.check-circle{
+    margin-right:10px;
+    width:20px;
+    font-size: 14px;
+    height: 20px;
+    color:#fff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #09cca2;
+     animation-name: altercolor;
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction:alternate;
+}
+
+@keyframes altercolor{
+    from {
+        background-color: #09cca2;
+     
+    }
+    to{
+        background-color: #B2037A;
+      
+
+    }
+}
 
 .out-button{
     font-size:2rem;

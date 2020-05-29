@@ -80,7 +80,7 @@ export default {
             });
         },
         job(route){
-            console.log('route',route);
+           // console.log('route',route);
             this.$axios.get('/'+route)
             .then(res => {
                 swal('Procedimiento puesto en cola','Los cambios seran visibles en unos minutos','success');

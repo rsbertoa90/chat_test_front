@@ -1,7 +1,7 @@
 <template>
     <div class="w-100">
         <div class=" d-flex justify-content-center">
-            <div class="">
+            <div class="logo-container">
                 <image-logo></image-logo>
             </div>
         </div>
@@ -32,6 +32,20 @@
             </div>
         </nav>
 
+        <div class="row mt-2">
+            <div class="col-12 p-0">
+                  <div class="d-flex mt-2">
+                    <transition>
+                        <div class="check-circle">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </transition>
+                    <span class="webprices">
+                        PRECIOS EN LA WEB ACTUALIZADOS AL {{today|date}} 
+                    </span>
+                </div>
+            </div>
+        </div>
     
 
 
@@ -61,6 +75,9 @@ export default {
             categories : 'getCategories',
             searchTerm:'getSearchTerm'
         }),
+        today(){
+            return new Date();
+        }
     },
      methods:{
         search(){
@@ -77,7 +94,52 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.logo-container{
+    width:130px;
+    margin:auto;
+}
+.webprices{
+    color: #B2037A;
+    font-weight: bold;
+    font-size: 11px;
+    margin-top:2px;
+}
+
+.check-circle{
+    margin-right:2px;
+    width:20px;
+    font-size: 14px;
+    height: 20px;
+    color:#fff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #09cca2;
+     animation-name: altercolor;
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction:alternate;
+    .fa{
+        font-size: 14px;
+    }
+}
+
+@keyframes altercolor{
+    from {
+        background-color: #09cca2;
+     
+    }
+    to{
+        background-color: #B2037A;
+      
+
+    }
+}
+
+
   .input-group-prepend{
         position: absolute;
     right: 13px;

@@ -32,7 +32,7 @@
             </div>
         </nav>
 
-        <div class="row mt-2">
+        <div class="row mt-2"  v-if="!hidePrices">
             <div class="col-12 p-0">
                   <div class="d-flex mt-2">
                     <transition>

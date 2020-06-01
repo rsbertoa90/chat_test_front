@@ -22,13 +22,13 @@
                         </div>
                     </div>  
                 </div>
-                <div class="d-flex mt-2">
+                <div class="d-flex mt-2" v-if="!hidePrices">
                     <transition>
                         <div class="check-circle">
                             <span class="fa fa-check"></span>
                         </div>
                     </transition>
-                    <span class="webprices">
+                    <span class="webprices" >
                         PRECIOS EN LA WEB ACTUALIZADOS AL {{today|date}} 
                     </span>
                 </div>

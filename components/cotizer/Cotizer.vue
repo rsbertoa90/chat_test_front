@@ -8,7 +8,7 @@
               <!--   <a href="/descargar-catalogo-sin-precios" target="_blank" class=" btn btn-download" v-if="!hidePrices"> <span class="fa fa-download"></span> Catalogo sin precios</a> -->
             </div>
         </div>
-        <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs">
+        <div class="row mt-2 d-flex flex-column mb-4 mt-4" v-if="configs && !hidePrices">
            
                 <span><i class="fa fa-check fucsia"></i>  Los precios publicados son sin IVA</span>
                 <span><i class="fa fa-check fucsia"></i> Personalmente en las sucursales la compra mínima es de ${{configs.minbuy}} y se pueden elegir los diseños.</span>
@@ -20,7 +20,12 @@
         </div>
 
         <div v-if="hidePrices" class="pricesHided">
-            Estamos actualizando nuestra Web, pronto precios y toma de pedidos disponible. Disculpa la molestia! Cualquier consulta el numero del área de venta es 11 3008 5414
+             <p>
+                Jueves 4 de Junio estará disponible nuevamente el cotizador Web para pedidos al Interior.
+            </p>
+            <p>
+                Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay demoras. Agradecemos la paciencia y comprensión, es muy particular el momento que estamos pasando como sociedad, buscamos brindarles lo mejor posible dentro de las limitaciones que impone la cuarentena.
+            </p>
         </div>
 
         <no-ssr>

@@ -12,7 +12,12 @@
             <offer-slider v-if="config && !config.maintenance"></offer-slider>
             <div v-if="config && config.maintenance">
                 <div class="text-black w-100 text-center d-flex justify-content-center align-items-center">
-                    <h2>Estamos actualizando nuestros precios</h2>
+                     <p>
+                        Jueves 4 de Junio estará disponible nuevamente el cotizador Web para pedidos al Interior.
+                    </p>
+                    <p>
+                        Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay demoras. Agradecemos la paciencia y comprensión, es muy particular el momento que estamos pasando como sociedad, buscamos brindarles lo mejor posible dentro de las limitaciones que impone la cuarentena.
+                    </p>
                 </div>
 
             </div>

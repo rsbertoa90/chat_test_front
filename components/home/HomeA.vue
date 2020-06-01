@@ -2,12 +2,16 @@
     <div>
         
         <div v-if="hidePrices" class="pricesHided mt-4">
-           Estamos actualizando nuestros precios.
+            <p>
+                Jueves 4 de Junio estará disponible nuevamente el cotizador Web para pedidos al Interior.
+            </p>
+            <p>
+                Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay demoras. Agradecemos la paciencia y comprensión, es muy particular el momento que estamos pasando como sociedad, buscamos brindarles lo mejor posible dentro de las limitaciones que impone la cuarentena.
+            </p>
+           
         </div>
-      <!--   <div v-if="hidePrices" class="pricesHided mt-4">
-            Estamos actualizando nuestra Web, pronto precios y toma de pedidos disponible. Disculpa la molestia! Cualquier consulta el numero del área de venta es 11 3008 5414
-        </div> -->
-
+    
+    
             <home-banners></home-banners>
             <home-icons></home-icons>
     

@@ -1,6 +1,6 @@
 <template>
 <transition enter-active-class="animated bounceIn">
-            <div id="total" key="bouncer" v-if="total>0">
+            <div id="total" key="bouncer" v-if="total>0 && !hidePrices">
                 <div  class="bg-first p-1">
                     <div class="btn-desplegar " @click="desplegar = !desplegar ">
                          <span  class="fa fa-shopping-cart  mr-2"></span>

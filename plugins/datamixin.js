@@ -89,7 +89,13 @@ Vue.mixin({
      
     },
      computed: {
-     
+          hidePricesMessage(){
+              let meta = this.$store.getters.getMeta('precios-ocultos');
+              if(meta && meta.description){
+                return meta.metadescription.trim().replace(/\n/g, "<br />");
+              }
+              else return null;
+          },
           devmode() {
          
            let res = this.$axios.defaults.baseURL == 'http://localhost:8000/api' ;

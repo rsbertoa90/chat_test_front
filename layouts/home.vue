@@ -53,12 +53,10 @@ export default {
         }
     },
       mounted(){
-        console.log(this.firstload);
+      
+
          if(this.$store.getters.getLoading || this.firstload){
-         
-          
               this.$store.commit('setFirstload');
-         
          }
        
 

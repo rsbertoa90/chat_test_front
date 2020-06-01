@@ -14,6 +14,11 @@ Vue.filter('text', value => {
   }
 });
 
+Vue.filter('textBreaks',value => {
+
+  return value.trim().replace(/\n/g, "<br />");
+});
+
 Vue.filter('datetime', val => {
 
     let date = new Date(val);

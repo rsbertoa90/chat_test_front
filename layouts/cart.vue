@@ -22,6 +22,9 @@ import navbar from '@/components/layout/Navbar.vue'
 export default {
   components:{navbar,apploading},
    mounted(){
+
+      
+
        if(this.$store.getters.getLoading || this.firstload){
          
           

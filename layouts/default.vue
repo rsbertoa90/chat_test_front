@@ -69,8 +69,8 @@ export default {
             return this.$store.getters.getLoading;
         }
     },
+     
       mounted(){
-      
          if(this.$store.getters.getLoading || this.firstload){
          
           

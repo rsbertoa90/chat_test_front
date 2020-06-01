@@ -1,13 +1,8 @@
 <template>
     <div>
         
-        <div v-if="hidePrices" class="pricesHided mt-4">
-            <p>
-                Jueves 4 de Junio estará disponible nuevamente el cotizador Web para pedidos al Interior.
-            </p>
-            <p>
-                Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay demoras. Agradecemos la paciencia y comprensión, es muy particular el momento que estamos pasando como sociedad, buscamos brindarles lo mejor posible dentro de las limitaciones que impone la cuarentena.
-            </p>
+        <div v-if="hidePrices && hidePricesMessage" class="pricesHided mt-4" >
+            <p v-html="hidePricesMessage"></p>
            
         </div>
     

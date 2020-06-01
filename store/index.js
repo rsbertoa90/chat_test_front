@@ -13,7 +13,7 @@ export const state = () => {
         loading: true,
         searchTerm: '',
         supliers:[],
-        tutoSeen:false,
+        tutoSeen:true,
         list:[],
         total:0,
         firstload:true,

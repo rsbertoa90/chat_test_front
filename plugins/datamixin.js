@@ -91,7 +91,7 @@ Vue.mixin({
      computed: {
           hidePricesMessage(){
               let meta = this.$store.getters.getMeta('precios-ocultos');
-              if(meta && meta.description){
+              if(meta && meta.metadescription){
                 return meta.metadescription.trim().replace(/\n/g, "<br />");
               }
               else return null;

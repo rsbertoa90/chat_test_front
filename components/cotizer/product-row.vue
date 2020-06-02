@@ -14,7 +14,7 @@
         <td> 
             <div v-if="product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
                 
-                <span class="text-success font-weight-bold" v-if="config && !config.hide_prices">  ${{(product.price * product.units) | price}} </span>
+                <span class="text-success font-weight-bold" v-if="!hidePrices">  ${{(product.price * product.units) | price}} </span>
                 
             </div>
             <qty-field :product="product" class="brd" />

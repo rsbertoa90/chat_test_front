@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title" style="height:60px"> {{product.name | ucFirst}}  </h5>
-                    <h4 v-if="!$store.getters.getConfig.hide_prices" class="second">  
+                    <h4 v-if="!hidePrices" class="second">  
                       ${{product.price | price}} 
                     </h4>
                    

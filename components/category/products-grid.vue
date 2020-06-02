@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body p-0" itemprop="offer">
                         <h5 style="height:40px" class="card-title font-weight-bold" itemprop="name">{{product.name | ucFirst}}</h5>
-                        <h5 v-if="config && !config.hide_prices" class="card-subtitle" itemprop="price">${{product.price}}</h5>
+                        <h5 v-if="!hidePrices" class="card-subtitle" itemprop="price">${{product.price}}</h5>
                       <!--   <p class="card-text"> {{product.description}} </p> -->
                         <nuxt-link :to="getSlug(product)" class="btn btn-outline-focus mt-2" itemprop="url">Ver mas</nuxt-link>
                         <shop-button :product="product"></shop-button>

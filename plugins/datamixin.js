@@ -121,7 +121,7 @@ Vue.mixin({
         return this.$store.getters.getConfig;
        },
        hidePrices(){
-        return (this.config && this.config.hide_prices); 
+        return (this.config && this.config.hide_prices && !this.admin); 
        },
        user() {
          return this.$store.getters.getUser;

@@ -21,7 +21,7 @@
                   </div>
                 <div class="card-body">
                     <h5 class="card-title" itemprop="name"> {{product.name | ucFirst}}  </h5>
-                    <h4 v-if="config && !config.hide_prices" class="second">  
+                    <h4 v-if="!hidePrices" class="second">  
                       ${{product.price | price}} 
                     </h4>
                    <!--  <p style="height:45px" class="card-text crop-text" itemprop="description"> {{product.description}}</p> -->

@@ -20,7 +20,7 @@
                         <h1>  <span itemprop="name"> {{product.name | ucFirst}} </span> </h1>
                         <span class="text-secondary"> {{product.category.name |ucFirst}} </span>
                     </div>
-                    <div   itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="d-flex align-items-center" v-if="config && !config.hide_prices">
+                    <div   itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="d-flex align-items-center" v-if="!hidePrices">
                         <meta itemprop="priceCurrency" content="ARS" />
                         <h2>  $<span itemprop="price">{{product.price}}</span>  </h2>
                     </div>

@@ -316,11 +316,15 @@ export default{
                 vm.$axios.post('/cotizer/send',data)
                     .then(response => {
                         if(data.shipping){
-                            swal('Gracias por tu compra', 'Te estaremos contactando a la brevedad','success')
+                            swal('Pedido enviado!',
+                             `Para continuar con tu compra envía un whatsapp al 11 3008 5414 con la palabra "COMPRE" y el nombre que completaste en el formulario (EJ: COMPRE ${this.formData.client} )`,
+                             'success')
                                     .then(confirm => {window.location.replace('/')});
                         }
                         else{
-                            swal('Gracias por tu compra', 'Aguarda a ser contactado o comunicate al 11 3008 5414 para coordinar el retiro. (La preparación de pedido es de 2 a 10 días hábiles a partir de el informe y acreditación de pago) ','success')
+                            swal('Pedido enviado!',
+                             `Para continuar con tu compra envía un whatsapp al 11 3008 5414 con la palabra "COMPRE" y el nombre que completaste en el formulario (EJ: COMPRE ${this.formData.client} )`,
+                             'success')
                                     .then(confirm => {window.location.replace('/')});
                         }
                     });

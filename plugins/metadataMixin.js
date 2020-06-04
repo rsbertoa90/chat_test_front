@@ -64,12 +64,12 @@ export default {
             if (this.metadata) {
                 
                 
-                return this.metadata.metatitle ? this.metadata.metatitle : 'Mates de fabrica';
+                return this.metadata.metatitle ? this.metadata.metatitle : 'Mates Fabi';
             }
         },
         metadescription() {
             if (this.metadata) {
-                return this.metadata.metadescription ? this.metadata.metadescription : 'Mates de fabrica';
+                return this.metadata.metadescription ? this.metadata.metadescription : 'Mates Fabi';
             }
 
         },

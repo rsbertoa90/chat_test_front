@@ -32,7 +32,6 @@
         <div class="warnings mb-4 mt-4 d-flex flex-column">
 
             <span v-if="!formData.shipping" class="warn">*IMPORTANTE: Coordinar con la asesora de ventas antes de ir a buscar el pedido . La demora habitual en que el pedido este listo es de 2 a 10 dias hábiles luego de el informe y acreditación de pago </span>
-            <span class="warn">*Por ahora solo funciona la venta online. Los locales mates fabi permanecen cerrados. </span>
             
                 
             <span class=" warn" v-if="formData.shipping">*El despacho de la mercaderia se realiza de 2 a 10 días hábiles luego del  informe y acreditacion de pago.  </span>

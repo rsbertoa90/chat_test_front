@@ -17,8 +17,9 @@
             <div class="col-12 col-lg-9 p-0 m-auto p-lg-4 ">
                 <!-- banner solo envios -->
                 <div class="mt-3 mb-3">
-                    <img :src="imagePath('/storage/images/app/nopadrew.jpg')" alt="Unica sucursal abierta Pasteur 410" v-if="$mq=='lg'">
-                     <img :src="imagePath('/storage/images/app/nopadrem.jpg')" alt="Unica sucursal abierta Pasteur 410" v-else> 
+                  <!--   <img :src="imagePath('/storage/images/app/nopadrew.jpg')" alt="Unica sucursal abierta Pasteur 410" v-if="$mq=='lg'">
+                    <img :src="imagePath('/storage/images/app/nopadrem.jpg')" alt="Unica sucursal abierta Pasteur 410" v-else>  -->
+                    <infobanner></infobanner>
                 </div>
                 <transition enter-active-class="animated slideInLeft fast faster ">
                         <nuxt></nuxt>
@@ -47,6 +48,7 @@
 /* 
 
 import totalBouncer from './layout/total-bouncer/total-bouncer.vue';*/
+import infobanner from '@/components/layout/info-banner.vue';
 import momwebfooter from '@/components/layout/footer/momwebfooter.vue'
 import socialfooter from '@/components/layout/footer/social-footer.vue'
 import redlimpbanner from '@/components/banners/redlimp.vue'
@@ -57,7 +59,7 @@ import totalBouncer from '@/components/layout/total-bouncer/total-bouncer.vue';
 import apploading from '@/components/layout/loading.vue';
 import categoriesPannel from '@/components/layout/Side-menu.vue';
 export default {
-    components:{socialfooter,momwebfooter,redlimpbanner,appNav,appFooter,whatsappBtn,totalBouncer,apploading,categoriesPannel},
+    components:{infobanner,socialfooter,momwebfooter,redlimpbanner,appNav,appFooter,whatsappBtn,totalBouncer,apploading,categoriesPannel},
     computed:{
         user(){
             return this.$store.getters.getUser;

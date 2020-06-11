@@ -19,6 +19,11 @@
                     Gif de Home 
             </button>
             <button class="btn btn-block mt-2" 
+                    :class="{'btn-info':selected=='infoBanner','btn-secondary':selected!='infoBanner'}" 
+                    @click="setSelected('infoBanner')"> 
+                    Info banner
+            </button>
+            <button class="btn btn-block mt-2" 
                     :class="{'btn-info':selected=='sorteo','btn-secondary':selected!='sorteo'}" 
                     @click="setSelected('sorteo')"> 
                     Sorteo 
@@ -32,6 +37,7 @@
 </template>
 
 <script>
+import infoBanner from './info-banner.vue';
 import homegif from './homegif.vue';
 import minbuys from './minbuys.vue';
 import pdfs from './refreshpdfs.vue';
@@ -39,7 +45,7 @@ import sorteo from './sorteo.vue';
 export default {
      metaInfo(){return{
         title: 'ADMIN'   }},
-    components:{homegif,minbuys,pdfs,sorteo},
+    components:{infoBanner,homegif,minbuys,pdfs,sorteo},
     data(){
         return {
             selected:'pdfs'

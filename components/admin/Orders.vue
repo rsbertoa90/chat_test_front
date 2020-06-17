@@ -167,19 +167,18 @@ export default {
     mounted(){
        
                this.$store.commit('setLoading',true);
-               this.$store.dispatch('fetchOrders');
-               this.$store.dispatch('fetchNVOrders');
+               this.$store.dispatch('fetchOrders')
+               .then(()=>{
+                   this.$store.commit('setLoading',false);
+               });
+               this.$store.dispatch('fetchNVOrders')
+               .then(()=>{
+                   this.$store.commit('setLoading',false);
+               });
                 
            
     },
-   watch:{
-       nvorders(){
-          if(this.nvorders && this.nvorders.length > 0){
-               
-               this.$store.commit('setLoading',false);
-           }
-       },
-   },
+   
     computed : {
         loadingOrders()
         {

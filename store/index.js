@@ -1,9 +1,26 @@
 /* const axios = require('@nuxtjs/axios'); */
+import Vue from 'vue';
+function findProduct(categories, id) {
+  let res;
+  categories.forEach(c => {
+    let found = c.products.find(p => {
+      return p.id == id
+    });
+    if (found) {
+      res = found;
+    }
+  });
+  
+  return res;
+}
+
 
 export const strict = false
 
 export const state = () => {
     return{
+        editOrder:null,
+        onEditMode:false,
         orders: [],
         nvorders: [],
         config: null,
@@ -23,6 +40,13 @@ export const state = () => {
 }
 
 export const getters = {
+  getOnEditMode(store){
+    return store.onEditMode;
+  },
+  getEditOrder(store)
+  {
+    return store.editOrder;
+  },
   getCanceledOrders(store){
     return store.canceledOrders;
   },
@@ -189,6 +213,35 @@ export const getters = {
 }
 
 export const mutations = {
+  
+ 
+  editMode(state,order){
+    state.onEditMode=true;
+    state.editOrder = order;
+    state.list = [];
+    order.order_items.forEach(item => {
+      let product = findProduct(state.categories,item.product_id);
+      if(product){
+       Vue.set(product,'units',item.qty);
+        state.list.push(product);
+      }
+    });
+
+     setTimeout(() => {
+       this.commit('setTotal');
+     }, 150);
+  },
+
+  setOnEditMode(state,payload)
+  {
+    state.onEditMode=payload;
+  },
+
+  setEditOrder(state,payload)
+  {
+    state.onEditOrder=payload;
+  },
+
   /* PRODUCT */
   setTotal(state){
     var tot = 0;
@@ -199,7 +252,7 @@ export const mutations = {
             
               tot += product.price * product.units
             
-           // console.log(tot);
+       
           }
         });
     }

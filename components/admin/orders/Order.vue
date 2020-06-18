@@ -1,10 +1,14 @@
 <template>
     <div class="border border-primary p-3 mt-3">
          <div class="row">
-            <div class="col-12 offset-lg-9 col-lg-3">
+            <div class="col-12 offset-lg-8 col-lg-4 fcc ">
+                <a  :href="`${backendpath}/pedido-original/${order.id}`" target="_blank"
+                    class="btn btn-block btn-outline-primary" v-if="order.edited">
+                    PEDIDO ORIGINAL
+                </a>
                 <a  :href="`${backendpath}/pdf/${order.id}`" target="_blank"
                     class="btn btn-block btn-outline-primary">
-                    Generar PDF
+                    PDF <span v-if="order.edited">(editado)</span>
                 </a>
             </div>
         </div>
@@ -57,10 +61,16 @@
                 <span v-if="order.comments"
                         class="mt-2"> -- {{order.comments}} -- </span>
             </div>
-            <div>
-                <span class="font-weight-bold text-primary">Fecha: {{order.created_at | datetime}} </span> <br>
-                <span v-if="order.comments"
-                        class="mt-2"> -- {{order.comments}} -- </span>
+            <div class="row">
+                <div class="col-6 d-flex">
+                    <span class="font-weight-bold text-primary">Fecha: {{order.created_at | datetime}} </span> <br>
+                    <span v-if="order.comments"
+                            class="mt-2"> -- {{order.comments}} -- </span>
+                </div>
+                <div class="d-flex justify-content-end col-6">
+                 
+                    <button @click="editMode" class="btn btn-lg btn-info"> EDITAR PEDIDO </button>
+                </div>
             </div>
             <div class="table-container">
                 
@@ -146,6 +156,11 @@ export default {
        dirtyComment:false,
    }},
     methods : {
+        editMode(){ 
+            this.$store.commit('editMode',this.order);
+            this.$router.push('/cotizador');
+     
+        },
         cancelOrder()
         {   
             this.showModal=true;

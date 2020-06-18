@@ -15,8 +15,10 @@
             <div v-if="product.units > 0" class="text-success d-flex flex-column p-0 m-0 justify-content-center align-items-center">
                 
                 <span class="text-success font-weight-bold" v-if="!hidePrices">  ${{(product.price * product.units) | price}} </span>
+               
                 
             </div>
+            <div class="subtotal-space" v-if="!product.units"></div>
             <qty-field :product="product" class="brd" />
             <div v-if="!hidePrices" class="controls d-flex justify-content-between p-2">
                 <span  @click="susone">
@@ -185,8 +187,16 @@ export default {
         z-index: 100;
     }
     img{width:100%}
-
+ 
+ .subtotal-space{
+     display:flex;
+     width:100%;
+     height:24px;
+ }
     @media(max-width: 600px){
+        .subtotal-space{
+            height: 15px;
+        }
         .card-header{
             padding:0;
         }

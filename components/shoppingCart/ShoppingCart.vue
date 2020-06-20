@@ -11,6 +11,11 @@
                 <span>Editando pedido del <b> {{editOrder.created_at|date}} </b> de <b> {{editOrder.client|uc}} </b></span>
                 <button class="btn-lg btn-block btn-info" @click="saveOrderChanges()">GUARDAR CAMBIOS DE PEDIDO</button>
             </div>
+            <div class="fcc mt-4" v-if="editWarnings">
+                <div class="warnings text-danger">
+                    <p v-html="editWarnings"></p>
+                </div>
+            </div>            
             <div v-if="!onEditMode" >
                 <cotizer-form ></cotizer-form>
             </div>
@@ -19,6 +24,9 @@
             </div>
             <div v-if="total" class="mt-3">
                 <span class="total fucsia">TOTAL: ${{total |price}}</span>
+            </div>
+            <div v-if="onEditMode" class="mt-4">
+                <nuxt-link to="/cotizador" class="btn-lg btn-block btn-info text-center" >AGREGAR MAS PRODUCTOS</nuxt-link>
             </div>
         </div>
     </div>
@@ -42,6 +50,9 @@ export default {
     
     },
     computed:{
+        editWarnings(){
+            return this.$store.getters.getEditWarnings;
+        },
         onEditMode(){
             return this.$store.getters.getOnEditMode;
         },
@@ -84,6 +95,7 @@ export default {
                         console.log('no errors');
                         this.$store.commit('setOnEditMode',false);
                         this.$store.commit('setEditOrder',null);
+                        this.$store.commit('setEditWarnings','');
                         setTimeout(() => {
                             this.$store.dispatch('fetchNVOrders');
                             this.$store.dispatch('fetchOrders');
@@ -101,6 +113,15 @@ export default {
 
 
 <style lang="scss" scoped>
+    .warnings{
+        margin-top:30px;
+        padding:15px;
+        width:600px;
+        margin:auto;
+        display: flex;
+        border:2px solid red;
+        
+    }
     .total{
         font-size:35px;
     }

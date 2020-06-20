@@ -69,7 +69,7 @@ export default {
       { name: "theme-color", content: "#b2037a" },
       {
         property: "og:image",
-        content: "https://back.matesfabi.com/storage/images/app/logo.png"
+        content: "https://back.dominiodepruebas.ml/storage/images/app/logo.png"
       },
       { property: "og:title", content: "Mates Fabi" },
       { charset: "utf-8" },
@@ -84,7 +84,7 @@ export default {
       },
       {
         rel: "preconnect",
-        href: "https://back.matesfabi.com"
+        href: "https://back.dominiodepruebas.ml"
       }
     ],
     script: [
@@ -217,10 +217,10 @@ export default {
    */
 
   axios: {
-    baseURL:
-      process.env.NODE_ENV == "production"
-        ? "https://back.matesfabi.com/api"
-        : "http://localhost:8000/api"
+    baseURL: "https://back.dominiodepruebas.ml/api"
+    /*   process.env.NODE_ENV == "production"
+        ? "https://back.dominiodepruebas.ml/api"
+        : "http://localhost:8000/api" */
   },
 
   auth: {

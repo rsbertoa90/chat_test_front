@@ -44,7 +44,7 @@ export default {
                 "url": "https://matesfabi.com",
                 "address": "Pasteur 410 - CABA",
                 "email": "MatesFabi@gmail.com",
-                "logo": 'https://back.matesfabi.com/storage/images/app/logo.png',
+                "logo": 'https://back.dominiodepruebas.ml/storage/images/app/logo.png',
                 "telephone": "1130085414",
                 "description": "Mates, Equipos Mates , Latas, Juegos de Azucarera/Yerbera y mucho mas en nuestros Locales Mayoristas ubicados en Once. También regalos empresariales personalizados."
 

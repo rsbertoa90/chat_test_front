@@ -99,21 +99,23 @@ Vue.mixin({
           },
           devmode() {
          
-           let res = this.$axios.defaults.baseURL == 'http://localhost:8000/api' ;
+           let res = this.$axios.defaults.baseURL == 'https://back.dominiodepruebas.ml/api' ;
 
           /*   console.log('devmode', this.$axios.defaults.baseURL, res); */
             return res;
           },
          backendpath() {
           
-           let res = this.devmode ? 'http://127.0.0.1:8000' : 'https://back.matesfabi.com';
+           let res = 'https://back.dominiodepruebas.ml/';
+           /* 
+           this.devmode ? 'http://127.0.0.1:8000' : 'https://back.dominiodepruebas.ml'; */
        /*    console.log('backendpath',res); */
            return res;
          },
        noImage()
        {
         return this.imagePath('/storage/images/app/no-photo.png');
-        image
+        
        },
        loadingImage(){
          return this.imagePath('/storage/images/app/loading-image.jpg');

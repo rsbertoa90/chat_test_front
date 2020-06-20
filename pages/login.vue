@@ -80,7 +80,7 @@ export default {
 
             setTimeout(() => {
                 this.$store.commit('setLoading',false);
-                if(this.admin){
+                if(this.user){
                     this.$router.push('/');
                 }
                 else{

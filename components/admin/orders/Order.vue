@@ -72,7 +72,7 @@
                     <button @click="editMode" class="btn btn-lg btn-info"> EDITAR PEDIDO </button>
                 </div>
             </div>
-            <div class="table-container">
+            <div class="ord-table-container">
                 
                     <table class="table table-striped table-bordered mt-3">
                         <thead>
@@ -110,7 +110,7 @@
         <div>
                 <ul>
                     <li v-if="order.user">Pedido hecho por usuario: {{order.user.id}} - {{order.user.name}} </li>
-                    <li v-if="order.name">Nombre del cliente: {{order.name}} </li>
+                    <li v-if="order.client">Nombre del cliente: {{order.client}} </li>
                     <li v-if="order.phone">Telefono: {{order.phone}} </li>
                     <li v-if="order.email">Email: {{order.email}} </li>
                     <li v-if="order.message">Mensaje adjunto: {{order.message}} </li>
@@ -249,8 +249,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .table-container{
+    .ord-table-container{
         width:100%;
         overflow-x:scroll;
+
     }
 </style>

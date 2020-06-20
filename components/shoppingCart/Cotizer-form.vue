@@ -57,9 +57,9 @@
                         </select>
                 </div>
 
-               <div class="col-12 row form-group-row ">
+               <div class="col-12 row form-group-row " v-if="admin || !user">
                    <label class="col-12 col-lg-4 font-weight-bold" for="">Nombre y Apellido  </label>
-                   <input required type="text" v-model="formData.client"  class="form-control col-12 col-lg-4">
+                   <input  required type="text" v-model="formData.client"  class="form-control col-12 col-lg-4">
                 </div> 
                  
                 <!-- DATOS DE ENVIO -->
@@ -96,7 +96,7 @@
                 </div>
                 <!-- /DATOS DE ENVIO -->
               
-               <div class="col-12 row form-group-row">
+               <div class="col-12 row form-group-row"  v-if="admin || !user">
                    <label class="col-12 col-lg-4 font-weight-bold" for="">Email</label>
                    <input required type="email" v-model="formData.email"  class="form-control col-12 col-lg-4">
                 </div> 
@@ -143,6 +143,37 @@ export default{
         survey
     },
      mounted() {
+         var vm=this;
+         if(this.user && !this.admin)
+         {
+             this.formData.client = this.user.name;
+             this.formData.email= this.user.email;
+             this.$axios.get('/user-last-order')
+                .then(r => {
+                    let lastOrder = r.data;
+                    if(lastOrder)
+                    {  
+                        this.userHasPrevOrder=true;
+                        
+                       // vm.formData.phone= lastOrder.phone;
+                        vm.formData.shipping=lastOrder.shipping;
+                        vm.formData.cp=lastOrder.cp;
+                        vm.formData.address=lastOrder.address;
+                        vm.formData.transport=lastOrder.transport;
+                        
+                        vm.states.forEach(s => {
+                            let res = s.cities.find(c => {
+                                return c.id ==lastOrder.city_id;
+                            })
+                            if (res){
+                                vm.state = s;
+                            }
+                        })
+
+                        vm.formData.city_id=lastOrder.city_id;
+                    }
+                });
+         }
     if (process.browser) {
       this.$gtag('config', 'AW-873841569', {
         page_title: 'Envianos tu pedido',
@@ -151,6 +182,7 @@ export default{
     }
   },
     data(){return{
+        userHasPrevOrder:false,
         state:null,
         showSurvey:false,
         phone : {
@@ -177,6 +209,9 @@ export default{
        
     }},
     computed : {
+        UserHasOrders(){
+            return this.user && this.user.orders && this.user.orders.length;
+        },
         list(){
             return this.$store.getters.getList;
         },
@@ -187,8 +222,10 @@ export default{
             return this.$store.getters.getConfig;
         },
         minBuy(){
-            if(this.configs){
-                    return this.configs.minbuy_ship;
+            if(this.admin){
+                return 1;
+            }else if(this.configs){
+                return this.configs.minbuy_ship;
             }
         },
         user(){
@@ -243,8 +280,7 @@ export default{
             }
             
             else {
-                console.table(this.formData);
-                console.log(this.formData.seller.length);
+            
                 return true;
             }
         },
@@ -272,14 +308,30 @@ export default{
                      /*   dangerMode: true, */
                        }).then(function(isConfirm) {
                        if (isConfirm) {
-                           vm.showSurvey=true;
-                           this.$gtag('event', 'conversion', { 'send_to': 'AW-873841569/xxrPCNrbsrkBEKGH16AD' });
+                        
+                         if(vm.$gtag){
+                            vm.$gtag('event', 'conversion', { 'send_to': 'AW-873841569/xxrPCNrbsrkBEKGH16AD' });
+                        } 
+                          
+                          if(!vm.admin && !vm.userHasPrevOrder)
+                           {
+                               vm.showSurvey=true;
+                           }else{
+                               vm.send();
+                           }
                        } 
                        });
                 }
                 else {
-                   vm.showSurvey=true;
-                   this.$gtag('event', 'conversion', { 'send_to': 'AW-873841569/xxrPCNrbsrkBEKGH16AD' });
+                  if(vm.$gtag)
+                    {
+                        vm.$gtag('event', 'conversion', { 'send_to': 'AW-873841569/xxrPCNrbsrkBEKGH16AD' });
+                    } 
+                      if(!vm.admin && !vm.userHasPrevOrder  ){
+                          vm.showSurvey=true;
+                      }else{
+                          vm.send();
+                      }
                 }
                
             }
@@ -300,7 +352,7 @@ export default{
         send(){
                 
                 var data = this.formData;
-               // console.log(this.formData);
+            
                 let list = this.compactList();
                 data.list = JSON.stringify(list);
                 data.total = this.total;

@@ -19,6 +19,7 @@ export const strict = false
 
 export const state = () => {
     return{
+        editWarnings:'',
         editOrder:null,
         onEditMode:false,
         orders: [],
@@ -40,6 +41,9 @@ export const state = () => {
 }
 
 export const getters = {
+  getEditWarnings(store){
+    return store.editWarnings;
+  },
   getOnEditMode(store){
     return store.onEditMode;
   },
@@ -214,8 +218,19 @@ export const getters = {
 
 export const mutations = {
   
- 
+  setEditWarnings(state,payload){
+     state.editWarnings = payload;
+  },
   editMode(state,order){
+    state.editWarnings='';
+    if(order.edited)
+    {
+      let rawDate = new Date(order.order_items[0].created_at);
+      let editDate = rawDate.getDate() + "-" + (rawDate.getMonth() + 1) + "-" + rawDate.getFullYear() +' / '+ rawDate.getHours()+':' + rawDate.getMinutes()+'hs';
+      state.editWarnings += ` <b>Ultima edición de este pedido:</b> ${editDate} <br/>`
+    }
+
+
     state.onEditMode=true;
     state.editOrder = order;
     state.list = [];
@@ -223,7 +238,16 @@ export const mutations = {
       let product = findProduct(state.categories,item.product_id);
       if(product){
        Vue.set(product,'units',item.qty);
-        state.list.push(product);
+       state.list.push(product);
+       if(product.paused){
+         state.editWarnings += `<b> ${item.name} (COD ${product.code})</b> está actualmente pausado. <br/>`
+        }
+        if(product.price != item.price)
+        {
+          state.editWarnings += `<b> El precio de  ${item.name} (COD ${product.code})  </b> era $${item.price}. Ahora es $${product.price}. <br/>`
+       }
+      }else{
+        state.editWarnings += `<b> No se agregó ${item.name}.</b>  Puede estar pausado o fue eliminado. <br/>`
       }
     });
 

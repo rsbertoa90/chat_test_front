@@ -62,14 +62,15 @@
                         class="mt-2"> -- {{order.comments}} -- </span>
             </div>
             <div class="row">
-                <div class="col-6 d-flex">
+                <div class="col-6 d-flex flex-column">
                     <span class="font-weight-bold text-primary">Fecha: {{order.created_at | datetime}} </span> <br>
                     <span v-if="order.comments"
                             class="mt-2"> -- {{order.comments}} -- </span>
                 </div>
-                <div class="d-flex justify-content-end col-6">
-                 
-                    <button @click="editMode" class="btn btn-lg btn-info"> EDITAR PEDIDO </button>
+                <div class=" col-6">
+                    <div class="d-flex justify-content-end">
+                        <button @click="editMode" class="btn btn-lg btn-info"> EDITAR PEDIDO </button>
+                    </div>
                 </div>
             </div>
             <div class="ord-table-container">
@@ -159,7 +160,7 @@ export default {
     methods : {
         editMode(){ 
             this.$store.commit('editMode',this.order);
-            this.$router.push('/cotizador');
+            this.$router.push('/carrito');
      
         },
         cancelOrder()

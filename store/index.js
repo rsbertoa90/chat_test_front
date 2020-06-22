@@ -19,47 +19,6 @@ function findProduct(categories, id) {
 export const strict = false
 
 export const state = () => {
-<<<<<<< HEAD
-    return{
-        conversations:null,
-        activeConversation:null,
-        
-        editWarnings:'',
-        editOrder:null,
-        onEditMode:false,
-        orders: [],
-        nvorders: [],
-        config: null,
-        states: [],
-        meta: [],
-        categories: [],
-        loading: true,
-        searchTerm: '',
-        supliers:[],
-        tutoSeen:true,
-        list:[],
-        total:0,
-        firstload:true,
-        canceledOrders:null,
-       
-    }
-}
-
-export const getters = {
-  getConverstaions(store)
-  {
-    return store.conversations;
-  },
-  activeConversation(store)
-  {
-    return store.activeConversation;
-  },
-  
-  getEditWarnings(store){
-    return store.editWarnings;
-  },
-  getOnEditMode(store){
-=======
   return {
     conversations: null,
     activeConversation: null,
@@ -96,9 +55,7 @@ export const getters = {
   getEditWarnings(store) {
     return store.editWarnings;
   },
-  getOnEditMode(store) {
->>>>>>> 079509755ca041e40410e1b12578210bfa577a90
-    return store.onEditMode;
+  getOnEditMode(store) {    return store.onEditMode;
   },
   getEditOrder(store) {
     return store.editOrder;

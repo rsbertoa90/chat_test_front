@@ -1,9 +1,10 @@
 <template>
-    <div>
+    <nuxt-link v-if="config" :to="config.info_banner_url || '/'">
         <img loading="lazy" alt="info banner" :src="imagePath(wide.url)" v-if="$mq=='lg' && wide">
         <img loading="lazy" alt="info banner" :src="imagePath(mobile.url)" v-if="$mq!='lg' && mobile">
-    </div>
+    </nuxt-link>
 </template>
+
 <script>
 export default {
     data() {

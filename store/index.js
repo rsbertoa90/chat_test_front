@@ -19,6 +19,9 @@ export const strict = false
 
 export const state = () => {
     return{
+        conversations:null,
+        activeConversation:null,
+        
         editWarnings:'',
         editOrder:null,
         onEditMode:false,
@@ -41,6 +44,15 @@ export const state = () => {
 }
 
 export const getters = {
+  getConverstaions(store)
+  {
+    return store.conversations;
+  },
+  activeConversation(store)
+  {
+    return store.activeConversation;
+  },
+  
   getEditWarnings(store){
     return store.editWarnings;
   },
@@ -217,6 +229,15 @@ export const getters = {
 }
 
 export const mutations = {
+  setConversations(state,payload)
+  {
+    state.conversations =payload;
+  },
+  setActiveConversation(state,payload)
+  {
+    state.activeConversation = payload;
+  },
+
   
   setEditWarnings(state,payload){
      state.editWarnings = payload;
@@ -427,15 +448,30 @@ export const mutations = {
 export const actions = {
     async nuxtServerInit({dispatch,commit},context){
      
-        await dispatch('fetchCategories');
-       await dispatch('fetchConfig');
-       await dispatch('fetchMeta'); 
+      await dispatch('fetchCategories');
+      await dispatch('fetchConfig');
+      await dispatch('fetchMeta'); 
       await dispatch('fetchStates');
-       commit('setLoading',false);
+      commit('setLoading',false);
        
     },
 
+    async fetchAllConversations({commit}){
+      await this.$axios.get('/all-conversations')
+        .then( r => {
+          commit('setConversations',r.data);
+        })
+    },
 
+    async fetchConversation({commit,state}){
+      if(state.auth && state.auth.user)
+      {
+        await this.$axios.get(`/user-conversation/${state.auth.user.id}`)
+          .then(r=>{
+            commit('setActiveConversation',r.data);
+          });
+      }
+    },
 
     async fetchCategories({commit}){
         await this.$axios.get('/categories')

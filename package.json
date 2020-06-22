@@ -34,6 +34,7 @@
     "nuxt": "^2.4.0",
     "nuxt-compress": "^1.0.2",
     "nuxt-mq": "^2.0.0",
+    "nuxt-socket-io": "^1.1.2",
     "nuxt-webfontloader": "^1.1.0",
     "sass-loader": "^7.1.0",
     "shrink-ray-current": "^4.0.0",

@@ -218,9 +218,9 @@ export default {
    */
 
   axios: {
-    baseURL: "https://back.dominiodepruebas.ml/api"
+    baseURL: 'https://back.dominiodepruebas.ml/api'
     /*   process.env.NODE_ENV == "production"
-        ? "https://back.dominiodepruebas.ml/api"
+        ? "https://back.matesfabi.com/api"
         : "http://localhost:8000/api" */
   },
 

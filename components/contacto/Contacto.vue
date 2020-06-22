@@ -9,24 +9,38 @@
             <div class="fcc">
                 <div>
                     <p class="msg">
-                       Podes contactarte con el área de venta online por Whatsapp al <b> 11 3008 5414 </b> de lunes a viernes de 9 a 18hs. Por el momento para comprar personalmente solo se encuentra abierta la sucursal de Pasteur 410 - ONCE (CABA) de lunes a viernes de  11hs a 18hs.
+                        Por el momento para comprar personalmente solo se encuentra abierta la sucursal de Pasteur 410 - ONCE (CABA) de lunes a viernes de 11hs a 18hs.
                     </p>
                     <p class="msgg">
+                      Para envíos al Interior o retirar pedidos ya preparados en la sucursal, el procedimiento de compra y los tiempos que se manejan para su preparación son los mismos. Abajo te dejamos detallado el paso a paso.
+                      </p>
+                      <p>
+                        Del paso 1 al paso 2 hay una demora de varios días, esperamos sepan comprender.
                         Estamos trabajando con personal reducido en todas las áreas debido a la situación actual por lo que hay un poco de demora en la atención. Estamos trabajando para brindarles lo mejor posible dentro de las limitaciones que impone el momento que estamos pasando como sociedad. Todos van a recibir respuesta, agradecemos su paciencia y comprensión
                     </p>
                 </div>
                 <div v-if="!hidePrices">
-                    <div v-if="$mq=='lg'" class="d-flex justify-content-around" >
-                        <nuxt-link class="button btn btn-info" to="/descargar-lista-de-precios">Descargar lista de precios</nuxt-link>
-                        <nuxt-link class="button btn btn-info" to="/descargar-catalogo-digital">Descargar catalogo digital</nuxt-link>
+                  
+                    <div  class="fcc" >
+                        <div class="fcc p-4">
+                            <nuxt-link class="button btn btn-info btn-block text-center" to="/cotizador"> VER PRODUCTOS Y PRECIOS</nuxt-link>
+                        </div>
                     </div>
-                    <div v-else class="fcc" >
-                        <div class="fcc">
-                            <nuxt-link class="button btn btn-info" to="/descargar-lista-de-precios">Descargar lista de precios</nuxt-link>
-                        </div>
-                        <div class="mt-3 fcc">
-                            <nuxt-link class="button btn btn-info" to="/descargar-catalogo-digital">Descargar catalogo digital</nuxt-link>
-                        </div>
+                </div>
+            </div>
+            <div class="mt-4 text-center">
+                <p class="msg">Para consultas generales o dudas contactanos por nuestras redes sociales</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div class="social">
+                        <a href="https://m.me/mayoristaMatesFabi" target="_blank">
+                           <img loading="lazy" :src="imagePath('/storage/images/app/social/fb.png')" alt="facebook">
+                            
+                        </a>
+                    </div>
+                    <div class="ml-4 social">
+                        <a href="https://www.instagram.com/mayoristamatesfabi/" target="_blank">
+                           <img :src="imagePath('/storage/images/app/social/instagram.png')" alt="instagram">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -91,6 +105,9 @@ $color-focus: #ff0aaf;
 // Rosa claro es ff97dd
 $color-back: #ff97dd;
 
+.social{
+    width:75px;
+}
 .msg{
     font-size: 24px;
     text-align: center;

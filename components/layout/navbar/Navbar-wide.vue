@@ -68,7 +68,7 @@
                 </ul>
             </div>
         </div>
-        <nuxt-link to="/logout" class="out-button" v-if="admin">
+        <nuxt-link to="/logout" class="out-button" v-if="user">
             <fa-icon icon="user-cog"></fa-icon> 
             Salir
         </nuxt-link>

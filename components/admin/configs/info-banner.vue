@@ -5,7 +5,14 @@
         </div>
 
      
-       
+        <div class="row mt-4">
+            <div class="col-2">
+                URL
+            </div>
+            <div class="col-3">
+                <input type="text" v-model.lazy="config.info_banner_url" class="form-control" @change="updateInfoBannerURL">
+            </div>
+        </div>
         <div class="row mt-4">
             <div class="col-6">
                 <div class="d-flex flex-column">
@@ -53,7 +60,15 @@ export default {
     },
     methods:{
 
-       
+       updateInfoBannerURL()
+       {
+           let data = 
+           {
+               field:'info_banner_url',
+               value:this.config.info_banner_url
+           }
+           this.$axios.put('/config');
+       },
         saveimg(img){
                 var vm =this;
                 const file = this.$refs[img].files[0];

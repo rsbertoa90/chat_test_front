@@ -12,7 +12,7 @@
                             justify-content-center align-items-center p-2 ">
                     <v-lazy-image :src="imagePath('/storage/images/app/social/fb.png')"></v-lazy-image>
                 </a>
-                <a  href="https://www.instagram.com/matesfabi/" rel="noopener" target="_blank" class="   white-bold d-flex 
+                <a  href="https://www.instagram.com/mayoristamatesfabi/" rel="noopener" target="_blank" class="   white-bold d-flex 
                             justify-content-center align-items-center  p-2 ">
                     <v-lazy-image :src="imagePath('/storage/images/app/social/instagram.png')"></v-lazy-image>
                 </a>

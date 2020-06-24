@@ -1,15 +1,15 @@
 <template>
-<div>
-     <chatComponent></chatComponent> 
-</div>
+    <div>
+        <chatComponent></chatComponent>
+    </div>
 </template>
 
 <script>
-import chatComponent from '@/components/admin/chat/test/ChatPage.vue';
+import chatComponent from "@/components/admin/chat/test/ChatPage.vue";
 export default {
-    layout:'admin',
-    middleware:'checkAdmin',
-    components:{chatComponent},
-    name:'adminChat'
-}
+    layout: "admin",
+    middleware: "checkAdmin",
+    components: { chatComponent },
+    name: "adminChat"
+};
 </script>

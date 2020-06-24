@@ -1,15 +1,22 @@
 <template>
     <div class="fcc w-100" v-if="conversation">
-        <div v-for="message in conversation.messages" :key="message.id"  class="encuadre" :class="{'align-self-start':!message.admin_id, 'align-self-end':message.admin_id}">
+        <div
+            v-for="message in conversation.messages"
+            :key="message.id"
+            class="encuadre"
+            :class="[message.admin_id ? 'align-self-start' : 'align-self-end']"
+        >
             <div v-if="message.url" class="miniature-img">
-                <img :src="imagePath(message.url)">
+                <img :src="imagePath(message.url)" />
             </div>
-            <div class="mt-1" v-if="message.content" :class="{'admin-message':message.admin_id}">
-                {{message.content}}
-            </div>
+            <div
+                class="mt-1"
+                v-if="message.content"
+                :class="{'admin-message':message.admin_id}"
+            >{{message.content}}</div>
         </div>
         <div class="mt-4 d-flex row">
-            <input v-model="newMessage" type="text" class="form-control col-10">
+            <input v-model="newMessage" type="text" class="form-control col-10" />
             <button @click="sendMessage">ENVIAR</button>
         </div>
     </div>
@@ -19,51 +26,49 @@
 export default {
     data() {
         return {
-            newMessage:''
-        }
+            newMessage: ""
+        };
     },
-    computed:{
-        conversation()
-        {
+    computed: {
+        conversation() {
             return this.$store.getters.getActiveConversation;
         }
     },
-    methods:
-    {
-        sendMessage(){
+    methods: {
+        sendMessage() {
             /* EVENTUALMENTE SERA SI HAY TEXTO DE NUEVO MENSAJE O HAY ARCHIVO ADJUNTO */
-            if(this.newMessage.trim()){
+            if (this.newMessage.trim()) {
                 let data = {
-                    conversation_id : this.conversation.id,
-                    content:this.newMessage
-                }
-                this.$axios.post('/message',data)
-                    .then(() => {
-                        this.newMessage='';
-                        this.$store.dispatch('fetchConversation',this.user.id)
-                            .then(()=>{
-                                console.log(this.conversation);
-                            });
-                    });
+                    conversation_id: this.conversation.id,
+                    content: this.newMessage
+                };
+                this.$axios.post("/message", data).then(() => {
+                    this.newMessage = "";
+                    this.$store
+                        .dispatch("fetchConversation", this.user.id)
+                        .then(() => {
+                            console.log(this.conversation);
+                        });
+                });
             }
         }
     }
-}
+};
 </script>
 
 
 <style>
-.admin-message{
+.admin-message {
     text-align: right;
     display: flex;
     justify-content: flex-end;
-    color:red;
+    color: red;
 }
-.encuadre{
-    border:1px solid #000;
+.encuadre {
+    border: 1px solid #000;
 }
 
-    .miniature-img{
-        width:150px;
-    }
+.miniature-img {
+    width: 150px;
+}
 </style>

@@ -19,7 +19,7 @@
 
 <script>
 import notes from './notes.vue'
- import conversations from './conversations.vue';
+import conversations from './conversations.vue';
 import chat from './chat.vue'; 
 export default {
      components:{conversations,chat,notes}, 

@@ -145,11 +145,12 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-     '@nuxtjs/google-gtag',
-    '@nuxtjs/pwa',
+    "nuxt-socket-io",
+    "@nuxtjs/google-gtag",
+    "@nuxtjs/pwa",
     "nuxt-webfontloader",
     ["nuxt-compress"],
-    
+
     [
       "nuxt-mq",
       {
@@ -167,19 +168,30 @@ export default {
     "@nuxtjs/auth"
   ],
 
-  'google-gtag': {
-    id: 'AW-873841569',
+  io: {
+    // module options
+    sockets: [
+      {
+        name: "main",
+        url: "http://localhost:3000",
+        default: true,
+        
+      }
+    ]
+  },
+
+  "google-gtag": {
+    id: "AW-873841569",
     config: {
-      anonymize_ip: true, // anonymize IP 
+      anonymize_ip: true, // anonymize IP
       send_page_view: false, // might be necessary to avoid duplicated page track on page reload
       linker: {
-        domains: ['matesfabi.com']
+        domains: ["matesfabi.com"]
       }
     },
     debug: true, // enable to track in dev mode
-    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
+    disableAutoPageTrack: false // disable if you don't want to track each page route with router.afterEach(...).
   },
-
 
   manifest: {
     name: "Mates Fabi",
@@ -189,14 +201,13 @@ export default {
   },
 
   workbox: {
-  /*   config: {
+    /*   config: {
       debug: true
     },
    */
     offlinePage: "/offline.html",
     offlineAssets: ["/offline.html", "/favicon.ico"]
   },
-
 
   webfontloader: {
     google: {
@@ -217,7 +228,7 @@ export default {
    */
 
   axios: {
-    baseURL: 'https://back.dominiodepruebas.ml/api'
+    baseURL: "https://back.dominiodepruebas.ml/api"
     /*   process.env.NODE_ENV == "production"
         ? "https://back.matesfabi.com/api"
         : "http://localhost:8000/api" */

@@ -26,7 +26,7 @@ export default {
         return {
             newMessage:'',
             socketStatus:{},
-            socket:null
+           
         }
     },
     computed:{
@@ -36,29 +36,36 @@ export default {
         }
     },
     mounted() {
-        this.socket = this.$nuxtSocket({
-            channel: '/index', 
-        })
-        /* Listen for events: */
-        this.socket
-        .on('newMessage', (msg, cb) => {
-            console.log('new message',msg);
-        })
+         this.socket = this.$nuxtSocket({
+            channel: '/index',
+            reconnection: false
+        });     
 
-         setTimeout(()=>{
-             console.log('socket status',this.socketStatus)
-             console.log('socket',this.socket);
-             },5000) 
+        /* Listen for events: */
+        
+        this.socket.on('asdServerAnswer',()=>{console.log('asd')});
+
+
+        this.socket
+        .on('mServerAnswer', (msg, cb) => {
+            console.log('recibo nuevo mensaje',msg);
+            return "RESPUESTA";
+        });
+
     },
     methods:
     {
          
         socketMessage() {
-            console.log(this.serverStatus);
+            console.log('emito nuevo mensaje');
             /* Emit events */
-            this.socket.emit('newMessage', {
+            this.socket.emit('asd');
+            
+            this.socket.emit('m', {
                 hello: 'world' 
             }, (resp) => {
+               
+                console.log('resp',resp)
                 /* Handle response, if any */
             })
         },

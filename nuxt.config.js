@@ -1,11 +1,8 @@
-import pkg from './package'
-
-import brotli from 'brotli';
-import shrinkRay from 'shrink-ray-current'
 
 
 
-export default {
+module.exports = {
+
   server: {
     port: 3004 // default: 3000
     /* host: '0.0.0.0', */ // default: localhost
@@ -60,7 +57,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: pkg.name,
+    title: 'mate fabi',
     meta: [
       {
         name: "google-site-verification",
@@ -74,7 +71,7 @@ export default {
       { property: "og:title", content: "Mates Fabi" },
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: pkg.description }
+      { hid: "description", name: "description", content: 'MATES FABI' }
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
@@ -125,6 +122,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    
     "./plugins/datamixin.js",
     "./plugins/v-lazy-image.js",
     "./plugins/filters.js",
@@ -172,10 +170,18 @@ export default {
     // module options
     sockets: [
       {
-        name: "main",
-        url: "http://localhost:3000",
+        name: "home",
+        url: process.env.NODE_ENV === 'production'
+          ? 'https://dominiodepruebas.ml'
+          : 'http://localhost:3004',
         default: true,
-        
+        vuex: {
+         
+          actions: [{
+            m: 'socket_message_recieved'
+          }],
+         
+        },
       }
     ]
   },
@@ -219,9 +225,9 @@ export default {
     }
   },
 
-  render: {
+  /* render: {
     compressor: shrinkRay()
-  },
+  }, */
 
   /*
    ** Axios module configuration

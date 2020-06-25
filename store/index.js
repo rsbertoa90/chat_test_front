@@ -436,6 +436,11 @@ export const mutations = {
 }
 
 export const actions = {
+
+ async socket_message_recieved(){
+   console.log('SOCKET MESSAGE RECIEVED ON STORE');
+ },
+
   async nuxtServerInit({
     dispatch,
     commit

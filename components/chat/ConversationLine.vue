@@ -1,7 +1,10 @@
 <template>
     <div class="d-flex flex-column conversation">
-        <div class="d-flex item-container" v-for="item in items" :class="getItemContainerClass(item)">
-
+        <div
+            class="d-flex item-container"
+            v-for="item in items"
+            :class="getItemContainerClass(item)"
+        >
             <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
 
             <div v-if="item.type.startsWith('M')" class="message" :class="getMessageClass(item)">
@@ -9,7 +12,14 @@
                     <img :src="imagePath(item.url)" />
                 </div>
                 <span class="content" v-if="item.content">{{item.content}}</span>
-                <span class="time">{{item.created_at | time}}</span>
+                <div class="info">
+                    <span
+                        v-if="item.type=='MS'"
+                        class="status fas"
+                        :class="getCheckedIconClass(item)"
+                    ></span>
+                    <span class="time">{{item.created_at | time}}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -21,18 +31,23 @@ export default {
     computed: {
         items() {
             this.conversation.messages.sort((a, b) => a.id - b.id);
-            let items = [{
-                type: 'DS', // Day Separator
-                day: this.conversation.messages[0].created_at
-            }];
-            this.conversation.messages.forEach((message, i) => {
-                if(i > 0 && isDayChanged(message, this.conversation.messages[i-1])) {
-                    items.push({
-                        type: 'DS',
-                        day: message.created_at
-                    })
+            let items = [
+                {
+                    type: "DS", // Day Separator
+                    day: this.conversation.messages[0].created_at
                 }
-                message.type = this.isMessageSent(message) ? 'MS' : 'MR';
+            ];
+            this.conversation.messages.forEach((message, i) => {
+                if (
+                    i > 0 &&
+                    isDayChanged(message, this.conversation.messages[i - 1])
+                ) {
+                    items.push({
+                        type: "DS",
+                        day: message.created_at
+                    });
+                }
+                message.type = this.isMessageSent(message) ? "MS" : "MR";
                 items.push(message);
             });
             return items;
@@ -40,34 +55,39 @@ export default {
     },
     methods: {
         isMessageSent(message) {
-            return (this.adminView && message.admin_id) ||
-                (!this.adminView && !message.admin_id);
+            return (
+                (this.adminView && message.admin_id) ||
+                (!this.adminView && !message.admin_id)
+            );
         },
         getItemContainerClass(item) {
-            switch(item.type) {
-                case 'DS':
-                    return { 'day-separator': true };
-                case 'MS':
-                    return { 'sent-message': true };
-                case 'MR':
-                    return { 'received-message': true };
+            switch (item.type) {
+                case "DS":
+                    return { "day-separator": true };
+                case "MS":
+                    return { "sent-message": true };
+                case "MR":
+                    return { "received-message": true };
             }
         },
         getMessageClass(message) {
             let sent = this.isMessageSent(message);
             return { sent: sent, received: !sent };
+        },
+        getCheckedIconClass(message) {
+            return {
+                "fa-check": !message.sended,
+                "fa-check-double": message.sended,
+                viewed: message.viewed
+            };
         }
     }
-}
+};
 
 function isDayChanged(message, previousMenssage) {
-    return previousMenssage.created_at.slice(0,10)
-        .localeCompare(message.created_at.slice(0,10));
-}
-
-function formatDate(stringDate) {
-    let date = new Date(stringDate);
-    return date.toLocaleDateString();
+    return previousMenssage.created_at
+        .slice(0, 10)
+        .localeCompare(message.created_at.slice(0, 10));
 }
 </script>
 
@@ -97,15 +117,23 @@ function formatDate(stringDate) {
     align-self: flex-end;
     margin-right: 16px;
 }
-
-.day-separator>.day {
-    color: #8A8585;
-    background: #DCE9E9;
+.item-container.sent-message + .item-container.received-message,
+.item-container.received-message + .item-container.sent-message {
+    margin-top: 16px;
+}
+.day-separator > .day {
+    color: #8a8585;
+    background: #dce9e9;
     border-radius: 8px;
     box-shadow: 1px 1px #bbbbbb;
     font: Regular 10px/67px Roboto;
     text-align: center;
     padding: 4px 32px;
+}
+
+.item-container.sent-message + .item-container.received-message,
+.item-container.received-message + .item-container.sent-message {
+    margin-top: 16px;
 }
 
 .message {
@@ -115,6 +143,7 @@ function formatDate(stringDate) {
     box-shadow: 1px 1px #bbbbbb;
     padding: 4px 8px 0 8px;
     margin: auto 16px;
+    position: relative;
 }
 
 .message.sent {
@@ -124,18 +153,57 @@ function formatDate(stringDate) {
     background: #ffffff;
 }
 
-.item-container.sent-message+.item-container.received-message, 
-.item-container.received-message + .item-container.sent-message {
-    margin-top: 16px;
+:not(.sent-message) + .sent-message :after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-left-color: #dff6c7;
+    border-right: 0;
+    border-top: 0;
+    margin-top: -23px;
+    margin-right: -14px;
+    z-index: 100;
 }
 
-.message>.content {
+:not(.received-message) + .received-message :before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #ffffff;
+    border-left: 0;
+    border-top: 0;
+    margin-top: -23px;
+    margin-left: -14px;
+    z-index: 100;
+}
+
+.message > .content {
     padding-right: 8px;
 }
-.message>.time {
-    display: block;
-    text-align: right;
+.info {
+    display: flex;
+    flex-direction: row-reverse;
+    color: #bad3a3;
+}
+.time {
+    display: flex;
     font-size: 12px;
-    color: #BAD3A3
+}
+.status {
+    display: flex;
+    font-size: 10px;
+    margin-top: 3px;
+    margin-left: 2px;
+}
+.viewed {
+    color: #5bc8f4;
 }
 </style>

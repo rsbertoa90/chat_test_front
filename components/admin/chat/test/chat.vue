@@ -1,6 +1,6 @@
 <template>
       <div class="d-flex flex-column w-100" v-if="conversation">
-        <div v-for="message in conversation.messages" :key="message.id" class="d-flex" :class="{'client-message':!message.admin_id, 'admin-message':message.admin_id}">
+        <div v-for="message in conversation.messages" :key="message.id" class="d-flex" :class="{'client-message':!message.admin, 'admin-message':message.admin}">
             <div v-if="message.url" class="miniature-img">
                 <img :src="imagePath(message.url)" >
             </div>
@@ -31,10 +31,9 @@ export default {
     },
     methods:{
         sendMessage()
-        {
+        { 
             let data = {
                 conversation_id:this.conversation.id,
-                admin_id:this.user.id,
                 content:this.newMessage
             }
             this.$axios.post('/message',data)
@@ -44,7 +43,6 @@ export default {
                             console.log(this.conversation)
                         });
                     this.newMessage='';
-                
                 });
         }
     }

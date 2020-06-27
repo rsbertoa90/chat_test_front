@@ -14,7 +14,7 @@
                 </div>
             </div>
           <!--   <div class="nav-space" :class="{'admin-nav-space':user && user.role_id<3}" v-if="$mq=='lg'"></div> -->
-            <div class="col-12 col-lg-9 p-0 m-auto p-lg-4 ">
+            <div class="col-12 col-lg-9 p-0 p-lg-4 ">
                 <!-- banner solo envios -->
                 <div class="mt-3 mb-3">
                   <!--   <img :src="imagePath('/storage/images/app/nopadrew.jpg')" alt="Unica sucursal abierta Pasteur 410" v-if="$mq=='lg'">

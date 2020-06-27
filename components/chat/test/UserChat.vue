@@ -1,10 +1,10 @@
 <template>
     <div class="fcc w-100" v-if="conversation">
-        <div v-for="message in conversation.messages" :key="message.id"  class="encuadre" :class="{'align-self-start':!message.admin_id, 'align-self-end':message.admin_id}">
+        <div v-for="message in conversation.messages" :key="message.id"  class="encuadre" :class="{'align-self-start':!message.admin, 'align-self-end':message.admin}">
             <div v-if="message.url" class="miniature-img">
                 <img :src="imagePath(message.url)">
             </div>
-            <div class="mt-1" v-if="message.content" :class="{'admin-message':message.admin_id}">
+            <div class="mt-1" v-if="message.content" :class="{'admin-message':message.admin}">
                 {{message.content}}
             </div>
         </div>

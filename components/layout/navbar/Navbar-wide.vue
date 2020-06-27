@@ -70,7 +70,7 @@
         </div>
         <nuxt-link to="/logout" class="out-button" v-if="user">
             <fa-icon icon="user-cog"></fa-icon> 
-            Salir
+             {{user.name}} - Salir
         </nuxt-link>
     </div>
 </template>
@@ -165,7 +165,7 @@ $color-back: #ff97dd;
     position:absolute;
     top:10px;
     right: 10px;
-    width:120px;
+    width:300px;
     cursor: pointer;
     color:red;
 }

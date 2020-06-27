@@ -228,9 +228,54 @@ export const getters = {
 }
 
 export const mutations = {
+  heSawMyMessages(state,payload){
+        /* marco MIS mensajes como vistos */
+        if(state.activeConversation.id == payload.conversation_id)
+        {
+          state.activeConversation.messages.forEach(message => {
+            console.log('estoy en store, heSawMyMessages',message.viewed,message.admin,payload.admin);            
+            if(!message.viewed && message.admin == payload.admin )
+            {
+                message.sended =1 ;
+                message.viewed =1 ; 
+            }
+          })
+        }
+  },
+  iSawHisMessages(state, payload) {
+      /* marco SUS mensajes como vistos */
+      if (state.activeConversation.id == payload.conversation_id) {
+        state.activeConversation.messages.forEach(message => {
+
+          if (!message.viewed && message.admin != payload.admin) {
+            message.sended = 1;
+            message.viewed = 1;
+          }
+        })
+      }
+  },
+
   setConversations(state, payload) {
     state.conversations = payload;
   },
+  
+  addNewMessagesToActiveConversation(state,payload){
+    console.log('aca agrego los mensajes nuevos a la converrsacion actual');
+    payload.forEach(message => {
+      state.activeConversation.messages.push(message);
+    })
+    console.log('nuevos mensajes',payload);
+    console.log('conversacion actual',state.activeConversation);
+  },
+
+  addMessageToActiveConversation(state, payload) {
+    if(payload.conversation_id == state.activeConversation.id)
+    {
+      state.activeConversation.messages.push(payload);
+    }
+   /*  console.log(state.activeConversation.messages); */
+  },
+
   setActiveConversation(state, payload) {
     state.activeConversation = payload;
   },
@@ -471,7 +516,16 @@ export const actions = {
       .then(r => {
         commit('setActiveConversation', r.data);
       });
+  },
 
+  async fetchNewMessages({
+    commit
+  }, conversation_id) {
+    await this.$axios.get(`/conversation-new-messages/${conversation_id}`)
+      .then(r => {
+        console.log('nuevos mensajes que agregar',r.data);
+        commit('addNewMessagesToActiveConversation', r.data);
+      });
   },
 
   async fetchCategories({

@@ -20,29 +20,27 @@ Vue.filter('textBreaks',value => {
 });
 
 Vue.filter('datetime', val => {
-
     let date = new Date(val);
-    let minuts = date.getMinutes();
-    if (minuts < 10){minuts = `0${minuts}`}
-    let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ' / ' + date.getHours() + ":" + minuts
-    return formatted_date;
+    return ("0" + date.getDate()).slice(-2) + "-" + 
+        ("0" + (date.getMonth() + 1)).slice(-2) + "-" + 
+        date.getFullYear() + ' / ' + 
+        ("0" + date.getHours()).slice(-2) + ":" + 
+        ("0" + date.getMinutes()).slice(-2);
   
 });
 
 Vue.filter('date', val => {
     let date = new Date(val);
-    let minuts = date.getMinutes();
-    if (minuts < 10) {
-      minuts = `0${minuts}`
-    }
-    let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-    return formatted_date;
+    return ("0" + date.getDate()).slice(-2) + "-" + 
+        ("0" + (date.getMonth() + 1)).slice(-2) + "-" + 
+        date.getFullYear();
   
 });
 
 Vue.filter('time', val => {
     let date = new Date(val);
-    return ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+    return ("0" + date.getHours()).slice(-2) + ":" + 
+        ("0" + date.getMinutes()).slice(-2);
 });
 
 

@@ -11,11 +11,11 @@
         </div>
         <span class="divider"></span>
         <div class="m-3 w-auto">
-            LISTA DE PEDIDOS DE USUARIO
+            <orderList></orderList>
         </div>
         <span class="divider"></span>
         <div class="m-3 w-auto">
-            LISTA DE NOTITAS
+            <noteList></noteList>
         </div>
     
     </div>    
@@ -23,7 +23,12 @@
 
 
 <script>
+import orderList from "./orderList";
+import noteList from "./noteList";
 export default {
+    components: {
+        orderList, noteList
+    },
     computed:{
         conversation(){
             return this.$store.getters.getActiveConversation

@@ -1,13 +1,15 @@
 <template>
-    <div>
-        <chatComponent></chatComponent>
+    <div class="chat-container row">
+        <div class="col col-12 col-xl-9 h-100">
+            <chat></chat>
+        </div>
     </div>
 </template>
 
 <script>
-import chatComponent from "@/components/chat/test/UserChat.vue";
+import chat from "@/components/chat/chat.vue";
 export default {
-    components: { chatComponent },
+    components: { chat },
     mounted() {
         if (!this.user) {
             this.$router.push("/");
@@ -19,3 +21,9 @@ export default {
     }
 };
 </script>
+<style scoped>
+.chat-container {
+    background: #FAFAFA;
+    height: 66vh;
+}
+</style>

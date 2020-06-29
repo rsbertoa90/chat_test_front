@@ -1,15 +1,21 @@
 <template>
-    <div>
-        <chatComponent></chatComponent>
+    <div class="chat-container">
+        <chat></chat>
     </div>
 </template>
 
 <script>
-import chatComponent from "@/components/admin/chat/test/ChatPage.vue";
+import chat from "@/components/admin/chat/test/ChatPage.vue";
 export default {
     layout: "admin",
     middleware: "checkAdmin",
-    components: { chatComponent },
+    components: { chat },
     name: "adminChat"
 };
 </script>
+
+<style scoped>
+.chat-container {
+    background: #FAFAFA;
+}
+</style>

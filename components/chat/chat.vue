@@ -1,6 +1,11 @@
 <template>
-    <div class="chat" v-if="conversation">
-        <div class="d-flex flex-column conversation">
+    <div v-if="conversation" class="d-flex flex-column h-100 chat">
+        <div
+            v-if="!empty"
+            id="conversation"
+            class="d-flex flex-column h-100 chat-background"
+            ref="conversation"
+        >
             <div
                 class="d-flex item-container"
                 v-for="item in items"
@@ -9,8 +14,8 @@
                 <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
 
                 <div
-                    v-if="item.type.startsWith('M')"
                     class="message"
+                    v-if="item.type.startsWith('M')"
                     :class="getMessageClass(item)"
                 >
                     <div v-if="item.url" class="miniature-img">
@@ -18,22 +23,34 @@
                     </div>
                     <span class="content" v-if="item.content">{{item.content}}</span>
                     <div class="info">
+                        <span class="time">{{item.created_at | time}}</span>
                         <span
                             v-if="item.type=='MS'"
                             class="status fas"
                             :class="getCheckedIconClass(item)"
                         ></span>
-                        <span class="time">{{item.created_at | time}}</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="chat-input">
-            <input v-model="newMessage" type="text" class="form-control" />
-            <button @click="sendMessage" :disabled="isSendDisabled">
-                <i class="fas fa-chevron-circle-right"></i>
-            </button>
+        <div v-else class="d-flex justify-content-center align-items-center h-100 chat-background">
+            <span class="d-flex">Chat vacío.</span>
         </div>
+
+        <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex message-form">
+            <input v-model="newMessage" type="text" class="form-control" />
+            <button
+                type="submit"
+                :disabled="isSendDisabled"
+                class="d-flex justify-conenten-center align-items-center h-100"
+            >
+                <!-- <i class="fas fa-chevron-circle-right"></i> -->
+                <i class="fas d-flex">&#10148;</i>
+            </button>
+        </form>
+    </div>
+    <div v-else class="d-flex justify-content-center align-items-center h-100">
+        <span class="d-flex">Seleccione una conversación.</span>
     </div>
 </template>
 
@@ -44,43 +61,63 @@ export default {
             newMessage: ""
         };
     },
+    mounted() {
+        console.log(this.$refs.conversation);
+        this.scrollToBottom();
+    },
     computed: {
         conversation() {
             return this.$store.getters.getActiveConversation;
         },
+        empty() {
+            return !(
+                this.conversation &&
+                this.conversation.messages &&
+                this.conversation.messages.length > 0
+            );
+        },
         items() {
-            this.conversation.messages.sort((a, b) => a.id - b.id);
-            let items = [
-                {
-                    type: "DS", // Day Separator
-                    day: this.conversation.messages[0].created_at
-                }
-            ];
-            this.conversation.messages.forEach((message, i) => {
-                if (
-                    i > 0 &&
-                    isDayChanged(message, this.conversation.messages[i - 1])
-                ) {
-                    items.push({
-                        type: "DS",
-                        day: message.created_at
-                    });
-                }
-                message.type = this.isMessageSent(message) ? "MS" : "MR";
-                items.push(message);
-            });
-            return items;
+            if (!this.empty) {
+                console.log(this.conversation);
+                this.conversation.messages.sort((a, b) => a.id - b.id);
+                let items = [
+                    {
+                        type: "DS", // Day Separator
+                        day: this.conversation.messages[0].created_at
+                    }
+                ];
+                this.conversation.messages.forEach((message, i) => {
+                    if (
+                        i > 0 &&
+                        isDayChanged(message, this.conversation.messages[i - 1])
+                    ) {
+                        items.push({
+                            type: "DS",
+                            day: message.created_at
+                        });
+                    }
+                    message.type = this.isMessageSent(message) ? "MS" : "MR";
+                    items.push(message);
+                });
+                return items;
+            }
         },
         isSendDisabled() {
             return this.newMessage.trim().length == 0;
         }
     },
+    watch: {
+        conversation(n, o) {
+            this.scrollToBottom();
+        }
+    },
     methods: {
         sendMessage() {
+            
             if (this.newMessage.trim()) {
                 let data = {
                     conversation_id: this.conversation.id,
-                    admin_id: this.admin ? this.user.id : null,
+                    admin: this.admin,
                     content: this.newMessage
                 };
                 this.$axios.post("/message", data).then(() => {
@@ -96,10 +133,13 @@ export default {
                 });
             }
         },
+        scrollToBottom() {
+            if (this.$refs.conversation)
+                this.$refs.conversation.scrollTop = this.$refs.conversation.scrollHeight;
+        },
         isMessageSent(message) {
             return (
-                (this.admin && message.admin_id) ||
-                (!this.admin && !message.admin_id)
+                (this.admin && message.admin) || (!this.admin && !message.admin)
             );
         },
         getItemContainerClass(item) {
@@ -122,8 +162,8 @@ export default {
                 "fa-check-double": message.sended,
                 viewed: message.viewed
             };
-        },
-    },
+        }
+    }
 };
 
 function isDayChanged(message, previousMenssage) {
@@ -134,10 +174,18 @@ function isDayChanged(message, previousMenssage) {
 </script>
 
 <style lang="scss" scoped>
-.conversation {
-    height: 320px;
-    overflow-y: scroll;
+.chat {
+    //height: 100%;
+}
+.empty {
+    box-sizing: border-box;
+}
+.chat-background {
     background: #e5ddd5;
+}
+#conversation {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 .item-container {
@@ -153,12 +201,19 @@ function isDayChanged(message, previousMenssage) {
 .item-container.received-message {
     align-self: flex-start;
     margin-left: 16px;
+    margin-right: 24px;
 }
 
 .item-container.sent-message {
     align-self: flex-end;
     margin-right: 16px;
+    margin-left: 24px;
 }
+.item-container.sent-message + .item-container.received-message,
+.item-container.received-message + .item-container.sent-message {
+    margin-top: 16px;
+}
+
 .item-container.sent-message + .item-container.received-message,
 .item-container.received-message + .item-container.sent-message {
     margin-top: 16px;
@@ -167,22 +222,16 @@ function isDayChanged(message, previousMenssage) {
     color: #8a8585;
     background: #dce9e9;
     border-radius: 8px;
-    box-shadow: 1px 1px #bbbbbb;
+    box-shadow: 1px 1px #ccc;
     font: Regular 10px/67px Roboto;
     text-align: center;
     padding: 4px 32px;
 }
-
-.item-container.sent-message + .item-container.received-message,
-.item-container.received-message + .item-container.sent-message {
-    margin-top: 16px;
-}
-
 .message {
     width: auto;
     min-width: 100px;
     border-radius: 8px;
-    box-shadow: 1px 1px #bbbbbb;
+    box-shadow: 1px 1px #ccc;
     padding: 4px 8px 0 8px;
     margin: auto 16px;
     position: relative;
@@ -195,7 +244,20 @@ function isDayChanged(message, previousMenssage) {
     background: #ffffff;
 }
 
-:not(.sent-message) + .sent-message :after {
+:not(.sent-message) + .sent-message .message{
+    border-top-right-radius: 0;
+}
+
+:not(.sent-message) + .sent-message .message:after {
+    position: absolute;
+    content: "◤";
+    color: #dff6c7;
+    right: -19px;
+    top: -8px;
+    font-size: 20px;
+    width: 20px;
+    text-shadow: 1px 1px #ccc;
+    /*
     content: "";
     position: absolute;
     right: 0;
@@ -209,9 +271,22 @@ function isDayChanged(message, previousMenssage) {
     margin-top: -23px;
     margin-right: -14px;
     z-index: 100;
+    */
 }
 
-:not(.received-message) + .received-message :before {
+
+:not(.received-message) + .received-message .message:after {
+    position: absolute;
+    content: "◥";
+    color: #ffffff;
+    left: -14px;
+    top: -8px;
+    font-size: 20px;
+    text-align: end;
+    width: 14px;
+    overflow: hidden;
+    text-shadow: 0 1px #ccc;
+    /*
     content: "";
     position: absolute;
     left: 0;
@@ -225,6 +300,11 @@ function isDayChanged(message, previousMenssage) {
     margin-top: -23px;
     margin-left: -14px;
     z-index: 100;
+    */
+}
+
+:not(.received-message) + .received-message .message {
+    border-top-left-radius: 0;
 }
 
 .message > .content {
@@ -232,7 +312,7 @@ function isDayChanged(message, previousMenssage) {
 }
 .info {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: flex-end;
     color: #bad3a3;
 }
 .time {
@@ -248,47 +328,46 @@ function isDayChanged(message, previousMenssage) {
 .viewed {
     color: #5bc8f4;
 }
-.chat {
-    display: flex;
-    flex-direction: column;
-}
-.chat-input {
-    display: flex;
+.message-form {
     background: #e4e4e4;
-    border-top: solid 1px #e8e8e8;
-    padding: 8px 12px;
+    border-top: solid 1px #e6e6e6;
+    //box-sizing: content-box;
+    // padding: 8px;
     outline: none;
+    z-index: 2;
 }
-.chat-input input {
+.message-form input {
+    margin: 8px 0 8px 8px;
     flex-grow: 1;
-    height: 38px;
+    // height: px;
     border-radius: 19px;
     border: 0;
 }
-.chat-input input:focus {
+.message-form input:focus {
     box-shadow: none;
 }
 
-.chat-input button {
+.message-form button {
     border: none;
     background: transparent;
     padding: 0;
     outline: none;
-    height: 38px;
+    // height: 38px;
     color: #6fcea3;
-    margin-left: 4px;
+    margin: 0 8px 0 0;
 }
-.chat-input button:disabled {
+.message-form button:disabled {
     color: #cccccc !important;
 }
-.chat-input button:hover {
+.message-form button:hover {
     color: #5db68e;
 }
-.chat-input button:active {
+.message-form button:active {
     color: #36a774;
 }
 
-.chat-input button i {
-    font-size: 38px;
+.message-form button i {
+    font-size: 50px;
+    height: 100%;
 }
 </style>

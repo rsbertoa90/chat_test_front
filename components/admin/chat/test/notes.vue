@@ -1,19 +1,20 @@
 <template>
-    <div class="fcc" v-if="conversation">
-        <div>
-            dar prioridad
+    <div class="p-0 m-0" v-if="conversation">
+        <div class="d-flex justify-content-between align-items-center m-3 w-auto">
+            <span>Dar prioridad</span>
             <input type="checkbox" v-model="conversation.prio_manual" @change="update('prio_manual')">
         </div>  
-        
-        <div class="mt-4">
-            <textarea v-model.lazy="conversation.comments" @change="update('comments')" class="form-control" placeholder="ESCRIBIR" cols="30" rows="10"></textarea>            
+        <span class="divider"></span>
+        <div class="m-3 w-auto">
+            <textarea v-model.lazy="conversation.comments" 
+                @change="update('comments')" class="w-100 p-2" placeholder="ESCRIBIR" rows="10"></textarea>            
         </div>
-
-        <div class="mt-4">
+        <span class="divider"></span>
+        <div class="m-3 w-auto">
             LISTA DE PEDIDOS DE USUARIO
         </div>
-
-        <div class="mt-4">
+        <span class="divider"></span>
+        <div class="m-3 w-auto">
             LISTA DE NOTITAS
         </div>
     
@@ -51,5 +52,26 @@ export default {
 
 
 <style lang="scss" scoped>
+.divider {
+    display: block;
+    width: 100%;
+    margin: 2px 0;
+    border-top: 1px solid rgba(0,0,0,0.25);
+}
+.checkbox {
+    width:16px;
+    height: 16px;
+}
 
+textarea {
+    outline: none;
+    border: 0;
+    border-radius: 0;
+    background: #fcfcfc;
+    border-top: 1px solid #fff;
+    box-shadow: 1px 1px 2px #ccc;
+}
+textarea:focus {
+    box-shadow: 2px 2px 4px #c0c0c0;
+}
 </style>

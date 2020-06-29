@@ -1,34 +1,30 @@
 <template>
-    <div class="fcc mt-4" v-if="conversations">
-        <div class="conversation-block" v-for="conversation in conversations" :key="conversation.id" @click="setActiveConversation(conversation)">
-            {{conversation.client.name}}
-        </div>
+    <div class="conversations" v-if="conversations">
+        <conversation 
+            v-for="conversation in conversations" :key="conversation.id"
+            :conversation="conversation"
+        />
     </div>
 </template>
 
 <script>
+import conversation from './conversation';
 export default {
-    computed:
-    {
-        conversations()
-        {
+    components: { conversation },
+    computed: {
+        conversations() {
             return this.$store.getters.getConversations;
         }
     },
-    methods:{
-        setActiveConversation(c)
-        {
-            this.$store.dispatch('fetchConversation',c.client_id);
-        }
+    methods: {
+        
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.conversation-block{
-    width:100%;
-    border:1px solid #000;
-    cursor:pointer;
-
+.conversations {
+    box-shadow: 1px 0 1px #ccc;
+    z-index: 1;
 }
 </style>

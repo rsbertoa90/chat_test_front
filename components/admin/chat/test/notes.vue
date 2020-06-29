@@ -7,15 +7,15 @@
         <span class="divider"></span>
         <div class="m-3 w-auto">
             <textarea v-model.lazy="conversation.comments" 
-                @change="update('comments')" class="w-100 p-2" placeholder="ESCRIBIR" rows="10"></textarea>            
+                @change="update('comments')" class="w-100 p-2" placeholder="ESCRIBIR" rows="6"></textarea>            
         </div>
         <span class="divider"></span>
-        <div class="m-3 w-auto">
-            <orderList></orderList>
+        <div  class="m-3 w-auto">
+            <orderList :orderss="conversation.client.orders"></orderList>
         </div>
         <span class="divider"></span>
-        <div class="m-3 w-auto">
-            <noteList></noteList>
+        <div class="w-auto">
+            <noteList :conversation="conversation"></noteList>
         </div>
     
     </div>    
@@ -51,6 +51,10 @@ export default {
             }
             this.$axios.put('/conversation',data);
         }
+    },
+    updated() {
+        console.log("notes");
+        console.log(this.conversation);
     }
 }
 </script>

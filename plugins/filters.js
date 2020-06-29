@@ -40,6 +40,11 @@ Vue.filter('date', val => {
   
 });
 
+Vue.filter('time', val => {
+    let date = new Date(val);
+    return ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+});
+
 
 Vue.filter('slug', str => {
 

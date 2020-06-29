@@ -1,5 +1,5 @@
 <template>
-    <div class="p-0 m-0" v-if="conversation">
+    <div class="p-0 m-0 right-pannel" v-if="conversation">
         <div class="d-flex justify-content-between align-items-center m-3 w-auto">
             <span>Dar prioridad</span>
             <input type="checkbox" v-model="conversation.prio_manual" @change="update('prio_manual')">
@@ -61,6 +61,10 @@ export default {
 
 
 <style lang="scss" scoped>
+.right-pannel{
+    max-height:85vh;
+    overflow-y:scroll;
+}
 .divider {
     display: block;
     width: 100%;

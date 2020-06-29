@@ -228,12 +228,22 @@ export const getters = {
 }
 
 export const mutations = {
+  changeUnreads(state,payload)
+  {
+    let conversation = state.conversations.find(c => {
+      return c.id == payload.conversation_id
+    });
+    if(conversation)
+    {
+      conversation.unreads = payload.unreads;
+    }
+  },
   heSawMyMessages(state,payload){
         /* marco MIS mensajes como vistos */
+      
         if(state.activeConversation.id == payload.conversation_id)
         {
           state.activeConversation.messages.forEach(message => {
-            console.log('estoy en store, heSawMyMessages',message.viewed,message.admin,payload.admin);            
             if(!message.viewed && message.admin == payload.admin )
             {
                 message.sended =1 ;

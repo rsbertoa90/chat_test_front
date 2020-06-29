@@ -7,7 +7,7 @@
                 <i class="fas fa-plus"></i>
             </button>
         </form>
-        <div v-for="note in conversation.notes" class="d-flex note">
+        <div v-for="note in conversation.notes" :key="note.id" class="d-flex note">
             <span class="w-100">{{ note.content }}</span>
             <button @click="deleteNote(note)">
                 <i class="fas fa-trash-alt"></i>

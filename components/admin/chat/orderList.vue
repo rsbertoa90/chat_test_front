@@ -2,7 +2,7 @@
     <div>
         <div class="mb-2">Lista de Pedidos</div>
         <ul>
-            <li v-for="order in orderss">
+            <li v-for="order in orderss" :key="order.id">
                 <a class="order-link" :href="`${backendpath}/pdf/${order.id}`" target="_blank">{{ order.created_at | date }}</a>
             </li>
         </ul>

@@ -29,7 +29,7 @@ export default {
      }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .admin-chat {
     height: 85vh;
     margin:0 auto;

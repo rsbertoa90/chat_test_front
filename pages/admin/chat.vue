@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import chat from "@/components/admin/chat/test/ChatPage.vue";
+import chat from "@/components/admin/chat/ChatPage.vue";
 export default {
     layout: "admin",
     middleware: "checkAdmin",

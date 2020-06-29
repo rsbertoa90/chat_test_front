@@ -14,7 +14,7 @@
                 <div class="last-message-preview">
                     {{ conversation.last_message.content }}
                 </div>
-                <div class="unreads">
+                <div class="unreads" v-if="conversation.unreads">
                     {{conversation.unreads}}
                 </div>
             </div>

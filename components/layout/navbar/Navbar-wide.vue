@@ -55,7 +55,12 @@
             <div class="col-4 white-bold p-0">
                 <div class="focus-nav-item">
                     <span class="fa fa-bars white-bold mr-1"></span>
-                    Productos Mayorista Mates Fabi
+                    <span v-if="$route.fullPath.includes('/admin')">
+                        Mayorista Mates Fabi
+                    </span>
+                    <span v-else>
+                        Productos Mayorista Mates Fabi
+                    </span>
                 </div>
             </div>
             <div class="row col-8">

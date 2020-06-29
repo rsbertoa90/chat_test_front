@@ -4,17 +4,16 @@
             v-if="!empty"
             id="conversation"
             class="d-flex flex-column h-100 chat-background"
-            ref="conversation"
-        >
+            ref="conversation"  @mouseover="iSawTheMessages()">
             <div
                 class="d-flex item-container"
-                v-for="item in items"
-                :class="getItemContainerClass(item)"
-            >
+                v-for="item in items" :key="item.id"
+                :class="getItemContainerClass(item) ">
                 <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
 
                 <div
                     class="message"
+                    :ref="'messageRef'+item.id"
                     v-if="item.type.startsWith('M')"
                     :class="getMessageClass(item)"
                 >
@@ -38,7 +37,7 @@
         </div>
 
         <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex message-form">
-            <input v-model="newMessage" type="text" class="form-control" />
+            <input v-model="newMessage" type="text" class="form-control" @keypress="iSawTheMessages()" />
             <button
                 type="submit"
                 :disabled="isSendDisabled"
@@ -58,12 +57,42 @@
 export default {
     data() {
         return {
-            newMessage: ""
+            newMessage: "",
         };
     },
     mounted() {
-        console.log(this.$refs.conversation);
+        var vm = this;
+        /* conecto al socket */
+        this.socket = this.$nuxtSocket({
+            channel: '/index',
+            reconnection: true
+        });  
+       
         this.scrollToBottom();
+
+        //cuando recibo un mensaje por el socket
+        this.socket.on('newMessage', data => {
+            if(data.user_id != vm.user.id && data.conversation_id == vm.conversation.id)
+            {
+                this.$store.commit('addMessageToActiveConversation',data.message);
+                this.conversation.unreads+=1;
+                this.scrollToBottom();
+                console.log('Agrego el mensaje nuevo que RECIBI DEL OTRO');
+            }else{
+                console.log('llego un mensaje del server, pero no es para mi');
+            }
+        });
+
+         //Cuando el server me avisa que el otro vio mis mensajes
+        this.socket.on('heSawMyMessages', data => {
+            console.log('evento on heSawMyMessages');
+            if(data.user_id != vm.user.id && data.conversation_id == vm.conversation.id){ //me aseguro q el mensaje no es mio
+                
+                vm.$store.commit('heSawMyMessages',{conversation_id : vm.conversation.id,
+                                                    admin : vm.admin ? 1:0});
+                console.log('Marco MIS mensajes como vistos')
+            }
+        });
     },
     computed: {
         conversation() {
@@ -108,34 +137,95 @@ export default {
     },
     watch: {
         conversation(n, o) {
-            this.scrollToBottom();
+            setTimeout(() => {
+                this.scrollToBottom();
+            }, 500);
+
+            if (this.conversation)
+            {
+                /* conecto a la sala */
+                this.socket.emit('joinRoom',this.conversation.id);
+            }
+        },
+        'conversation.unreads'(){
+            if(this.admin)
+            {
+                this.$store.commit('changeUnreads',{conversation_id:this.conversation.id,unreads:this.conversation.unreads})
+            }
         }
     },
     methods: {
+          iSawTheMessages()
+        {
+            if(this.conversation.unreads)
+            {
+                console.log('hay mensajes no vistos');
+                var vm =this;
+                this.$axios.put(`/view-messages/${this.conversation.id}`)
+                    .then(r => {
+                        let data = {
+                            conversation_id : vm.conversation.id,
+                            user_id : vm.user.id,
+                            admin : vm.admin
+                        }
+                        console.log('emito evento al socket para avisar a la otra parte que vi los mensajes');
+                        this.socket.emit('iSawHisMessages',data);
+                        
+                        this.$store.commit('iSawHisMessages',{conversation_id : vm.conversation.id,
+                                                                admin : vm.admin ? 1:0});
+                      
+                        this.conversation.unreads=0;
+                });
+            }else{
+                
+                console.log('todos los mensajes del otro ya los vi');
+                console.log('unreads',this.conversation.unreads);
+            }
+        },
+        socketMessage(message)
+        {
+            let data = {
+                user_id : this.user.id,
+                conversation_id: this.conversation.id,
+                message : message
+            }
+            this.socket.emit('sendNewMessage',data);
+        },
+
         sendMessage() {
-            
+            var vm = this;
             if (this.newMessage.trim()) {
                 let data = {
                     conversation_id: this.conversation.id,
                     admin: this.admin,
                     content: this.newMessage
                 };
-                this.$axios.post("/message", data).then(() => {
-                    this.$store
-                        .dispatch(
-                            "fetchConversation",
-                            this.conversation.client_id
-                        )
-                        .then(() => {
-                            console.log(this.conversation);
-                        });
-                    this.newMessage = "";
+                this.newMessage = "";
+                this.$axios.post('/message',data)
+                    .then(r => {
+                        console.log('Mando el mensaje por el socket',r.data);
+                        vm.socketMessage(r.data);
+                        console.log('agrego MI mensaje a la conversacion',r.data);
+                        vm.$store.commit('addMessageToActiveConversation',r.data);  
+                        vm.scrollToBottom();
                 });
+               
             }
         },
         scrollToBottom() {
-            if (this.$refs.conversation)
+            /* if (this.$refs.conversation){
                 this.$refs.conversation.scrollTop = this.$refs.conversation.scrollHeight;
+            } */
+            if(this.conversation && this.conversation.messages && this.conversation.messages.length)
+            {
+                setTimeout(() => {
+                    let lastMessage = this.conversation.messages[this.conversation.messages.length-1];
+                    let refId = 'messageRef'+lastMessage.id;
+                  
+                    this.$refs[refId][0].scrollIntoView();
+                    
+                }, 500);
+            }
         },
         isMessageSent(message) {
             return (
@@ -175,7 +265,8 @@ function isDayChanged(message, previousMenssage) {
 
 <style lang="scss" scoped>
 .chat {
-    //height: 100%;
+    height: 100%;
+    max-height: 85vh;
 }
 .empty {
     box-sizing: border-box;

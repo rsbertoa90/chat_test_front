@@ -21,7 +21,9 @@
                         <img :src="imagePath(item.url)" />
                     </div>
                     <span class="content" v-if="item.content">{{item.content}}</span>
-                    <div class="info">
+                    <div class="info"> 
+                        <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id != user.id">Enviado por {{item.user.name}}</span>
+                        <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id == user.id">Enviado por MI</span>
                         <span class="time">{{item.created_at | time}}</span>
                         <span
                             v-if="item.type=='MS'"
@@ -77,6 +79,9 @@ export default {
                 this.$store.commit('addMessageToActiveConversation',data.message);
                 this.conversation.unreads+=1;
                 this.scrollToBottom();
+                if(this.admin){
+                    this.$store.commit('relocateConversation',this.conversation);
+                }
             }
         });
 
@@ -176,6 +181,7 @@ export default {
                 message : message
             }
             this.socket.emit('sendNewMessage',data);
+
         },
 
         sendMessage() {
@@ -201,6 +207,7 @@ export default {
                                 conversation_id:this.conversation.id
                             }
                             this.$store.commit('updateConversation',d);
+                            this.$store.commit('relocateConversation',this.conversation);
                         }
                
                });
@@ -405,6 +412,7 @@ function isDayChanged(message, previousMenssage) {
     justify-content: flex-end;
     color: #bad3a3;
 }
+
 .time {
     display: flex;
     font-size: 12px;

@@ -228,7 +228,35 @@ export const getters = {
 }
 
 export const mutations = {
+  relocateConversation(state,payload)
+  {
+    /* Reacomodo la conversacion arriba del todo, o abajo de las prioritarias. */
+   /* primero quito la conversacion que tengo que reacomodar */
+   let conv = state.conversations.find( c => {return c.id == payload.id});
+   state.conversations =  state.conversations.filter( c => {return c.id != payload.id});
+  
+   /* busco la nueva posicion que le corresponde */
+  
+      let pos = 0;
+      for (let index = 0; index < state.conversations.length; index++) {
+        const c = state.conversations[index];
+        if(conv.last_message.created_at > c.last_message.created_at)
+        {
+          if( (!c.prio_auto && conv.prio_manual && c.prio_manual)
+          || (!c.prio_auto && !conv.prio_manual && !c.prio_manual) )
+          {
+            pos = index;
+            break;
+          }
 
+        }
+        
+      }
+     
+      state.conversations.splice(pos,0,conv);
+      
+      console.log('array re ordenado',state.conversations)
+  },
   updateConversation(state,payload)
   {
     
@@ -238,10 +266,8 @@ export const mutations = {
     if(conversation)
     {
       conversation[payload.field] = payload.value; 
-     
+      this.commit('relocateConversation',conversation);
     }else{console.log('no encontre la conversacion')}
- 
-  
   },
   changeUnreads(state,payload)
   {
@@ -251,6 +277,7 @@ export const mutations = {
     if(conversation)
     {
       conversation.unreads = payload.unreads;
+      this.commit('relocateConversation',conversation);
     }
   },
   heSawMyMessages(state,payload){

@@ -1,20 +1,20 @@
 <template>
-    <div class="p-0 m-0 right-pannel" v-if="conversation">
-        <div class="d-flex justify-content-between align-items-center m-3 w-auto">
+    <div class="h-100 scrollbar-custom right-pannel" v-if="conversation">
+        <div class="d-flex justify-content-between align-items-center p-3">
             <span>Dar prioridad</span>
             <input type="checkbox" v-model="conversation.prio_manual" @change="update('prio_manual')">
         </div>  
         <span class="divider"></span>
-        <div class="m-3 w-auto">
+        <div class="p-3">
             <textarea v-model.lazy="conversation.comments" 
                 @change="update('comments')" class="w-100 p-2" placeholder="ESCRIBIR" rows="6"></textarea>            
         </div>
         <span class="divider"></span>
-        <div  class="m-3 w-auto">
+        <div  class="p-3">
             <orderList :orderss="conversation.client.orders"></orderList>
         </div>
         <span class="divider"></span>
-        <div class="w-auto">
+        <div>
             <noteList :conversation="conversation"></noteList>
         </div>
     
@@ -64,8 +64,8 @@ export default {
 
 <style lang="scss" scoped>
 .right-pannel{
-    max-height:85vh;
-    overflow-y:scroll;
+//    max-height:85vh;
+    overflow-x: hidden;
 }
 .divider {
     display: block;

@@ -300,3 +300,17 @@ a:hover {
     width: 75px;
   }
 }
+
+.scrollbar-custom {
+    overflow-y: scroll;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.2);
+}

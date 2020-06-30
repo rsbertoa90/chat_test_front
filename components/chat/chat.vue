@@ -3,7 +3,7 @@
         <div
             v-if="!empty"
             id="conversation"
-            class="d-flex flex-column h-100 chat-background"
+            class="d-flex flex-column h-100 scrollbar-custom chat-background"
             ref="conversation"  @mouseover="iSawTheMessages()">
             <div
                 class="d-flex item-container"
@@ -281,8 +281,8 @@ function isDayChanged(message, previousMenssage) {
     background: #e5ddd5;
 }
 #conversation {
-    overflow-y: scroll;
-    scroll-behavior: smooth;
+//    overflow-y: scroll;
+//    scroll-behavior: smooth;
 }
 
 .item-container {

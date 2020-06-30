@@ -2,13 +2,13 @@
 <no-ssr>
     <div class="container admin-chat">
         <div class="row h-100">
-            <div class="col col-3 h-100 p-0 d-flex">
+            <div class="col col-3 h-100 p-0">
                 <conversations></conversations> 
             </div>
-            <div class="col col-6 h-100 p-0 f-flex">
+            <div class="col col-6 h-100 p-0">
                 <chat></chat> 
             </div>
-            <div class="col col-3 h-100 p-0 f-flex">
+            <div class="col col-3 h-100 p-0">
                 <notes></notes>
             </div>
         </div>

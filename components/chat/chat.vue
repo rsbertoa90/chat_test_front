@@ -25,7 +25,7 @@
                         <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id != user.id">Enviado por {{item.user.name}}</span>
                         <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id == user.id">Enviado por MI</span>
                         <span class="time">{{item.created_at | time}}</span>
-                        <span
+                        <span 
                             v-if="item.type=='MS'"
                             class="status fas"
                             :class="getCheckedIconClass(item)"

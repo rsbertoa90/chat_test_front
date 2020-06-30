@@ -33,11 +33,29 @@
                     </span>
                 </div>
             </div>
-            <div class="col-3 flex-button">
-                <span class="white-bold bg-second p-2 flex-button rounded" style="width:60px">
-                    <i class="fas fa-phone-volume"></i>
-                </span>  
-                <span class=" p-3 d-big"> 11 3008 5414</span>
+            <div class="col-3 flex-button" v-if="!user">
+               <nuxt-link to="/login" class="d-flex">
+                    <div class="reg-sq">
+                        <span class="fa fa-user"></span>
+                    </div>
+                    <div class=" ml-1 d-flex flex-column text-fucsia">
+                        <span>Registro</span>
+                        <span>Mayorista</span>
+                    </div>
+               </nuxt-link>
+            </div>
+            <div class="col-3 fcc" v-else>
+                <nuxt-link to="/chat" class="d-flex align-items-center">
+                    <div class="reg-sq">
+                        <span class="fa fa-user"></span>
+                    </div>
+                    <div class="fcc text-fucsia ml-2">
+                        <span>{{user.name}}</span>
+                    </div>
+                </nuxt-link>
+                <nuxt-link to="/logout" class="mt-4 fcc">
+                    <span class="text-danger">SALIR</span>
+                </nuxt-link>
             </div>
         </div>
 
@@ -73,10 +91,6 @@
                 </ul>
             </div>
         </div>
-        <nuxt-link to="/logout" class="out-button" v-if="user">
-            <fa-icon icon="user-cog"></fa-icon> 
-             {{user.name}} - Salir
-        </nuxt-link>
     </div>
 </template>
 
@@ -129,13 +143,26 @@ $color-focus: #ff0aaf;
 
 // Rosa claro es ff97dd
 $color-back: #ff97dd;
-
+.text-fucsia
+{
+    color:$color-first;
+}
 .webprices{
     color: #B2037A;
     font-weight: bold;
     font-size: 14px;
 }
-
+.reg-sq{
+    width:60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:50px;
+    border-radius:15px;
+    border:2px solid #09cca2;
+    font-size: 25px;
+    color:#09cca2;
+}
 .check-circle{
     margin-right:10px;
     width:20px;

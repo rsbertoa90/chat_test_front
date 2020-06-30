@@ -228,15 +228,20 @@ export const getters = {
 }
 
 export const mutations = {
+
   updateConversation(state,payload)
   {
+    
     let conversation = state.conversations.find(c => {
       return payload.conversation_id == c.id; 
     })
     if(conversation)
     {
       conversation[payload.field] = payload.value; 
-    }
+     
+    }else{console.log('no encontre la conversacion')}
+ 
+  
   },
   changeUnreads(state,payload)
   {

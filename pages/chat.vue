@@ -1,15 +1,19 @@
 <template>
     <div class="chat-container row">
-        <div class="col col-12 col-xl-9 h-100">
+        <div class=" col-12 col-lg-9 h-100">
             <chat></chat>
+        </div>
+        <div class="col-12 col-lg-3">
+            <userOrders></userOrders>
         </div>
     </div>
 </template>
 
 <script>
+import userOrders from '@/components/chat/orders.vue';
 import chat from "@/components/chat/chat.vue";
 export default {
-    components: { chat },
+    components: { chat,userOrders },
     layout:'clean',
     mounted() {
         if (!this.user) {

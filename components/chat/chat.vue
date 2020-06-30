@@ -192,7 +192,20 @@ export default {
                         vm.socketMessage(r.data);
                         vm.$store.commit('addMessageToActiveConversation',r.data);  
                         vm.scrollToBottom();
-                });
+
+                         if(this.admin)
+                        {
+                            let d = {
+                                field:'last_message',
+                                value:r.data,
+                                conversation_id:this.conversation.id
+                            }
+                            this.$store.commit('updateConversation',d);
+                        }
+               
+               });
+
+               
                
             }
         },

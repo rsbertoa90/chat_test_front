@@ -5,7 +5,7 @@
             :class="conversationClass"
         >
             <div class="d-flex justify-content-between">
-                <div class="username">{{conversation.client.name}}</div>
+                <div class="username">{{conversation.client.name}} ({{conversation.client.id}})</div>
                 <div v-if="conversation.last_message" class="time">
                     {{ conversation.last_message.created_at | time }}
                 </div>
@@ -43,7 +43,12 @@ export default {
             if(this.admin != data.message.admin && data.conversation_id == vm.conversation.id)
             {
                 this.conversation.unreads+=1;
-                console.log('Sumo 1 a mensajes no leidos - Panel izquierdo');
+                let d = {
+                    field:'last_message',
+                    value:data.message,
+                    conversation_id:this.conversation.id
+                }
+                this.$store.commit( 'updateConversation',d );
             }
         });
     },

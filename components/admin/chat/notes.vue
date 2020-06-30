@@ -55,8 +55,8 @@ export default {
         }
     },
     updated() {
-        console.log("notes");
-        console.log(this.conversation);
+     /*    console.log("notes");
+        console.log(this.conversation); */
     }
 }
 </script>

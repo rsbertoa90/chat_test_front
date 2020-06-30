@@ -50,6 +50,8 @@ export default {
                 value:value
             }
             this.$axios.put('/conversation',data);
+
+            this.$store.commit('updateConversation',data);
         }
     },
     updated() {

@@ -24,6 +24,8 @@ export default {
 
 <style lang="scss" scoped>
 .conversations {
+    max-height: 85vh;
+    overflow-y:scroll;
     box-shadow: 1px 0 1px #ccc;
     z-index: 1;
 }

@@ -77,20 +77,15 @@ export default {
                 this.$store.commit('addMessageToActiveConversation',data.message);
                 this.conversation.unreads+=1;
                 this.scrollToBottom();
-                console.log('Agrego el mensaje nuevo que RECIBI DEL OTRO');
-            }else{
-                console.log('llego un mensaje del server, pero no es para mi');
             }
         });
 
          //Cuando el server me avisa que el otro vio mis mensajes
         this.socket.on('heSawMyMessages', data => {
-            console.log('evento on heSawMyMessages');
             if(data.user_id != vm.user.id && data.conversation_id == vm.conversation.id){ //me aseguro q el mensaje no es mio
                 
                 vm.$store.commit('heSawMyMessages',{conversation_id : vm.conversation.id,
                                                     admin : vm.admin ? 1:0});
-                console.log('Marco MIS mensajes como vistos')
             }
         });
     },
@@ -107,7 +102,6 @@ export default {
         },
         items() {
             if (!this.empty) {
-                console.log(this.conversation);
                 this.conversation.messages.sort((a, b) => a.id - b.id);
                 let items = [
                     {
@@ -159,27 +153,19 @@ export default {
         {
             if(this.conversation.unreads)
             {
-                console.log('hay mensajes no vistos');
                 var vm =this;
                 this.$axios.put(`/view-messages/${this.conversation.id}`)
-                    .then(r => {
-                        let data = {
-                            conversation_id : vm.conversation.id,
-                            user_id : vm.user.id,
-                            admin : vm.admin
-                        }
-                        console.log('emito evento al socket para avisar a la otra parte que vi los mensajes');
-                        this.socket.emit('iSawHisMessages',data);
-                        
-                        this.$store.commit('iSawHisMessages',{conversation_id : vm.conversation.id,
-                                                                admin : vm.admin ? 1:0});
-                      
-                        this.conversation.unreads=0;
-                });
-            }else{
+                   
+                let data = {
+                    conversation_id : vm.conversation.id,
+                    user_id : vm.user.id,
+                    admin : vm.admin
+                }
+                this.socket.emit('iSawHisMessages',data);
                 
-                console.log('todos los mensajes del otro ya los vi');
-                console.log('unreads',this.conversation.unreads);
+                this.$store.commit('iSawHisMessages',{conversation_id : vm.conversation.id,
+                                                        admin : vm.admin ? 1:0});
+                this.conversation.unreads=0;
             }
         },
         socketMessage(message)
@@ -203,9 +189,7 @@ export default {
                 this.newMessage = "";
                 this.$axios.post('/message',data)
                     .then(r => {
-                        console.log('Mando el mensaje por el socket',r.data);
                         vm.socketMessage(r.data);
-                        console.log('agrego MI mensaje a la conversacion',r.data);
                         vm.$store.commit('addMessageToActiveConversation',r.data);  
                         vm.scrollToBottom();
                 });
@@ -221,8 +205,10 @@ export default {
                 setTimeout(() => {
                     let lastMessage = this.conversation.messages[this.conversation.messages.length-1];
                     let refId = 'messageRef'+lastMessage.id;
-                  
-                    this.$refs[refId][0].scrollIntoView();
+                    if(this.$refs[refId])
+                    {
+                        this.$refs[refId][0].scrollIntoView();
+                    }
                     
                 }, 500);
             }

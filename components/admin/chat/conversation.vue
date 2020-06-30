@@ -25,6 +25,28 @@
 <script>
 export default {
     props: ["conversation"],
+    mounted(){
+         var vm = this;
+        /* conecto al socket */
+        this.socket = this.$nuxtSocket({
+            channel: '/index',
+            reconnection: true
+        }); 
+
+         if (this.conversation)
+        {
+            /* conecto a la sala */
+            this.socket.emit('joinRoom',this.conversation.id);
+        }
+
+        this.socket.on('newMessage', data => {
+            if(this.admin != data.message.admin && data.conversation_id == vm.conversation.id)
+            {
+                this.conversation.unreads+=1;
+                console.log('Sumo 1 a mensajes no leidos - Panel izquierdo');
+            }
+        });
+    },
     computed: {
         isSelected  () {
             return this.conversation && 

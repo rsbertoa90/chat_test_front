@@ -10,6 +10,7 @@
 import chat from "@/components/chat/chat.vue";
 export default {
     components: { chat },
+    layout:'clean',
     mounted() {
         if (!this.user) {
             this.$router.push("/");
@@ -24,6 +25,6 @@ export default {
 <style scoped>
 .chat-container {
     background: #FAFAFA;
-    height: 66vh;
+    height: 90vh;
 }
 </style>

@@ -66,7 +66,7 @@ module.exports = {
       { name: "theme-color", content: "#b2037a" },
       {
         property: "og:image",
-        content: "https://back.matesfabi.com/storage/images/app/logo.png"
+        content: "https://back.dominiodepruebas.ml/storage/images/app/logo.png"
       },
       { property: "og:title", content: "Mates Fabi" },
       { charset: "utf-8" },
@@ -81,7 +81,7 @@ module.exports = {
       },
       {
         rel: "preconnect",
-        href: "https://back.matesfabi.com"
+        href: "https://back.dominiodepruebas.ml"
       }
     ],
     script: [
@@ -241,7 +241,7 @@ module.exports = {
     */
    
 /*   process.env.NODE_ENV == "production"
-        ? "https://back.matesfabi.com/api"
+        ? "https://back.dominiodepruebas.ml/api"
         : "http://localhost:8000/api" */
   },
 

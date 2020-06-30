@@ -58,9 +58,9 @@
                     <span v-if="$route.fullPath.includes('/admin')">
                         Mayorista Mates Fabi
                     </span>
-                    <span v-else>
+                    <nuxt-link v-else to="/cotizador" class="text-white">
                         Productos Mayorista Mates Fabi
-                    </span>
+                    </nuxt-link>
                 </div>
             </div>
             <div class="row col-8">

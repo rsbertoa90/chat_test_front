@@ -147,6 +147,7 @@ module.exports = {
     "@nuxtjs/google-gtag",
     "@nuxtjs/pwa",
     "nuxt-webfontloader",
+    "nuxt-material-design-icons",
     ["nuxt-compress"],
 
     [

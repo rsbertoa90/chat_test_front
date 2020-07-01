@@ -301,9 +301,50 @@ a:hover {
   }
 }
 
+$shadow-color : rgba(0, 0, 0, 0.3333);
+
+
+.material-shadow-1 {
+    box-shadow: 1px 1px 1px $shadow-color;
+}
+
+.material-shadow-2 {
+    box-shadow: 2px 2px 2px $shadow-color;
+}
+
+.material-shadow-3 {
+    box-shadow: 3px 3px 3px $shadow-color;
+}
+.top-shine {
+    border-top: 1px rgba($color: #ffffff, $alpha: 0.8);
+}
 .scrollbar-custom {
     overflow-y: scroll;
 }
+
+input.mat {
+    border: 0;
+}
+input.mat:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    // box-shadow: inset 1px 1px $shadow-color;
+
+}
+input.mat.shadow {
+    box-shadow: inset 1px 1px 3px $shadow-color!important;
+}
+button.mat {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+button.mat:active {
+    border:none;
+}
+
 
 .scrollbar-custom::-webkit-scrollbar {
     width: 6px;

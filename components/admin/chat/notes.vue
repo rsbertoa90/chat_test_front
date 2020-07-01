@@ -1,13 +1,13 @@
 <template>
     <div class="h-100 scrollbar-custom right-pannel" v-if="conversation">
         <div class="d-flex justify-content-between align-items-center p-3">
-            <span>Dar prioridad</span>
+            <span>Dar Prioridad</span>
             <input type="checkbox" v-model="conversation.prio_manual" @change="update('prio_manual')">
         </div>  
         <span class="divider"></span>
         <div class="p-3">
             <textarea v-model.lazy="conversation.comments" 
-                @change="update('comments')" class="w-100 p-2" placeholder="ESCRIBIR" rows="6"></textarea>            
+                @change="update('comments')" class="w-100 p-2" placeholder="Escribir" rows="6"></textarea>            
         </div>
         <span class="divider"></span>
         <div  class="p-3">
@@ -82,11 +82,11 @@ textarea {
     outline: none;
     border: 0;
     border-radius: 0;
-    background: #fcfcfc;
+    //background: #fcfcfc;
     border-top: 1px solid #fff;
-    box-shadow: 1px 1px 2px #ccc;
 }
 textarea:focus {
-    box-shadow: 2px 2px 4px #c0c0c0;
+    box-shadow: 1px 1px 4px #ccc;
+
 }
 </style>

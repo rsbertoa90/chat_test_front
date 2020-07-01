@@ -39,14 +39,19 @@
         </div>
 
         <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex message-form">
-            <input v-model="newMessage" type="text" class="form-control" @keypress="iSawTheMessages()" />
+            <input v-model="newMessage" type="text" class="form-control mat material-shadow-1" @keypress="iSawTheMessages()" />
+            <button class="d-flex flex-column justify-content-center align-content-center h-100">
+                <i class="material-icons">attach_file</i>
+                <!-- <i class="fas fa-paperclip"></i> </button> -->
+            </button>
             <button
                 type="submit"
                 :disabled="isSendDisabled"
-                class="d-flex justify-conenten-center align-items-center h-100"
+                class="d-flex flex-column justify-content-center align-content-center h-100"
             >
                 <!-- <i class="fas fa-chevron-circle-right"></i> -->
-                <i class="fas d-flex">&#10148;</i>
+            <!--    <i class="fas">&#10148;</i> -->
+            <i class="material-icons">send</i>
             </button>
         </form>
     </div>
@@ -429,20 +434,21 @@ function isDayChanged(message, previousMenssage) {
 .message-form {
     background: #e4e4e4;
     border-top: solid 1px #e6e6e6;
-    //box-sizing: content-box;
-    // padding: 8px;
     outline: none;
+    padding: 0 8px;
     z-index: 2;
+    box-shadow: 0 -2px 4px 0px rgba(0, 0, 0, 0.1)
 }
 .message-form input {
-    margin: 8px 0 8px 8px;
+    margin: 8px 0;
     flex-grow: 1;
     // height: px;
     border-radius: 19px;
     border: 0;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.25);
 }
 .message-form input:focus {
-    box-shadow: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
 }
 
 .message-form button {
@@ -452,7 +458,9 @@ function isDayChanged(message, previousMenssage) {
     outline: none;
     // height: 38px;
     color: #6fcea3;
-    margin: 0 8px 0 0;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+    transition: box-shadow .15s ease-in-out;
 }
 .message-form button:disabled {
     color: #cccccc !important;
@@ -462,10 +470,10 @@ function isDayChanged(message, previousMenssage) {
 }
 .message-form button:active {
     color: #36a774;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
 }
 
 .message-form button i {
-    font-size: 50px;
-    height: 100%;
+    font-size: 38px;
 }
 </style>

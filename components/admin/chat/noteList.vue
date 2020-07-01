@@ -4,13 +4,13 @@
         <form class="d-flex note-form" @submit.prevent="addNote()">
             <input placeholder="nueva observación" class="form-control" type="text" v-model="newNote" />
             <button type="submit">
-                <i class="fas fa-plus"></i>
+                <i class="material-icons">add</i>
             </button>
         </form>
         <div v-for="note in conversation.notes" :key="note.id" class="d-flex note">
             <span class="w-100">{{ note.content }}</span>
             <button @click="deleteNote(note)">
-                <i class="fas fa-trash-alt"></i>
+                <i class="material-icons">delete</i>
             </button>
         </div>
     </div>

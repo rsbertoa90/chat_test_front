@@ -1,9 +1,9 @@
 <template>
-    <div v-if="conversation" class="d-flex flex-column h-100 chat">
+    <div v-if="conversation" class="d-flex flex-column flex-grow-1 chat">
         <div
             v-if="!empty"
             id="conversation"
-            class="d-flex flex-column h-100 scrollbar-custom chat-background"
+            class="d-flex flex-column flex-grow-1 scrollbar-custom chat-background"
             ref="conversation"  @mouseover="iSawTheMessages()">
             <div
                 class="d-flex item-container"
@@ -474,6 +474,6 @@ function isDayChanged(message, previousMenssage) {
 }
 
 .message-form button i {
-    font-size: 38px;
+    font-size: 32px;
 }
 </style>

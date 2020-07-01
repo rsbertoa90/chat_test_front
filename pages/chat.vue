@@ -30,5 +30,6 @@ export default {
 .chat-container {
     background: #FAFAFA;
     height: 90vh;
+    font-family: 'Roboto';
 }
 </style>

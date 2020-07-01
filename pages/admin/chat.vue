@@ -18,4 +18,7 @@ export default {
 .chat-container {
     background: #FAFAFA;
 }
+.chat-container > * {
+    font-family: 'Roboto', sans-serif!important;
+}
 </style>

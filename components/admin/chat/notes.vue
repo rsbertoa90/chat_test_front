@@ -37,6 +37,7 @@ export default {
     methods:{
         update(field)
         {
+            var vm =this;
             let value=null;
             if(field == 'prio_manual')
             {
@@ -50,14 +51,12 @@ export default {
                 value:value
             }
             this.$axios.put('/conversation',data);
-
-            this.$store.commit('updateConversation',data);
+            this.$store.commit('updateConversation',data)    
+            this.$store.commit('relocateConversation',vm.conversation);
+                
         }
     },
-    updated() {
-     /*    console.log("notes");
-        console.log(this.conversation); */
-    }
+   
 }
 </script>
 

@@ -65,6 +65,8 @@ export default {
     data() {
         return {
             newMessage: "",
+            imWriting:false,
+            hesWriting:false,
         };
     },
     mounted() {
@@ -98,10 +100,17 @@ export default {
                                                     admin : vm.admin ? 1:0});
             }
         });
+
+        
+        
     },
+ 
     computed: {
         conversation() {
             return this.$store.getters.getActiveConversation;
+        },
+        conversations(){
+            return this.$store.getters.getConversations
         },
         empty() {
             return !(
@@ -140,6 +149,17 @@ export default {
         }
     },
     watch: {
+        newMessage(){
+            if( (this.newMessage.trim() && !this.imWriting)
+             || (!this.newMessage.trim() && this.imWriting)  )
+            {
+                this.imWriting = !this.imWriting;
+                let data = {conversation_id:this.conversation.id,
+                            writing:this.imWriting,
+                            user_id:this.user.id}
+                this.socket.emit('imWriting',data);
+            }
+        },
         conversation(n, o) {
             setTimeout(() => {
                 this.scrollToBottom();
@@ -149,16 +169,18 @@ export default {
             {
                 /* conecto a la sala */
                 this.socket.emit('joinRoom',this.conversation.id);
+               
             }
         },
         'conversation.unreads'(){
-            if(this.admin)
+            if(this.admin && this.conversation)
             {
                 this.$store.commit('changeUnreads',{conversation_id:this.conversation.id,unreads:this.conversation.unreads})
             }
         }
     },
     methods: {
+        
           iSawTheMessages()
         {
             if(this.conversation.unreads)
@@ -225,18 +247,19 @@ export default {
             /* if (this.$refs.conversation){
                 this.$refs.conversation.scrollTop = this.$refs.conversation.scrollHeight;
             } */
-            if(this.conversation && this.conversation.messages && this.conversation.messages.length)
-            {
+                var vm =this;
                 setTimeout(() => {
-                    let lastMessage = this.conversation.messages[this.conversation.messages.length-1];
-                    let refId = 'messageRef'+lastMessage.id;
-                    if(this.$refs[refId])
+                    if(vm.conversation && vm.conversation.messages && vm.conversation.messages.length)
                     {
-                        this.$refs[refId][0].scrollIntoView();
+                        let lastMessage = vm.conversation.messages[vm.conversation.messages.length-1];
+                        let refId = 'messageRef'+lastMessage.id;
+                        if(vm.$refs[refId] &&  vm.$refs[refId][0])
+                        {
+                            vm.$refs[refId][0].scrollIntoView();
+                        }
+                        
                     }
-                    
                 }, 500);
-            }
         },
         isMessageSent(message) {
             return (

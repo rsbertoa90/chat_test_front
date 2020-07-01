@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex conversation-box" @click="setActiveConversation(conversation)">
+    <div class="d-flex conversation-box" @click="setActiveConversation(conversation)" :class="{'taken':conversation.taken_by}">
         <div
             class="d-flex flex-column justify-content-between flex-fill box-content"
             :class="conversationClass"
@@ -12,9 +12,22 @@
                     class="time"
                 >{{ conversation.last_message.created_at | time }}</div>
             </div>
-            <div v-if="conversation.last_message" class="d-flex justify-content-between info">
-                <div class="last-message-preview">{{ conversation.last_message.content }}</div>
-                <div class="unreads" v-if="conversation.unreads">{{conversation.unreads}}</div>
+            
+            <div v-if="!conversation.taken_by">
+                <div v-if="conversation.last_message && !hesWriting" class="d-flex justify-content-between info">
+                    <div class="last-message-preview">
+                        {{ conversation.last_message.content }}
+                    </div>
+                    <div class="unreads" v-if="conversation.unreads">
+                        {{conversation.unreads}}
+                    </div>
+                </div>
+                <div v-if="hesWriting">
+                    <span class="text-green">Escribiendo...</span>
+                </div>
+            </div>
+            <div v-if="conversation.taken_by && conversation.taken_by.id != user.id">
+                <span class="text-green">{{conversation.taken_by.name}} hablando</span>
             </div>
         </div>
         <div v-if="isSelected" class="selected"></div>
@@ -23,8 +36,13 @@
 <script>
 export default {
     props: ["conversation"],
-    mounted() {
-        var vm = this;
+    data() {
+        return {
+            hesWriting:false,
+        }
+    },
+    mounted(){
+         var vm = this;
         /* conecto al socket */
         this.socket = this.$nuxtSocket({
             channel: "/index",
@@ -48,15 +66,76 @@ export default {
                     conversation_id: this.conversation.id
                 };
                 this.$store.commit("updateConversation", d);
+                this.$store.commit("relocateConversation",this.conversation);
             }
         });
+        
+        this.socket.on('hesWriting', data => {
+            if(data.conversation_id == this.conversation.id && this.user.id != data.user_id)
+            this.hesWriting=data.writing;
+        });
+
+        this.socket.on('someoneJoined', data => {
+            if(data.user.id != this.user.id && data.conversation_id == this.conversation.id)
+            {
+                this.conversation.taken_by = data.user;
+            }
+        });
+
+        this.socket.on('someoneLeaved', data => {
+            if(data.user_id != this.user.id 
+                && data.conversation_id == this.conversation.id
+                && this.conversation.taken_by
+                && this.conversation.taken_by.id == data.user_id)
+            {
+                this.conversation.taken_by = null;
+            }
+        });
+
+        this.socket.on('isdisconnecting',data=>{
+            if(vm.conversation 
+               && vm.conversation.taken_by
+               && vm.conversation.taken_by.socket_id == data.socket_id
+               && vm.conversation.id == data.conversation_id)
+            {
+                vm.conversation.taken_by = null;
+            }else if(vm.conversation.id == data.conversation_id)
+            {
+                vm.hesWriting = false;
+            }
+        });
+
+        this.socket.on('checkTaken',conversation_id => {
+            if( this.conversation 
+                && this.activeConversation
+                && this.activeConversation.id == this.conversation.id
+                && conversation_id == this.activeConversation.id )
+                {
+                    let data = {
+                        conversation_id : conversation_id,
+                        user:{
+                            socket_id : this.socket.id,
+                            id:this.user.id,
+                            name:this.user.name
+                        }
+                    }
+                    this.socket.emit('imInTheConversation',data);
+                }
+        });
+
+        this.socket.on('hesInTheConversation',data => {
+            if(this.conversation)
+            {
+                this.conversation.taken_by = data.user;
+            }
+        })
     },
     computed: {
         isSelected() {
             return (
                 this.conversation &&
-                this.$store.getters.getActiveConversation &&
-                this.$store.getters.getActiveConversation.id ==
+                this.activeConversation &&
+                this.activeConversation.id ==
                     this.conversation.id
             );
         },
@@ -68,20 +147,63 @@ export default {
         },
         unreads() {
             return 0;
+        },
+        activeConversation()
+        {
+            return this.$store.getters.getActiveConversation;
         }
     },
     methods: {
+        
         setActiveConversation(c) {
-            this.$store.dispatch("fetchConversation", c.client_id);
+            /* Si ya tengo una conversacion activa,primero aviso que la dejo */
+            if(this.activeConversation)
+            {
+                let data = {
+                    conversation_id : this.activeConversation.id,
+                    user_id : this.user.id
+                }
+                this.socket.emit('leaveConversation',data);
+                this.$store.commit('setActiveConversation',null);
+            }
+
+            if(!this.conversation.taken_by || this.conversation.taken_by.id == this.user.id)
+            {
+                this.$store.dispatch("fetchConversation", c.client_id);
+                let data = {
+                    conversation_id:this.conversation.id,
+                    user:{
+                        socket_id:this.socket.id,
+                        id:this.user.id,
+                        name:this.user.name
+                    }                
+                }
+                this.socket.emit('joinConversation',data);
+            }else{
+                console.log(this.conversation.taken_by.name,' esta hablando con este cliente');
+            }
         }
     },
-    update() {
-        console.log("conversation");
-        console.log(this.conversation);
-    }
+   
+    beforeDestroy()
+    {
+        /* Si soy administrador aviso que YA NO estoy hablando con este cliente */
+            if(this.activeConversation)
+            {
+                let data = {
+                    conversation_id : this.activeConversation.id,
+                    user_id : this.user.id
+                }
+                this.socket.emit('leaveConversation',data);
+                this.$store.commit('setActiveConversation',null);
+            }
+    },
 };
-</script>justify-content-between
+</script>
 <style lang="scss" scoped>
+.taken{
+    background-color: #ccc6;
+}
 .conversation-box {
     cursor: pointer;
     border-top: 1px ridge #fff;
@@ -134,6 +256,9 @@ export default {
     width: auto;
     color: #7dde7f;
     font-size: 12px;
+}
+.text-green{
+    color:#77cd2e;
 }
 .unreads {
     color: white;

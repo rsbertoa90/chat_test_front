@@ -266,18 +266,19 @@ export const mutations = {
     if(conversation)
     {
       conversation[payload.field] = payload.value; 
-      this.commit('relocateConversation',conversation);
+      
     }else{console.log('no encontre la conversacion')}
   },
   changeUnreads(state,payload)
   {
-    let conversation = state.conversations.find(c => {
-      return c.id == payload.conversation_id
-    });
-    if(conversation)
-    {
-      conversation.unreads = payload.unreads;
-      this.commit('relocateConversation',conversation);
+    if(state.conversations){
+      let conversation = state.conversations.find(c => {
+        return c.id == payload.conversation_id
+      });
+      if(conversation)
+      {
+        conversation.unreads = payload.unreads;
+      }
     }
   },
   heSawMyMessages(state,payload){

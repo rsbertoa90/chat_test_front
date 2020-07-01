@@ -6,7 +6,12 @@ export default function Svc(socket, io) {
     {
       if (!io.sockets.adapter.rooms[room])
       {
-        socket.join(room);        
+        socket.join(room);
+        socket.on('disconnecting',function(){
+          socket.broadcast.to(room).emit('isdisconnecting', {socket_id:socket.id,conversation_id:room});
+        })
+        /* consulto enseguida si alguien tiene la conversacion abierta */
+        socket.broadcast.to(room).emit('checkTaken',room);
       }
     }, 
     
@@ -20,7 +25,29 @@ export default function Svc(socket, io) {
     {
      // this.joinRoom(data.conversation_id)
       socket.broadcast.to(data.conversation_id).emit('heSawMyMessages',data);
+    },
+    
+    imWriting(data)
+    {
+      socket.broadcast.to(data.conversation_id).emit('hesWriting',data);
+    },
+    
+    joinConversation(data)
+    {
+      socket.broadcast.to(data.conversation_id).emit('someoneJoined',data);
+    },
+    
+    leaveConversation(data)
+    {
+      socket.broadcast.to(data.conversation_id).emit('someoneLeaved',data);
+    },
+    
+    imInTheConversation(data)
+    {
+      socket.broadcast.to(data.conversation_id).emit('hesInTheConversation',data);
     }
 
+   
+    
   })
 }

@@ -236,9 +236,9 @@ module.exports = {
 
   axios: {
     baseURL: 
-    "https://back.dominiodepruebas.ml/api" 
-    /* 
     "http://localhost:8000/api" 
+    /* 
+    "https://back.dominiodepruebas.ml/api" 
     */
    
 /*   process.env.NODE_ENV == "production"

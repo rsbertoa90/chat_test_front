@@ -218,7 +218,7 @@ module.exports = {
 
   webfontloader: {
     google: {
-      families: ["Raleway"]
+      families: ["Raleway", "Roboto"]
     },
     custom: {
       families: ["fontawesome"],
@@ -235,11 +235,12 @@ module.exports = {
    */
 
   axios: {
-    baseURL: 
-    "http://localhost:8000/api" 
+    baseURL:
     /* 
+    "http://localhost:8000/api" 
+    /* */ 
     "https://back.dominiodepruebas.ml/api" 
-    */
+    /* */
    
 /*   process.env.NODE_ENV == "production"
         ? "https://back.dominiodepruebas.ml/api"

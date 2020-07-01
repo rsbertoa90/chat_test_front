@@ -5,7 +5,8 @@
             <div class="col col-3 h-100 p-0">
                 <conversations></conversations> 
             </div>
-            <div class="col col-6 h-100 p-0">
+            <div class="col col-6 d-flex flex-column h-100 p-0 ">
+                <chat-header></chat-header>
                 <chat></chat> 
             </div>
             <div class="col col-3 h-100 p-0">
@@ -18,12 +19,12 @@
 
 
 <script>
-import mapGetters from 'vuex';
-import notes from './notes.vue'
+import chatHeader from './chat-header.vue';
+import notes from './notes.vue';
 import conversations from './conversations.vue';
 import chat from '@/components/chat/chat.vue';
 export default {
-     components:{conversations,chat,notes},
+     components:{conversations,chat,notes,chatHeader},
      mounted() {
          this.$store.dispatch('fetchAllConversations');
      }

@@ -41,16 +41,16 @@ export default {
     z-index: 1;
 }
 #header-row-1 {
-    height: 20px;
-    background: #e45dad;
+    height: 19px;
+    background: #ff0aaf;
 }
 #header-row-2 {
     height: 45px;
     background: #b54479;
     img {
         margin-left: 16px;
-        max-width: 42px;
-        max-height: 42px;
+        max-width: 45px;
+        max-height: 45px;
     }
 }
 #header-row-3 {

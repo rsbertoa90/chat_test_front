@@ -82,7 +82,11 @@ module.exports = {
       {
         rel: "preconnect",
         href: "https://back.dominiodepruebas.ml"
-      }
+      },
+      {
+          rel: 'stylesheet', 
+          href: 'https://fonts.googleapis.com/css?family=Roboto'
+        }
     ],
     script: [
       {

@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="m-3">Observaciones del Cliente</div>
-        <form class="d-flex note-form" @submit.prevent="addNote()">
-            <input placeholder="nueva observación" class="form-control" type="text" v-model="newNote" />
-            <button type="submit" class="d-flex">
+        <form class="d-flex align-items-center note-form" @submit.prevent="addNote()">
+            <input placeholder="nueva observación" class="form-control mat" type="text" v-model="newNote" />
+            <button type="submit" class="d-flex ">
                 <i class="material-icons">add</i>
             </button>
         </form>

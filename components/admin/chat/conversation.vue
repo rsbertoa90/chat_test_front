@@ -66,7 +66,11 @@ export default {
                     conversation_id: this.conversation.id
                 };
                 this.$store.commit("updateConversation", d);
-                this.$store.commit("relocateConversation",this.conversation);
+                
+                if(this.admin)
+                {
+                    this.$store.commit("relocateConversation",this.conversation);
+                }
             }
         });
         
@@ -105,30 +109,44 @@ export default {
             }
         });
 
-        this.socket.on('checkTaken',conversation_id => {
-            if( this.conversation 
-                && this.activeConversation
-                && this.activeConversation.id == this.conversation.id
-                && conversation_id == this.activeConversation.id )
-                {
-                    let data = {
-                        conversation_id : conversation_id,
-                        user:{
-                            socket_id : this.socket.id,
-                            id:this.user.id,
-                            name:this.user.name
+       
+            this.socket.on('checkTaken',conversation_id => {
+                if( this.conversation 
+                    && this.activeConversation
+                    && this.activeConversation.id == this.conversation.id
+                    && conversation_id == this.activeConversation.id )
+                    {
+                        let data = {
+                            conversation_id : conversation_id,
+                            user:{
+                                socket_id : this.socket.id,
+                                id:this.user.id,
+                                name:this.user.name
+                            }
                         }
+                        this.socket.emit('imInTheConversation',data);
                     }
-                    this.socket.emit('imInTheConversation',data);
+            });
+    
+            this.socket.on('hesInTheConversation',data => {
+                if(this.conversation)
+                {
+                    this.conversation.taken_by = data.user;
                 }
-        });
+            });
 
-        this.socket.on('hesInTheConversation',data => {
-            if(this.conversation)
-            {
-                this.conversation.taken_by = data.user;
-            }
-        })
+            this.socket.on('conversationUpdated', data => {
+                if(this.conversation.id == data.conversation_id)
+                {
+                    this.conversation[data.field] = data.value;
+                    this.$store.commit('relocateConversation',this.conversation);
+                }
+            });
+        
+        
+
+
+        
     },
     computed: {
         isSelected() {

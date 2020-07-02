@@ -45,6 +45,11 @@ export default function Svc(socket, io) {
     imInTheConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('hesInTheConversation',data);
+    },
+    
+    updateConversation(data)
+    {
+      socket.broadcast.to(data.conversation_id).emit('conversationUpdated',data);
     }
 
    

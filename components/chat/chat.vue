@@ -17,9 +17,9 @@
                     v-if="item.type.startsWith('M')"
                     :class="getMessageClass(item)"
                 >
-                    <div v-if="item.url" class="miniature-img">
-                        <img :src="imagePath(item.url)" />
-                    </div>
+                    <a :href="imagePath(item.url)" target="_blank" v-if="item.url" >
+                        <img :src="imagePath(item.url)" class="miniature-img" />
+                    </a>
                     <span class="content" v-if="item.content">{{item.content}}</span>
                     <div class="info"> 
                         <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id != user.id">Enviado por {{item.user.name}}</span>
@@ -37,23 +37,39 @@
         <div v-else class="d-flex justify-content-center align-items-center h-100 chat-background">
             <span class="d-flex">Chat vacío.</span>
         </div>
-
-        <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex message-form">
-            <input v-model="newMessage" type="text" class="form-control mat material-shadow-1" @keypress="iSawTheMessages()" />
-            <button class="d-flex flex-column justify-content-center align-content-center h-100">
-                <i class="material-icons">attach_file</i>
-                <!-- <i class="fas fa-paperclip"></i> </button> -->
-            </button>
-            <button
-                type="submit"
-                :disabled="isSendDisabled"
-                class="d-flex flex-column justify-content-center align-content-center h-100"
-            >
-                <!-- <i class="fas fa-chevron-circle-right"></i> -->
-            <!--    <i class="fas">&#10148;</i> -->
-            <i class="material-icons">send</i>
-            </button>
-        </form>
+        <div class="form-container d-flex flex-column">
+            <div class="row w-100 d-flex justify-content-start pl-4 mb-3" v-if="preview">
+                <div class="col-4">
+                    <div class="preview-img">
+                            <img :src="preview" v-if="preview">
+                    </div>
+                </div>
+                <div class="col-8 fcc" v-if="!admin">
+                    <div class="d-flex justify-content-center text-center mt-2 isaticket-q"> ¿ ESTAS ADJUNTANDO UN COMPROBANTE DE PAGO ?</div>
+                    <div class="d-flex justify-content-around mt-2">
+                        <button class="btn btn-lg isaticket-a " @click="isATicket=true" :class="{'btn-success':isATicket,'btn-secondary':!isATicket}">SI</button>
+                        <button class="btn btn-lg isaticket-a " @click="isATicket=false" :class="{'btn-danger':!isATicket,'btn-secondary':isATicket}">NO</button>
+                    </div>
+                </div>
+            </div>
+            <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex message-form">
+                <input v-model="newMessage" type="text" class="form-control mat material-shadow-1" @keypress="iSawTheMessages()" />
+                <label class=" adj-btn d-flex flex-column justify-content-center align-content-center h-100">
+                        <i class="material-icons">attach_file</i>
+                        <input @change="onFileChange" type="file" name="file"  accept="image/x-png,image/gif,image/jpeg" class="display-none" >
+                </label>
+                
+                <button
+                    type="submit"
+                    :disabled="isSendDisabled"
+                    class="d-flex flex-column justify-content-center align-content-center h-100"
+                >
+                    <!-- <i class="fas fa-chevron-circle-right"></i> -->
+                <!--    <i class="fas">&#10148;</i> -->
+                <i class="material-icons">send</i>
+                </button>
+            </form>
+        </div>
     </div>
     <div v-else class="d-flex justify-content-center align-items-center h-100">
         <span class="d-flex">Seleccione una conversación.</span>
@@ -64,9 +80,14 @@
 export default {
     data() {
         return {
+            isATicket:true,
             newMessage: "",
             imWriting:false,
             hesWriting:false,
+
+             imageUploaded :false,
+             file : null,
+             preview:null,
         };
     },
     mounted() {
@@ -145,10 +166,11 @@ export default {
             }
         },
         isSendDisabled() {
-            return this.newMessage.trim().length == 0;
+            return (!this.newMessage.trim().length && !this.preview);
         }
     },
     watch: {
+    
         newMessage(){
             if( (this.newMessage.trim() && !this.imWriting)
              || (!this.newMessage.trim() && this.imWriting)  )
@@ -180,8 +202,12 @@ export default {
         }
     },
     methods: {
-        
-          iSawTheMessages()
+        onFileChange(e) {
+            const file = e.target.files[0];
+            this.preview= URL.createObjectURL(file);
+            this.imageUploaded=true;
+        },
+        iSawTheMessages()
         {
             if(this.conversation.unreads)
             {
@@ -213,35 +239,69 @@ export default {
 
         sendMessage() {
             var vm = this;
-            if (this.newMessage.trim()) {
-                let data = {
-                    conversation_id: this.conversation.id,
-                    admin: this.admin,
-                    content: this.newMessage
-                };
-                this.newMessage = "";
-                this.$axios.post('/message',data)
-                    .then(r => {
-                        vm.socketMessage(r.data);
-                        vm.$store.commit('addMessageToActiveConversation',r.data);  
-                        vm.scrollToBottom();
+            var fdata =  new FormData();
+            var shouldSend=false;
+            
+            
+            if(this.preview)
+            {
 
-                         if(this.admin)
-                        {
-                            let d = {
-                                field:'last_message',
-                                value:r.data,
-                                conversation_id:this.conversation.id
-                            }
-                            this.$store.commit('updateConversation',d);
-                            this.$store.commit('relocateConversation',this.conversation);
-                        }
-               
-               });
-
-               
-               
+                var file = $('input[type="file"]')[0].files[0];
+                if(file)
+                {
+                    shouldSend=true;
+                    fdata.append('image',file);
+                }
             }
+
+            if (this.newMessage.trim()) {
+                shouldSend=true;
+                fdata.append('content',this.newMessage);
+
+            }
+            
+            if(shouldSend)
+            {
+                fdata.append('conversation_id',this.conversation.id);
+                fdata.append('prio_auto',this.isATicket ? 1 : 0);
+                this.$axios.post('/message',fdata)
+                        .then(r => {
+                            vm.socketMessage(r.data);
+                            vm.$store.commit('addMessageToActiveConversation',r.data);  
+                            vm.scrollToBottom();
+
+                            if(this.admin)
+                            {
+                                let d = {
+                                    field:'last_message',
+                                    value:r.data,
+                                    conversation_id:this.conversation.id
+                                }
+                                this.$store.commit('updateConversation',d);
+                                this.$store.commit('relocateConversation',this.conversation);
+                            }
+                });
+            }
+
+            this.newMessage = "";
+            this.preview = null;
+            this.imageUploaded=false;
+
+            if(this.isATicket)
+            {
+                let data = 
+                {
+                    conversation_id:this.conversation.id,
+                    field:'prio_auto',
+                    value:true
+                }
+                if(this.admin)
+                {
+                    this.$store.commit('updateConversation',data);
+                }
+                this.socket.emit('updateConversation',data);
+            }
+            
         },
         scrollToBottom() {
             /* if (this.$refs.conversation){
@@ -298,6 +358,26 @@ function isDayChanged(message, previousMenssage) {
 </script>
 
 <style lang="scss" scoped>
+.miniature-img{
+    cursor:pointer;
+    width:200px;
+}
+.isaticket-q{
+    font-weight: bold;
+    font-size:20px;
+
+}
+.isaticket-a{
+    width:65px;
+}
+
+.display-none{display:none;}
+
+.preview-img{
+    width:120px;
+    margin-top:10px;
+}
+
 .chat {
     height: 100%;
     max-height: 85vh;
@@ -360,6 +440,8 @@ function isDayChanged(message, previousMenssage) {
     padding: 4px 8px 0 8px;
     margin: auto 16px;
     position: relative;
+    display:flex;
+    flex-direction: column;
 }
 
 .message.sent {
@@ -454,13 +536,21 @@ function isDayChanged(message, previousMenssage) {
 .viewed {
     color: #5bc8f4;
 }
-.message-form {
+.form-container{
     background: #e4e4e4;
     border-top: solid 1px #e6e6e6;
     outline: none;
-    padding: 0 8px;
     z-index: 2;
-    box-shadow: 0 -2px 4px 0px rgba(0, 0, 0, 0.1)
+    box-shadow: 0 -2px 4px 0px rgba(0, 0, 0, 0.1);
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+}
+.message-form {
+    padding: 0 8px;
+    width:100%;
+    align-items:center;
 }
 .message-form input {
     margin: 8px 0;
@@ -474,7 +564,7 @@ function isDayChanged(message, previousMenssage) {
     box-shadow: 0 1px 2px rgba(0,0,0,0.25);
 }
 
-.message-form button {
+.message-form button, .adj-btn {
     border: none;
     background: transparent;
     padding: 0;
@@ -484,11 +574,12 @@ function isDayChanged(message, previousMenssage) {
     margin: 0;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
     transition: box-shadow .15s ease-in-out;
+    cursor:pointer;
 }
 .message-form button:disabled {
     color: #cccccc !important;
 }
-.message-form button:hover {
+.message-form button:hover, .adj-btn{
     color: #5db68e;
 }
 .message-form button:active {
@@ -496,7 +587,7 @@ function isDayChanged(message, previousMenssage) {
     text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
 }
 
-.message-form button i {
+.message-form button i, .adj-btn i {
     font-size: 38px;
 }
 </style>

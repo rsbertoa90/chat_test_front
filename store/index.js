@@ -266,6 +266,7 @@ export const mutations = {
     if(conversation)
     {
       conversation[payload.field] = payload.value; 
+      this.commit('relocateConversation',conversation);
       
     }else{console.log('no encontre la conversacion')}
   },

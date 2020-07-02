@@ -83,10 +83,12 @@ module.exports = {
         rel: "preconnect",
         href: "https://back.dominiodepruebas.ml"
       },
+      /*
       {
           rel: 'stylesheet', 
           href: 'https://fonts.googleapis.com/css?family=Roboto'
         }
+        */
     ],
     script: [
       {
@@ -222,7 +224,8 @@ module.exports = {
 
   webfontloader: {
     google: {
-      families: ["Raleway", "Roboto"]
+      families: ["Raleway", "Roboto"],
+      urls: ['https://fonts.googleapis.com/css?family=Roboto:300,700&display=swap']
     },
     custom: {
       families: ["fontawesome"],

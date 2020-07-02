@@ -1,7 +1,12 @@
 <template>
     <div class="d-flex flex-column chat">
-        <div class="d-flex justify-content-center header">
+        <div v-if="conversation" class="d-flex align-items-center header">
             <i class="material-icons">textsms</i>
+            <div class="ml-2">
+                <div id="header-name">{{conversation.client.name}}</div>
+                <div v-if="hesWriting" class="header-status">escribiendo...</div>
+                <div v-if="hesOnline" class="header-status">en linea</div>
+            </div>
         </div>
         <div v-if="conversation" class="d-flex flex-column flex-grow-1">
             <div
@@ -76,7 +81,7 @@
                 <i class="material-icons">send</i>
             </button>
         </form>
-        <div v-else class="d-flex justify-content-center align-items-center h-100">
+        <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
             <span class="d-flex">Seleccione una conversación.</span>
         </div>
     </div>
@@ -88,7 +93,9 @@ export default {
         return {
             newMessage: "",
             imWriting: false,
-            hesWriting: false
+            hesWriting: true,
+            imOnline: true,
+            hesOnline: false
         };
     },
     mounted() {
@@ -338,9 +345,27 @@ function isDayChanged(message, previousMenssage) {
 </script>
 
 <style lang="scss" scoped>
+
 .header {
     background: rgba(178, 125, 161, 0.333);
     height: 64px;
+    i {
+        margin-left: 126px;
+        font-size: 24px;
+        color: #565656;
+    }
+}
+#header-name {
+    //margin-top: 12px;
+    font-size: 18px;
+    font-family: 'Roboto';
+    line-height: 20px;
+    color: #565656;
+}
+.header-status {
+    font-size: 10px;
+    font-family: 'Roboto';
+    color: rgba(0,0,0,0.25);
 }
 .chat {
     //height: 100%;
@@ -366,6 +391,7 @@ function isDayChanged(message, previousMenssage) {
 .item-container.day-separator {
     align-self: center;
     margin: 4px auto;
+    font-family: 'Roboto', sans-serif!important;
 }
 
 .item-container.received-message {

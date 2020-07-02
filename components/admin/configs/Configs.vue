@@ -28,6 +28,11 @@
                     @click="setSelected('sorteo')"> 
                     Sorteo 
             </button>
+            <button class="btn btn-block mt-2" 
+                    :class="{'btn-info':selected=='chat','btn-secondary':selected!='chat'}" 
+                    @click="setSelected('chat')"> 
+                    Chat 
+            </button>
         </div>
         <div class="col-8 p-4 ">
             <component :is="selected"></component>
@@ -42,14 +47,14 @@ import homegif from './homegif.vue';
 import minbuys from './minbuys.vue';
 import pdfs from './refreshpdfs.vue';
 import sorteo from './sorteo.vue';
+import chat from './chat/chat.vue';
 export default {
      metaInfo(){return{
         title: 'ADMIN'   }},
-    components:{infoBanner,homegif,minbuys,pdfs,sorteo},
+    components:{infoBanner,homegif,minbuys,pdfs,sorteo,chat},
     data(){
         return {
-            selected:'pdfs'
-            
+            selected:'pdfs',
         }
     },
     computed:{

@@ -20,6 +20,7 @@ export const strict = false
 
 export const state = () => {
   return {
+    fastAnswers:null,
     conversations: null,
     activeConversation: null,
 
@@ -45,6 +46,9 @@ export const state = () => {
 }
 
 export const getters = {
+  getFastAnswers(store){
+    return store.fastAnswers;
+  },
   getConversations(store) {
     return store.conversations;
   },
@@ -228,6 +232,10 @@ export const getters = {
 }
 
 export const mutations = {
+  setFastAnswers(state,payload)
+  {
+    state.fastAnswers = payload;
+  },
   relocateConversation(state,payload)
   {
     /* Reacomodo la conversacion arriba del todo, o abajo de las prioritarias. */
@@ -553,13 +561,22 @@ export const actions = {
 
   },
 
+  async fetchFastAnswers({
+    commit
+  })
+  {
+  await this.$axios.get('/fast-answers')
+    .then(r => {
+      commit('setFastAnswers', r.data);
+    })
+  },
+
   async fetchAllConversations({
     commit
   }) {
     await this.$axios.get('/all-conversations')
       .then(r => {
         commit('setConversations', r.data);
-        console.log('all conversations',r.data);
       })
   },
 

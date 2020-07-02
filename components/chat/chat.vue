@@ -336,7 +336,8 @@ export default {
             if (shouldSend) {
                 fdata.append("conversation_id", this.conversation.id);
                 fdata.append("prio_auto", this.isATicket ? 1 : 0);
-                this.$axios.post("/message", fdata).then(r => {
+               
+               this.$axios.post("/message", fdata).then(r => {
                     vm.socketMessage(r.data);
                     vm.$store.commit("addMessageToActiveConversation", r.data);
                     vm.scrollToBottom();

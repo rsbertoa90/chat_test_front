@@ -1,5 +1,16 @@
 @import "variables";
 
+.fcc{
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  flex-direction: column;
+  text-align: center;
+}
+.display-none{
+  display: none;
+}
+
 .bordered{
   border: 1px solid #9F9F9F;
   border-radius: 15px;

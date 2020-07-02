@@ -7,7 +7,7 @@ export default function Svc(socket, io) {
       if (!io.sockets.adapter.rooms[room])
       {
         socket.join(room);
-        socket.on('disconnecting',function(){
+        socket.in(room).on('disconnecting',function(){
           socket.broadcast.to(room).emit('isdisconnecting', {socket_id:socket.id,conversation_id:room});
         })
         /* consulto enseguida si alguien tiene la conversacion abierta */

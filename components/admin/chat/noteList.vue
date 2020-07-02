@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div class="pb-3">
         <div class="m-3">Observaciones del Cliente</div>
         <form class="d-flex align-items-center note-form" @submit.prevent="addNote()">
             <input placeholder="nueva observación" class="form-control mat" type="text" v-model="newNote" />
-            <button type="submit" class="d-flex ">
+            <button type="submit" class="d-flex mat mr-1">
                 <i class="material-icons">add</i>
             </button>
         </form>
         <div v-for="note in conversation.notes" :key="note.id" class="d-flex align-content-center note">
             <span class="w-100">{{ note.content }}</span>
-            <button @click="deleteNote(note)" class="d-flex">
+            <button @click="deleteNote(note)" class="d-flex mat mr-1">
                 <i class="material-icons">delete</i>
             </button>
         </div>
@@ -64,6 +64,7 @@ input:focus {
     box-shadow: none;
 
 }
+/*
 button {
     background: transparent;
     border: none;
@@ -74,7 +75,7 @@ button {
 button:active {
     border:none;
 }
-
+*/
 .note {
     width: auto;
     margin: 4px 24px 0 0;

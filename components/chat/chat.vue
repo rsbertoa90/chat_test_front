@@ -12,7 +12,7 @@
             <div
                 v-if="!empty"
                 id="conversation"
-                class="d-flex flex-column flex-grow-1 scrollbar-custom h-0 chat-background"
+                class="d-flex flex-column flex-grow-1 scrollbar-custom h-0 pb-2 chat-background"
                 ref="conversation"
                 @mouseover="iSawTheMessages()"
             >
@@ -20,7 +20,7 @@
                     class="d-flex item-container"
                     v-for="item in items"
                     :key="item.id"
-                    :class="getItemContainerClass(item) "
+                    :class="getItemContainerClass(item)"
                 >
                     <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
 
@@ -36,14 +36,14 @@
                         <span class="content" v-if="item.content">{{item.content}}</span>
                         <div class="info">
                             <span
-                                class="mr-4 time"
                                 v-if="admin && item && item.admin && item.user && item.user.id != user.id"
-                            >Enviado por {{item.user.name}}</span>
+                                class="mr-3 time"
+                            >enviado por {{item.user.name}}</span>
                             <span
-                                class="mr-4 time"
                                 v-if="admin && item && item.admin && item.user && item.user.id == user.id"
-                            >Enviado por MI</span>
-                            <span class="time">{{item.created_at | time}}</span>
+                                class="mr-3 time"
+                            >enviado por ti</span>
+                            <span class="time">{{ item.created_at | time }}</span>
                             <span
                                 v-if="item.type=='MS'"
                                 class="status fas"
@@ -59,14 +59,14 @@
             >
                 <span class="d-flex">Chat vacío.</span>
             </div>
-            <div class="form-container d-flex flex-column">
-                <div class="row w-100 d-flex justify-content-start pl-4 mb-3" v-if="preview">
+            <div v-if="conversation" class="form-container d-flex flex-column">
+                <div class="row w-100 d-flex justify-content-between pl-4 mb-3" v-if="preview">
                     <div class="col-4">
                         <div class="preview-img">
                             <img :src="preview" v-if="preview" />
                         </div>
                     </div>
-                    <div class="col-8 fcc" v-if="!admin">
+                    <div class="col-7 fcc" v-if="!admin">
                         <div
                             class="d-flex justify-content-center text-center mt-2 isaticket-q"
                         >¿ ESTAS ADJUNTANDO UN COMPROBANTE DE PAGO ?</div>
@@ -83,39 +83,42 @@
                             >NO</button>
                         </div>
                     </div>
+                    <div class="col-1 p-0 d-flex flex-column">
+                        <button class="mat m-1" @click="resetFileInput()">
+                            <i class="material-icons">close</i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-
-            <form
-                v-if="conversation"
-                @submit.prevent="sendMessage"
-                class="d-flex align-items-center message-form"
-            >
-                <input
-                    v-model="newMessage"
-                    type="text"
-                    class="form-control mat material-shadow-1"
-                    @keypress="iSawTheMessages()"
-                />
-                <label class="adj-btn d-flex">
-                    <i class="material-icons">attach_file</i>
+                <form
+                    v-if="conversation"
+                    @submit.prevent="sendMessage"
+                    class="d-flex align-items-center message-form"
+                >
                     <input
-                        @change="onFileChange"
-                        type="file"
-                        name="file"
-                        accept="image/x-png, image/gif, image/jpeg"
-                        class="display-none"
+                        v-model="newMessage"
+                        type="text"
+                        class="form-control mat material-shadow-1"
+                        @keypress="iSawTheMessages()"
                     />
-                </label>
-                <button type="submit" :disabled="isSendDisabled" class="d-flex">
-                    <!-- <i class="fas fa-chevron-circle-right"></i> -->
-                    <!--    <i class="fas">&#10148;</i> -->
-                    <i class="material-icons">send</i>
-                </button>
-            </form>
-            <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
-                <span class="d-flex">Seleccione una conversación.</span>
+                    <label class="adj-btn d-flex">
+                        <i class="material-icons">attach_file</i>
+                        <input
+                            @change="onFileChange"
+                            type="file"
+                            name="file"
+                            accept="image/x-png, image/gif, image/jpeg"
+                            class="display-none"
+                            ref="fileInput"
+                        />
+                    </label>
+                    <button type="submit" :disabled="isSendDisabled" class="d-flex mat">
+                        <i class="material-icons">send</i>
+                    </button>
+                </form>
             </div>
+        </div>
+        <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
+            <span class="d-flex">Seleccione una conversación.</span>
         </div>
     </div>
 </template>
@@ -128,7 +131,7 @@ export default {
             newMessage: "",
             imWriting: false,
             hesWriting: false,
-            
+
             imOnline: true,
             hesOnline: false,
 
@@ -192,6 +195,16 @@ export default {
             return this.$store.getters.getConversations;
         },
         empty() {
+            /*
+                    let lastMessage =
+                        vm.conversation.messages[
+                            vm.conversation.messages.length - 1
+                        ];
+                    let refId = "messageRef" + lastMessage.id;
+                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
+                        vm.$refs[refId][0].scrollIntoView();
+                    }
+                    */
             return !(
                 this.conversation &&
                 this.conversation.messages &&
@@ -264,8 +277,15 @@ export default {
     methods: {
         onFileChange(e) {
             const file = e.target.files[0];
-            this.preview = URL.createObjectURL(file);
-            this.imageUploaded = true;
+            if (file) {
+                this.preview = URL.createObjectURL(file);
+                this.imageUploaded = true;
+            }
+        },
+        resetFileInput() {
+            this.$refs.fileInput.value = "";
+            this.preview = null;
+            this.imageUploaded = false;
         },
         iSawTheMessages() {
             if (this.conversation.unreads) {
@@ -337,8 +357,7 @@ export default {
             }
 
             this.newMessage = "";
-            this.preview = null;
-            this.imageUploaded = false;
+            this.resetFileInput();
 
             if (this.isATicket) {
                 let data = {
@@ -367,16 +386,6 @@ export default {
                     console.log(vm.$refs.conversation.scrollTop);
                     let offset = vm.$refs.conversation.lastChild.offsetTop;
                     vm.$refs.conversation.scrollTop = offset - 40;
-                    /*
-                    let lastMessage =
-                        vm.conversation.messages[
-                            vm.conversation.messages.length - 1
-                        ];
-                    let refId = "messageRef" + lastMessage.id;
-                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
-                        vm.$refs[refId][0].scrollIntoView();
-                    }
-                    */
                 }
             }, 100);
         },

@@ -339,10 +339,15 @@ button.mat {
     background: transparent;
     border: none;
     padding: 0;
+    color: rgba(0,0,0,.75);
 }
 
 button.mat:active {
     border:none;
+}
+
+button.mat:focus {
+    outline: none;
 }
 
 

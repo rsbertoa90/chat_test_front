@@ -5,8 +5,8 @@
             <div class="col col-3 h-100 p-0">
                 <conversations></conversations> 
             </div>
-            <div class="col col-6 d-flex flex-column h-100 p-0 ">
-                <chat-header></chat-header>
+            <div class="col col-6 h-100 p-0 ">
+                <!-- <chat-header></chat-header> -->
                 <chat></chat> 
             </div>
             <div class="col col-3 h-100 p-0">

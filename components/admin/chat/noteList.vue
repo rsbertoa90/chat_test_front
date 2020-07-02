@@ -3,13 +3,13 @@
         <div class="m-3">Observaciones del Cliente</div>
         <form class="d-flex note-form" @submit.prevent="addNote()">
             <input placeholder="nueva observación" class="form-control" type="text" v-model="newNote" />
-            <button type="submit">
+            <button type="submit" class="d-flex">
                 <i class="material-icons">add</i>
             </button>
         </form>
-        <div v-for="note in conversation.notes" :key="note.id" class="d-flex note">
+        <div v-for="note in conversation.notes" :key="note.id" class="d-flex align-content-center note">
             <span class="w-100">{{ note.content }}</span>
-            <button @click="deleteNote(note)">
+            <button @click="deleteNote(note)" class="d-flex">
                 <i class="material-icons">delete</i>
             </button>
         </div>

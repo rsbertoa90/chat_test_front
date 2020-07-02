@@ -1,62 +1,84 @@
 <template>
-    <div v-if="conversation" class="d-flex flex-column flex-grow-1 chat">
-        <div
-            v-if="!empty"
-            id="conversation"
-            class="d-flex flex-column flex-grow-1 scrollbar-custom chat-background"
-            ref="conversation"  @mouseover="iSawTheMessages()">
+    <div class="d-flex flex-column chat">
+        <div class="d-flex justify-content-center header">
+            <i class="material-icons">textsms</i>
+        </div>
+        <div v-if="conversation" class="d-flex flex-column flex-grow-1">
             <div
-                class="d-flex item-container"
-                v-for="item in items" :key="item.id"
-                :class="getItemContainerClass(item) ">
-                <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
-
+                v-if="!empty"
+                id="conversation"
+                class="d-flex flex-column flex-grow-1 scrollbar-custom h-0 chat-background"
+                ref="conversation"
+                @mouseover="iSawTheMessages()"
+            >
                 <div
-                    class="message"
-                    :ref="'messageRef'+item.id"
-                    v-if="item.type.startsWith('M')"
-                    :class="getMessageClass(item)"
+                    class="d-flex item-container"
+                    v-for="item in items"
+                    :key="item.id"
+                    :class="getItemContainerClass(item) "
                 >
-                    <div v-if="item.url" class="miniature-img">
-                        <img :src="imagePath(item.url)" />
-                    </div>
-                    <span class="content" v-if="item.content">{{item.content}}</span>
-                    <div class="info"> 
-                        <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id != user.id">Enviado por {{item.user.name}}</span>
-                        <span class="mr-4 time" v-if="admin && item && item.admin && item.user && item.user.id == user.id">Enviado por MI</span>
-                        <span class="time">{{item.created_at | time}}</span>
-                        <span 
-                            v-if="item.type=='MS'"
-                            class="status fas"
-                            :class="getCheckedIconClass(item)"
-                        ></span>
+                    <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
+
+                    <div
+                        class="message"
+                        :ref="'messageRef'+item.id"
+                        v-if="item.type.startsWith('M')"
+                        :class="getMessageClass(item)"
+                    >
+                        <div v-if="item.url" class="miniature-img">
+                            <img :src="imagePath(item.url)" />
+                        </div>
+                        <span class="content" v-if="item.content">{{item.content}}</span>
+                        <div class="info">
+                            <span
+                                class="mr-4 time"
+                                v-if="admin && item && item.admin && item.user && item.user.id != user.id"
+                            >Enviado por {{item.user.name}}</span>
+                            <span
+                                class="mr-4 time"
+                                v-if="admin && item && item.admin && item.user && item.user.id == user.id"
+                            >Enviado por MI</span>
+                            <span class="time">{{item.created_at | time}}</span>
+                            <span
+                                v-if="item.type=='MS'"
+                                class="status fas"
+                                :class="getCheckedIconClass(item)"
+                            ></span>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div
+                v-else
+                class="d-flex justify-content-center align-items-center h-100 chat-background"
+            >
+                <span class="d-flex">Chat vacío.</span>
+            </div>
         </div>
-        <div v-else class="d-flex justify-content-center align-items-center h-100 chat-background">
-            <span class="d-flex">Chat vacío.</span>
-        </div>
-
-        <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex message-form">
-            <input v-model="newMessage" type="text" class="form-control mat material-shadow-1" @keypress="iSawTheMessages()" />
-            <button class="d-flex flex-column justify-content-center align-content-center h-100">
+        <form v-if="conversation" @submit.prevent="sendMessage" class="d-flex align-items-center message-form">
+            <input
+                v-model="newMessage"
+                type="text"
+                class="form-control mat material-shadow-1"
+                @keypress="iSawTheMessages()"
+            />
+            <button class="d-flex">
                 <i class="material-icons">attach_file</i>
                 <!-- <i class="fas fa-paperclip"></i> </button> -->
             </button>
             <button
                 type="submit"
                 :disabled="isSendDisabled"
-                class="d-flex flex-column justify-content-center align-content-center h-100"
+                class="d-flex"
             >
                 <!-- <i class="fas fa-chevron-circle-right"></i> -->
-            <!--    <i class="fas">&#10148;</i> -->
-            <i class="material-icons">send</i>
+                <!--    <i class="fas">&#10148;</i> -->
+                <i class="material-icons">send</i>
             </button>
         </form>
-    </div>
-    <div v-else class="d-flex justify-content-center align-items-center h-100">
-        <span class="d-flex">Seleccione una conversación.</span>
+        <div v-else class="d-flex justify-content-center align-items-center h-100">
+            <span class="d-flex">Seleccione una conversación.</span>
+        </div>
     </div>
 </template>
 
@@ -65,52 +87,63 @@ export default {
     data() {
         return {
             newMessage: "",
-            imWriting:false,
-            hesWriting:false,
+            imWriting: false,
+            hesWriting: false
         };
     },
     mounted() {
         var vm = this;
         /* conecto al socket */
         this.socket = this.$nuxtSocket({
-            channel: '/index',
+            channel: "/index",
             reconnection: true
-        });  
-       
+        });
+
         this.scrollToBottom();
 
         //cuando recibo un mensaje por el socket
-        this.socket.on('newMessage', data => {
-            if(data.user_id != vm.user.id && data.conversation_id == vm.conversation.id)
-            {
-                this.$store.commit('addMessageToActiveConversation',data.message);
-                this.conversation.unreads+=1;
+        this.socket.on("newMessage", data => {
+            if (
+                data.user_id != vm.user.id &&
+                data.conversation_id == vm.conversation.id
+            ) {
+                this.$store.commit(
+                    "addMessageToActiveConversation",
+                    data.message
+                );
+                this.conversation.unreads += 1;
                 this.scrollToBottom();
-                if(this.admin){
-                    this.$store.commit('relocateConversation',this.conversation);
+                if (this.admin) {
+                    this.$store.commit(
+                        "relocateConversation",
+                        this.conversation
+                    );
                 }
             }
         });
 
-         //Cuando el server me avisa que el otro vio mis mensajes
-        this.socket.on('heSawMyMessages', data => {
-            if(data.user_id != vm.user.id && data.conversation_id == vm.conversation.id){ //me aseguro q el mensaje no es mio
-                
-                vm.$store.commit('heSawMyMessages',{conversation_id : vm.conversation.id,
-                                                    admin : vm.admin ? 1:0});
+        //Cuando el server me avisa que el otro vio mis mensajes
+        this.socket.on("heSawMyMessages", data => {
+            if (
+                data.user_id != vm.user.id &&
+                data.conversation_id == vm.conversation.id
+            ) {
+                //me aseguro q el mensaje no es mio
+
+                vm.$store.commit("heSawMyMessages", {
+                    conversation_id: vm.conversation.id,
+                    admin: vm.admin ? 1 : 0
+                });
             }
         });
-
-        
-        
     },
- 
+
     computed: {
         conversation() {
             return this.$store.getters.getActiveConversation;
         },
-        conversations(){
-            return this.$store.getters.getConversations
+        conversations() {
+            return this.$store.getters.getConversations;
         },
         empty() {
             return !(
@@ -149,15 +182,18 @@ export default {
         }
     },
     watch: {
-        newMessage(){
-            if( (this.newMessage.trim() && !this.imWriting)
-             || (!this.newMessage.trim() && this.imWriting)  )
-            {
+        newMessage() {
+            if (
+                (this.newMessage.trim() && !this.imWriting) ||
+                (!this.newMessage.trim() && this.imWriting)
+            ) {
                 this.imWriting = !this.imWriting;
-                let data = {conversation_id:this.conversation.id,
-                            writing:this.imWriting,
-                            user_id:this.user.id}
-                this.socket.emit('imWriting',data);
+                let data = {
+                    conversation_id: this.conversation.id,
+                    writing: this.imWriting,
+                    user_id: this.user.id
+                };
+                this.socket.emit("imWriting", data);
             }
         },
         conversation(n, o) {
@@ -165,50 +201,47 @@ export default {
                 this.scrollToBottom();
             }, 500);
 
-            if (this.conversation)
-            {
+            if (this.conversation) {
                 /* conecto a la sala */
-                this.socket.emit('joinRoom',this.conversation.id);
-               
+                this.socket.emit("joinRoom", this.conversation.id);
             }
         },
-        'conversation.unreads'(){
-            if(this.admin && this.conversation)
-            {
-                this.$store.commit('changeUnreads',{conversation_id:this.conversation.id,unreads:this.conversation.unreads})
+        "conversation.unreads"() {
+            if (this.admin && this.conversation) {
+                this.$store.commit("changeUnreads", {
+                    conversation_id: this.conversation.id,
+                    unreads: this.conversation.unreads
+                });
             }
         }
     },
     methods: {
-        
-          iSawTheMessages()
-        {
-            if(this.conversation.unreads)
-            {
-                var vm =this;
-                this.$axios.put(`/view-messages/${this.conversation.id}`)
-                   
+        iSawTheMessages() {
+            if (this.conversation.unreads) {
+                var vm = this;
+                this.$axios.put(`/view-messages/${this.conversation.id}`);
+
                 let data = {
-                    conversation_id : vm.conversation.id,
-                    user_id : vm.user.id,
-                    admin : vm.admin
-                }
-                this.socket.emit('iSawHisMessages',data);
-                
-                this.$store.commit('iSawHisMessages',{conversation_id : vm.conversation.id,
-                                                        admin : vm.admin ? 1:0});
-                this.conversation.unreads=0;
+                    conversation_id: vm.conversation.id,
+                    user_id: vm.user.id,
+                    admin: vm.admin
+                };
+                this.socket.emit("iSawHisMessages", data);
+
+                this.$store.commit("iSawHisMessages", {
+                    conversation_id: vm.conversation.id,
+                    admin: vm.admin ? 1 : 0
+                });
+                this.conversation.unreads = 0;
             }
         },
-        socketMessage(message)
-        {
+        socketMessage(message) {
             let data = {
-                user_id : this.user.id,
+                user_id: this.user.id,
                 conversation_id: this.conversation.id,
-                message : message
-            }
-            this.socket.emit('sendNewMessage',data);
-
+                message: message
+            };
+            this.socket.emit("sendNewMessage", data);
         },
 
         sendMessage() {
@@ -220,46 +253,53 @@ export default {
                     content: this.newMessage
                 };
                 this.newMessage = "";
-                this.$axios.post('/message',data)
-                    .then(r => {
-                        vm.socketMessage(r.data);
-                        vm.$store.commit('addMessageToActiveConversation',r.data);  
-                        vm.scrollToBottom();
+                this.$axios.post("/message", data).then(r => {
+                    vm.socketMessage(r.data);
+                    vm.$store.commit("addMessageToActiveConversation", r.data);
+                    vm.scrollToBottom();
 
-                         if(this.admin)
-                        {
-                            let d = {
-                                field:'last_message',
-                                value:r.data,
-                                conversation_id:this.conversation.id
-                            }
-                            this.$store.commit('updateConversation',d);
-                            this.$store.commit('relocateConversation',this.conversation);
-                        }
-               
-               });
-
-               
-               
+                    if (this.admin) {
+                        let d = {
+                            field: "last_message",
+                            value: r.data,
+                            conversation_id: this.conversation.id
+                        };
+                        this.$store.commit("updateConversation", d);
+                        this.$store.commit(
+                            "relocateConversation",
+                            this.conversation
+                        );
+                    }
+                });
             }
         },
         scrollToBottom() {
             /* if (this.$refs.conversation){
                 this.$refs.conversation.scrollTop = this.$refs.conversation.scrollHeight;
             } */
-                var vm =this;
-                setTimeout(() => {
-                    if(vm.conversation && vm.conversation.messages && vm.conversation.messages.length)
-                    {
-                        let lastMessage = vm.conversation.messages[vm.conversation.messages.length-1];
-                        let refId = 'messageRef'+lastMessage.id;
-                        if(vm.$refs[refId] &&  vm.$refs[refId][0])
-                        {
-                            vm.$refs[refId][0].scrollIntoView();
-                        }
-                        
+            var vm = this;
+            setTimeout(() => {
+                if (
+                    vm.conversation &&
+                    vm.conversation.messages &&
+                    vm.conversation.messages.length
+                ) {
+                    console.log(vm.$refs);
+                    console.log(vm.$refs.conversation.scrollTop);
+                    let offset = vm.$refs.conversation.lastChild.offsetTop;
+                    vm.$refs.conversation.scrollTop = offset - 40;
+                    /*
+                    let lastMessage =
+                        vm.conversation.messages[
+                            vm.conversation.messages.length - 1
+                        ];
+                    let refId = "messageRef" + lastMessage.id;
+                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
+                        vm.$refs[refId][0].scrollIntoView();
                     }
-                }, 500);
+                    */
+                }
+            }, 100);
         },
         isMessageSent(message) {
             return (
@@ -298,9 +338,13 @@ function isDayChanged(message, previousMenssage) {
 </script>
 
 <style lang="scss" scoped>
+.header {
+    background: rgba(178, 125, 161, 0.333);
+    height: 64px;
+}
 .chat {
-    height: 100%;
-    max-height: 85vh;
+    //height: 100%;
+    min-height: 100%;
 }
 .empty {
     box-sizing: border-box;
@@ -309,8 +353,9 @@ function isDayChanged(message, previousMenssage) {
     background: #e5ddd5;
 }
 #conversation {
-//    overflow-y: scroll;
-//    scroll-behavior: smooth;
+    height: 0;
+    //    overflow-y: scroll;
+    //    scroll-behavior: smooth;
 }
 
 .item-container {
@@ -369,7 +414,7 @@ function isDayChanged(message, previousMenssage) {
     background: #ffffff;
 }
 
-:not(.sent-message) + .sent-message .message{
+:not(.sent-message) + .sent-message .message {
     border-top-right-radius: 0;
 }
 
@@ -398,7 +443,6 @@ function isDayChanged(message, previousMenssage) {
     z-index: 100;
     */
 }
-
 
 :not(.received-message) + .received-message .message:after {
     position: absolute;
@@ -460,7 +504,7 @@ function isDayChanged(message, previousMenssage) {
     outline: none;
     padding: 0 8px;
     z-index: 2;
-    box-shadow: 0 -2px 4px 0px rgba(0, 0, 0, 0.1)
+    box-shadow: 0 -2px 4px 0px rgba(0, 0, 0, 0.1);
 }
 .message-form input {
     margin: 8px 0;
@@ -468,10 +512,10 @@ function isDayChanged(message, previousMenssage) {
     // height: px;
     border-radius: 19px;
     border: 0;
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 }
 .message-form input:focus {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .message-form button {
@@ -482,8 +526,8 @@ function isDayChanged(message, previousMenssage) {
     // height: 38px;
     color: #6fcea3;
     margin: 0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
-    transition: box-shadow .15s ease-in-out;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    transition: box-shadow 0.15s ease-in-out;
 }
 .message-form button:disabled {
     color: #cccccc !important;
@@ -493,7 +537,7 @@ function isDayChanged(message, previousMenssage) {
 }
 .message-form button:active {
     color: #36a774;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .message-form button i {

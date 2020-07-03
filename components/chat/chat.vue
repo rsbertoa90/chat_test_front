@@ -13,7 +13,8 @@
             <chat-footer
                 :conversation="conversation"
                 @writingChange="onWritingChange"
-                @sendMessage="onSendMessage"/>
+                @sendMessage="onSendMessage"
+                @sendFastAnswer="sendFastAnswer"/>
 
         </div>
         <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
@@ -31,13 +32,10 @@ export default {
     components: { chatHeader, conversation, chatFooter },
     data() {
         return {
-            hesWriting: false,
             imOnline: true,
-            hesOnline: false,
-/*
             imageUploaded: false,
             file: null
-            */
+            
         };
     },
     mounted() {
@@ -83,9 +81,56 @@ export default {
                 });
             }
         });
+
+         this.socket.on('hesWriting', data => {
+            if(data.conversation_id == this.conversation.id 
+                && this.user.id != data.user_id)
+                {
+                    this.$store.commit('setHesWriting',data.writing);
+                    if(!this.hesOnline){
+                        this.$store.commit('setHesOnline',true);
+                    }
+                }
+            
+        });
+
+         this.socket.on('someoneJoined', data => {
+            if(data.user.id != this.user.id 
+                && data.conversation_id == this.conversation.id)
+            {
+                this.$store.commit('setHesOnline',true);
+            }
+        });
+
+        this.socket.on('someoneLeaved', data => {
+            if(data.user_id != this.user.id 
+                && data.conversation_id == this.conversation.id
+            )
+            {
+                this.$store.commit('setHesOnline',false);
+                this.$store.commit('setHesWriting',false);
+          }
+        });
+
+         this.socket.on('isdisconnecting',data=>{
+             if(vm.conversation 
+               && vm.conversation.id == data.conversation_id)
+            {
+                this.$store.commit('setHesOnline',false);
+                this.$store.commit('setHesWriting',false);
+            }
+        });
+
+
     },
 
     computed: {
+        hesWriting(){
+            return this.$store.getters.getHesWriting;
+        },
+        hesOnline(){
+            return this.$store.getters.getHesOnline;
+        },
         conversation() {
             return this.$store.getters.getActiveConversation;
         },
@@ -130,6 +175,12 @@ export default {
                     admin: vm.admin ? 1 : 0
                 });
                 this.conversation.unreads = 0;
+                
+                /* si es un cliente quito el unreads para que se quite la notificacion del icono de mensaje */
+                if(this.user && !this.admin)
+                {
+                    this.$store.commit('setUnreads',0);
+                }
             }
         },
         socketMessage(message) {
@@ -140,6 +191,40 @@ export default {
             };
             this.socket.emit("sendNewMessage", data);
         },
+        messageSended(r)
+        {
+            var vm = this;
+            vm.socketMessage(r.data);
+            vm.$store.commit("addMessageToActiveConversation", r.data);
+            vm.$refs.conversation.scrollToBottom();
+
+            if (this.admin) 
+            {
+                let d = {
+                    field: "last_message",
+                    value: r.data,
+                    conversation_id: this.conversation.id
+                };
+                this.$store.commit("updateConversation", d);
+                this.$store.commit(
+                    "relocateConversation",
+                    this.conversation
+                );
+            }
+        },  
+        sendFastAnswer(e){
+            console.log('fa_id ',e);
+            var vm = this;
+            let data = {
+                conversation_id: this.conversation.id,
+                fa_id:e
+            }
+            this.$axios.post('/send-fast-answer',data)
+                .then(r => {
+                    console.log('MENSAJE RAPIDO ENVIADO',r.data);
+                    vm.messageSended(r);
+                });
+        },
         onSendMessage(event) {
             console.log("sendMessage");
             console.log(event.fdata);
@@ -148,22 +233,7 @@ export default {
             
             var vm = this;
             this.$axios.post("/message", event.fdata).then(r => {
-                vm.socketMessage(r.data);
-                vm.$store.commit("addMessageToActiveConversation", r.data);
-                vm.$refs.conversation.scrollToBottom();
-
-                if (this.admin) {
-                    let d = {
-                        field: "last_message",
-                        value: r.data,
-                        conversation_id: this.conversation.id
-                    };
-                    this.$store.commit("updateConversation", d);
-                    this.$store.commit(
-                        "relocateConversation",
-                        this.conversation
-                    );
-                }
+                vm.messageSended(r);
             });
 
             if (event.isATicket) {

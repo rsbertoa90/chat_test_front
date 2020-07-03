@@ -39,6 +39,7 @@ export default {
     data() {
         return {
             hesWriting:false,
+            hesOnline:false
         }
     },
     mounted(){
@@ -76,13 +77,14 @@ export default {
         
         this.socket.on('hesWriting', data => {
             if(data.conversation_id == this.conversation.id && this.user.id != data.user_id)
-            this.hesWriting=data.writing;
+            this.hesWriting = data.writing;
         });
 
         this.socket.on('someoneJoined', data => {
             if(data.user.id != this.user.id && data.conversation_id == this.conversation.id)
             {
                 this.conversation.taken_by = data.user;
+                this.hesOnline = true;
             }
         });
 
@@ -93,6 +95,7 @@ export default {
                 && this.conversation.taken_by.id == data.user_id)
             {
                 this.conversation.taken_by = null;
+                this.hesOnline = false;
             }
         });
 
@@ -106,6 +109,7 @@ export default {
             }else if(vm.conversation.id == data.conversation_id)
             {
                 vm.hesWriting = false;
+                vm.hesOnline = false;
             }
         });
 
@@ -197,6 +201,8 @@ export default {
                     }                
                 }
                 this.socket.emit('joinConversation',data);
+                this.$store.commit('setHesWriting',this.hesWriting);
+                this.$store.commit('setHesOnline',this.hesOnline);
             }else{
                 console.log(this.conversation.taken_by.name,' esta hablando con este cliente');
             }

@@ -74,23 +74,16 @@ export default {
             var vm = this;
             setTimeout(() => {
                 if (
-                    vm.conversation &&
-                    vm.conversation.messages &&
-                    vm.conversation.messages.length
-                ) {
-                    /*
-                    let lastMessage =
-                        vm.conversation.messages[
-                            vm.conversation.messages.length - 1
-                        ];
-                    let refId = "messageRef" + lastMessage.id;
-                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
-                        vm.$refs[refId][0].scrollIntoView();
-                    }
-                    */
-                    vm.$refs.conversation.scrollTop =
-                        vm.$refs.conversation.lastChild.offsetTop - 40;
-                }
+                    vm.conversation 
+                    && vm.conversation.messages 
+                    && vm.conversation.messages.length
+                    && vm.$refs.conversation
+                    && vm.$refs.conversation.lastChild
+                )
+                {
+                       vm.$refs.conversation.scrollTop =
+                           vm.$refs.conversation.lastChild.offsetTop - 40;
+                } 
             }, 100);
         },
         isMessageSent(message) {

@@ -1,5 +1,5 @@
 <template>
-    <div class="row w-100 d-flex justify-content-between pl-4 mb-3" v-if="preview">
+    <div v-if="preview" class="row w-100 d-flex justify-content-between pl-4 mb-3" >
         <div class="col-4">
             <div class="preview-img">
                 <img :src="preview" v-if="preview" />
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-1 p-0 d-flex flex-column">
-            <button class="mat m-1" @click="resetFileInput()">
+            <button class="mat m-1" @click="cancelAttach()">
                 <i class="material-icons">close</i>
             </button>
         </div>
@@ -32,41 +32,30 @@
 
 <script>
 export default {
-    props: ["preview"],
+    props: ["file"],
     data() {
         return {
-            preview: null,
+            isATicket: true,
             imageUploaded: false,
-            file: null,
         };
     },
-    methods: {
-        onFileChange(e) {
-            this.file = e.target.files[0];
-            if (file) {
-                this.preview = URL.createObjectURL(file);
+    computed: {
+        preview() {
+            if (this.file) {
                 this.imageUploaded = true;
+                return URL.createObjectURL(this.file);
             }
-            this.emitChanges();
-        },
-        resetFileInput() {
-            this.$refs.fileInput.value = "";
-            this.preview = null;
-            this.file = null;
+            return null;
+        }
+    },
+    methods: {
+        cancelAttach() { 
             this.imageUploaded = false;
-            this.emitChanges();
+            this.$emit('cancelAttach');
         },
         setIsATicket(v) {
-            this.isATicket = value;
-            this.emitChanges();
-        },
-        emitChanges() {
-            this.$emit('attachChange', 
-                {
-                    file: file, 
-                    preview: preview, 
-                    isATicket: this.isATicket
-                });
+            this.isATicket = v;
+            this.$emit('isATicketChange', v);
         }
     }
 };

@@ -141,11 +141,10 @@ export default {
             this.socket.emit("sendNewMessage", data);
         },
         onSendMessage(event) {
-            /*
             console.log("sendMessage");
             console.log(event.fdata);
             console.log("isATicket " + event.isATicket);
-            */
+            
             
             var vm = this;
             this.$axios.post("/message", event.fdata).then(r => {

@@ -312,8 +312,11 @@ a:hover {
   }
 }
 
-$shadow-color : rgba(0, 0, 0, 0.3333);
+.roboto {
+    font-family: 'Roboto', sans-serif;
+}
 
+$shadow-color : rgba(0, 0, 0, 0.3333);
 
 .material-shadow-1 {
     box-shadow: 1px 1px 1px $shadow-color;
@@ -328,9 +331,6 @@ $shadow-color : rgba(0, 0, 0, 0.3333);
 }
 .top-shine {
     border-top: 1px rgba($color: #ffffff, $alpha: 0.8);
-}
-.scrollbar-custom {
-    overflow-y: scroll;
 }
 
 input.mat {
@@ -361,6 +361,9 @@ button.mat:focus {
     outline: none;
 }
 
+.scrollbar-custom {
+    overflow-y: scroll;
+}
 
 .scrollbar-custom::-webkit-scrollbar {
     width: 6px;

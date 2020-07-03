@@ -49,14 +49,16 @@
 
 <script>
 export default {
-    // props: ["conversation"],
+    props: ["conversation"],
     mounted() {
         this.scrollToBottom();
     },
     computed: {
+        /*
         conversation() {
             return this.$store.getters.getActiveConversation;
         },
+        */
         empty() {
             return !(
                 this.conversation &&

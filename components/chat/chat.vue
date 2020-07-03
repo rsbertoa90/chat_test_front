@@ -1,60 +1,9 @@
 <template>
     <div class="d-flex flex-column chat">
         <chatHeader v-if="conversation" :conversation="conversation" />
-        <div v-if="conversation" class="d-flex flex-column flex-grow-1">
-            <conversation :conversation="conversation" @mouseover="iSawTheMessages()" ref="conversation" />
-            <!--
-            <div
-                v-if="!empty"
-                id="conversation"
-                class="d-flex flex-column flex-grow-1 scrollbar-custom h-0 pb-2 chat-background"
-                ref="conversation"
-                @mouseover="iSawTheMessages()"
-            >
-                <div
-                    class="d-flex item-container"
-                    v-for="item in items"
-                    :key="item.id"
-                    :class="getItemContainerClass(item)"
-                >
-                    <span v-if="item.type=='DS'" class="day">{{item.day | date}}</span>
+        <div v-if="conversation" class="d-flex flex-column flex-grow-1" @mouseover="iSawTheMessages()">
+            <conversation :conversation="conversation" ref="conversation" />
 
-                    <div
-                        class="message"
-                        :ref="'messageRef'+item.id"
-                        v-if="item.type.startsWith('M')"
-                        :class="getMessageClass(item)"
-                    >
-                        <a :href="imagePath(item.url)" target="_blank" v-if="item.url">
-                            <img :src="imagePath(item.url)" class="miniature-img" />
-                        </a>
-                        <span class="content" v-if="item.content">{{item.content}}</span>
-                        <div class="info">
-                            <span
-                                v-if="admin && item && item.admin && item.user && item.user.id != user.id"
-                                class="mr-3 time"
-                            >enviado por {{item.user.name}}</span>
-                            <span
-                                v-if="admin && item && item.admin && item.user && item.user.id == user.id"
-                                class="mr-3 time"
-                            >enviado por ti</span>
-                            <span class="time">{{ item.created_at | time }}</span>
-                            <span
-                                v-if="item.type=='MS'"
-                                class="status fas"
-                                :class="getCheckedIconClass(item)"
-                            ></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div
-                v-else
-                class="d-flex justify-content-center align-items-center h-100 chat-background"
-            >
-                <span class="d-flex">Chat vacío.</span>
-            </div>
-            -->
             <div v-if="conversation" class="form-container d-flex flex-column">
                 <div class="row w-100 d-flex justify-content-between pl-4 mb-3" v-if="preview">
                     <div class="col-4">
@@ -149,8 +98,6 @@ export default {
             reconnection: true
         });
 
-        // this.scrollToBottom();
-
         //cuando recibo un mensaje por el socket
         this.socket.on("newMessage", data => {
             if (
@@ -195,38 +142,6 @@ export default {
         conversations() {
             return this.$store.getters.getConversations;
         },
-        // empty() {
-        //     return !(
-        //         this.conversation &&
-        //         this.conversation.messages &&
-        //         this.conversation.messages.length > 0
-        //     );
-        // },
-        // items() {
-        //     if (!this.empty) {
-        //         this.conversation.messages.sort((a, b) => a.id - b.id);
-        //         let items = [
-        //             {
-        //                 type: "DS", // Day Separator
-        //                 day: this.conversation.messages[0].created_at
-        //             }
-        //         ];
-        //         this.conversation.messages.forEach((message, i) => {
-        //             if (
-        //                 i > 0 &&
-        //                 isDayChanged(message, this.conversation.messages[i - 1])
-        //             ) {
-        //                 items.push({
-        //                     type: "DS",
-        //                     day: message.created_at
-        //                 });
-        //             }
-        //             message.type = this.isMessageSent(message) ? "MS" : "MR";
-        //             items.push(message);
-        //         });
-        //         return items;
-        //     }
-        // },
         isSendDisabled() {
             return !this.newMessage.trim().length && !this.preview;
         }
@@ -247,12 +162,6 @@ export default {
             }
         },
         conversation(n, o) {
-            console.log("chat>conversation updated");
-            /*
-            setTimeout(() => {
-                this.scrollToBottom();
-            }, 500);
-*/
             if (this.conversation) {
                 /* conecto a la sala */
                 this.socket.emit("joinRoom", this.conversation.id);
@@ -281,6 +190,7 @@ export default {
             this.imageUploaded = false;
         },
         iSawTheMessages() {
+            console.log("isSawTheMessages");
             if (this.conversation.unreads) {
                 var vm = this;
                 this.$axios.put(`/view-messages/${this.conversation.id}`);
@@ -365,92 +275,14 @@ export default {
                 this.socket.emit("updateConversation", data);
             }
         },
-        /*
-        scrollToBottom() {
-                        
-            var vm = this;
-            setTimeout(() => {
-                if (
-                    vm.conversation &&
-                    vm.conversation.messages &&
-                    vm.conversation.messages.length
-                ) {
-                    /*
-                    let lastMessage =
-                        vm.conversation.messages[
-                            vm.conversation.messages.length - 1
-                        ];
-                    let refId = "messageRef" + lastMessage.id;
-                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
-                        vm.$refs[refId][0].scrollIntoView();
-                    }
-                    */ /* 
-                    vm.$refs.conversation.scrollTop = vm.$refs.conversation.lastChild.offsetTop - 40;
-                }
-            }, 100);
-        },
-        isMessageSent(message) {
-            return (
-                (this.admin && message.admin) || (!this.admin && !message.admin)
-            );
-        },
-        getItemContainerClass(item) {
-            switch (item.type) {
-                case "DS":
-                    return { "day-separator": true };
-                case "MS":
-                    return { "sent-message": true };
-                case "MR":
-                    return { "received-message": true };
-            }
-        },
-        getMessageClass(message) {
-            let sent = this.isMessageSent(message);
-            return { sent: sent, received: !sent };
-        },
-        getCheckedIconClass(message) {
-            return {
-                "fa-check": !message.sended,
-                "fa-check-double": message.sended,
-                viewed: message.viewed
-            };
-        }
-        */
+
     }
 };
-/*
-function isDayChanged(message, previousMenssage) {
-    return previousMenssage.created_at
-        .slice(0, 10)
-        .localeCompare(message.created_at.slice(0, 10));
-}
-*/
+
 </script>
 
 <style lang="scss" scoped>
-/*
-.header {
-    background: rgba(178, 125, 161, 0.333);
-    height: 64px;
-    i {
-        margin-left: 126px;
-        font-size: 24px;
-        color: #565656;
-    }
-}
-#header-name {
-    //margin-top: 12px;
-    font-size: 18px;
-    font-family: "Roboto";
-    line-height: 20px;
-    color: #565656;
-}
-.header-status {
-    font-size: 10px;
-    font-family: "Roboto";
-    color: rgba(0, 0, 0, 0.25);
-}
-*/
+
 .miniature-img {
     cursor: pointer;
     width: 200px;
@@ -479,132 +311,6 @@ function isDayChanged(message, previousMenssage) {
 .empty {
     box-sizing: border-box;
 }
-/*
-.chat-background {
-    background: #e5ddd5;
-}
-/*
-#conversation {
-    height: 0;
-    //    overflow-y: scroll;
-    //    scroll-behavior: smooth;
-}
-*/
-/*
-.item-container {
-    width: auto;
-    margin: 2px auto;
-}
-
-.item-container.day-separator {
-    align-self: center;
-    margin: 4px auto;
-    font-family: "Roboto", sans-serif !important;
-}
-
-.item-container.received-message {
-    align-self: flex-start;
-    margin-left: 16px;
-    margin-right: 24px;
-}
-
-.item-container.sent-message {
-    align-self: flex-end;
-    margin-right: 16px;
-    margin-left: 24px;
-}
-.item-container.sent-message + .item-container.received-message,
-.item-container.received-message + .item-container.sent-message {
-    margin-top: 16px;
-}
-
-.item-container.sent-message + .item-container.received-message,
-.item-container.received-message + .item-container.sent-message {
-    margin-top: 16px;
-}
-.day-separator > .day {
-    color: #8a8585;
-    background: #dce9e9;
-    border-radius: 8px;
-    box-shadow: 1px 1px #ccc;
-    font: Regular 10px/67px Roboto;
-    text-align: center;
-    padding: 4px 32px;
-}
-.message {
-    width: auto;
-    min-width: 100px;
-    border-radius: 8px;
-    box-shadow: 1px 1px #ccc;
-    padding: 4px 8px 0 8px;
-    margin: auto 16px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.message.sent {
-    background: #dff6c7;
-}
-.message.received {
-    background: #ffffff;
-}
-
-:not(.sent-message) + .sent-message .message {
-    border-top-right-radius: 0;
-}
-
-:not(.sent-message) + .sent-message .message:after {
-    position: absolute;
-    content: "◤";
-    color: #dff6c7;
-    right: -19px;
-    top: -8px;
-    font-size: 20px;
-    width: 20px;
-    text-shadow: 1px 1px #ccc;
-}
-
-:not(.received-message) + .received-message .message:after {
-    position: absolute;
-    content: "◥";
-    color: #ffffff;
-    left: -14px;
-    top: -8px;
-    font-size: 20px;
-    text-align: end;
-    width: 14px;
-    overflow: hidden;
-    text-shadow: 0 1px #ccc;
-}
-
-:not(.received-message) + .received-message .message {
-    border-top-left-radius: 0;
-}
-
-.message > .content {
-    padding-right: 8px;
-}
-.info {
-    display: flex;
-    justify-content: flex-end;
-    color: #bad3a3;
-}
-
-.time {
-    display: flex;
-    font-size: 12px;
-}
-.status {
-    display: flex;
-    font-size: 10px;
-    margin-top: 3px;
-    margin-left: 2px;
-}
-.viewed {
-    color: #5bc8f4;
-}
-*/
 .form-container {
     background: #e4e4e4;
     border-top: solid 1px #e6e6e6;

@@ -224,7 +224,7 @@ module.exports = {
 
   webfontloader: {
     google: {
-      families: ["Raleway", "Roboto"],
+      families: ["Raleway", "Roboto:n3,n7"],
       urls: ['https://fonts.googleapis.com/css?family=Roboto:300,700&display=swap']
     },
     custom: {

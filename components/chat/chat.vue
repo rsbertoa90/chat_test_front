@@ -1,14 +1,9 @@
 <template>
     <div class="d-flex flex-column chat">
-        <div v-if="admin && conversation" class="d-flex align-items-center header">
-            <i class="material-icons">textsms</i>
-            <div class="ml-2">
-                <div id="header-name">{{conversation.client.name}}</div>
-                <div v-if="hesWriting" class="header-status">escribiendo...</div>
-                <div v-if="hesOnline" class="header-status">en linea</div>
-            </div>
-        </div>
+        <chatHeader v-if="conversation" :conversation="conversation" />
         <div v-if="conversation" class="d-flex flex-column flex-grow-1">
+            <conversation :conversation="conversation" @mouseover="iSawTheMessages()" ref="conversation" />
+            <!--
             <div
                 v-if="!empty"
                 id="conversation"
@@ -59,6 +54,7 @@
             >
                 <span class="d-flex">Chat vacío.</span>
             </div>
+            -->
             <div v-if="conversation" class="form-container d-flex flex-column">
                 <div class="row w-100 d-flex justify-content-between pl-4 mb-3" v-if="preview">
                     <div class="col-4">
@@ -124,7 +120,12 @@
 </template>
 
 <script>
+import chatHeader from './header.vue';
+import conversation from './conversation.vue';
+import chatFooter from './footer.vue';
+
 export default {
+    components: { chatHeader, conversation, chatFooter },
     data() {
         return {
             isATicket: true,
@@ -148,7 +149,7 @@ export default {
             reconnection: true
         });
 
-        this.scrollToBottom();
+        // this.scrollToBottom();
 
         //cuando recibo un mensaje por el socket
         this.socket.on("newMessage", data => {
@@ -161,7 +162,7 @@ export default {
                     data.message
                 );
                 this.conversation.unreads += 1;
-                this.scrollToBottom();
+                this.$refs.conversation.scrollToBottom();
                 if (this.admin) {
                     this.$store.commit(
                         "relocateConversation",
@@ -194,38 +195,38 @@ export default {
         conversations() {
             return this.$store.getters.getConversations;
         },
-        empty() {
-            return !(
-                this.conversation &&
-                this.conversation.messages &&
-                this.conversation.messages.length > 0
-            );
-        },
-        items() {
-            if (!this.empty) {
-                this.conversation.messages.sort((a, b) => a.id - b.id);
-                let items = [
-                    {
-                        type: "DS", // Day Separator
-                        day: this.conversation.messages[0].created_at
-                    }
-                ];
-                this.conversation.messages.forEach((message, i) => {
-                    if (
-                        i > 0 &&
-                        isDayChanged(message, this.conversation.messages[i - 1])
-                    ) {
-                        items.push({
-                            type: "DS",
-                            day: message.created_at
-                        });
-                    }
-                    message.type = this.isMessageSent(message) ? "MS" : "MR";
-                    items.push(message);
-                });
-                return items;
-            }
-        },
+        // empty() {
+        //     return !(
+        //         this.conversation &&
+        //         this.conversation.messages &&
+        //         this.conversation.messages.length > 0
+        //     );
+        // },
+        // items() {
+        //     if (!this.empty) {
+        //         this.conversation.messages.sort((a, b) => a.id - b.id);
+        //         let items = [
+        //             {
+        //                 type: "DS", // Day Separator
+        //                 day: this.conversation.messages[0].created_at
+        //             }
+        //         ];
+        //         this.conversation.messages.forEach((message, i) => {
+        //             if (
+        //                 i > 0 &&
+        //                 isDayChanged(message, this.conversation.messages[i - 1])
+        //             ) {
+        //                 items.push({
+        //                     type: "DS",
+        //                     day: message.created_at
+        //                 });
+        //             }
+        //             message.type = this.isMessageSent(message) ? "MS" : "MR";
+        //             items.push(message);
+        //         });
+        //         return items;
+        //     }
+        // },
         isSendDisabled() {
             return !this.newMessage.trim().length && !this.preview;
         }
@@ -246,10 +247,12 @@ export default {
             }
         },
         conversation(n, o) {
+            console.log("chat>conversation updated");
+            /*
             setTimeout(() => {
                 this.scrollToBottom();
             }, 500);
-
+*/
             if (this.conversation) {
                 /* conecto a la sala */
                 this.socket.emit("joinRoom", this.conversation.id);
@@ -330,7 +333,7 @@ export default {
                this.$axios.post("/message", fdata).then(r => {
                     vm.socketMessage(r.data);
                     vm.$store.commit("addMessageToActiveConversation", r.data);
-                    vm.scrollToBottom();
+                    vm.$refs.conversation.scrollToBottom();
 
                     if (this.admin) {
                         let d = {
@@ -362,11 +365,9 @@ export default {
                 this.socket.emit("updateConversation", data);
             }
         },
+        /*
         scrollToBottom() {
-            /* if (this.$refs.conversation){
-                this.$refs.conversation.scrollTop = this.$refs.conversation.scrollHeight;
-            } */
-            
+                        
             var vm = this;
             setTimeout(() => {
                 if (
@@ -383,7 +384,7 @@ export default {
                     if (vm.$refs[refId] && vm.$refs[refId][0]) {
                         vm.$refs[refId][0].scrollIntoView();
                     }
-                    */
+                    */ /* 
                     vm.$refs.conversation.scrollTop = vm.$refs.conversation.lastChild.offsetTop - 40;
                 }
             }, 100);
@@ -414,17 +415,20 @@ export default {
                 viewed: message.viewed
             };
         }
+        */
     }
 };
-
+/*
 function isDayChanged(message, previousMenssage) {
     return previousMenssage.created_at
         .slice(0, 10)
         .localeCompare(message.created_at.slice(0, 10));
 }
+*/
 </script>
 
 <style lang="scss" scoped>
+/*
 .header {
     background: rgba(178, 125, 161, 0.333);
     height: 64px;
@@ -446,6 +450,7 @@ function isDayChanged(message, previousMenssage) {
     font-family: "Roboto";
     color: rgba(0, 0, 0, 0.25);
 }
+*/
 .miniature-img {
     cursor: pointer;
     width: 200px;
@@ -474,15 +479,18 @@ function isDayChanged(message, previousMenssage) {
 .empty {
     box-sizing: border-box;
 }
+/*
 .chat-background {
     background: #e5ddd5;
 }
+/*
 #conversation {
     height: 0;
     //    overflow-y: scroll;
     //    scroll-behavior: smooth;
 }
-
+*/
+/*
 .item-container {
     width: auto;
     margin: 2px auto;
@@ -555,21 +563,6 @@ function isDayChanged(message, previousMenssage) {
     font-size: 20px;
     width: 20px;
     text-shadow: 1px 1px #ccc;
-    /*
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 20px solid transparent;
-    border-left-color: #dff6c7;
-    border-right: 0;
-    border-top: 0;
-    margin-top: -23px;
-    margin-right: -14px;
-    z-index: 100;
-    */
 }
 
 :not(.received-message) + .received-message .message:after {
@@ -583,21 +576,6 @@ function isDayChanged(message, previousMenssage) {
     width: 14px;
     overflow: hidden;
     text-shadow: 0 1px #ccc;
-    /*
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 20px solid transparent;
-    border-right-color: #ffffff;
-    border-left: 0;
-    border-top: 0;
-    margin-top: -23px;
-    margin-left: -14px;
-    z-index: 100;
-    */
 }
 
 :not(.received-message) + .received-message .message {
@@ -626,6 +604,7 @@ function isDayChanged(message, previousMenssage) {
 .viewed {
     color: #5bc8f4;
 }
+*/
 .form-container {
     background: #e4e4e4;
     border-top: solid 1px #e6e6e6;

@@ -195,16 +195,6 @@ export default {
             return this.$store.getters.getConversations;
         },
         empty() {
-            /*
-                    let lastMessage =
-                        vm.conversation.messages[
-                            vm.conversation.messages.length - 1
-                        ];
-                    let refId = "messageRef" + lastMessage.id;
-                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
-                        vm.$refs[refId][0].scrollIntoView();
-                    }
-                    */
             return !(
                 this.conversation &&
                 this.conversation.messages &&
@@ -376,6 +366,7 @@ export default {
             /* if (this.$refs.conversation){
                 this.$refs.conversation.scrollTop = this.$refs.conversation.scrollHeight;
             } */
+            
             var vm = this;
             setTimeout(() => {
                 if (
@@ -383,10 +374,17 @@ export default {
                     vm.conversation.messages &&
                     vm.conversation.messages.length
                 ) {
-                    console.log(vm.$refs);
-                    console.log(vm.$refs.conversation.scrollTop);
-                    let offset = vm.$refs.conversation.lastChild.offsetTop;
-                    vm.$refs.conversation.scrollTop = offset - 40;
+                    /*
+                    let lastMessage =
+                        vm.conversation.messages[
+                            vm.conversation.messages.length - 1
+                        ];
+                    let refId = "messageRef" + lastMessage.id;
+                    if (vm.$refs[refId] && vm.$refs[refId][0]) {
+                        vm.$refs[refId][0].scrollIntoView();
+                    }
+                    */
+                    vm.$refs.conversation.scrollTop = vm.$refs.conversation.lastChild.offsetTop - 40;
                 }
             }, 100);
         },

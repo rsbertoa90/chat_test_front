@@ -1,5 +1,7 @@
 <template>
     <div v-if="conversation" class="form-container d-flex flex-column">
+        <attachment @attachChange="onAttachChange" />
+        <!--
         <div class="row w-100 d-flex justify-content-between pl-4 mb-3" v-if="preview">
             <div class="col-4">
                 <div class="preview-img">
@@ -29,6 +31,7 @@
                 </button>
             </div>
         </div>
+        -->
         <form
             v-if="conversation"
             @submit.prevent="send"
@@ -54,19 +57,24 @@
                 <i class="material-icons">send</i>
             </button>
         </form>
+        <bottom-panel />
     </div>
 </template>
 
 <script>
+import attachment from './footer/attachment.vue';
+import form from './footer/form.vue';
+import bottomPanel from './footer/bottom-panel.vue'
 export default {
     props: ["conversation"],
+    components: {attachment, form, bottomPanel},
     data() {
         return {
             preview: null,
             isATicket: true,
             newMessage: "",
             imWriting: false,
-            imageUploaded: false,
+//            imageUploaded: false,
             file: null
         };
     },
@@ -76,6 +84,7 @@ export default {
         }
     },
     methods: {
+        /*
         onFileChange(e) {
             const file = e.target.files[0];
             if (file) {
@@ -87,14 +96,19 @@ export default {
             this.$refs.fileInput.value = "";
             this.preview = null;
             this.imageUploaded = false;
+        }, */
+        onAttachChange(e) {
+            this.preview = e.preview;
+            this.file = e.file;
+            this.isATicket = this.isATicket;
         },
         send() {
             var fdata = new FormData();
             var shouldSend = false;
 
             if (this.preview) {
-                var file = $('input[type="file"]')[0].files[0];
-                if (file) {
+                // var file = $('input[type="file"]')[0].files[0];
+                if (this.file) {
                     shouldSend = true;
                     fdata.append("image", file);
                 }

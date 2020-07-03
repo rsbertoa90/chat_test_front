@@ -65,6 +65,10 @@ export default {
 .message > .content {
     padding-right: 8px;
 }
+.miniature-img {
+    cursor: pointer;
+    width: 200px;
+}
 .info {
     display: flex;
     justify-content: flex-end;

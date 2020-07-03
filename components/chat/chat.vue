@@ -194,26 +194,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.miniature-img {
-    cursor: pointer;
-    width: 200px;
-}
-.isaticket-q {
-    font-weight: bold;
-    font-size: 20px;
-}
-.isaticket-a {
-    width: 65px;
-}
 
 .display-none {
     display: none;
 }
 
-.preview-img {
-    width: 120px;
-    margin-top: 10px;
-}
 
 .chat {
     //height: 100%;

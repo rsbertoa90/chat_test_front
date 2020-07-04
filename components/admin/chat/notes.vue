@@ -1,21 +1,29 @@
 <template>
-    <div class="h-100 scrollbar-custom right-pannel" v-if="conversation">
+<div v-if="conversation" class="d-flex flex-column h-100 inner-bottom-fade">
+    <div class="d-flex flex-column">
+        <div id="header-row-1"></div>
+        <div id="header-row-2" class="d-flex align-items-center">
+            <span class="pl-3 roboto">Datos del Cliente</span>
+        </div>
+    </div>
+    <div class="scrollbar-custom right-pannel">
+        
         <div class="d-flex justify-content-between align-items-center p-3">
-            <span>Dar Prioridad</span>
+            <span class="roboto">Dar Prioridad</span>
             <input type="checkbox" class="form-control prio-check" v-model="conversation.prio_manual" @change="update('prio_manual')">
         </div>
         <div class="d-flex" v-if="conversation.prio_auto">
-            <button class="btn btn-block btn-prio-auto" @click="removePrioAuto()">
+            <button class="btn btn-block btn-prio-auto roboto" @click="removePrioAuto()">
                 YA RECIBIMOS EL PAGO
             </button>
         </div>  
         <span class="divider"></span>
         <div class="p-2">
-            <textarea v-model.lazy="conversation.comments" 
-                @change="update('comments')" class="w-100 p-2" placeholder="Escribir" rows="6"></textarea>            
+            <textarea v-model.lazy="conversation.comments" @change="update('comments')"
+                 class="w-100 p-2 roboto" placeholder="Escribir" rows="6"></textarea>            
         </div>
         <span class="divider"></span>
-        <div  class="p-3">
+        <div class="p-3">
             <orderList :orderss="conversation.client.orders"></orderList>
         </div>
         <span class="divider"></span>
@@ -23,7 +31,8 @@
             <noteList :conversation="conversation"></noteList>
         </div>
     
-    </div>    
+    </div>
+</div>  
 </template>
 
 
@@ -78,6 +87,18 @@ export default {
 
 
 <style lang="scss" scoped>
+#header-row-1 {
+    height: 19px;
+    background: #ff0aaf;
+}
+#header-row-2 {
+    height: 45px;
+    background: #b54479;
+    span {
+        color: white;
+        font-weight: bold;
+    }
+}
 .btn-prio-auto{
     background-color:#09cca2;
     color:#fff;

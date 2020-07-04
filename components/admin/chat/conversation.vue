@@ -1,12 +1,12 @@
 <template>
-    <div class="d-flex conversation-box" @click="setActiveConversation(conversation)" :class="{'taken':conversation.taken_by}">
+    <div class="d-flex conversation-box top-shine" @click="setActiveConversation(conversation)" :class="{'taken':conversation.taken_by}">
         <div
             class="d-flex flex-column justify-content-between flex-fill box-content"
             :class="conversationClass"
         >
             <div class="d-flex justify-content-between align-content-center">
-                <span class="userid">{{conversation.client.id}}</span>
-                <div class="username">{{conversation.client.name}}</div>
+                <span class="userid roboto">{{conversation.client.id}}</span>
+                <div class="username roboto">{{conversation.client.name}}</div>
                 <div
                     v-if="conversation.last_message"
                     class="time"
@@ -15,19 +15,19 @@
             
             <div v-if="!conversation.taken_by">
                 <div v-if="conversation.last_message && !hesWriting" class="d-flex justify-content-between info">
-                    <div class="last-message-preview">
+                    <div class="last-message-preview reoboto">
                         {{ conversation.last_message.content }}
                     </div>
-                    <div class="unreads" v-if="conversation.unreads">
+                    <div class="unreads roboto" v-if="conversation.unreads">
                         {{conversation.unreads}}
                     </div>
                 </div>
                 <div v-if="hesWriting">
-                    <span class="text-green">Escribiendo...</span>
+                    <span class="text-green roboto">escribiendo...</span>
                 </div>
             </div>
             <div v-if="conversation.taken_by && conversation.taken_by.id != user.id">
-                <span class="text-green">{{conversation.taken_by.name}} hablando</span>
+                <span class="text-green roboto">{{conversation.taken_by.name}} hablando</span>
             </div>
         </div>
         <div v-if="isSelected" class="selected"></div>
@@ -230,10 +230,10 @@ export default {
 }
 .conversation-box {
     cursor: pointer;
-    border-top: 1px ridge #fff;
+    // border-top: 1px ridge #fff;
     height: 74px;
-    margin-bottom: 6px;
-    box-shadow: 1px 1px 2px #c0c0c0;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.25);
 }
 
 .box-content {
@@ -250,12 +250,13 @@ export default {
 
 .userid {
     background: #e8a1fe;
-    height: 1rem;
-    margin: auto 6px auto 0;
-    padding: 0px 5px;
+    height: 17px;
+    margin: auto 12px auto 0;
+    padding: 0px 6px;
     color: white;
-    font-size: 0.7rem;
-    border-radius: 0.7rem;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 8px;
 }
 
 .username {
@@ -269,7 +270,7 @@ export default {
     background: rgba(220, 233, 233, 1);
 }
 .last-message-preview {
-    font-size: 16px;
+    font-size: 14px;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -277,11 +278,13 @@ export default {
     color: #aeb1b8;
 }
 .time {
+    font-size: 12px;
+    font-weight: bold;
     width: auto;
     color: #7dde7f;
-    font-size: 12px;
 }
 .text-green{
+    font-size: 14px;
     color:#77cd2e;
 }
 .unreads {

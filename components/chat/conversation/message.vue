@@ -3,12 +3,12 @@
         <a :href="imagePath(message.url)" target="_blank" v-if="message.url">
             <img :src="imagePath(message.url)" class="miniature-img" />
         </a>
-        <span class="content" v-if="message.content">{{message.content}}</span>
+        <span class="content roboto" v-if="message.content">{{message.content}}</span>
         <div class="info">
-            <span v-if="admin && message.admin" class="mr-3 time">
+            <span v-if="admin && message.admin" class="mr-3 time roboto">
                 {{sentByText}}
             </span>
-            <span class="time">{{ message.created_at | time }}</span>
+            <span class="time roboto">{{ message.created_at | time }}</span>
             <span v-if="message.type=='MS'" class="status fas" :class="statusIconClass"></span>
         </div>
     </div>

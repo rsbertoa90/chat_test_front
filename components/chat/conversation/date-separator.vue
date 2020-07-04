@@ -1,5 +1,5 @@
 <template>
-    <span class="date">{{date | date}}</span>
+    <span class="date roboto">{{date | date}}</span>
 </template>
 
 <script>

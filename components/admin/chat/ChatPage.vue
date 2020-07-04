@@ -6,7 +6,6 @@
                 <conversations></conversations> 
             </div>
             <div class="col col-6 h-100 p-0 ">
-                <!-- <chat-header></chat-header> -->
                 <chat></chat> 
             </div>
             <div class="col col-3 h-100 p-0">
@@ -19,12 +18,11 @@
 
 
 <script>
-import chatHeader from './chat-header.vue';
 import notes from './notes.vue';
 import conversations from './conversations.vue';
 import chat from '@/components/chat/chat.vue';
 export default {
-     components:{conversations,chat,notes,chatHeader},
+     components:{conversations,chat,notes},
      mounted() {
          this.$store.dispatch('fetchAllConversations');
      }
@@ -33,8 +31,8 @@ export default {
 <style scoped lang="scss">
 .admin-chat {
     height: 85vh;
-    margin:0 auto;
+    margin: 0 auto;
     background: #fff;
-    box-shadow: 1px 1px 2px #ccc;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.25);
 }
 </style>

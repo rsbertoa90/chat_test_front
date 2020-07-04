@@ -1,11 +1,7 @@
 <template>
     <div class="d-flex flex-column chat">
         <chatHeader v-if="conversation" :conversation="conversation" />
-        <div
-            v-if="conversation"
-            class="d-flex flex-column flex-grow-1"
-            @mouseover="iSawTheMessages()"
-        >
+        <div v-if="conversation" class="d-flex flex-column flex-grow-1" @mouseover="iSawTheMessages()">
             <conversation 
                 :conversation="conversation" 
                 ref="conversation"/>
@@ -18,7 +14,7 @@
 
         </div>
         <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
-            <span class="d-flex">Seleccione una conversación.</span>
+            <span class="d-flex roboto">Seleccione una conversación.</span>
         </div>
     </div>
 </template>

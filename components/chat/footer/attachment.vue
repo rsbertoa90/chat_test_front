@@ -6,17 +6,17 @@
             </div>
         </div>
         <div class="col-7 fcc" v-if="!admin">
-            <div
-                class="d-flex justify-content-center text-center mt-2 isaticket-q"
-            >¿ ESTAS ADJUNTANDO UN COMPROBANTE DE PAGO ?</div>
+            <div class="d-flex justify-content-center text-center mt-2 isaticket-q roboto">
+                ¿ ESTAS ADJUNTANDO UN COMPROBANTE DE PAGO ?
+            </div>
             <div class="d-flex justify-content-around mt-2">
                 <button
-                    class="btn btn-lg isaticket-a"
+                    class="btn btn-lg isaticket-a roboto"
                     @click="setIsATicket(true)"
                     :class="{'btn-success':isATicket,'btn-secondary':!isATicket}"
                 >SI</button>
                 <button
-                    class="btn btn-lg isaticket-a"
+                    class="btn btn-lg isaticket-a roboto"
                     @click="setIsATicket(false)"
                     :class="{'btn-danger':!isATicket,'btn-secondary':isATicket}"
                 >NO</button>

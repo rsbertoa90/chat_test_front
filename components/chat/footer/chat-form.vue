@@ -1,6 +1,6 @@
 <template>
     <form v-if="conversation" @submit.prevent="onSubmit" class="d-flex align-items-center message-form">
-        <input v-model="newMessage" type="text" class="form-control mat material-shadow-1" />
+        <input v-model="newMessage" type="text" class="form-control mat material-shadow-1 roboto" />
         <label class="adj-btn d-flex">
             <i class="material-icons">attach_file</i>
             <input
@@ -97,9 +97,10 @@ export default {
     align-items: center;
 }
 .message-form input {
-    margin: 8px 0;
+    margin: 8px 0 8px 2em;
     flex-grow: 1;
     // height: px;
+    color: rgba(0,0,0,0.75);
     border-radius: 19px;
     border: 0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
@@ -116,49 +117,7 @@ export default {
     outline: none;
     // height: 38px;
     color: #6fcea3;
-    margin: 0;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
-    transition: box-shadow 0.15s ease-in-out;
-    cursor: pointer;
-}
-.message-form button:disabled {
-    color: #cccccc !important;
-}
-.message-form button:hover,
-.adj-btn {
-    color: #5db68e;
-}
-.message-form button:active {
-    color: #36a774;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
-}
-
-.message-form button i,
-.adj-btn i {
-    font-size: 32px;
-}
-
-.message-form input {
-    margin: 8px 0;
-    flex-grow: 1;
-    // height: px;
-    border-radius: 19px;
-    border: 0;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-}
-.message-form input:focus {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.message-form button,
-.adj-btn {
-    border: none;
-    background: transparent;
-    padding: 0;
-    outline: none;
-    // height: 38px;
-    color: #6fcea3;
-    margin: 0;
+    margin: 0 0.25em;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
     transition: box-shadow 0.15s ease-in-out;
     cursor: pointer;

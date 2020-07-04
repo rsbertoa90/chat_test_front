@@ -46,7 +46,8 @@ export default {
     border-top: solid 1px #e6e6e6;
     outline: none;
     z-index: 2;
-    box-shadow: 0 -2px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
+    clip-path: inset(-4px 0 0 0);
     display: flex;
     flex-direction: column;
     align-items: center;

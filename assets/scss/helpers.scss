@@ -330,7 +330,7 @@ $shadow-color : rgba(0, 0, 0, 0.3333);
     box-shadow: 3px 3px 3px $shadow-color;
 }
 .top-shine {
-    border-top: 1px rgba($color: #ffffff, $alpha: 0.8);
+    border-top: 1px rgba($color: #ffffff, $alpha: .75);
 }
 
 input.mat {
@@ -373,4 +373,17 @@ button.mat:focus {
 .scrollbar-custom::-webkit-scrollbar-thumb {
     border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+.inner-bottom-fade {
+    position: relative;
+} 
+.inner-bottom-fade:after {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    content: "";
+    height: 2em;
+    background: linear-gradient( rgba(255,255,255,0), rgba(255,255,255,1));
 }

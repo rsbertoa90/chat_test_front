@@ -1,8 +1,8 @@
 <template>
-    <div class="d-flex flex-column h-100">
+    <div class="d-flex flex-column h-100 panel inner-bottom-fade">
         <div class="d-flex flex-column">
             <div id="header-row-1" class=""></div>
-            <div id="header-row-2" class="d-flex justify-between align-content-center">
+            <div id="header-row-2" class="d-flex justify-between align-items-center">
                  <img :src="imagePath('/storage/images/app/newlogo.png')" alt="fondo" >
             </div>
             <div id="header-row-3" class="d-flex justify-between align-content-center">
@@ -10,7 +10,7 @@
                 <input type="text" placeholder="Buscar" class="mat" />
             </div>
         </div>
-        <div class="conversations scrollbar-custom h-100" v-if="conversations">
+        <div class="conversations scrollbar-custom" v-if="conversations">
             <conversation
                 v-for="conversation in conversations"
                 :key="conversation.id"
@@ -34,10 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.conversations {
-    // max-height: 85vh;
-    // overflow-y:scroll;
-    box-shadow: 1px 0 1px #ccc;
+.panel {
     z-index: 1;
 }
 #header-row-1 {
@@ -55,8 +52,13 @@ export default {
 }
 #header-row-3 {
     height: 52px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    clip-path: inset(0 0 -4px 0);
     input {
         font-size: 16px;
     }
 }
+.conversations {
+}
+
 </style>

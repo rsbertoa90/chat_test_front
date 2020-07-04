@@ -7,7 +7,7 @@
         </div>
     </div>
     <div v-else class="d-flex justify-content-center align-items-center h-100 chat-background">
-        <span class="d-flex">Chat vacío.</span>
+        <span class="d-flex roboto">Chat vacío.</span>
     </div>
 </template>
 

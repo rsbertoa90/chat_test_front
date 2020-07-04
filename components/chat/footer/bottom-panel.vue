@@ -2,7 +2,7 @@
     <div class="pl-4 pr-4 pb-2">
         <div class="row" v-if="btnFas && btnFas.length">
             <div class="col-3 mt-2" v-for="fan in btnFas" :key="fan.id">
-                <button class="btn btn-info btn-block fa-btn" @click="send(fan.id)" >
+                <button class="btn btn-info btn-block fa-btn roboto" @click="send(fan.id)" >
                     {{fan.shortcut}}
                 </button>
             </div>

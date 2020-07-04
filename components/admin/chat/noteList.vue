@@ -1,14 +1,14 @@
 <template>
-    <div class="pb-3">
-        <div class="m-3">Observaciones del Cliente</div>
+    <div class="mb-5">
+        <div class="m-3 roboto">Observaciones del Cliente</div>
         <form class="d-flex align-items-center note-form" @submit.prevent="addNote()">
-            <input placeholder="nueva observación" class="form-control mat" type="text" v-model="newNote" />
+            <input placeholder="nueva observación" class="form-control mat roboto" type="text" v-model="newNote" />
             <button type="submit" class="d-flex mat mr-1">
                 <i class="material-icons">add</i>
             </button>
         </form>
         <div v-for="note in conversation.notes" :key="note.id" class="d-flex align-content-center note">
-            <span class="w-100">{{ note.content }}</span>
+            <span class="w-100 roboto">{{ note.content }}</span>
             <button @click="deleteNote(note)" class="d-flex mat mr-1">
                 <i class="material-icons">delete</i>
             </button>

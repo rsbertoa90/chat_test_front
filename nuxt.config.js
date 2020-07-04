@@ -179,7 +179,7 @@ module.exports = {
       {
         name: "home",
         url: process.env.NODE_ENV === 'production'
-          ? 'https://dominiodepruebas.ml'
+          ? 'http://dominiodepruebas.ml'
           : 'http://localhost:3004',
         default: true,
         vuex: {

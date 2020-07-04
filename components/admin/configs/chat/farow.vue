@@ -35,7 +35,7 @@
             <button v-if="preview" class="btn btn-primary" @click="changeImg()">GUARDAR</button>
         </div>
         <div class="col-2 fcc">
-            <button class="btn btn-sm btn-danger">
+            <button class="btn btn-sm btn-danger" @click="destroy()">
                 <span class="fa fa-trash"></span>
             </button>
             
@@ -58,7 +58,16 @@ export default {
         }
     },
     methods:{
-         onFileChange(e) {
+        destroy(){
+            var vm = this;
+            this.$axios.delete(`/fast-answer/${this.fa.id}`)
+                .then(()=>{
+                    let fas = vm.$store.getters.getFastAnswers;
+                    fas = fas.filter(f => {return f.id != vm.fa.id });
+                    this.$store.commit('setFastAnswers',fas);
+                });
+        },
+        onFileChange(e) {
             const file = e.target.files[0];
             this.preview = URL.createObjectURL(file);
             this.imageUploaded = true;

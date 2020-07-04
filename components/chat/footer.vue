@@ -12,7 +12,7 @@
             @writingChange="$emit('writingChange', $event)" 
             @sendMessage="$emit('sendMessage', $event)" />
         
-        <bottom-panel />
+        <bottom-panel v-if="admin" @sendFastAnswer="sendFastAnswer" />
     </div>
 </template>
 
@@ -29,6 +29,13 @@ export default {
             file: null
         };
     },
+    methods:{
+        sendFastAnswer(e)
+        {
+            console.log('en footer.vue e es ' , e);
+            this.$emit('sendFastAnswer',e);
+        }
+    }
 };
 
 </script>

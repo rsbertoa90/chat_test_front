@@ -20,6 +20,10 @@ export const strict = false
 
 export const state = () => {
   return {
+    hesWriting:false,
+    hesOnline:false,
+
+    unreads:0,
     fastAnswers:null,
     conversations: null,
     activeConversation: null,
@@ -46,6 +50,9 @@ export const state = () => {
 }
 
 export const getters = {
+  getHesWriting(store){return store.hesWriting},
+  getHesOnline(store){return store.hesOnline},
+  getUnreads(store){return store.unreads},
   getFastAnswers(store){
     return store.fastAnswers;
   },
@@ -232,6 +239,15 @@ export const getters = {
 }
 
 export const mutations = {
+  setHesWriting(state,payload){
+    state.hesWriting=payload;
+  },
+  setHesOnline(state,payload){
+    state.hesOnline=payload;
+  },
+  setUnreads(state,payload){
+    state.unreads=payload;
+  },
   setFastAnswers(state,payload)
   {
     state.fastAnswers = payload;
@@ -589,15 +605,6 @@ export const actions = {
       });
   },
 
-  async fetchNewMessages({
-    commit
-  }, conversation_id) {
-    await this.$axios.get(`/conversation-new-messages/${conversation_id}`)
-      .then(r => {
-        console.log('nuevos mensajes que agregar',r.data);
-        commit('addNewMessagesToActiveConversation', r.data);
-      });
-  },
 
   async fetchCategories({
     commit

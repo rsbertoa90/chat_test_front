@@ -22,7 +22,6 @@ export default {
         btnFas(){
             if(this.fas)
             {
-                console.log('fas',this.fas);
                 return this.fas.filter(fan => {
                     return fan.onChat;
                 })

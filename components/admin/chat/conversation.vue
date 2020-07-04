@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex conversation-box top-shine" @click="setActiveConversation(conversation)" :class="{'taken':conversation.taken_by}">
+    <div v-if="conversation" class="d-flex conversation-box top-shine" @click="setActiveConversation(conversation)" :class="{'taken':conversation.taken_by}">
         <div
             class="d-flex flex-column justify-content-between flex-fill box-content"
             :class="conversationClass"

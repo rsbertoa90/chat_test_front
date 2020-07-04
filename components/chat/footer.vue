@@ -32,7 +32,6 @@ export default {
     methods:{
         sendFastAnswer(e)
         {
-            console.log('en footer.vue e es ' , e);
             this.$emit('sendFastAnswer',e);
         }
     }

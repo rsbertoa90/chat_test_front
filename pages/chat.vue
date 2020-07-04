@@ -23,6 +23,10 @@ export default {
         } else {
             this.$store.dispatch("fetchConversation", this.user.id);
         }
+
+        setTimeout(() => {
+            window.scrollTo(0,document.body.scrollHeight);
+        }, 1000);
     }
 };
 </script>

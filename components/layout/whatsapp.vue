@@ -49,7 +49,8 @@ export default {
             this.socket.on('newMessage',data => {
                 if(data.message.admin)
                 {
-                     this.$store.commit('setUnreads',vm.unreads + 1);
+                    let n = vm.unreads ? vm.unreads+1 : 1;
+                     this.$store.commit('setUnreads',n);
                 }
             });
         }

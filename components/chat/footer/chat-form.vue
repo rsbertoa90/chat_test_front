@@ -32,11 +32,9 @@ export default {
         this.fileChange();
     },
     methods: {
+        
         onFileChange(e) {
-            console.log("onFileChange");
-            
             this.file = e.target.files[0];
-            console.log(this.file);
             this.fileChange();
         },
         fileChange() {
@@ -77,7 +75,7 @@ export default {
         }
     },
     watch: {
-        newMessage() {
+        newMessage() {  
             if (
                 (this.newMessage.trim() && !this.imWriting) ||
                 (!this.newMessage.trim() && this.imWriting)

@@ -52,13 +52,16 @@ export default {
                     "addMessageToActiveConversation",
                     data.message
                 );
-                this.conversation.unreads += 1;
-                this.$refs.conversation.scrollToBottom();
-                if (this.admin) {
-                    this.$store.commit(
-                        "relocateConversation",
-                        this.conversation
-                    );
+                if(this.conversation)
+                {
+                    this.conversation.unreads += 1;
+                    this.$refs.conversation.scrollToBottom();
+                    if (this.admin) {
+                        this.$store.commit(
+                            "relocateConversation",
+                            this.conversation
+                        );
+                    }
                 }
             }
         });
@@ -140,6 +143,7 @@ export default {
             if (this.conversation) {
                 /* conecto a la sala */
                 this.socket.emit("joinRoom", this.conversation.id);
+                
             }
         },
         "conversation.unreads"() {
@@ -154,8 +158,7 @@ export default {
     methods: {
 
         iSawTheMessages() {
-            // console.log("isSawTheMessages");
-            if (this.conversation.unreads) {
+            if (this.conversation && this.conversation.unreads) {
                 var vm = this;
                 this.$axios.put(`/view-messages/${this.conversation.id}`);
 
@@ -209,7 +212,6 @@ export default {
             }
         },  
         sendFastAnswer(e){
-            console.log('fa_id ',e);
             var vm = this;
             let data = {
                 conversation_id: this.conversation.id,
@@ -217,16 +219,10 @@ export default {
             }
             this.$axios.post('/send-fast-answer',data)
                 .then(r => {
-                    console.log('MENSAJE RAPIDO ENVIADO',r.data);
                     vm.messageSended(r);
                 });
         },
         onSendMessage(event) {
-            console.log("sendMessage");
-            console.log(event.fdata);
-            console.log("isATicket " + event.isATicket);
-            
-            
             var vm = this;
             this.$axios.post("/message", event.fdata).then(r => {
                 vm.messageSended(r);
@@ -245,7 +241,6 @@ export default {
             }
         },
         onWritingChange(writing) {
-            console.log("onWritingChange");
             const data = {
                 conversation_id: this.conversation.id,
                 writing: writing,

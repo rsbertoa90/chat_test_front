@@ -179,9 +179,10 @@ module.exports = {
       {
         name: "home",
         url: process.env.NODE_ENV === 'production'
-          ? 'http://dominiodepruebas.ml'
+          ? 'https://dominiodepruebas.ml'
           : 'http://localhost:3004',
         default: true,
+        transports: ['websocket'],
         vuex: {
          
           actions: [{

@@ -14,7 +14,7 @@
 
         </div>
         <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
-            <span class="d-flex roboto">Seleccione una conversación.</span>
+            <h4 class="d-flex roboto">Seleccione una conversación.</h4>
         </div>
     </div>
 </template>
@@ -269,7 +269,8 @@ export default {
     //height: 100%;
     min-height: 100%;
 }
-.empty {
-    box-sizing: border-box;
+
+h4 {
+    color: rgba(0,0,0,.5);
 }
 </style>

@@ -6,8 +6,12 @@
                  <img :src="imagePath('/storage/images/app/newlogo.png')" alt="fondo" >
             </div>
             <div id="header-row-3" class="d-flex justify-between align-content-center">
-                <button class="mat px-3"><i class="fas fa-search"></i></button>
-                <input type="text" placeholder="Buscar" class="mat" />
+                    <button @click="search=''" :disabled="!filter" class="d-flex flex-column justify-content-center mat mx-3">
+                        <i v-if="filter" class="material-icons">arrow_back</i>
+                        <i v-else class="material-icons">search</i>
+                    </button>
+
+                <input v-model="search" type="text" placeholder="Buscar" class="mat roboto" />
             </div>
         </div>
         <div class="conversations scrollbar-custom" v-if="conversations">
@@ -23,13 +27,22 @@
 <script>
 import conversation from "./conversation";
 export default {
+    data() {
+        return {
+            search: "",
+        };
+    },
     components: { conversation },
     computed: {
         conversations() {
             return this.$store.getters.getConversations;
+        },
+        filter() {
+            return this.search.trim();
         }
     },
-    methods: {}
+    methods: {},
+    watch: {},
 };
 </script>
 

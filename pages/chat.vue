@@ -1,6 +1,6 @@
 <template>
     <div class="chat-container row">
-        <div class=" col-12 col-lg-9 h-100">
+        <div class=" col-12 col-lg-9 p-0 h-100">
             <chat></chat>
         </div>
         <div class="col-12 col-lg-3" v-if="$mq!='lg'">

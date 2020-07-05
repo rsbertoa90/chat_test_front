@@ -85,13 +85,12 @@ export default {
                     && vm.conversation.messages 
                     && vm.conversation.messages.length
                     && vm.$refs.conversation
-                    && vm.$refs.conversation.lastChild
                 )
                 {
                        vm.$refs.conversation.scrollTop =
-                           vm.$refs.conversation.lastChild.offsetTop - 40;
+                           vm.$refs.conversation.scrollHeight;
                 } 
-            }, 100);
+            }, 250);
         },
         isMessageSent(message) {
             return (

@@ -21,6 +21,7 @@ export default {
     props: ["conversation"],
     components: {message, dateSeparator },
     mounted() {
+        /*  */
         this.scrollToBottom();
     },
     computed: {

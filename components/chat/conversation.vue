@@ -5,6 +5,9 @@
             <date-separator v-if="item.type=='DS'" :date="item.date"/>
             <message v-if="item.type.startsWith('M')" :message="item"/>
         </div>
+        <div class="enviando" v-if="loadingMessage">
+               <h1> ENVIANDO MENSAJE... </h1>
+        </div>
     </div>
     <div v-else class="d-flex justify-content-center align-items-center h-100 chat-background">
         <span class="d-flex roboto">Chat vacío.</span>
@@ -21,6 +24,9 @@ export default {
         this.scrollToBottom();
     },
     computed: {
+        loadingMessage(){
+            return this.$store.getters.getLoadingMessage;
+        },
         /*
         conversation() {
             return this.$store.getters.getActiveConversation;

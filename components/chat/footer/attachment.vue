@@ -35,7 +35,7 @@ export default {
     props: ["file"],
     data() {
         return {
-            isATicket: true,
+            isATicket: false,
             imageUploaded: false,
         };
     },
@@ -43,6 +43,7 @@ export default {
         preview() {
             if (this.file) {
                 this.imageUploaded = true;
+                this.isATicket = true;
                 return URL.createObjectURL(this.file);
             }
             return null;

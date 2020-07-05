@@ -210,6 +210,7 @@ export default {
                     this.conversation
                 );
             }
+            vm.$store.commit('setLoadingMessage',false);
         },  
         sendFastAnswer(e){
             var vm = this;
@@ -217,6 +218,7 @@ export default {
                 conversation_id: this.conversation.id,
                 fa_id:e
             }
+            vm.$store.commit('setLoadingMessage',true);
             this.$axios.post('/send-fast-answer',data)
                 .then(r => {
                     vm.messageSended(r);
@@ -224,6 +226,7 @@ export default {
         },
         onSendMessage(event) {
             var vm = this;
+            vm.$store.commit('setLoadingMessage',true);
             this.$axios.post("/message", event.fdata).then(r => {
                 vm.messageSended(r);
             });

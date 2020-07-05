@@ -20,6 +20,8 @@ export const strict = false
 
 export const state = () => {
   return {
+    loadingMessage:false,
+
     hesWriting:false,
     hesOnline:false,
 
@@ -50,6 +52,7 @@ export const state = () => {
 }
 
 export const getters = {
+  getLoadingMessage(store){return store.loadingMessage},
   getHesWriting(store){return store.hesWriting},
   getHesOnline(store){return store.hesOnline},
   getUnreads(store){return store.unreads},
@@ -239,6 +242,9 @@ export const getters = {
 }
 
 export const mutations = {
+  setLoadingMessage(state,payload){
+    state.loadingMessage = payload
+  },
   setHesWriting(state,payload){
     state.hesWriting=payload;
   },

@@ -25,7 +25,7 @@ export default {
     components: {attachment, chatForm, bottomPanel},
     data() {
         return {
-            isATicket: true,
+            isATicket: false,
             file: null
         };
     },

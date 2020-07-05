@@ -56,8 +56,8 @@ export default {
 
             if (shouldSend) {
                 fdata.append("conversation_id", this.conversation.id);
-                fdata.append("prio_auto", this.isATicket ? 1 : 0);
-                this.$emit('sendMessage', {fdata: fdata, isATicket: this.isATicket} );
+                fdata.append("prio_auto", (this.file && this.isATicket) ? 1 : 0);
+                this.$emit('sendMessage', {fdata: fdata, isATicket: (this.file && this.isATicket) } );
             }
             this.newMessage = "";
             this.resetFile();

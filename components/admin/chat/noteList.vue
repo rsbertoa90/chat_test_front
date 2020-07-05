@@ -33,6 +33,7 @@ export default {
                 };
                 this.$axios.post("/conversation-note", data).then((c) => {
                     console.log(c);
+                    this.conversation.notes.push(c.data);
                     this.newNote = "";
                 });
             }
@@ -40,6 +41,9 @@ export default {
         deleteNote(note) {
             this.$axios.delete(`/conversation-note/${note.id}`).then((d) => {
                 console.log(d);
+                this.conversation.notes = this.conversation.notes.filter( n => {
+                    return n.id != note.id
+                })
             });
         }
     }

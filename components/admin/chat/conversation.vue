@@ -231,6 +231,7 @@ export default {
 .conversation-box {
     cursor: pointer;
     // border-top: 1px ridge #fff;
+    background-color: #fff;
     height: 74px;
     margin-bottom: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,.25);

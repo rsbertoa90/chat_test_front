@@ -58,7 +58,9 @@ export default {
                 value:false
             }
             this.$store.commit('updateConversation',data);
+            this.$store.commit('relocateConversation',this.conversation);
             this.$axios.put('/conversation',data);
+
         },
         update(field)
         {

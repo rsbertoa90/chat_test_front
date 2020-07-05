@@ -646,6 +646,7 @@ export const actions = {
   }, client_id) {
     await this.$axios.get(`/user-conversation/${client_id}`)
       .then(r => {
+        console.log('ACTIVE CONVERSATION',r.data.messages);
         commit('setActiveConversation', r.data);
       });
   },

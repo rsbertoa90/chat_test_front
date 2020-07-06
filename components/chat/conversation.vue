@@ -9,11 +9,10 @@
         v-else
         id="conversation"
         ref="conversation"
-        class="d-flex flex-column-reverse flex-grow-1 scrollbar-custom h-0 pb-2 chat-background"
+        class="d-flex flex-column-reverse flex-grow-1 scrollbar-custom h-0 chat-background"
         @click="scrollToBottom" >
-        <div class="enviando" v-if="true">
-            <h1>ENVIANDO MENSAJE...</h1>
-        </div>
+
+        <progress-bar v-if="loadingMessage" />
         
         <div
             class="d-flex item-container"
@@ -22,7 +21,7 @@
             :class="getItemContainerClass(item)"
         >
             <date-separator v-if="item.type=='DS'" :date="item.date" />
-            <!--    @hook:mounted="$emit('childMounted', items.length-1 == index)"/> -->
+            <!-- @hook:mounted="$emit('childMounted', items.length-1 == index)"/> -->
                 
             <message
                 v-if="item.type.startsWith('M')"
@@ -36,12 +35,14 @@
 <script>
 import message from "./conversation/message.vue";
 import dateSeparator from "./conversation/date-separator.vue";
+import progressBar from "@/components/common/progress-bar-indeterminate.vue"
 export default {
     props: ["conversation"],
-    components: { message, dateSeparator },
+    components: { message, dateSeparator, progressBar },
     mounted() {
         /*  */
         // this.scrollToBottom();
+        
     },
     computed: {
         loadingMessage() {
@@ -131,15 +132,20 @@ function isDayChanged(a, b) {
     min-height: 50vh;
     background: #e5ddd5;
 }
-.item-container {
+.item-container ~ .item-container {
     width: auto;
     margin: 2px auto;
 }
 
+.item-container{
+    width: auto;
+    margin: 2px auto;
+    margin-bottom: 2rem;
+}
+
 .item-container.day-separator {
     align-self: center;
-    margin: 4px auto;
-    font-family: "Roboto", sans-serif !important;
+    margin: 1rem auto;
 }
 
 .item-container.received-message {
@@ -155,12 +161,7 @@ function isDayChanged(a, b) {
 }
 .item-container.sent-message + .item-container.received-message,
 .item-container.received-message + .item-container.sent-message {
-    margin-top: 16px;
-}
-
-.item-container.sent-message + .item-container.received-message,
-.item-container.received-message + .item-container.sent-message {
-    margin-top: 16px;
+    margin-bottom: 1rem;
 }
 
 .sent-message.first-of-group .message {

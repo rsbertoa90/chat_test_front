@@ -20,6 +20,7 @@ export const strict = false
 
 export const state = () => {
   return {
+    conversationsSearchTerm:'',
     firstMessage:true,
 
     loadingMessage:false,
@@ -55,6 +56,7 @@ export const state = () => {
 }
 
 export const getters = {
+  getConversationsSearchTerm(store){return store.conversationsSearchTerm},
   getFirstMessage(store){return store.firstMessage},
   getLoadingMessage(store){return store.loadingMessage},
   getHesWriting(store){return store.hesWriting},
@@ -249,6 +251,10 @@ export const getters = {
 }
 
 export const mutations = {
+  setConversationsSearchTerm(state,payload)
+  {
+    state.conversationsSearchTerm = payload;
+  },
   setFirstMessage(state,payload)
   {
     state.firstMessage=payload;
@@ -349,21 +355,25 @@ export const mutations = {
       }
   },
 
-  setConversations(state, payload) {
-    if(state.conversations){
+  addConversations(state,payload)
+  {
+    if (state.conversations) {
       payload.forEach(c => {
-       let exists = state.conversations.find(cv => {
+        let exists = state.conversations.find(cv => {
           return cv.id == c.id;
         })
-        if(!exists)
-        {
+        if (!exists) {
           state.conversations.push(c);
         }
       });
-      console.log('CONVERSACIONES AHORA',state.conversations)
-    }else{
+      console.log('CONVERSACIONES AHORA', state.conversations)
+    } else {
       state.conversations = payload;
     }
+  },
+
+  setConversations(state, payload) {
+    state.conversations = payload;
   },
   
   setConversationsPagination(state, payload) {
@@ -372,7 +382,7 @@ export const mutations = {
   
 
   addMessageToActiveConversation(state, payload) {
-    if(payload.conversation_id == state.activeConversation.id)
+    if(state.activeConversation && payload.conversation_id == state.activeConversation.id)
     {
       state.activeConversation.messages.unshift(payload);
     }
@@ -617,21 +627,41 @@ export const actions = {
   })
   {
   await this.$axios.get('/fast-answers')
-    .then(r => {
+    .then( r => {
       commit('setFastAnswers', r.data);
     })
   },
 
-  async fetchConversations({
-    commit
-  }, $url = '/paginated-conversations') {
+  async fetchConversations( { commit , state } ) {
+    let $url = '/paginated-conversations'
+    if(state.conversationsSearchTerm)
+    {
+      $url+=`/${state.conversationsSearchTerm}`
+    }
+    console.log('URL fetch ',$url);
     await this.$axios.get($url)
       .then(r => {
         console.log('paginated conversations',r.data);
-         commit('setConversations', r.data.data); 
-         commit('setConversationsPagination',r.data);
+        commit('setConversations', r.data.data); 
+        commit('setConversationsPagination',r.data);
       })
   },
+
+  async fetchMoreConversations({
+    commit
+  }, $url ) {
+    if($url)
+    {
+      await this.$axios.get($url)
+        .then(r => {
+          console.log('paginated conversations',r.data);
+           commit('addConversations', r.data.data); 
+           commit('setConversationsPagination',r.data);
+        })
+    }
+  },
+
+
 
   async fetchConversation({
     commit

@@ -370,19 +370,11 @@ export const mutations = {
     state.conversationsPagination = payload ;
   },
   
-  addNewMessagesToActiveConversation(state,payload){
-    console.log('aca agrego los mensajes nuevos a la converrsacion actual');
-    payload.forEach(message => {
-      state.activeConversation.messages.push(message);
-    })
-    console.log('nuevos mensajes',payload);
-    console.log('conversacion actual',state.activeConversation);
-  },
 
   addMessageToActiveConversation(state, payload) {
     if(payload.conversation_id == state.activeConversation.id)
     {
-      state.activeConversation.messages.push(payload);
+      state.activeConversation.messages.unshift(payload);
     }
    /*  console.log(state.activeConversation.messages); */
   },

@@ -64,7 +64,7 @@ export default {
             if(this.conversationsPagination.last_page > this.conversationsPagination.current_page)
             {
                 let url = this.conversationsPagination.next_page_url;
-                url = url.replace('http://localhost:8000/api','');
+                url = url.replace(this.backendpath+'/api','');
                 return url;
             }
         },

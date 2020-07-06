@@ -370,19 +370,11 @@ export const mutations = {
     state.conversationsPagination = payload ;
   },
   
-  addNewMessagesToActiveConversation(state,payload){
-    console.log('aca agrego los mensajes nuevos a la converrsacion actual');
-    payload.forEach(message => {
-      state.activeConversation.messages.push(message);
-    })
-    console.log('nuevos mensajes',payload);
-    console.log('conversacion actual',state.activeConversation);
-  },
 
   addMessageToActiveConversation(state, payload) {
     if(payload.conversation_id == state.activeConversation.id)
     {
-      state.activeConversation.messages.push(payload);
+      state.activeConversation.messages.unshift(payload);
     }
    /*  console.log(state.activeConversation.messages); */
   },
@@ -646,7 +638,7 @@ export const actions = {
   }, client_id) {
     await this.$axios.get(`/user-conversation/${client_id}`)
       .then(r => {
-        // console.log('ACTIVE CONVERSATION',JSON.stringify(r.data.messages));
+       // console.log('ACTIVE CONVERSATION',r.data);
         commit('setActiveConversation', r.data);
       });
   },

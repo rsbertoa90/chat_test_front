@@ -10,9 +10,15 @@
             :isATicket="isATicket"
             @fileChange="file=$event" 
             @writingChange="$emit('writingChange', $event)" 
-            @sendMessage="$emit('sendMessage', $event)" />
+            @sendMessage="$emit('sendMessage', $event)"
+            @hook:mounted="childMounted.chatForm=true"
+            @hook:destroyed="childMounted.chatForm=false"/>
         
-        <bottom-panel v-if="admin" @sendFastAnswer="sendFastAnswer" />
+        <bottom-panel 
+            v-if="admin" 
+            @sendFastAnswer="sendFastAnswer" 
+            @hook:mounted="childMounted.bottomPanel=true" 
+            @hook:destroyed="childMounted.bottomPanel=false"/>
     </div>
 </template>
 
@@ -26,7 +32,11 @@ export default {
     data() {
         return {
             isATicket: false,
-            file: null
+            file: null,
+            childMounted: {
+                chatForm: false,
+                bottomPanel: false
+            }
         };
     },
     methods:{
@@ -34,7 +44,16 @@ export default {
         {
             this.$emit('sendFastAnswer',e);
         }
+    },
+    watch: {
+        childMounted: {
+            deep: true,
+            handler: function(v) {
+                this.$emit('childMounted', Object.values(v).reduce((a,b) => a && b));
+            }
+        }
     }
+    
 };
 
 </script>

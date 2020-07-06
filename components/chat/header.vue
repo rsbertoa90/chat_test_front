@@ -1,6 +1,12 @@
 <template>
-    <admin v-if="admin" :conversation="conversation" />
-    <client v-else :conversation="conversation" />
+    <admin v-if="admin" :conversation="conversation" 
+        @hook:mounted="$emit('childMounted', true)" 
+        @hook:destroyed="$emit('childMounted', false)"/>
+    
+    <client v-else :conversation="conversation"
+        @hook:mounted="$emit('childMounted', true)" 
+        @hook:destroyed="$emit('childMounted', false)"/>
+
 </template>
 
 <script>
@@ -9,12 +15,8 @@ import client from './header/client.vue';
 export default {
     name: "chat-header",
     props: ["conversation"],
-    components: { admin, client },
-    mounted() {
-        console.log("header mounted");
-        console.log(this.admin);
-
-    }
+    components: { admin, client }
+    
 }
 </script>
 

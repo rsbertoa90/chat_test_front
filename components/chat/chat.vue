@@ -1,16 +1,25 @@
 <template>
-    <div class="d-flex flex-column chat">
-        <chatHeader v-if="conversation" :conversation="conversation" />
+    <div class="d-flex flex-column chat" >
+        <chatHeader 
+            v-if="conversation" 
+            :conversation="conversation" 
+            @childMounted="childMounted.chatHeader=$event"/>
+        
         <div v-if="conversation" class="d-flex flex-column flex-grow-1" @mouseover="iSawTheMessages()">
             <conversation 
                 :conversation="conversation" 
-                ref="conversation"/>
+                ref="conversation"
+                @hook:mounted="childMounted.conversation=true"
+                @hook:destroyed="childMounted.conversation=false"
+            />
            
             <chat-footer
                 :conversation="conversation"
                 @writingChange="onWritingChange"
                 @sendMessage="onSendMessage"
-                @sendFastAnswer="sendFastAnswer"/>
+                @sendFastAnswer="sendFastAnswer"
+                @childMounted="childMounted.chatFooter=$event"
+            />
 
         </div>
         <div v-else class="d-flex justify-content-center align-items-center flex-grow-1">
@@ -30,11 +39,16 @@ export default {
         return {
             imOnline: true,
             imageUploaded: false,
-            file: null
-            
+            file: null,
+            childMounted: {
+                chatHeader: false,
+                conversation: false,
+                chatFooter: false 
+            }
         };
     },
     mounted() {
+        console.log("chat mounted");
         var vm = this;
         /* conecto al socket */
         this.socket = this.$nuxtSocket({
@@ -105,7 +119,7 @@ export default {
             if(data.user_id != this.user.id 
                 && data.conversation_id == this.conversation.id
             )
-            {
+            {this.emit('childMounted', )
                 this.$store.commit('setHesOnline',false);
                 this.$store.commit('setHesWriting',false);
           }
@@ -138,7 +152,6 @@ export default {
         }
     },
     watch: {
-
         conversation(n, o) {
             if (this.conversation) {
                 /* conecto a la sala */
@@ -153,10 +166,15 @@ export default {
                     unreads: this.conversation.unreads
                 });
             }
-        }
+        },
+        childMounted: {
+            handler: function() {
+                console.log("chat montado=", Object.values(this.childMounted).reduce((a, b) => a && b));
+            },
+            deep: true,
+        },
     },
     methods: {
-
         iSawTheMessages() {
             if (this.conversation && this.conversation.unreads) {
                 var vm = this;
@@ -251,6 +269,9 @@ export default {
             };
             this.socket.emit("imWriting", data);
             this.iSawTheMessages();
+        },
+        log(e) {
+            console.log(e);
         }
     }
 };

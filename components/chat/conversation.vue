@@ -11,6 +11,10 @@
         ref="conversation"
         class="d-flex flex-column-reverse flex-grow-1 scrollbar-custom h-0 pb-2 chat-background"
         @click="scrollToBottom" >
+        <div class="enviando" v-if="true">
+            <h1>ENVIANDO MENSAJE...</h1>
+        </div>
+        
         <div
             class="d-flex item-container"
             v-for="(item, index) in items"
@@ -24,11 +28,8 @@
                 v-if="item.type.startsWith('M')"
                 :message="item" />
                 <!-- @hook:mounted="$emit('childMounted', items.length-1 == index)" -->
-            
         </div>
-        <div class="enviando" v-if="loadingMessage">
-            <h1>ENVIANDO MENSAJE...</h1>
-        </div>
+        
     </div>
 </template>
 
@@ -85,15 +86,7 @@ export default {
                 "sent-message": item.type == "MS",
                 "received-message": item.type == "MR",
                 "first-of-group": item.firstOfGroup
-            }; /*
-            switch (item.type) {
-                case "DS":
-                    return { "day-separator": true };
-                case "MS":
-                    return { "sent-message": true };
-                case "MR":
-                    return { "received-message": true };
-            } */
+            };
         },
         scrollToBottom() {
             var vm = this;

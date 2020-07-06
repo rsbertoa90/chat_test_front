@@ -6,12 +6,12 @@
                  <img :src="imagePath('/storage/images/app/newlogo.png')" alt="fondo" >
             </div>
             <div id="header-row-3" class="d-flex justify-between align-content-center">
-                    <button @click="search=''" :disabled="!filter" class="d-flex flex-column justify-content-center mat mx-3">
+                    <button @click="resetSearch" :disabled="!filter" class="d-flex flex-column justify-content-center mat mx-3">
                         <i v-if="filter" class="material-icons">arrow_back</i>
                         <i v-else class="material-icons">search</i>
                     </button>
 
-                <input v-model="search" type="text" placeholder="Buscar" class="mat roboto" />
+                <input v-model.lazy="search" type="text" placeholder="Buscar" class="mat roboto" />
             </div>
         </div>
         <div class="conversations scrollbar-custom" v-if="conversations">
@@ -35,6 +35,7 @@ export default {
     data() {
         return {
             search: "",
+            searching:false,
         };
     },
     components: { conversation },
@@ -49,13 +50,16 @@ export default {
 
         this.socket.on('checkConversationInList',id => {
             let exists = vm.conversations.find( c => {return c.id == id});
-            if(!exists)
+            if(!exists && !this.searching)
             {
                 this.$store.dispatch('addOneConversation',id);
             } 
         })
     },
     computed: {
+        conversationsSearchTerm(){
+            return this.$store.getters.getConversationsSearchTerm;
+        },
         conversationsPagination(){
             return this.$store.getters.getConversationsPagination;
         },
@@ -64,7 +68,7 @@ export default {
             if(this.conversationsPagination.last_page > this.conversationsPagination.current_page)
             {
                 let url = this.conversationsPagination.next_page_url;
-                url = url.replace(this.backendpath+'/api','');
+             //   url = url.replace(this.backendpath+'/api','');
                 return url;
             }
         },
@@ -76,15 +80,42 @@ export default {
         }
     },
     methods: {
+        resetSearch(){
+            if(this.searching)
+            {
+                this.search = '';
+                this.searching = false;
+            }
+        },
         loadMoreConversations()
         {
             if(this.moreConversationsFetchUrl)
             {
-                this.$store.dispatch('fetchConversations',this.moreConversationsFetchUrl);
+                this.$store.dispatch('fetchMoreConversations',this.moreConversationsFetchUrl);
             }
         }
     },
-    watch: {},
+    watch: {
+        search()
+        {
+            var vm = this;
+            if(this.filter != this.conversationsSearchTerm)
+            {
+                this.$store.commit('setConversationsSearchTerm',this.filter);
+                this.$store.dispatch('fetchConversations')
+                    .then(() => {
+                        setTimeout(() => {
+                            if(this.filter){
+                                vm.searching=true;
+                            }else{
+                                vm.searching=false;
+                            }
+                            console.log('searching ',vm.searching)
+                        }, 500);
+                    });
+            }
+        }
+    },
 };
 </script>
 

@@ -176,14 +176,9 @@ export default {
                 });
             }
         },
-        childMounted: {
-            handler: function() {
-                console.log("chat montado=", Object.values(this.childMounted).reduce((a, b) => a && b));
-            },
-            deep: true,
-        },
         allMounted(v) {
-            console.log("allMounted", v);
+            // se podria usar para emitir el evento que esta en linea
+            console.log("chat.allMounted", v);
         }
     },
     methods: {

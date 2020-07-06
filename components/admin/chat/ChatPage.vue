@@ -24,7 +24,7 @@ import chat from '@/components/chat/chat.vue';
 export default {
      components:{conversations,chat,notes},
      mounted() {
-         this.$store.dispatch('fetchAllConversations');
+         this.$store.dispatch('fetchConversations');
      }
 }
 </script>

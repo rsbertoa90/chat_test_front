@@ -15,11 +15,16 @@
             </div>
         </div>
         <div class="conversations scrollbar-custom" v-if="conversations">
-            <conversation
-                v-for="conversation in conversations"
-                :key="conversation.id"
-                :conversation="conversation"
-            />
+            <transition-group enter-active-class="animated pulse" leave-active-class="animated fadeOut">
+                <conversation class="transition-all"
+                    v-for="conversation in conversations"
+                    :key="conversation.id"
+                    :conversation="conversation"
+                />
+            </transition-group>
+            <button @click="loadMoreConversations" v-if="moreConversationsFetchUrl" class="btn-block btn-info mt 2">
+                CARGAR MAS CONVERSACIONES
+            </button>
         </div>
     </div>
 </template>
@@ -33,7 +38,36 @@ export default {
         };
     },
     components: { conversation },
+    mounted(){
+        var vm = this;
+
+        this.socket = this.$nuxtSocket({
+            channel: "/index",
+            reconnection: true
+        });
+        this.socket.emit("joinRoom", 'admins');
+
+        this.socket.on('checkConversationInList',id => {
+            let exists = vm.conversations.find( c => {return c.id == id});
+            if(!exists)
+            {
+                this.$store.dispatch('addOneConversation',id);
+            } 
+        })
+    },
     computed: {
+        conversationsPagination(){
+            return this.$store.getters.getConversationsPagination;
+        },
+        moreConversationsFetchUrl()
+        {
+            if(this.conversationsPagination.last_page > this.conversationsPagination.current_page)
+            {
+                let url = this.conversationsPagination.next_page_url;
+                url = url.replace('http://localhost:8000/api','');
+                return url;
+            }
+        },
         conversations() {
             return this.$store.getters.getConversations;
         },
@@ -41,12 +75,23 @@ export default {
             return this.search.trim();
         }
     },
-    methods: {},
+    methods: {
+        loadMoreConversations()
+        {
+            if(this.moreConversationsFetchUrl)
+            {
+                this.$store.dispatch('fetchConversations',this.moreConversationsFetchUrl);
+            }
+        }
+    },
     watch: {},
 };
 </script>
 
 <style lang="scss" scoped>
+.transition-all{
+    transition: all 1s;
+}
 .panel {
     z-index: 1;
 }

@@ -135,6 +135,7 @@ function isDayChanged(a, b) {
     //    scroll-behavior: smooth;
 }
 .chat-background {
+    min-height: 50vh;
     background: #e5ddd5;
 }
 .item-container {

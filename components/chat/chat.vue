@@ -134,10 +134,16 @@ export default {
             }
         });
 
+        if(this.admin){
+            this.isATicket=false;
+        }
 
     },
 
     computed: {
+        firstMessage(){
+            return this.$store.getters.getFirstMessage;
+        },
         hesWriting(){
             return this.$store.getters.getHesWriting;
         },
@@ -149,7 +155,10 @@ export default {
         },
         conversations() {
             return this.$store.getters.getConversations;
-        }
+        },
+        allMounted() {
+            return Object.values(this.childMounted).reduce((a,b)=>a && b);
+        },
     },
     watch: {
         conversation(n, o) {
@@ -173,6 +182,9 @@ export default {
             },
             deep: true,
         },
+        allMounted(v) {
+            console.log("allMounted", v);
+        }
     },
     methods: {
         iSawTheMessages() {
@@ -202,11 +214,16 @@ export default {
         },
         socketMessage(message) {
             let data = {
+                firstMessage:this.firstMessage,
                 user_id: this.user.id,
                 conversation_id: this.conversation.id,
-                message: message
+                message: message,
             };
             this.socket.emit("sendNewMessage", data);
+            if(this.firstMessage)
+            {
+                this.$store.commit('setFirstMessage',false);
+            }
         },
         messageSended(r)
         {

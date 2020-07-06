@@ -20,6 +20,8 @@ export const strict = false
 
 export const state = () => {
   return {
+    firstMessage:true,
+
     loadingMessage:false,
 
     hesWriting:false,
@@ -28,6 +30,7 @@ export const state = () => {
     unreads:0,
     fastAnswers:null,
     conversations: null,
+    conversationsPagination:null,
     activeConversation: null,
 
     editWarnings: '',
@@ -52,6 +55,7 @@ export const state = () => {
 }
 
 export const getters = {
+  getFirstMessage(store){return store.firstMessage},
   getLoadingMessage(store){return store.loadingMessage},
   getHesWriting(store){return store.hesWriting},
   getHesOnline(store){return store.hesOnline},
@@ -61,6 +65,9 @@ export const getters = {
   },
   getConversations(store) {
     return store.conversations;
+  },
+  getConversationsPagination(store) {
+    return store.conversationsPagination;
   },
   getActiveConversation(store) {
     return store.activeConversation;
@@ -242,6 +249,10 @@ export const getters = {
 }
 
 export const mutations = {
+  setFirstMessage(state,payload)
+  {
+    state.firstMessage=payload;
+  },
   setLoadingMessage(state,payload){
     state.loadingMessage = payload
   },
@@ -264,7 +275,7 @@ export const mutations = {
    /* primero quito la conversacion que tengo que reacomodar */
    let conv = state.conversations.find( c => {return c.id == payload.id});
    state.conversations =  state.conversations.filter( c => {return c.id != payload.id});
-  
+   if (!conv){conv=payload}
    /* busco la nueva posicion que le corresponde */
   
       let pos = 0;
@@ -278,7 +289,6 @@ export const mutations = {
             pos = index;
             break;
           }
-
         }
         
       }
@@ -340,7 +350,24 @@ export const mutations = {
   },
 
   setConversations(state, payload) {
-    state.conversations = payload;
+    if(state.conversations){
+      payload.forEach(c => {
+       let exists = state.conversations.find(cv => {
+          return cv.id == c.id;
+        })
+        if(!exists)
+        {
+          state.conversations.push(c);
+        }
+      });
+      console.log('CONVERSACIONES AHORA',state.conversations)
+    }else{
+      state.conversations = payload;
+    }
+  },
+  
+  setConversationsPagination(state, payload) {
+    state.conversationsPagination = payload ;
   },
   
   addNewMessagesToActiveConversation(state,payload){
@@ -583,6 +610,16 @@ export const actions = {
 
   },
 
+  async addOneConversation({commit},id){
+    await this.$axios.get(`/one-conversation-block/${id}`)
+      .then(r => {
+        if(r.data){
+          console.log('GET ONE CONVERSATION');
+          commit('relocateConversation',r.data);
+        }
+      })
+  },
+
   async fetchFastAnswers({
     commit
   })
@@ -593,12 +630,14 @@ export const actions = {
     })
   },
 
-  async fetchAllConversations({
+  async fetchConversations({
     commit
-  }) {
-    await this.$axios.get('/all-conversations')
+  }, $url = '/paginated-conversations') {
+    await this.$axios.get($url)
       .then(r => {
-        commit('setConversations', r.data);
+        console.log('paginated conversations',r.data);
+         commit('setConversations', r.data.data); 
+         commit('setConversationsPagination',r.data);
       })
   },
 

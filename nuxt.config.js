@@ -85,7 +85,7 @@ module.exports = {
       },
       /*
       {
-          rel: 'stylesheet', 
+          rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css?family=Roboto'
         }
         */
@@ -128,7 +128,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    
+
     "./plugins/datamixin.js",
     "./plugins/v-lazy-image.js",
     "./plugins/filters.js",
@@ -143,7 +143,8 @@ module.exports = {
     { src: "./plugins/datepicker.js", ssr: false },
     { src: "@/plugins/ga.js", ssr: false },
     { src: "@/plugins/pixel.js", ssr: false },
-    { src: "@/plugins/debounce.js", ssr: false }
+    { src: "@/plugins/debounce.js", ssr: false },
+    { src: "@/plugins/vuescroll.js", ssr: false }
   ],
 
   /*
@@ -185,11 +186,11 @@ module.exports = {
         default: true,
         transports: ['websocket'],
         vuex: {
-         
+
           actions: [{
             m: 'socket_message_recieved'
           }],
-         
+
         },
       }
     ]
@@ -245,8 +246,8 @@ module.exports = {
 
   axios: {
     baseURL:
-        false ? "https://back.dominiodepruebas.ml/api" : "http://localhost:8000/api"  
-       
+        true ? "https://back.dominiodepruebas.ml/api" : "http://localhost:8000/api"
+
 /*   process.env.NODE_ENV == "production"
         ? "https://back.dominiodepruebas.ml/api"
         : "http://localhost:8000/api" */

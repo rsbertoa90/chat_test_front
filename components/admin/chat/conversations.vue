@@ -14,7 +14,7 @@
                 <input v-debounce:300ms="search" v-model="searchTerm" type="text" placeholder="Buscar" class="mat roboto" />
             </div>
         </div>
-        <div class="conversations scrollbar-custom" v-if="conversations" @scroll="onScroll($event)">
+        <div class="conversations scrollbar-custom" v-if="conversations" v-scroll="onScroll">
             <transition-group enter-active-class="animated pulse" leave-active-class="animated fadeOut">
                 <conversation class="transition-all"
                     v-for="conversation in conversations"
@@ -22,9 +22,6 @@
                     :conversation="conversation"
                 />
             </transition-group>
-            <button @click="loadMoreConversations" v-if="moreConversationsFetchUrl" class="btn-block btn-info mt 2">
-                CARGAR MAS CONVERSACIONES
-            </button>
         </div>
     </div>
 </template>
@@ -36,6 +33,7 @@ export default {
         return {
             searchTerm: "",
             searching:false,
+            loadingMore: false,
         };
     },
     components: { conversation },
@@ -103,9 +101,16 @@ export default {
         },
         loadMoreConversations()
         {
-            if(this.moreConversationsFetchUrl)
+            if(this.moreConversationsFetchUrl && !this.loadingMore)
             {
-                this.$store.dispatch('fetchMoreConversations',this.moreConversationsFetchUrl);
+                this.$store.dispatch('fetchMoreConversations',this.moreConversationsFetchUrl).then(() => {
+                    this.loadingMore = false;
+                });
+            }
+        },
+        onScroll(e, p) {
+            if(p.scrollTop + 100 > e.target.scrollHeight - e.target.clientHeight) {
+                this.loadMoreConversations()
             }
         }
     },

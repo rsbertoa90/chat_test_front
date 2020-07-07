@@ -2,8 +2,7 @@
     <div v-if="conversation" class="d-flex conversation-box top-shine" @click="setActiveConversation(conversation)" :class="{'taken':conversation.taken_by}">
         <div
             class="d-flex flex-column justify-content-between flex-fill box-content"
-            :class="conversationClass"
-        >
+            :class="conversationClass" >
             <div class="d-flex justify-content-between align-content-center">
                 <span class="userid roboto">{{conversation.client.id}}</span>
                 <div class="username roboto">{{conversation.client.name}}</div>
@@ -191,7 +190,10 @@ export default {
 
             if(!this.conversation.taken_by || this.conversation.taken_by.id == this.user.id)
             {
-                this.$store.dispatch("fetchConversation", c.client_id);
+                this.$store.dispatch("fetchConversation", c.client_id)
+                    .then( () => {
+                        this.$store.dispatch('fetchChatMessages',this.conversation.id);
+                    });
                 let data = {
                     conversation_id:this.conversation.id,
                     user:{

@@ -10,7 +10,8 @@
                         <i v-if="filter" class="material-icons">arrow_back</i>
                         <i v-else class="material-icons">search</i>
                     </button>
-                <input v-model.lazy="search" type="text" placeholder="Buscar" class="mat roboto" />
+
+                <input v-debounce:300ms="search" v-model="searchTerm" type="text" placeholder="Buscar" class="mat roboto" />
             </div>
         </div>
         <div class="conversations scrollbar-custom" v-if="conversations" @scroll="onScroll($event)">
@@ -33,7 +34,7 @@ import conversation from "./conversation";
 export default {
     data() {
         return {
-            search: "",
+            searchTerm: "",
             searching:false,
         };
     },
@@ -52,7 +53,7 @@ export default {
             if(!exists && !this.searching)
             {
                 this.$store.dispatch('addOneConversation',id);
-            } 
+            }
         })
     },
     computed: {
@@ -64,60 +65,51 @@ export default {
         },
         moreConversationsFetchUrl()
         {
-            if(this.conversationsPagination.last_page > this.conversationsPagination.current_page)
+            if(this.conversationsPagination && this.conversationsPagination.last_page > this.conversationsPagination.current_page)
             {
-                let url = this.conversationsPagination.next_page_url;
-             //   url = url.replace(this.backendpath+'/api','');
-                return url;
+                return this.conversationsPagination.next_page_url;
             }
         },
         conversations() {
             return this.$store.getters.getConversations;
         },
         filter() {
-            return this.search.trim();
+            return this.searchTerm.trim();
         }
     },
     methods: {
+        search()
+        {
+            console.log('searching...')
+            var vm = this;
+            this.$store.commit('setConversationsSearchTerm',this.filter);
+            this.$store.dispatch('fetchConversations')
+                    .then(() => {
+                            if(this.filter){
+                                vm.searching=true;
+                            }else{
+                                vm.searching=false;
+                            }
+                    });
+
+        },
         resetSearch(){
             if(this.searching)
             {
-                this.search = '';
+                this.searchTerm = '';
                 this.searching = false;
+                this.search();
             }
         },
         loadMoreConversations()
         {
             if(this.moreConversationsFetchUrl)
             {
-                this.$store.dispatch('fetchMoreConversations', this.moreConversationsFetchUrl);
-            }
-        },
-        onScroll(e) {
-            console.log(e);
-        }
-    },
-    watch: {
-        search()
-        {
-            var vm = this;
-            if(this.filter != this.conversationsSearchTerm)
-            {
-                this.$store.commit('setConversationsSearchTerm',this.filter);
-                this.$store.dispatch('fetchConversations')
-                    .then(() => {
-                        setTimeout(() => {
-                            if(this.filter){
-                                vm.searching=true;
-                            }else{
-                                vm.searching=false;
-                            }
-                            console.log('searching ',vm.searching)
-                        }, 500);
-                    });
+                this.$store.dispatch('fetchMoreConversations',this.moreConversationsFetchUrl);
             }
         }
     },
+
 };
 </script>
 

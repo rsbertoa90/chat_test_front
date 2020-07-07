@@ -20,6 +20,9 @@ export const strict = false
 
 export const state = () => {
   return {
+    chatMessages:null,
+    chatMessagesPagination:null,
+
     conversationsSearchTerm:'',
     firstMessage:true,
 
@@ -56,6 +59,8 @@ export const state = () => {
 }
 
 export const getters = {
+  getChatMessages(store){return store.chatMessages},
+  getChatMessagesPagination(store){return store.chatMessagesPagination},
   getConversationsSearchTerm(store){return store.conversationsSearchTerm},
   getFirstMessage(store){return store.firstMessage},
   getLoadingMessage(store){return store.loadingMessage},
@@ -251,6 +256,17 @@ export const getters = {
 }
 
 export const mutations = {
+  setChatMessages(state,payload){
+      state.chatMessages = payload;
+  },
+  addChatMessages(state,payload)
+  {
+    state.chatMessages =state.chatMessages.concat(payload);
+  },
+  setChatMessagesPagination(state,payload){
+    state.chatMessagesPagination = payload;
+  },
+  
   setConversationsSearchTerm(state,payload)
   {
     state.conversationsSearchTerm = payload;
@@ -333,7 +349,7 @@ export const mutations = {
       
         if(state.activeConversation.id == payload.conversation_id)
         {
-          state.activeConversation.messages.forEach(message => {
+          state.chatMessages.forEach(message => {
             if(!message.viewed && message.admin == payload.admin )
             {
                 message.sended =1 ;
@@ -345,7 +361,7 @@ export const mutations = {
   iSawHisMessages(state, payload) {
       /* marco SUS mensajes como vistos */
       if (state.activeConversation.id == payload.conversation_id) {
-        state.activeConversation.messages.forEach(message => {
+        state.chatMessages.forEach(message => {
 
           if (!message.viewed && message.admin != payload.admin) {
             message.sended = 1;
@@ -384,9 +400,9 @@ export const mutations = {
   addMessageToActiveConversation(state, payload) {
     if(state.activeConversation && payload.conversation_id == state.activeConversation.id)
     {
-      state.activeConversation.messages.unshift(payload);
+      state.chatMessages.unshift(payload);
     }
-   /*  console.log(state.activeConversation.messages); */
+  
   },
 
   setActiveConversation(state, payload) {
@@ -612,6 +628,22 @@ export const actions = {
 
   },
 
+  async fetchChatMessages({commit},conversation_id){
+    await this.$axios.get(`/chat-messages/${conversation_id}`)
+      .then(r => {
+        commit('setChatMessagesPagination',r.data);
+        commit('setChatMessages',r.data.data);
+      })
+  },
+
+  async fetchMoreChatMessages({commit},url){
+    await this.$axios.get(url)
+      .then(r => {
+        commit('setChatMessagesPagination',r.data);
+        commit('addChatMessages',r.data.data);
+      })
+  },
+
   async addOneConversation({commit},id){
     await this.$axios.get(`/one-conversation-block/${id}`)
       .then(r => {
@@ -634,7 +666,7 @@ export const actions = {
 
   async fetchConversations( { commit , state } ) {
     let $url = '/paginated-conversations'
-    if(state.conversationsSearchTerm)
+    if(state.conversationsSearchTerm.trim())
     {
       $url+=`/${state.conversationsSearchTerm}`
     }

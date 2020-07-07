@@ -14,6 +14,7 @@
 
         <progress-bar v-if="loadingMessage" />
         
+      
         <div
             class="d-flex item-container"
             v-for="(item, index) in items"
@@ -28,6 +29,11 @@
                 :message="item" />
                 <!-- @hook:mounted="$emit('childMounted', items.length-1 == index)" -->
         </div>
+
+        <div v-if="moreMessagesUrl">
+            <button class="btn btn-block btn-info" @click="loadMoreMessages">CARGAR MAS MENSAJES</button>
+        </div>
+
         
     </div>
 </template>
@@ -37,7 +43,7 @@ import message from "./conversation/message.vue";
 import dateSeparator from "./conversation/date-separator.vue";
 import progressBar from "@/components/common/progress-bar-indeterminate.vue"
 export default {
-    props: ["conversation"],
+    props: ["conversation","chatMessages"],
     components: { message, dateSeparator, progressBar },
     mounted() {
         /*  */
@@ -45,26 +51,36 @@ export default {
         
     },
     computed: {
+        chatMessagesPagination()
+        {
+            return this.$store.getters.getChatMessagesPagination;
+        },
+        moreMessagesUrl(){
+            if(this.chatMessagesPagination && this.chatMessagesPagination.last_page > this.chatMessagesPagination.current_page)
+            {
+                return this.chatMessagesPagination.next_page_url;
+            }
+        },
         loadingMessage() {
             return this.$store.getters.getLoadingMessage;
         },
         empty() {
             return !(
                 this.conversation &&
-                this.conversation.messages &&
-                this.conversation.messages.length > 0
+                this.chatMessages &&
+                this.chatMessages.length > 0
             );
         },
         items() {
             if (!this.empty) {
                 let items = [];
-                this.conversation.messages.forEach((message, i) => {
+                this.chatMessages.forEach((message, i) => {
                     const messageItem = {
                         ...message,
                         type: this.isMessageSent(message) ? "MS" : "MR"
                     };
-                    if (i < this.conversation.messages.length - 1) {
-                        const next = this.conversation.messages[i + 1]; // next, el siguiente mas antiguo
+                    if (i < this.chatMessages.length - 1) {
+                        const next = this.chatMessages[i + 1]; // next, el siguiente mas antiguo
                         messageItem.firstOfGroup = this.isMessageSent(message) !== this.isMessageSent(next)
                         items.push(messageItem); 
                         if (isDayChanged(message, next)) {
@@ -81,6 +97,13 @@ export default {
         }
     },
     methods: {
+        loadMoreMessages()
+        {
+            if(this.moreMessagesUrl)
+            {
+                this.$store.dispatch('fetchMoreChatMessages',this.moreMessagesUrl);
+            }
+        },
         getItemContainerClass(item) {
             return {
                 "day-separator": item.type == "DS",
@@ -94,8 +117,8 @@ export default {
             setTimeout(() => {
                 if (
                     vm.conversation &&
-                    vm.conversation.messages &&
-                    vm.conversation.messages.length &&
+                    vm.chatMessages &&
+                    vm.chatMessages.length &&
                     vm.$refs.conversation
                 ) {
                     vm.$refs.conversation.scrollTop =
@@ -112,7 +135,7 @@ export default {
             this.scrollToBottom();
             
         },
-        'conversation.messages'() {
+        'chatMessages'() {
             this.scrollToBottom();
         }
     }

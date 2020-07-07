@@ -8,6 +8,7 @@
         <div v-if="conversation" class="d-flex flex-column flex-grow-1" @mouseover="iSawTheMessages()">
             <conversation 
                 :conversation="conversation" 
+                :chatMessages="chatMessages"
                 ref="conversation"
                 @hook:mounted="childMounted.conversation=true"
                 @hook:destroyed="childMounted.conversation=false"
@@ -152,6 +153,9 @@ export default {
         },
         conversation() {
             return this.$store.getters.getActiveConversation;
+        },
+        chatMessages(){
+            return this.$store.getters.getChatMessages;
         },
         conversations() {
             return this.$store.getters.getConversations;

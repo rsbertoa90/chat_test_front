@@ -24,7 +24,7 @@ export default {
 
 <style lang="scss" scoped>
 .loading-linear {
-    background: rgba(33, 150, 243, 0.4);
+    background: rgba(181, 168, 121, 0.4);
     height: 4px;
     overflow: hidden;
     position: relative;
@@ -32,7 +32,7 @@ export default {
 
     &::before,
     &::after {
-        background: #2196f3;
+        background: #b54479;
         content: "";
         height: 100%;
         left: 0;

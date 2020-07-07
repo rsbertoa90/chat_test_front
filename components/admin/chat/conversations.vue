@@ -10,11 +10,10 @@
                         <i v-if="filter" class="material-icons">arrow_back</i>
                         <i v-else class="material-icons">search</i>
                     </button>
-
                 <input v-model.lazy="search" type="text" placeholder="Buscar" class="mat roboto" />
             </div>
         </div>
-        <div class="conversations scrollbar-custom" v-if="conversations">
+        <div class="conversations scrollbar-custom" v-if="conversations" @scroll="onScroll($event)">
             <transition-group enter-active-class="animated pulse" leave-active-class="animated fadeOut">
                 <conversation class="transition-all"
                     v-for="conversation in conversations"
@@ -39,7 +38,7 @@ export default {
         };
     },
     components: { conversation },
-    mounted(){
+    mounted() {
         var vm = this;
 
         this.socket = this.$nuxtSocket({
@@ -91,8 +90,11 @@ export default {
         {
             if(this.moreConversationsFetchUrl)
             {
-                this.$store.dispatch('fetchMoreConversations',this.moreConversationsFetchUrl);
+                this.$store.dispatch('fetchMoreConversations', this.moreConversationsFetchUrl);
             }
+        },
+        onScroll(e) {
+            console.log(e);
         }
     },
     watch: {

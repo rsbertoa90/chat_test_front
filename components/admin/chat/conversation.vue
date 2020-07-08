@@ -11,10 +11,10 @@
                     class="time"
                 >{{ conversation.last_message.created_at | time }}</div>
             </div>
-            
+
             <div v-if="!conversation.taken_by">
                 <div v-if="conversation.last_message && !hesWriting" class="d-flex justify-content-between info">
-                    <div class="last-message-preview reoboto">
+                    <div class="last-message-preview roboto">
                         {{ conversation.last_message.content }}
                     </div>
                     <div class="unreads roboto" v-if="conversation.unreads">
@@ -66,14 +66,14 @@ export default {
                     conversation_id: this.conversation.id
                 };
                 this.$store.commit("updateConversation", d);
-                
+
                 if(this.admin)
                 {
                     this.$store.commit("relocateConversation",this.conversation);
                 }
             }
         });
-        
+
         this.socket.on('hesWriting', data => {
             if(data.conversation_id == this.conversation.id && this.user.id != data.user_id)
             this.hesWriting = data.writing;
@@ -88,7 +88,7 @@ export default {
         });
 
         this.socket.on('someoneLeaved', data => {
-            if(data.user_id != this.user.id 
+            if(data.user_id != this.user.id
                 && data.conversation_id == this.conversation.id
                 && this.conversation.taken_by
                 && this.conversation.taken_by.id == data.user_id)
@@ -99,7 +99,7 @@ export default {
         });
 
         this.socket.on('isdisconnecting',data=>{
-            if(vm.conversation 
+            if(vm.conversation
                && vm.conversation.taken_by
                && vm.conversation.taken_by.socket_id == data.socket_id
                && vm.conversation.id == data.conversation_id)
@@ -112,9 +112,9 @@ export default {
             }
         });
 
-       
+
             this.socket.on('checkTaken',conversation_id => {
-                if( this.conversation 
+                if( this.conversation
                     && this.activeConversation
                     && this.activeConversation.id == this.conversation.id
                     && conversation_id == this.activeConversation.id )
@@ -130,7 +130,7 @@ export default {
                         this.socket.emit('imInTheConversation',data);
                     }
             });
-    
+
             this.socket.on('hesInTheConversation',data => {
                 if(this.conversation)
                 {
@@ -145,11 +145,11 @@ export default {
                     this.$store.commit('relocateConversation',this.conversation);
                 }
             });
-        
-        
 
 
-        
+
+
+
     },
     computed: {
         isSelected() {
@@ -175,7 +175,7 @@ export default {
         }
     },
     methods: {
-        
+
         setActiveConversation(c) {
             /* Si ya tengo una conversacion activa,primero aviso que la dejo */
             if(this.activeConversation)
@@ -200,7 +200,7 @@ export default {
                         socket_id:this.socket.id,
                         id:this.user.id,
                         name:this.user.name
-                    }                
+                    }
                 }
                 this.socket.emit('joinConversation',data);
                 this.$store.commit('setHesWriting',this.hesWriting);
@@ -210,7 +210,7 @@ export default {
             }
         }
     },
-   
+
     beforeDestroy()
     {
         /* Si soy administrador aviso que YA NO estoy hablando con este cliente */
@@ -264,6 +264,10 @@ export default {
 
 .username {
     color: rgba(60, 60, 90, 1);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .prio-manual {

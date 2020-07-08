@@ -6,7 +6,7 @@
     <div  v-else id="conversation-container" class="d-flex flex-column flex-grow-1 h-0" @mouseover="onMouseover">
         <transition name="scale">
             <div id="goto-bottom" v-if="!isScrollInBottomZone" @click="scrollToBottom" class="material-shadow-2">
-                <span v-if="hasUnreadMessages">ver mensajes nuevos</span>
+                <span v-if="hasUnreadAtBottom">ver mensajes nuevos</span>
                 <i class="material-icons">expand_more</i>
             </div>
         </transition>
@@ -101,7 +101,7 @@ export default {
             }
         },
 
-        hasUnreadMessages() {
+        hasUnreadAtBottom() {
             return this.conversation.unreads && !this.isScrollInBottomZone;
         }
     },
@@ -150,7 +150,7 @@ export default {
             }
         },
         onMouseover() {
-            if (!this.hasUnreadMessages) {
+            if (this.isScrollInBottomZone && this.conversation.unreads) {
                 this.emitISawTheMessages()
             }
         },
@@ -164,8 +164,8 @@ export default {
                 this.scrollToBottom();
             }
         },
-        hasUnreadMessages(v) {
-            if (!v) {
+        isScrollInBottomZone(v) {
+            if (v && this.conversation.unreads) {
                 this.emitISawTheMessages();
             }
         }, /*

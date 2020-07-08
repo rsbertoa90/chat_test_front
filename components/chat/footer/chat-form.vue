@@ -41,23 +41,30 @@ export default {
             this.$emit('fileChange', this.file);
         },
         onSubmit() {
-            let fdata = new FormData();
-            let shouldSend = false;
-
-            if (this.file) {
-                shouldSend = true;
-                fdata.append("image", this.file);
+            if(this.fastAnswer)
+            {
+                this.$emit('sendFastAnswer',this.fastAnswer.id);
             }
-
-            if (this.newMessage.trim()) {
-                shouldSend = true;
-                fdata.append("content", this.newMessage);
-            }
-
-            if (shouldSend) {
-                fdata.append("conversation_id", this.conversation.id);
-                fdata.append("prio_auto", (this.file && this.isATicket) ? 1 : 0);
-                this.$emit('sendMessage', {fdata: fdata, isATicket: (this.file && this.isATicket) } );
+            else
+            {
+                let fdata = new FormData();
+                let shouldSend = false;
+    
+                if (this.file) {
+                    shouldSend = true;
+                    fdata.append("image", this.file);
+                }
+    
+                if (this.newMessage.trim()) {
+                    shouldSend = true;
+                    fdata.append("content", this.newMessage);
+                }
+    
+                if (shouldSend) {
+                    fdata.append("conversation_id", this.conversation.id);
+                    fdata.append("prio_auto", (this.file && this.isATicket) ? 1 : 0);
+                    this.$emit('sendMessage', {fdata: fdata, isATicket: (this.file && this.isATicket) } );
+                }
             }
             this.newMessage = "";
             this.resetFile();
@@ -70,6 +77,28 @@ export default {
         }
     },
     computed: {
+        fastAnswers(){
+            return this.$store.getters.getFastAnswers;
+        },
+        fastAnswer(){
+            if(this.fastAnswers && this.newMessage)
+            {
+                let txt = this.newMessage.trim();
+                if(txt.charAt(0) == '/')
+                {
+                    let res = null;
+                    this.fastAnswers.forEach(fa => {
+                        txt = txt.replace('/','');
+                        let short = fa.shortcut.replace('/','');
+                        if(txt.trim() == short.trim())
+                        {
+                            res = fa;
+                        }
+                    });
+                    return res;
+                }
+            }
+        },
         isSendDisabled() {
             return !this.newMessage.trim().length && !this.file;
         }

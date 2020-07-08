@@ -15,6 +15,11 @@ import chat from "@/components/chat/chat.vue";
 export default {
     components: { chat,userOrders },
     layout:'clean',
+    computed:{
+        conversation(){
+            return this.$store.getters.getActiveConversation;
+        }
+    },
     mounted() {
         if (!this.user) {
             this.$router.push("/");

@@ -11,6 +11,7 @@
             @fileChange="file=$event" 
             @writingChange="$emit('writingChange', $event)" 
             @sendMessage="$emit('sendMessage', $event)"
+            @sendFastAnswer="sendFastAnswer" 
             @hook:mounted="childMounted.chatForm=true"
             @hook:destroyed="childMounted.chatForm=false"/>
         

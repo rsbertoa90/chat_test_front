@@ -347,6 +347,7 @@ export const mutations = {
   },
   heSawMyMessages(state,payload){
         /* marco MIS mensajes como vistos */
+      
         if(state.chatMessages && state.activeConversation.id == payload.conversation_id)
         {
           state.chatMessages.forEach(message => {
@@ -360,7 +361,7 @@ export const mutations = {
   },
   iSawHisMessages(state, payload) {
       /* marco SUS mensajes como vistos */
-      if (state.activeConversation.id == payload.conversation_id) {
+      if (state.chatMessages && state.activeConversation.id == payload.conversation_id) {
         state.chatMessages.forEach(message => {
 
           if (!message.viewed && message.admin != payload.admin) {

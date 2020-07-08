@@ -11,6 +11,7 @@
                 :chatMessages="chatMessages"
                 ref="conversation"
                 @iSawTheMessages="iSawTheMessages"
+                @sendFastAnswer="sendFastAnswer"
                 @hook:mounted="childMounted.conversation=true"
                 @hook:destroyed="childMounted.conversation=false"
             />

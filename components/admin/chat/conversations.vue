@@ -121,7 +121,7 @@ export default {
 
 <style lang="scss" scoped>
 .transition-all{
-    transition: all 1s;
+    transition: all 0.5s;
 }
 .panel {
     z-index: 1;

@@ -4,11 +4,12 @@
         <h4 class="d-flex roboto">Conversación vacía.</h4>
     </div>
     <div id="conversation-container" v-else class="d-flex flex-column flex-grow-1 h-0" @mouseover="onMouseover">
-
-        <div id="goto-bottom" v-if="!isScrollInBottomZone" @click="scrollToBottom" class="material-shadow-2">
-            <span v-if="hasUnreadMessages">ver mensajes nuevos</span>
-            <i class="material-icons">expand_more</i>
-        </div>
+        <transition name="scale">
+            <div id="goto-bottom" v-if="!isScrollInBottomZone" @click="scrollToBottom" class="material-shadow-2">
+                <span v-if="hasUnreadMessages">ver mensajes nuevos</span>
+                <i class="material-icons">expand_more</i>
+            </div>
+        </transition>
 
         <div
             id="conversation"
@@ -139,7 +140,8 @@ export default {
             return !(this.admin ^ message.admin);
         },
         onScroll(e, p) {
-            // isScrollInBottomZone = está viendo parte de la zona que es visible cuando el scroll completamente bajo
+            // isScrollInBottomZone = está viendo parte de la zona que es visible cuando el scroll se encuentra
+            // completamente abajo. Podria cambiarse el porcentaje de la zona
             this.isScrollInBottomZone = this.$refs.conversation.scrollTop >
                 this.$refs.conversation.scrollHeight - 2 * this.$refs.conversation.clientHeight;
 
@@ -148,13 +150,25 @@ export default {
             }
         },
         onMouseover() {
-            if(!this.hasUnreadMessages) {
-                this.$emit('iSawTheMessages');
+            if (!this.hasUnreadMessages) {
+                this.emitISawTheMessages()
             }
-        }
+        },
+        emitISawTheMessages() {
+            this.$emit('iSawTheMessages');
+        },
     },
     watch: {
-        /*
+        'chatMessages'() {
+            if (this.isScrollInBottomZone && this.conversation.unreads) {
+                this.scrollToBottom();
+            }
+        },
+        hasUnreadMessages(v) {
+            if (!v) {
+                this.emitISawTheMessages();
+            }
+        }, /*
         conversation: {
             handle: function (n, o) {
                 console.log(n);
@@ -162,11 +176,7 @@ export default {
             },
             deep: true
         },*/
-        'chatMessages'() {
-            if (this.isScrollInBottomZone && this.conversation.unreads) {
-                this.scrollToBottom();
-            }
-        },
+
     }
 };
 
@@ -178,7 +188,6 @@ function isDayChanged(a, b) {
 <style lang="scss" scoped>
 #conversation {
     height: 0;
-
     //    overflow-y: scroll;
     //    scroll-behavior: smooth;
 }
@@ -204,12 +213,24 @@ function isDayChanged(a, b) {
     color: #444;
     // padding: 0.5rem;
     i {
-       // margin-right: 1rem;
         font-size: 32px;
-
     }
     span {
         margin-left: 1rem;
+    }
+    &.scale-enter-active {
+        animation: scale-in .2s;
+    }
+    &.scale-leave-active {
+        animation: scale-in .2s reverse;
+    }
+    @keyframes scale-in {
+        0% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 }
 

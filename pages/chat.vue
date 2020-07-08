@@ -23,7 +23,7 @@ export default {
         } else {
             this.$store.dispatch("fetchConversation", this.user.id)
                 // agregue esto para que le llegue chatMessages dentro de chat.
-                // Me base en como lo hace en conversation del admin, setActiveConversation
+                // Me base en como lo hace en conversation del admin, en setActiveConversation
                 .then(() => {
                 this.$store.dispatch('fetchChatMessages', this.$store.getters.getActiveConversation.id);
             });

@@ -1,12 +1,12 @@
 <template>
 <no-ssr>
-    <div class="container admin-chat">
+    <div class="container-fluid admin-chat">
         <div class="row h-100">
             <div class="col col-3 h-100 p-0">
-                <conversations></conversations> 
+                <conversations></conversations>
             </div>
             <div class="col col-6 h-100 p-0 ">
-                <chat></chat> 
+                <chat></chat>
             </div>
             <div class="col col-3 h-100 p-0">
                 <notes></notes>

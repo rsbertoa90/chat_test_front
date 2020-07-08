@@ -51,7 +51,6 @@ export default {
         };
     },
     mounted() {
-        console.log("chat mounted");
         var vm = this;
         /* conecto al socket */
         this.socket = this.$nuxtSocket({
@@ -65,10 +64,11 @@ export default {
                 data.user_id != vm.user.id &&
                 data.conversation_id == vm.conversation.id
             ) {
-                this.$store.commit(
+                this.$store.dispatch(
                     "addMessageToActiveConversation",
                     data.message
                 );
+
                 if(this.conversation)
                 {
                     this.conversation.unreads += 1;
@@ -90,7 +90,7 @@ export default {
                 data.conversation_id == vm.conversation.id
             ) {
                 //me aseguro q el mensaje no es mio
-
+               console.log('chat- heSawMyMessages');
                 vm.$store.commit("heSawMyMessages", {
                     conversation_id: vm.conversation.id,
                     admin: vm.admin ? 1 : 0
@@ -122,10 +122,11 @@ export default {
             if(data.user_id != this.user.id
                 && data.conversation_id == this.conversation.id
             )
-            {this.emit('childMounted', )
+            {
+             
                 this.$store.commit('setHesOnline',false);
                 this.$store.commit('setHesWriting',false);
-          }
+            }
         });
 
          this.socket.on('isdisconnecting',data=>{
@@ -228,9 +229,10 @@ export default {
         messageSended(r)
         {
             var vm = this;
-            vm.socketMessage(r.data);
-            vm.$store.commit("addMessageToActiveConversation", r.data);
-            vm.$refs.conversation.scrollToBottom();
+            vm.$store.dispatch("addMessageToActiveConversation", r.data)
+                .then(()=>{
+                    vm.$refs.conversation.scrollToBottom();
+                });
 
             if (this.admin)
             {
@@ -245,6 +247,7 @@ export default {
                     this.conversation
                 );
             }
+            vm.socketMessage(r.data);
             vm.$store.commit('setLoadingMessage',false);
         },
         sendFastAnswer(e){

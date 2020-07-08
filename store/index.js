@@ -305,8 +305,9 @@ export const mutations = {
         const c = state.conversations[index];
         if(conv.last_message.created_at > c.last_message.created_at)
         {
-          if( (!c.prio_auto && conv.prio_manual && c.prio_manual)
-          || (!c.prio_auto && !conv.prio_manual && !c.prio_manual) )
+          if( conv.prio_auto //prio auto va primero
+            || (!conv.prio_auto && !c.prio_auto && conv.prio_manual) //no tiene prio auto pero si manual
+            || (!c.prio_manual && !c.prio_auto) ) // no tiene ninguna prio
           {
             pos = index;
             break;
@@ -317,7 +318,7 @@ export const mutations = {
      
       state.conversations.splice(pos,0,conv);
       
-      console.log('array re ordenado',state.conversations)
+     
   },
   updateConversation(state,payload)
   {
@@ -330,7 +331,7 @@ export const mutations = {
       conversation[payload.field] = payload.value; 
       this.commit('relocateConversation',conversation);
       
-    }else{console.log('no encontre la conversacion')}
+    }
   },
   changeUnreads(state,payload)
   {
@@ -346,14 +347,13 @@ export const mutations = {
   },
   heSawMyMessages(state,payload){
         /* marco MIS mensajes como vistos */
-      
-        if(state.activeConversation.id == payload.conversation_id)
+        if(state.chatMessages && state.activeConversation.id == payload.conversation_id)
         {
           state.chatMessages.forEach(message => {
             if(!message.viewed && message.admin == payload.admin )
             {
-                message.sended =1 ;
-                message.viewed =1 ; 
+              Vue.set(message,'sended',1);
+              Vue.set(message,'viewed',1);
             }
           })
         }
@@ -382,7 +382,7 @@ export const mutations = {
           state.conversations.push(c);
         }
       });
-      console.log('CONVERSACIONES AHORA', state.conversations)
+     
     } else {
       state.conversations = payload;
     }
@@ -397,13 +397,7 @@ export const mutations = {
   },
   
 
-  addMessageToActiveConversation(state, payload) {
-    if(state.activeConversation && payload.conversation_id == state.activeConversation.id)
-    {
-      state.chatMessages.unshift(payload);
-    }
   
-  },
 
   setActiveConversation(state, payload) {
     state.activeConversation = payload;
@@ -459,7 +453,7 @@ export const mutations = {
     var tot = 0;
     if (state.list.length) {
       state.list.forEach(product => {
-        //console.log(product.units);
+       
         if (product.units > 0) {
 
           tot += product.price * product.units
@@ -611,9 +605,7 @@ export const mutations = {
 
 export const actions = {
 
- async socket_message_recieved(){
-   console.log('SOCKET MESSAGE RECIEVED ON STORE');
- },
+ 
 
   async nuxtServerInit({
     dispatch,
@@ -625,6 +617,13 @@ export const actions = {
     await dispatch('fetchMeta');
     await dispatch('fetchStates');
     commit('setLoading', false);
+
+  },
+
+  addMessageToActiveConversation({state}, payload) {
+    if (state.activeConversation && payload.conversation_id == state.activeConversation.id) {
+      state.chatMessages.unshift(payload);
+    }
 
   },
 
@@ -648,7 +647,6 @@ export const actions = {
     await this.$axios.get(`/one-conversation-block/${id}`)
       .then(r => {
         if(r.data){
-          console.log('GET ONE CONVERSATION');
           commit('relocateConversation',r.data);
         }
       })
@@ -670,10 +668,8 @@ export const actions = {
     {
       $url+=`/${state.conversationsSearchTerm}`
     }
-    console.log('URL fetch ',$url);
     await this.$axios.get($url)
       .then(r => {
-        console.log('paginated conversations',r.data);
         commit('setConversations', r.data.data); 
         commit('setConversationsPagination',r.data);
       })
@@ -686,7 +682,6 @@ export const actions = {
     {
       await this.$axios.get($url)
         .then(r => {
-          console.log('paginated conversations',r.data);
            commit('addConversations', r.data.data); 
            commit('setConversationsPagination',r.data);
         })
@@ -700,7 +695,6 @@ export const actions = {
   }, client_id) {
     await this.$axios.get(`/user-conversation/${client_id}`)
       .then(r => {
-       // console.log('ACTIVE CONVERSATION',r.data);
         commit('setActiveConversation', r.data);
       });
   },

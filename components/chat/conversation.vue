@@ -3,7 +3,7 @@
          class="d-flex justify-content-center align-items-center h-100 chat-background">
         <h4 class="d-flex roboto">Conversación vacía.</h4>
     </div>
-    <div id="conversation-container" v-else class="d-flex flex-column flex-grow-1 h-0" @mouseover="onMouseover">
+    <div  v-else id="conversation-container" class="d-flex flex-column flex-grow-1 h-0" @mouseover="onMouseover">
         <transition name="scale">
             <div id="goto-bottom" v-if="!isScrollInBottomZone" @click="scrollToBottom" class="material-shadow-2">
                 <span v-if="hasUnreadMessages">ver mensajes nuevos</span>

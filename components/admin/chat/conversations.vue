@@ -103,6 +103,7 @@ export default {
         {
             if(this.moreConversationsFetchUrl && !this.loadingMore)
             {
+                this.loadingMore = true;
                 this.$store.dispatch('fetchMoreConversations',this.moreConversationsFetchUrl).then(() => {
                     this.loadingMore = false;
                 });

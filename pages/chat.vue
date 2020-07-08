@@ -21,7 +21,12 @@ export default {
         } else if (this.admin) {
             this.$router.push("/admin/chat");
         } else {
-            this.$store.dispatch("fetchConversation", this.user.id);
+            this.$store.dispatch("fetchConversation", this.user.id)
+                // agregue esto para que le llegue chatMessages dentro de chat.
+                // Me base en como lo hace en conversation del admin, setActiveConversation
+                .then(() => {
+                this.$store.dispatch('fetchChatMessages', this.$store.getters.getActiveConversation.id);
+            });
         }
 
         setTimeout(() => {

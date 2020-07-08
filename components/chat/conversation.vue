@@ -1,40 +1,39 @@
 <template>
-    <div
-        v-if="empty"
-        class="d-flex justify-content-center align-items-center h-100 chat-background"
-    >
-        <h4 class="d-flex roboto">Chat vacío.</h4>
+    <div v-if="empty"
+         class="d-flex justify-content-center align-items-center h-100 chat-background">
+        <h4 class="d-flex roboto">Conversación vacía.</h4>
     </div>
-    <div
-        v-else
-        id="conversation"
-        ref="conversation"
-        class="d-flex flex-column-reverse flex-grow-1 scrollbar-custom h-0 chat-background"
-        @click="scrollToBottom" >
+    <div id="conversation-container" v-else class="d-flex flex-column flex-grow-1 h-0" @mouseover="onMouseover">
 
-        <progress-bar v-if="loadingMessage" />
-        
-      
+        <div id="goto-bottom" v-if="!isScrollInBottomZone" @click="scrollToBottom" class="material-shadow-2">
+            <span v-if="hasUnreadMessages">ver mensajes nuevos</span>
+            <i class="material-icons">expand_more</i>
+        </div>
+
         <div
-            class="d-flex item-container"
-            v-for="(item, index) in items"
-            :key="index"
-            :class="getItemContainerClass(item)"
-        >
-            <date-separator v-if="item.type=='DS'" :date="item.date" />
-            <!-- @hook:mounted="$emit('childMounted', items.length-1 == index)"/> -->
-                
-            <message
-                v-if="item.type.startsWith('M')"
-                :message="item" />
+            id="conversation"
+            ref="conversation"
+            class="d-flex flex-column-reverse flex-grow-1 h-0 scrollbar-custom chat-background"
+            v-scroll="onScroll">
+
+            <progress-bar v-if="loadingMessage"/>
+
+            <div
+                class="d-flex item-container"
+                v-for="(item, index) in items"
+                :key="index"
+                :class="getItemContainerClass(item)"
+            >
+                <date-separator v-if="item.type=='DS'" :date="item.date"/>
+                <!-- @hook:mounted="$emit('childMounted', items.length-1 == index)"/> -->
+
+                <message
+                    v-if="item.type.startsWith('M')"
+                    :message="item"/>
                 <!-- @hook:mounted="$emit('childMounted', items.length-1 == index)" -->
-        </div>
+            </div>
 
-        <div v-if="moreMessagesUrl">
-            <button class="btn btn-block btn-info" @click="loadMoreMessages">CARGAR MAS MENSAJES</button>
         </div>
-
-        
     </div>
 </template>
 
@@ -42,22 +41,27 @@
 import message from "./conversation/message.vue";
 import dateSeparator from "./conversation/date-separator.vue";
 import progressBar from "@/components/common/progress-bar-indeterminate.vue"
+
 export default {
-    props: ["conversation","chatMessages"],
-    components: { message, dateSeparator, progressBar },
+    props: ["conversation", "chatMessages"],
+    components: {message, dateSeparator, progressBar},
+    data() {
+        return {
+            loadingMore: false,
+            isScrollInBottomZone: true
+        };
+    },
     mounted() {
         /*  */
         // this.scrollToBottom();
-        
+
     },
     computed: {
-        chatMessagesPagination()
-        {
+        chatMessagesPagination() {
             return this.$store.getters.getChatMessagesPagination;
         },
-        moreMessagesUrl(){
-            if(this.chatMessagesPagination && this.chatMessagesPagination.last_page > this.chatMessagesPagination.current_page)
-            {
+        moreMessagesUrl() {
+            if (this.chatMessagesPagination && this.chatMessagesPagination.last_page > this.chatMessagesPagination.current_page) {
                 return this.chatMessagesPagination.next_page_url;
             }
         },
@@ -82,26 +86,31 @@ export default {
                     if (i < this.chatMessages.length - 1) {
                         const next = this.chatMessages[i + 1]; // next, el siguiente mas antiguo
                         messageItem.firstOfGroup = this.isMessageSent(message) !== this.isMessageSent(next)
-                        items.push(messageItem); 
+                        items.push(messageItem);
                         if (isDayChanged(message, next)) {
-                            items.push({ type: "DS", date: message.created_at });
+                            items.push({type: "DS", date: message.created_at});
                         }
                     } else { // si es el mas antiguo
                         messageItem.firstOfGroup = true;
                         items.push(messageItem);
-                        items.push({ type: "DS", date: message.created_at})
+                        items.push({type: "DS", date: message.created_at})
                     }
                 });
                 return items;
             }
+        },
+
+        hasUnreadMessages() {
+            return this.conversation.unreads && !this.isScrollInBottomZone;
         }
     },
     methods: {
-        loadMoreMessages()
-        {
-            if(this.moreMessagesUrl)
-            {
-                this.$store.dispatch('fetchMoreChatMessages',this.moreMessagesUrl);
+        loadMoreMessages() {
+            if (this.moreMessagesUrl && !this.loadingMore) {
+                this.loadingMore = true;
+                this.$store.dispatch('fetchMoreChatMessages', this.moreMessagesUrl).then(() => {
+                    this.loadingMore = false;
+                });
             }
         },
         getItemContainerClass(item) {
@@ -122,24 +131,45 @@ export default {
                     vm.$refs.conversation
                 ) {
                     vm.$refs.conversation.scrollTop =
-                        vm.$refs.conversation.scrollHeight;
+                        vm.$refs.conversation.scrollHeight - vm.$refs.conversation.clientHeight;
                 }
             }, 250);
         },
         isMessageSent(message) {
             return !(this.admin ^ message.admin);
+        },
+        onScroll(e, p) {
+            // isScrollInBottomZone = está viendo parte de la zona que es visible cuando el scroll completamente bajo
+            this.isScrollInBottomZone = this.$refs.conversation.scrollTop >
+                this.$refs.conversation.scrollHeight - 2 * this.$refs.conversation.clientHeight;
+
+            if (p.scrollTop < 100) {
+                this.loadMoreMessages()
+            }
+        },
+        onMouseover() {
+            if(!this.hasUnreadMessages) {
+                this.$emit('iSawTheMessages');
+            }
         }
     },
     watch: {
-        conversation(n, o) {
-            this.scrollToBottom();
-            
-        },
+        /*
+        conversation: {
+            handle: function (n, o) {
+                console.log(n);
+                // this.scrollToBottom()
+            },
+            deep: true
+        },*/
         'chatMessages'() {
-            this.scrollToBottom();
-        }
+            if (this.isScrollInBottomZone && this.conversation.unreads) {
+                this.scrollToBottom();
+            }
+        },
     }
 };
+
 function isDayChanged(a, b) {
     return a.created_at.slice(0, 10).localeCompare(b.created_at.slice(0, 10));
 }
@@ -148,19 +178,52 @@ function isDayChanged(a, b) {
 <style lang="scss" scoped>
 #conversation {
     height: 0;
+
     //    overflow-y: scroll;
     //    scroll-behavior: smooth;
 }
+
+#conversation-container {
+    position: relative;
+}
+
+#goto-bottom {
+    position: absolute;
+    cursor: pointer;
+    bottom: 1rem;
+    right: 1rem;
+    background: #E5D3DF;
+    border-radius: 1.5rem;
+    width: auto;
+    height: 3rem;
+    min-width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    color: #444;
+    // padding: 0.5rem;
+    i {
+       // margin-right: 1rem;
+        font-size: 32px;
+
+    }
+    span {
+        margin-left: 1rem;
+    }
+}
+
 .chat-background {
     min-height: 50vh;
     background: #e5ddd5;
 }
+
 .item-container ~ .item-container {
     width: auto;
     margin: 2px auto;
 }
 
-.item-container{
+.item-container {
     width: auto;
     margin: 2px auto;
     margin-bottom: 2rem;
@@ -182,6 +245,7 @@ function isDayChanged(a, b) {
     margin-right: 16px;
     margin-left: 24px;
 }
+
 .item-container.sent-message + .item-container.received-message,
 .item-container.received-message + .item-container.sent-message {
     margin-bottom: 1rem;

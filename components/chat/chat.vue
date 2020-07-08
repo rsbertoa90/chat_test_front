@@ -1,24 +1,26 @@
-<template>
+ <template>
     <div class="d-flex flex-column chat" >
-        <chatHeader 
-            v-if="conversation" 
-            :conversation="conversation" 
+        <chatHeader
+            v-if="conversation"
+            :conversation="conversation"
             @childMounted="childMounted.chatHeader=$event"/>
-        
-        <div v-if="conversation" class="d-flex flex-column flex-grow-1" @mouseover="iSawTheMessages()">
-            <conversation 
-                :conversation="conversation" 
+
+        <div v-if="conversation" class="d-flex flex-column flex-grow-1" >
+            <conversation
+                :conversation="conversation"
                 :chatMessages="chatMessages"
                 ref="conversation"
+                @iSawTheMessages="iSawTheMessages"
                 @hook:mounted="childMounted.conversation=true"
                 @hook:destroyed="childMounted.conversation=false"
             />
-           
+
             <chat-footer
                 :conversation="conversation"
                 @writingChange="onWritingChange"
                 @sendMessage="onSendMessage"
                 @sendFastAnswer="sendFastAnswer"
+                @mouseover="iSawTheMessages()"
                 @childMounted="childMounted.chatFooter=$event"
             />
 
@@ -44,7 +46,7 @@ export default {
             childMounted: {
                 chatHeader: false,
                 conversation: false,
-                chatFooter: false 
+                chatFooter: false
             }
         };
     },
@@ -70,7 +72,7 @@ export default {
                 if(this.conversation)
                 {
                     this.conversation.unreads += 1;
-                    this.$refs.conversation.scrollToBottom();
+                    // this.$refs.conversation.scrollToBottom();
                     if (this.admin) {
                         this.$store.commit(
                             "relocateConversation",
@@ -97,7 +99,7 @@ export default {
         });
 
          this.socket.on('hesWriting', data => {
-            if(data.conversation_id == this.conversation.id 
+            if(data.conversation_id == this.conversation.id
                 && this.user.id != data.user_id)
                 {
                     this.$store.commit('setHesWriting',data.writing);
@@ -105,11 +107,11 @@ export default {
                         this.$store.commit('setHesOnline',true);
                     }
                 }
-            
+
         });
 
          this.socket.on('someoneJoined', data => {
-            if(data.user.id != this.user.id 
+            if(data.user.id != this.user.id
                 && data.conversation_id == this.conversation.id)
             {
                 this.$store.commit('setHesOnline',true);
@@ -117,7 +119,7 @@ export default {
         });
 
         this.socket.on('someoneLeaved', data => {
-            if(data.user_id != this.user.id 
+            if(data.user_id != this.user.id
                 && data.conversation_id == this.conversation.id
             )
             {this.emit('childMounted', )
@@ -127,7 +129,7 @@ export default {
         });
 
          this.socket.on('isdisconnecting',data=>{
-             if(vm.conversation 
+             if(vm.conversation
                && vm.conversation.id == data.conversation_id)
             {
                 this.$store.commit('setHesOnline',false);
@@ -138,7 +140,6 @@ export default {
         if(this.admin){
             this.isATicket=false;
         }
-
     },
 
     computed: {
@@ -169,7 +170,7 @@ export default {
             if (this.conversation) {
                 /* conecto a la sala */
                 this.socket.emit("joinRoom", this.conversation.id);
-                
+
             }
         },
         "conversation.unreads"() {
@@ -203,7 +204,7 @@ export default {
                     admin: vm.admin ? 1 : 0
                 });
                 this.conversation.unreads = 0;
-                
+
                 /* si es un cliente quito el unreads para que se quite la notificacion del icono de mensaje */
                 if(this.user && !this.admin)
                 {
@@ -231,7 +232,7 @@ export default {
             vm.$store.commit("addMessageToActiveConversation", r.data);
             vm.$refs.conversation.scrollToBottom();
 
-            if (this.admin) 
+            if (this.admin)
             {
                 let d = {
                     field: "last_message",
@@ -245,7 +246,7 @@ export default {
                 );
             }
             vm.$store.commit('setLoadingMessage',false);
-        },  
+        },
         sendFastAnswer(e){
             var vm = this;
             let data = {

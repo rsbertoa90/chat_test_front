@@ -91,7 +91,6 @@ export default {
                 data.conversation_id == vm.conversation.id
             ) {
                 //me aseguro q el mensaje no es mio
-               console.log('chat- heSawMyMessages');
                 vm.$store.commit("heSawMyMessages", {
                     conversation_id: vm.conversation.id,
                     admin: vm.admin ? 1 : 0
@@ -100,6 +99,8 @@ export default {
         });
 
          this.socket.on('hesWriting', data => {
+            
+         
             if(data.conversation_id == this.conversation.id
                 && this.user.id != data.user_id)
                 {
@@ -198,10 +199,7 @@ export default {
                 });
             }
         },
-        allMounted(v) {
-            // se podria usar para emitir el evento que esta en linea
-            console.log("chat.allMounted", v);
-        }
+      
     },
     methods: {
         iSawTheMessages() {
@@ -237,7 +235,7 @@ export default {
                 message: message,
                 admin:this.admin
             };
-            console.log('socket emit message');
+           
             this.socket.emit("sendNewMessage", data);
             if(this.firstMessage)
             {
@@ -310,9 +308,7 @@ export default {
             this.socket.emit("imWriting", data);
             this.iSawTheMessages();
         },
-        log(e) {
-            console.log(e);
-        }
+       
     }
 };
 </script>

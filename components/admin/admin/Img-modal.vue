@@ -84,7 +84,6 @@
         },
         methods : {
                preloadImages(){
-                /* console.log('preload'); */
                 if (this.product &&  this.product.images && this.product.images.length>0){
 
                     let images = [];
@@ -92,7 +91,6 @@
                         let img = new Image();
                         img.src = this.imagePath(image.url);
                         images.push(img);
-                       /*  console.log(img); */
                     });
                 }
             },
@@ -153,14 +151,12 @@
                 } else {
 
                     this.file = file;
-                    // console.log(file);
                     
                     
                     var fdata =  new FormData();
                     fdata.append('image',file);
                     fdata.append('product',this.product.id)
               
-                    // console.log(fdata);
                     this.$axios.post('/product/image',fdata)
                     .then(r => {
                             vm.$emit('refresh');

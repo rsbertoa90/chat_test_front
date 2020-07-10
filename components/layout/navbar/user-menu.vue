@@ -29,9 +29,9 @@
                 </li>
             </ul>
             <div class="p-4">
-                <button class="btn btn-block btn-outline-second">
+                <nuxt-link to="/cotizador" class="btn btn-block btn-outline-second">
                     PEDIDO ONLINE MAYORISTA
-                </button>
+                </nuxt-link>
             </div>
         </div>
     </div>

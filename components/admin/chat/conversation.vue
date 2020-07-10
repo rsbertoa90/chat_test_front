@@ -13,7 +13,7 @@
             </div>
 
             <div v-if="!conversation.taken_by">
-                <div v-if="conversation.last_message && !hesWriting" class="d-flex justify-content-between info">
+                <div v-if="conversation.last_message && !conversation.hesWriting" class="d-flex justify-content-between info">
                     <div class="last-message-preview roboto">
                         {{ conversation.last_message.content }}
                     </div>
@@ -21,7 +21,7 @@
                         {{conversation.unreads}}
                     </div>
                 </div>
-                <div v-if="hesWriting">
+                <div v-if="conversation.hesWriting">
                     <span class="text-green roboto">escribiendo...</span>
                 </div>
             </div>
@@ -35,20 +35,6 @@
 <script>
 export default {
     props: ["conversation"],
-    data() {
-        return {
-            hesWriting:false,
-            hesOnline:false
-        }
-    },
-    mounted(){
-        console.log('conversation mounted', this.conversation.unreads);
-    },
-    watch:{
-        'conversation.unreads'(){
-            console.log('conversation.vue - ',this.conversation.unreads);
-        }
-    },
     computed: {
         isSelected() {
             return (
@@ -101,10 +87,8 @@ export default {
                     }
                 }
                 this.$emit('joinConversation',data);
-                this.$store.commit('setHesWriting',this.hesWriting);
-                this.$store.commit('setHesOnline',this.hesOnline);
-            }else{
-                console.log(this.conversation.taken_by.name,' esta hablando con este cliente');
+                this.$store.commit('setHesWriting',this.conversation.hesWriting);
+                this.$store.commit('setHesOnline',this.conversation.hesOnline);
             }
         }
     },

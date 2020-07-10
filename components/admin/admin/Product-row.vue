@@ -156,7 +156,6 @@ export default {
             let u = this.product.pck_units;
             let p = this.product.price;
             let pp = this.product.pck_price;
-            //console.log(u,p,pp);
             if (u < 1){
                 swal('CUIDADO','Unidades no puede ser menor que 1','error');
                 return false;

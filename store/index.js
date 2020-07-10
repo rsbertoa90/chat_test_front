@@ -349,18 +349,20 @@ export const mutations = {
 
  
 
-  
 
   updateConversation(state,payload)
   {
-    
-  let conversation = state.conversations.find(conv => {
-    return payload.conversation_id == conv.id;
-  })
+    let conversation = state.conversations.find(conv => {
+      return payload.conversation_id == conv.id;
+    })
     if(conversation)
     {
       Vue.set(conversation,payload.field,payload.value);
-      this.commit('relocateConversation',conversation);
+      if(payload.field != 'hesWriting' 
+        && payload.field != 'hesOnline')
+      {
+        this.commit('relocateConversation',conversation);
+      }
     }
   },
 
@@ -635,9 +637,6 @@ export const mutations = {
   },
   newMessage(state,payload)
   { 
-  
-  console.log('finding', payload.conversation_id);
-  
   let conversation = state.conversations.find(conv => {
     return payload.conversation_id == conv.id;
   })
@@ -648,6 +647,9 @@ export const mutations = {
      {
        conversation.unreads += 1;
      }
+   }
+   else{
+     this.dispatch('addOneConversation',payload.conversation_id);
    }
   
   }

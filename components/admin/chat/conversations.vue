@@ -50,51 +50,69 @@ export default {
         this.socket.emit("joinRoom", 'admins');
 
         this.socket.on('checkConversationInList',id => {
+            console.log('check conversation in list. CONVERSATIONS', id);
+
             let exists = vm.conversations.find( c => {return c.id == id});
             if(!exists && !this.searching)
             {
+                console.log(' does not exists, dispatch add one conversation');
                 this.$store.dispatch('addOneConversation',id);
             }
         });
 
         this.socket.on("newMessage", data => {
-            this.$store.commit('newMessage',data);
-            console.log('conversations, new message',data);
+            if(data.user_id != this.user.id){
+                this.$store.commit('newMessage',data);
+            }
         });
 
         this.socket.on('hesWriting', data => {
-           let d = {
-                conversation_id : data.conversation_id,
-                field: 'writing',
-                value: data.writing
-            } 
+            if(data.user_id != this.user.id){
+                let d = {
+                     conversation_id : data.conversation_id,
+                     field: 'hesWriting',
+                     value: data.writing
+                 } 
+                 this.$store.commit('updateConversation',d);
+                 d.field =  'hesOnline';
+                 d.value = true;
+                 this.$store.commit('updateConversation',d);
+            }
 
-            this.$store.commit('updateConversation',d);
         });
 
         this.socket.on('someoneJoined', data => {
-            
-            this.$store.commit('ConversationSomeoneJoined',data);
+             if(data.user_id != this.user.id){
+                 this.$store.commit('ConversationSomeoneJoined',data);
+             }
             
         });
 
         this.socket.on('someoneLeaved', data => {
-            this.$store.commit('ConversationSomeoneLeaved',data);
+            if(data.user_id != this.user.id)
+            {
+                this.$store.commit('ConversationSomeoneLeaved',data);
+            }
         });
 
         this.socket.on('isdisconnecting',data=>{
-            this.$store.commit('ConversationSomeoneLeaved',data);
+             console.log('DISCONECTING')
+             if(data.user_id != this.user.id){
+                 this.$store.commit('ConversationSomeoneLeaved',data);
+             }
         });
 
         this.socket.on('hesInTheConversation',data => {
-            if(this.conversation)
+            if(this.conversation && this.user.id != data.user_id)
             {
                 this.conversation.taken_by = data.user;
             }
         });
 
         this.socket.on('conversationUpdated', data => {
-            this.$store.commit('updateConversation',data);
+             if(data.user_id != this.user.id){
+                 this.$store.commit('updateConversation',data);
+             }
         });
 
 
@@ -119,7 +137,8 @@ export default {
         },
         filter() {
             return this.searchTerm.trim();
-        }
+        },
+       
     },
     methods: {
         leaveConversation(e){
@@ -130,12 +149,11 @@ export default {
         {
             let data = e;
             e.user.socket_id = this.socket.id;
-            this.socket.emit('leaveConversation',data);
+            this.socket.emit('joinConversation',data);
 
         },
         search()
         {
-            console.log('searching...')
             var vm = this;
             this.$store.commit('setConversationsSearchTerm',this.filter);
             this.$store.dispatch('fetchConversations')

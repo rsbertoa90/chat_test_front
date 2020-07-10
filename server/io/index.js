@@ -27,17 +27,15 @@ export default function Svc(socket, io) {
 
     iSawHisMessages(data)
     {
-     // this.joinRoom(data.conversation_id)
+    
       socket.broadcast.to(data.conversation_id).emit('heSawMyMessages',data);
+      socket.broadcast.to('admins').emit('heSawMyMessages',data);
     },
     
     imWriting(data)
     {
-      socket.broadcast.to(data.conversation_id).emit('hesWriting',data);
-      if(!data.admin)
-      {
+        socket.broadcast.to(data.conversation_id).emit('hesWriting',data);
         socket.broadcast.to('admins').emit('hesWriting',data);
-      }
     },
     
     joinConversation(data)
@@ -63,12 +61,7 @@ export default function Svc(socket, io) {
     updateConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('conversationUpdated',data);
-      if (!data.admin) {
-        socket.broadcast.to('admins').emit('conversationUpdated', data);
-      }
-    }
-
-   
-    
+      socket.broadcast.to('admins').emit('conversationUpdated', data);
+    } 
   })
 }

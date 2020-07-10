@@ -1,6 +1,6 @@
 <template>
     <div v-if="empty"
-         class="d-flex justify-content-center align-items-center h-100 chat-background">
+         class="d-flex justify-content-center align-items-center h-100 chat-background min-h" >
         <h4 class="d-flex roboto">Conversación vacía.</h4>
     </div>
     <div  v-else id="conversation-container" class="d-flex flex-column flex-grow-1 h-0" @mouseover="onMouseover">
@@ -168,14 +168,8 @@ export default {
             if (v && this.conversation.unreads) {
                 this.emitISawTheMessages();
             }
-        }, /*
-        conversation: {
-            handle: function (n, o) {
-                console.log(n);
-                // this.scrollToBottom()
-            },
-            deep: true
-        },*/
+        }, 
+       
 
     }
 };
@@ -233,9 +227,11 @@ function isDayChanged(a, b) {
         }
     }
 }
-
+.min-h{
+    min-height:50vh;
+}
 .chat-background {
-    min-height: 50vh;
+   
     background: #e5ddd5;
 }
 

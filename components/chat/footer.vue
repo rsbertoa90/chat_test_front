@@ -32,7 +32,7 @@ export default {
     components: {attachment, chatForm, bottomPanel},
     data() {
         return {
-            isATicket: false,
+            isATicket: true,
             file: null,
             childMounted: {
                 chatForm: false,
@@ -44,6 +44,11 @@ export default {
         sendFastAnswer(e)
         {
             this.$emit('sendFastAnswer',e);
+        }
+    },
+    mounted(){
+        if (this.admin){
+            this.isATicket = false;
         }
     },
     watch: {

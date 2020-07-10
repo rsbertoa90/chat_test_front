@@ -385,12 +385,19 @@ export const mutations = {
     })
     if(conversation)
     {
+      console.log('store updateconversation', payload);
       Vue.set(conversation,payload.field,payload.value);
       if(payload.field != 'hesWriting' 
         && payload.field != 'hesOnline')
       {
         this.commit('relocateConversation',conversation);
       }
+    }
+
+    /* Si es active conversation me aseguro de que escuche el cambio */
+    if(state.activeConversation && state.activeConversation.id == payload.conversation_id)
+    {
+      Vue.set(state.activeConversation, payload.field, payload.value);
     }
   },
 

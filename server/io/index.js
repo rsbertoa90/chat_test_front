@@ -17,6 +17,11 @@ export default function Svc(socket, io) {
     checkConversationsTaken(data){
       socket.broadcast.to('admins').emit('checkTaken',data);
     },
+    
+    updatePrioAuto(data)
+    {
+      socket.broadcast.to('admins').emit('conversationUpdated', data);
+    },
 
 
     sendNewMessage(data)

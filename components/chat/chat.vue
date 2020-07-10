@@ -269,7 +269,6 @@ export default {
             this.$axios.post("/message", event.fdata).then(r => {
                 vm.messageSended(r);
             });
-
             if (event.isATicket) {
                 const data = {
                     conversation_id: this.conversation.id,
@@ -277,10 +276,8 @@ export default {
                     value: true,
                     admin:this.admin
                 };
-                if (this.admin) {
-                    this.$store.commit("updateConversation", data);
-                }
-                this.socket.emit("updateConversation", data);
+                
+                this.socket.emit("updatePrioAuto", data);
             }
         },
         onWritingChange(writing) {

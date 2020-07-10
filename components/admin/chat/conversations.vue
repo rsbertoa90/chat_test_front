@@ -107,7 +107,7 @@ export default {
 
         this.socket.on('conversationUpdated', data => {
              if(data.user_id != this.user.id){
-                 this.$store.commit('updateConversation',data);
+                this.$store.commit('updateConversation',data);
              }
         });
 

@@ -94,11 +94,7 @@ export default {
             }
         }
     },
-    watch:{
-        'conversation.taken_by'(){
-            console.log('conversation - taken by change', this.conversation, this.conversation.client_id, this.conversation.taken_by);
-        }
-    },
+   
 
     beforeDestroy()
     {

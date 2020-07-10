@@ -114,6 +114,7 @@ export default {
 
          this.socket.on('someoneJoined', data => {
             if(data.user.id != this.user.id
+                && this.conversation
                 && data.conversation_id == this.conversation.id)
             {
                 this.$store.commit('setHesOnline',true);
@@ -138,22 +139,6 @@ export default {
                 this.$store.commit('setHesOnline',false);
                 this.$store.commit('setHesWriting',false);
             }
-        });
-
-        this.socket.on('checkTaken',conversation_id => {
-                if( this.conversation
-                    && conversation_id == this.conversation.id )
-                    {
-                        let data = {
-                            conversation_id : conversation_id,
-                            user:{
-                                socket_id : this.socket.id,
-                                id:this.user.id,
-                                name:this.user.name
-                            }
-                        }
-                        this.socket.emit('imInTheConversation',data);
-                    }
         });
 
         if(this.admin){

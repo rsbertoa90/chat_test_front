@@ -48,14 +48,13 @@ export default {
             reconnection: true
         });
         this.socket.emit("joinRoom", 'admins');
+        
 
         this.socket.on('checkConversationInList',id => {
-            console.log('check conversation in list. CONVERSATIONS', id);
-
+          
             let exists = vm.conversations.find( c => {return c.id == id});
             if(!exists && !this.searching)
             {
-                console.log(' does not exists, dispatch add one conversation');
                 this.$store.dispatch('addOneConversation',id);
             }
         });
@@ -96,17 +95,14 @@ export default {
         });
 
         this.socket.on('isdisconnecting',data=>{
-             console.log('DISCONECTING')
-             if(data.user_id != this.user.id){
+             if(data.socket_id != this.socket.id){
                  this.$store.commit('ConversationSomeoneLeaved',data);
              }
         });
 
         this.socket.on('hesInTheConversation',data => {
-            if(this.conversation && this.user.id != data.user_id)
-            {
-                this.conversation.taken_by = data.user;
-            }
+            console.log('conversations - hes in the conversation',data);
+            this.$store.commit('conversationTaken',data);
         });
 
         this.socket.on('conversationUpdated', data => {
@@ -114,6 +110,27 @@ export default {
                  this.$store.commit('updateConversation',data);
              }
         });
+
+        this.socket.on('checkTaken', data => {
+            console.log('conversations - check taken',data);
+            if(this.user.id != data.id)
+            {
+                if(this.activeConversation)
+                {
+                    let data = {
+                        conversation_id : this.activeConversation.id,
+                        user:{
+                            socket_id : this.socket.id,
+                            id:this.user.id,
+                            name:this.user.name
+                        }
+                    }  
+    
+                     console.log(' conversations - emit im in the conversation',data);
+                    this.socket.emit('imInTheConversation',data);
+                }            
+            }
+        })
 
 
 
@@ -138,19 +155,27 @@ export default {
         filter() {
             return this.searchTerm.trim();
         },
+        activeConversation(){
+            return this.$store.getters.getActiveConversation;
+        }
        
+    },
+    watch:{
+        conversations(){
+            this.socket.emit('checkConversationsTaken',{user:this.user});
+        }
     },
     methods: {
         leaveConversation(e){
-            this.socket.emit('leaveConversation',e);
-                
+            e.socket_id = this.socket.id;
+            this.socket.emit('leaveConversation',e);    
         },
         joinConversation(e)
         {
             let data = e;
+            data.admin  = this.admin;
             e.user.socket_id = this.socket.id;
             this.socket.emit('joinConversation',data);
-
         },
         search()
         {

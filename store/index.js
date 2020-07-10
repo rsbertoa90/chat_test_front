@@ -330,20 +330,48 @@ export const mutations = {
     })
 
     if(conversation){
-      Vue.set(conversation,'taken_by',data.user);
-      Vue.set(conversation,'hesOnline',true);
+      if(payload.admin)
+      {
+        console.log('STORE someone joined', payload);
+        Vue.set(conversation,'taken_by',payload.user);
+      }else{
+        Vue.set(conversation,'hesOnline',true);
+      }
     }
+  },
+
+  conversationTaken(state,payload){
+        console.log('store, conversation taken',payload);
+
+        let conversation = state.conversations.find(conv => {
+          return payload.conversation_id == conv.id;
+        })
+        if(conversation)
+        {
+          console.log('store, conversation taken, found ',conversation);
+          Vue.set(conversation, 'taken_by', payload.user);
+        }
   },
 
   ConversationSomeoneLeaved(state,payload)
   {
-   let conversation = state.conversations.find(conv => {
-     return payload.conversation_id == conv.id;
-   })
+    let conversation = state.conversations.find(conv => {
+      return payload.conversation_id == conv.id;
+    })
     if(conversation){
-      Vue.set(conversation,'taken_by',null);
-      Vue.set(conversation,'hesOnline',false);
-      Vue.set(conversation, 'hesWriting', false);
+        Vue.set(conversation,'hesOnline',false);
+        Vue.set(conversation, 'hesWriting', false);
+    }
+
+    /* me fijo si una conversacion tiene taken by el socket id  */
+    conversation = state.conversations.find(c => {
+      return c.taken_by && c.taken_by.socket_id == payload.socket_id
+    });
+
+    if(conversation)
+    {
+      console.log('STORE someone leaved', conversation, conversation.client_id);
+      conversation.taken_by = null;
     }
   },
 

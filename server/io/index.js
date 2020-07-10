@@ -5,16 +5,20 @@ export default function Svc(socket, io) {
     joinRoom(room)
     {
       if (!io.sockets.adapter.rooms[room])
-      {
+      { 
         socket.join(room);
         socket.in(room).on('disconnecting',function(){
           socket.broadcast.to(room).emit('isdisconnecting', {socket_id:socket.id,conversation_id:room});
+          socket.broadcast.to('admins').emit('isdisconnecting', {socket_id:socket.id, conversation_id:room});
         })
-        /* consulto enseguida si alguien tiene la conversacion abierta */
-        socket.broadcast.to(room).emit('checkTaken',room);
       }
     }, 
     
+    checkConversationsTaken(data){
+      socket.broadcast.to('admins').emit('checkTaken',data);
+    },
+
+
     sendNewMessage(data)
     {
       ///this.joinRoom(data.conversation_id)
@@ -41,7 +45,7 @@ export default function Svc(socket, io) {
     joinConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('someoneJoined',data);
-      socket.broadcast.to('admins').emit('hesWsomeoneJoinedriting', data);
+      socket.broadcast.to('admins').emit('someoneJoined', data);
       
     },
     
@@ -54,7 +58,6 @@ export default function Svc(socket, io) {
     
     imInTheConversation(data)
     {
-      socket.broadcast.to(data.conversation_id).emit('hesInTheConversation',data);
       socket.broadcast.to('admins').emit('hesInTheConversation', data);
     },
     

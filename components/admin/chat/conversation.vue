@@ -65,8 +65,10 @@ export default {
             if(this.activeConversation)
             {
                  data = {
+                    admin:this.admin,
                     conversation_id : this.activeConversation.id,
-                    user_id : this.user.id
+                    user_id : this.user.id,
+                   
                 }
                 this.$emit('leaveConversation',data);
 
@@ -92,6 +94,11 @@ export default {
             }
         }
     },
+    watch:{
+        'conversation.taken_by'(){
+            console.log('conversation - taken by change', this.conversation, this.conversation.client_id, this.conversation.taken_by);
+        }
+    },
 
     beforeDestroy()
     {
@@ -110,7 +117,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .taken{
-    background-color: #ccc6;
+    background-color: #ccc6 !important;
 }
 .conversation-box {
     cursor: pointer;

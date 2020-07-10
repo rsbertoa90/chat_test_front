@@ -2,6 +2,9 @@
     <div class="w-100 pl-4 pr-4 pt-0">
         
         <div class="row d-flex justify-content-around align-items-center pl-4 pr-4 pt-0">
+
+           
+
             <div class="col-2 p-4">
                 <div class="">
                     <image-logo></image-logo>
@@ -38,28 +41,33 @@
                     <div class="reg-sq">
                         <span class="fa fa-user"></span>
                     </div>
-                    <div class=" ml-1 d-flex flex-column text-fucsia">
+                    <div class=" ml-1 d-flex flex-column align-items-start text-fucsia">
                         <span>Registro</span>
                         <span>Mayorista</span>
                     </div>
                </nuxt-link>
             </div>
-            <div class="col-3 fcc" v-else>
-                <nuxt-link to="/chat" class="d-flex align-items-center">
+            <div class="col-3 fcc relative" v-else>
+                <div @click="toggleUserMenu"  class="d-flex align-items-center cursor-pointer">
                     <div class="reg-sq">
                         <span class="fa fa-user"></span>
                     </div>
-                    <div class="fcc text-fucsia ml-2">
+                    <div class=" d-flex flex-column  align-items-start  text-fucsia ml-2 font-weight-bold">
+                        <span>Hola</span>
                         <span>{{user.name}}</span>
                     </div>
-                </nuxt-link>
-                <nuxt-link to="/logout" class="mt-4 fcc">
-                    <span class="text-danger">SALIR</span>
-                </nuxt-link>
+                </div>
             </div>
+            <transition enter-active-class="animated slideInRight faster"
+                        leave-active-class="animated slideOutRight faster">
+                     <user-menu v-if="showUserMenu" v-click-outside="toggleUserMenu"
+                        @close="showUserMenu=false"></user-menu>
+            </transition> 
         </div>
 
-        <div class="row bg-first nav-row">
+        <div class="row bg-first nav-row relative">
+
+
             <div class="row col-12" v-if="admin">
                 <ul class="navbar admin-navbar p-2">
                     <li> <nuxt-link to="/admin"> Pedidos</nuxt-link></li>
@@ -95,18 +103,25 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
+import userMenu from './user-menu.vue'
 import imageLogo from '../images/image-logo.vue';
 import overlayMenu from './overlay-menu.vue'
 import {mapGetters} from 'vuex';
 export default {
+    directives: {
+      clickOutside: vClickOutside.directive
+    },
     components : {
         imageLogo,
-        overlayMenu
+        overlayMenu,
+        userMenu
     },
     data(){
         return{
             term:'',
-            showMenu : false
+            showMenu : false,
+            showUserMenu:false,
      }
     },
     computed :{
@@ -118,6 +133,12 @@ export default {
         },
     },
     methods:{
+        toggleUserMenu(){
+            let status = this.showUserMenu;
+            setTimeout(() => {
+                this.showUserMenu = !status;
+            }, 100);
+        },
         search(){
             this.$store.commit('setSearchTerm',this.term);
             if(this.term.length > 2)

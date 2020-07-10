@@ -5,18 +5,17 @@
                 <image-logo></image-logo>
             </div>
         </div>
+
          <transition enter-active-class="animated slideInLeft faster"
                         leave-active-class="animated slideOutLeft faster">
             <overlay-menu v-if="showMenu" :categories='notPausedCategories' 
                         @close="showMenu=false"></overlay-menu>
         </transition>
+
+      
         <nav class="navbar navbar-expand-lg navbar-dark bg-first row">
-            <button aria-label="menu" class="navbar-toggler col-1 p-1 offset-1 bg-second d-flex justify-content-center align-items-center
-                        text-white font-weight-bold" 
-                    @click="showMenu = true" >
-            <span class="fa fa-bars"></span>
-            </button>
-            <div class="form-inline col-10">
+           
+            <div class="form-inline col-9">
                 <div class="input-group relative">
                     <input type="text" class="form-control" 
                             aria-label="Buscar productos"
@@ -30,6 +29,30 @@
                     </div>
                 </div>  
             </div>
+            
+             <nuxt-link  v-if="!user" to="/registrate" aria-label="menu" class="navbar-toggler col-1 p-1  reg-button d-flex justify-content-center align-items-center
+                       ont-weight-bold" >
+                    <span class="fa fa-user"></span>
+            </nuxt-link>
+
+            <button  v-if="user" aria-label="menu" class="navbar-toggler col-1 p-1  reg-button d-flex justify-content-center align-items-center
+                       ont-weight-bold" >
+                    <span  v-if="showUserMenu" @click="closeUserMenu" class="fa fa-times"></span>
+                    <span v-else class="fa fa-user" @click="openUserMenu"></span>
+            </button>
+
+            <button aria-label="menu" class="navbar-toggler col-1 p-1  bg-second d-flex justify-content-center align-items-center
+                        text-white font-weight-bold" 
+                    @click="showMenu = true" >
+                   <span class="fa fa-bars"></span>
+            </button>
+
+            <transition enter-active-class="animated slideInLeft faster"
+                        leave-active-class="animated slideOutLeft faster">
+                <user-menu v-if="showUserMenu" v-click-outside="closeUserMenu"
+                        @close="showUserMenu=false"></user-menu>
+            </transition>
+
         </nav>
 
         <div class="row mt-2"  v-if="!hidePrices">
@@ -56,18 +79,25 @@
 </template>
 
 <script>
-import imageLogo from '../images/mobile-logo.vue';
+import vClickOutside from 'v-click-outside'
+import imageLogo from '../images/mobile-logo.vue'
 import overlayMenu from './mob-menu.vue'
-import {mapGetters} from 'vuex';
+import userMenu from './user-menu.vue'
+import {mapGetters} from 'vuex'
 export default {
+    directives: {
+      clickOutside: vClickOutside.directive
+    },
     components : {
         imageLogo,
-        overlayMenu
+        overlayMenu,
+        userMenu
     },
     data(){
         return{
             showMenu : false,
-            term:'',
+            showUserMenu : false,
+            term : '',
      }
     },
     computed :{
@@ -80,6 +110,22 @@ export default {
         }
     },
      methods:{
+         closeUserMenu(){
+             if(this.showUserMenu)
+             {
+                setTimeout(() => {
+                        this.showUserMenu=false;
+                }, 100);
+            }
+         },
+         openUserMenu(){
+              if(!this.showUserMenu)
+             {
+                setTimeout(() => {
+                        this.showUserMenu=true;
+                }, 100);
+            }
+         },
         search(){
             this.$store.commit('setSearchTerm',this.term);
             if(this.term.length > 2)
@@ -96,6 +142,12 @@ export default {
 
 <style lang="scss" scoped>
 
+.reg-button{
+    background-color:#fff;
+    border:1px solid #09cca2;
+    color:#09cca2;
+    border-radius:5px;
+}
 .logo-container{
     width:130px;
     margin:auto;

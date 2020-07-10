@@ -73,6 +73,8 @@ export const getters = {
   getConversations(store) {
     return store.conversations;
   },
+  
+
   getConversationsPagination(store) {
     return store.conversationsPagination;
   },
@@ -320,19 +322,48 @@ export const mutations = {
       
      
   },
+
+  ConversationSomeoneJoined(state,payload)
+  {
+    let conversation = state.conversations.find(conv => {
+      return payload.conversation_id == conv.id;
+    })
+
+    if(conversation){
+      Vue.set(conversation,'taken_by',data.user);
+      Vue.set(conversation,'hesOnline',true);
+    }
+  },
+
+  ConversationSomeoneLeaved(state,payload)
+  {
+   let conversation = state.conversations.find(conv => {
+     return payload.conversation_id == conv.id;
+   })
+    if(conversation){
+      Vue.set(conversation,'taken_by',null);
+      Vue.set(conversation,'hesOnline',false);
+      Vue.set(conversation, 'hesWriting', false);
+    }
+  },
+
+ 
+
+  
+
   updateConversation(state,payload)
   {
     
-    let conversation = state.conversations.find(c => {
-      return payload.conversation_id == c.id; 
-    })
+  let conversation = state.conversations.find(conv => {
+    return payload.conversation_id == conv.id;
+  })
     if(conversation)
     {
-      conversation[payload.field] = payload.value; 
+      Vue.set(conversation,payload.field,payload.value);
       this.commit('relocateConversation',conversation);
-      
     }
   },
+
   changeUnreads(state,payload)
   {
     if(state.conversations){
@@ -602,6 +633,24 @@ export const mutations = {
   saveCategory: (state, category) => {
     state.categories.push(category);
   },
+  newMessage(state,payload)
+  { 
+  
+  console.log('finding', payload.conversation_id);
+  
+  let conversation = state.conversations.find(conv => {
+    return payload.conversation_id == conv.id;
+  })
+   if(conversation)
+   {
+     conversation[payload.last_message] = payload.message;
+     if(!state.activeConversation || state.activeConversation.id != conversation.id)
+     {
+       conversation.unreads += 1;
+     }
+   }
+  
+  }
 }
 
 export const actions = {

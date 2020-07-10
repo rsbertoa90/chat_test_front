@@ -121,10 +121,10 @@ export default {
 
         this.socket.on('someoneLeaved', data => {
             if(data.user_id != this.user.id
+                && this.conversation
                 && data.conversation_id == this.conversation.id
             )
             {
-             
                 this.$store.commit('setHesOnline',false);
                 this.$store.commit('setHesWriting',false);
             }
@@ -137,6 +137,22 @@ export default {
                 this.$store.commit('setHesOnline',false);
                 this.$store.commit('setHesWriting',false);
             }
+        });
+
+        this.socket.on('checkTaken',conversation_id => {
+                if( this.conversation
+                    && conversation_id == this.conversation.id )
+                    {
+                        let data = {
+                            conversation_id : conversation_id,
+                            user:{
+                                socket_id : this.socket.id,
+                                id:this.user.id,
+                                name:this.user.name
+                            }
+                        }
+                        this.socket.emit('imInTheConversation',data);
+                    }
         });
 
         if(this.admin){
@@ -172,7 +188,6 @@ export default {
             if (this.conversation) {
                 /* conecto a la sala */
                 this.socket.emit("joinRoom", this.conversation.id);
-
             }
         },
         "conversation.unreads"() {
@@ -220,7 +235,9 @@ export default {
                 user_id: this.user.id,
                 conversation_id: this.conversation.id,
                 message: message,
+                admin:this.admin
             };
+            console.log('socket emit message');
             this.socket.emit("sendNewMessage", data);
             if(this.firstMessage)
             {
@@ -274,7 +291,8 @@ export default {
                 const data = {
                     conversation_id: this.conversation.id,
                     field: "prio_auto",
-                    value: true
+                    value: true,
+                    admin:this.admin
                 };
                 if (this.admin) {
                     this.$store.commit("updateConversation", data);
@@ -286,7 +304,8 @@ export default {
             const data = {
                 conversation_id: this.conversation.id,
                 writing: writing,
-                user_id: this.user.id
+                user_id: this.user.id,
+                admin:this.admin
             };
             this.socket.emit("imWriting", data);
             this.iSawTheMessages();

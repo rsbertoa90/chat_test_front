@@ -22,6 +22,7 @@ export default function Svc(socket, io) {
         socket.broadcast.to('admins').emit('checkConversationInList', data.conversation_id);
       }
       socket.broadcast.to(data.conversation_id).emit('newMessage', data);
+      socket.broadcast.to('admins').emit('newMessage', data);
     },
 
     iSawHisMessages(data)
@@ -33,26 +34,38 @@ export default function Svc(socket, io) {
     imWriting(data)
     {
       socket.broadcast.to(data.conversation_id).emit('hesWriting',data);
+      if(!data.admin)
+      {
+        socket.broadcast.to('admins').emit('hesWriting',data);
+      }
     },
     
     joinConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('someoneJoined',data);
+      socket.broadcast.to('admins').emit('hesWsomeoneJoinedriting', data);
+      
     },
     
     leaveConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('someoneLeaved',data);
+      socket.broadcast.to('admins').emit('someoneLeaved', data);
+      
     },
     
     imInTheConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('hesInTheConversation',data);
+      socket.broadcast.to('admins').emit('hesInTheConversation', data);
     },
     
     updateConversation(data)
     {
       socket.broadcast.to(data.conversation_id).emit('conversationUpdated',data);
+      if (!data.admin) {
+        socket.broadcast.to('admins').emit('conversationUpdated', data);
+      }
     }
 
    

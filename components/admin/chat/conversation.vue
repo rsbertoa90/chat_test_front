@@ -42,114 +42,12 @@ export default {
         }
     },
     mounted(){
-         var vm = this;
-        /* conecto al socket */
-        this.socket = this.$nuxtSocket({
-            channel: "/index",
-            reconnection: true
-        });
-
-        if (this.conversation) {
-            /* conecto a la sala */
-            this.socket.emit("joinRoom", this.conversation.id);
+        console.log('conversation mounted', this.conversation.unreads);
+    },
+    watch:{
+        'conversation.unreads'(){
+            console.log('conversation.vue - ',this.conversation.unreads);
         }
-
-        this.socket.on("newMessage", data => {
-            if (
-                this.admin != data.message.admin &&
-                data.conversation_id == vm.conversation.id
-            ) {
-                this.conversation.unreads += 1;
-                let d = {
-                    field: "last_message",
-                    value: data.message,
-                    conversation_id: this.conversation.id
-                };
-                this.$store.commit("updateConversation", d);
-
-                if(this.admin)
-                {
-                    this.$store.commit("relocateConversation",this.conversation);
-                }
-            }
-        });
-
-        this.socket.on('hesWriting', data => {
-            if(data.conversation_id == this.conversation.id && this.user.id != data.user_id)
-            this.hesWriting = data.writing;
-        });
-
-        this.socket.on('someoneJoined', data => {
-            if(data.user.id != this.user.id && data.conversation_id == this.conversation.id)
-            {
-                this.conversation.taken_by = data.user;
-                this.hesOnline = true;
-            }
-        });
-
-        this.socket.on('someoneLeaved', data => {
-            if(data.user_id != this.user.id
-                && data.conversation_id == this.conversation.id
-                && this.conversation.taken_by
-                && this.conversation.taken_by.id == data.user_id)
-            {
-                this.conversation.taken_by = null;
-                this.hesOnline = false;
-            }
-        });
-
-        this.socket.on('isdisconnecting',data=>{
-            if(vm.conversation
-               && vm.conversation.taken_by
-               && vm.conversation.taken_by.socket_id == data.socket_id
-               && vm.conversation.id == data.conversation_id)
-            {
-                vm.conversation.taken_by = null;
-            }else if(vm.conversation.id == data.conversation_id)
-            {
-                vm.hesWriting = false;
-                vm.hesOnline = false;
-            }
-        });
-
-
-            this.socket.on('checkTaken',conversation_id => {
-                if( this.conversation
-                    && this.activeConversation
-                    && this.activeConversation.id == this.conversation.id
-                    && conversation_id == this.activeConversation.id )
-                    {
-                        let data = {
-                            conversation_id : conversation_id,
-                            user:{
-                                socket_id : this.socket.id,
-                                id:this.user.id,
-                                name:this.user.name
-                            }
-                        }
-                        this.socket.emit('imInTheConversation',data);
-                    }
-            });
-
-            this.socket.on('hesInTheConversation',data => {
-                if(this.conversation)
-                {
-                    this.conversation.taken_by = data.user;
-                }
-            });
-
-            this.socket.on('conversationUpdated', data => {
-                if(this.conversation.id == data.conversation_id)
-                {
-                    this.conversation[data.field] = data.value;
-                    this.$store.commit('relocateConversation',this.conversation);
-                }
-            });
-
-
-
-
-
     },
     computed: {
         isSelected() {
@@ -166,9 +64,7 @@ export default {
                 "prio-manual": this.conversation.prio_manual
             };
         },
-        unreads() {
-            return 0;
-        },
+       
         activeConversation()
         {
             return this.$store.getters.getActiveConversation;
@@ -178,13 +74,16 @@ export default {
 
         setActiveConversation(c) {
             /* Si ya tengo una conversacion activa,primero aviso que la dejo */
+            var data;
+
             if(this.activeConversation)
             {
-                let data = {
+                 data = {
                     conversation_id : this.activeConversation.id,
                     user_id : this.user.id
                 }
-                this.socket.emit('leaveConversation',data);
+                this.$emit('leaveConversation',data);
+
                 this.$store.commit('setActiveConversation',null);
             }
 
@@ -194,15 +93,14 @@ export default {
                     .then( () => {
                         this.$store.dispatch('fetchChatMessages',this.conversation.id);
                     });
-                let data = {
+                 data = {
                     conversation_id:this.conversation.id,
                     user:{
-                        socket_id:this.socket.id,
                         id:this.user.id,
                         name:this.user.name
                     }
                 }
-                this.socket.emit('joinConversation',data);
+                this.$emit('joinConversation',data);
                 this.$store.commit('setHesWriting',this.hesWriting);
                 this.$store.commit('setHesOnline',this.hesOnline);
             }else{
@@ -220,7 +118,7 @@ export default {
                     conversation_id : this.activeConversation.id,
                     user_id : this.user.id
                 }
-                this.socket.emit('leaveConversation',data);
+                this.$emit('leaveConversation',data);
                 this.$store.commit('setActiveConversation',null);
             }
     },

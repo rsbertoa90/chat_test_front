@@ -20,6 +20,8 @@
                     v-for="conversation in conversations"
                     :key="conversation.id"
                     :conversation="conversation"
+                    @leaveConversation="leaveConversation"
+                    @joinConversation="joinConversation"
                 />
             </transition-group>
         </div>
@@ -38,6 +40,7 @@ export default {
     },
     components: { conversation },
     mounted() {
+     
         var vm = this;
 
         this.socket = this.$nuxtSocket({
@@ -52,7 +55,50 @@ export default {
             {
                 this.$store.dispatch('addOneConversation',id);
             }
-        })
+        });
+
+        this.socket.on("newMessage", data => {
+            this.$store.commit('newMessage',data);
+            console.log('conversations, new message',data);
+        });
+
+        this.socket.on('hesWriting', data => {
+           let d = {
+                conversation_id : data.conversation_id,
+                field: 'writing',
+                value: data.writing
+            } 
+
+            this.$store.commit('updateConversation',d);
+        });
+
+        this.socket.on('someoneJoined', data => {
+            
+            this.$store.commit('ConversationSomeoneJoined',data);
+            
+        });
+
+        this.socket.on('someoneLeaved', data => {
+            this.$store.commit('ConversationSomeoneLeaved',data);
+        });
+
+        this.socket.on('isdisconnecting',data=>{
+            this.$store.commit('ConversationSomeoneLeaved',data);
+        });
+
+        this.socket.on('hesInTheConversation',data => {
+            if(this.conversation)
+            {
+                this.conversation.taken_by = data.user;
+            }
+        });
+
+        this.socket.on('conversationUpdated', data => {
+            this.$store.commit('updateConversation',data);
+        });
+
+
+
     },
     computed: {
         conversationsSearchTerm(){
@@ -76,6 +122,17 @@ export default {
         }
     },
     methods: {
+        leaveConversation(e){
+            this.socket.emit('leaveConversation',e);
+                
+        },
+        joinConversation(e)
+        {
+            let data = e;
+            e.user.socket_id = this.socket.id;
+            this.socket.emit('leaveConversation',data);
+
+        },
         search()
         {
             console.log('searching...')

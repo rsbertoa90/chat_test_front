@@ -1,6 +1,12 @@
 <template>
+<div>
+     <attachment 
+        :file="file"
+        @cancelAttach="resetFile()"
+        @isATicketChange="isATicketChange" />
+
     <form v-if="conversation" @submit.prevent="onSubmit" class="d-flex align-items-center message-form">
-        <input v-model="newMessage" type="text" class="form-control mat material-shadow-1 roboto" />
+        <textarea v-model="newMessage" :rows="inputRows" type="text" class="newmessage-input form-control mat material-shadow-1 roboto" />
         <label class="adj-btn d-flex">
             <i class="material-icons">attach_file</i>
             <input
@@ -16,29 +22,40 @@
             <i class="material-icons">send</i>
         </button>
     </form>
+   
+</div>
 </template>
 
 <script>
+import attachment from './attachment.vue'
 export default {
-    props: ["conversation", "isATicket"],
+    components:{attachment},
+    props: ["conversation"],
     data() {
         return {
-            newMessage: "",
+            isATicket:true,
             file: null,
+            newMessage: "",
             imWriting: false,
+            file:null,
+            preview:null
         };
     },
-    mount() {
-        this.fileChange();
+    mounted(){
+        if(this.admin)
+        {
+            this.isATicket=false;
+        }
     },
     methods: {
+        isATicketChange(e)
+        {
+            this.isATicket = e;
+            this.onSubmit();
+        },
         
         onFileChange(e) {
             this.file = e.target.files[0];
-            this.fileChange();
-        },
-        fileChange() {
-            this.$emit('fileChange', this.file);
         },
         onSubmit() {
             if(this.fastAnswer)
@@ -73,10 +90,18 @@ export default {
         resetFile() {
             this.$refs.fileInput.value = "";
             this.file = null;
-            this.fileChange();
+         
         }
     },
     computed: {
+        inputRows(){
+            if(!this.newMessage){return 1}
+            else{
+                let n = this.$mq == 'lg' ? 85 : 23;
+                let res = Math.ceil(this.newMessage.length / n);
+                return res < 6 ? res : 5;
+            }
+        },
         fastAnswers(){
             return this.$store.getters.getFastAnswers;
         },
@@ -118,6 +143,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.newmessage-input{
+    resize:none;
+}
+
 .message-form {
     padding: 0 8px;
     width: 100%;

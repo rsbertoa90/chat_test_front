@@ -1,14 +1,11 @@
 <template>
     <div v-if="conversation" class="form-container d-flex flex-column">
-        <attachment 
-            :file="file"
-            @cancelAttach="$refs.form.resetFile()"
-            @isATicketChange="isATicket=$event" />
+      
 
         <chat-form ref="form"
             :conversation="conversation"
-            :isATicket="isATicket"
-            @fileChange="file=$event" 
+           
+         
             @writingChange="$emit('writingChange', $event)" 
             @sendMessage="$emit('sendMessage', $event)"
             @sendFastAnswer="sendFastAnswer" 
@@ -24,16 +21,15 @@
 </template>
 
 <script>
-import attachment from './footer/attachment.vue';
+
 import chatForm from './footer/chat-form.vue';
 import bottomPanel from './footer/bottom-panel.vue'
 export default {
     props: ["conversation"],
-    components: {attachment, chatForm, bottomPanel},
+    components: { chatForm, bottomPanel},
     data() {
         return {
-            isATicket: true,
-            file: null,
+           
             childMounted: {
                 chatForm: false,
                 bottomPanel: false
@@ -41,16 +37,13 @@ export default {
         };
     },
     methods:{
+     
         sendFastAnswer(e)
         {
             this.$emit('sendFastAnswer',e);
         }
     },
-    mounted(){
-        if (this.admin){
-            this.isATicket = false;
-        }
-    },
+  
     watch: {
         childMounted: {
             deep: true,

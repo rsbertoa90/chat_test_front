@@ -75,4 +75,11 @@ export default {
     width: 65px;
 }
 
+@media(max-width:660px)
+{
+    .isaticket-q{
+        font-size: 16px;
+    }
+}
+
 </style>

@@ -11,6 +11,10 @@ export default function Svc(socket, io) {
           socket.broadcast.to(room).emit('isdisconnecting', {socket_id:socket.id,conversation_id:room});
           socket.broadcast.to('admins').emit('isdisconnecting', {socket_id:socket.id, conversation_id:room});
         })
+
+        socket.on('reconnect',()=>{
+            socket.join(room);
+        });
       }
     }, 
     

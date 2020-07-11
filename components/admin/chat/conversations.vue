@@ -49,6 +49,9 @@ export default {
         });
         this.socket.emit("joinRoom", 'admins');
         
+        this.socket.on('reconnect', () => {
+            this.socket.emit("joinRoom", 'admins');
+        })
 
         this.socket.on('checkConversationInList',id => {
           
@@ -72,6 +75,7 @@ export default {
                      field: 'hesWriting',
                      value: data.writing
                  } 
+                 
                  this.$store.commit('updateConversation',d);
                  d.field =  'hesOnline';
                  d.value = true;

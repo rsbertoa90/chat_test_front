@@ -309,7 +309,7 @@ export const mutations = {
         {
           if( conv.prio_auto //prio auto va primero
             || (!conv.prio_auto && !c.prio_auto && conv.prio_manual) //no tiene prio auto pero si manual
-            || (!c.prio_manual && !c.prio_auto) ) // no tiene ninguna prio
+            || (!conv.prio_auto && !conv.prio_manual && !c.prio_manual && !c.prio_auto) ) // no tiene ninguna prio
           {
             pos = index;
             break;
@@ -395,7 +395,7 @@ export const mutations = {
     }
 
     /* Si es active conversation me aseguro de que escuche el cambio */
-    if(state.activeConversation && state.activeConversation.id == payload.conversation_id)
+    if(state.activeConversation && state.activeConversation.id == conversation.id)
     {
       Vue.set(state.activeConversation, payload.field, payload.value);
     }
@@ -583,7 +583,6 @@ export const mutations = {
         if (data.field == 'paused' || data.field == 'offer') {
           data.value = data.value ? 1 : 0;
         }
-
         this.$axios.put('/product', data);
       }
     });
@@ -711,12 +710,16 @@ export const actions = {
     if (state.activeConversation && payload.conversation_id == state.activeConversation.id) {
       state.chatMessages.unshift(payload);
       state.activeConversation.last_message = payload;
-      let convInList = state.conversations.find(c => {
-        return c.id == payload.conversation_id;
-      })
-      if( convInList )
+      
+      if(state.auth.user.role_id < 3) //si soy admin
       {
-        convInList.last_message = payload;
+        let convInList = state.conversations.find(c => {
+          return c.id == payload.conversation_id;
+        })
+        if( convInList )
+        {
+          convInList.last_message = payload;
+        }
       }
     }
   },

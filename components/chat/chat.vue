@@ -58,12 +58,22 @@ export default {
             channel: "/index",
             reconnection: true
         });
+        
+        if(this.admin)
+        {
+            this.socket.emit("joinRoom", 'admins');
+
+            this.socket.on('reconnect', () => {
+                    this.socket.emit("joinRoom", 'admins');
+            })
+        }
 
         //cuando recibo un mensaje por el socket
         this.socket.on("newMessage", data => {
             if (
-                data.user_id != vm.user.id &&
-                data.conversation_id == vm.conversation.id
+                data.user_id != vm.user.id 
+                && vm.conversation
+                && data.conversation_id == vm.conversation.id
             ) {
                 this.$store.dispatch(
                     "addMessageToActiveConversation",
@@ -87,8 +97,9 @@ export default {
         //Cuando el server me avisa que el otro vio mis mensajes
         this.socket.on("heSawMyMessages", data => {
             if (
-                data.user_id != vm.user.id &&
-                data.conversation_id == vm.conversation.id
+                data.user_id != vm.user.id
+                && vm.conversation
+                && data.conversation_id == vm.conversation.id
             ) {
                 //me aseguro q el mensaje no es mio
                 vm.$store.commit("heSawMyMessages", {
@@ -101,7 +112,8 @@ export default {
          this.socket.on('hesWriting', data => {
             
          
-            if(data.conversation_id == this.conversation.id
+            if( this.conversation 
+                && data.conversation_id == this.conversation.id
                 && this.user.id != data.user_id)
                 {
                     this.$store.commit('setHesWriting',data.writing);
@@ -171,9 +183,12 @@ export default {
     },
     watch: {
         conversation(n, o) {
-            if (this.conversation) {
+            if (this.conversation && !this.admin) {
                 /* conecto a la sala */
                 this.socket.emit("joinRoom", this.conversation.id);
+                 this.socket.on('reconnect', () => {
+                    this.socket.emit("joinRoom", this.conversation.id);
+                 })
             }
         },
         "conversation.unreads"() {
@@ -268,8 +283,8 @@ export default {
             vm.$store.commit('setLoadingMessage',true);
             this.$axios.post("/message", event.fdata).then(r => {
                 vm.messageSended(r);
-            });
-            if (event.isATicket) {
+
+                if (event.isATicket) {
                 const data = {
                     conversation_id: this.conversation.id,
                     field: "prio_auto",
@@ -277,8 +292,10 @@ export default {
                     admin:this.admin
                 };
                 
-                this.socket.emit("updatePrioAuto", data);
+                this.socket.emit("updateConversation", data);
             }
+            });
+           
         },
         onWritingChange(writing) {
             const data = {

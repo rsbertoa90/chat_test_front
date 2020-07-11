@@ -54,6 +54,11 @@ export default {
             reconnection: true
         });
         this.socket.emit("joinRoom", 'admins');
+
+
+        this.socket.on('reconnect', () => {
+                this.socket.emit("joinRoom", 'admins');
+        })
     },
     methods:{
         removePrioAuto()

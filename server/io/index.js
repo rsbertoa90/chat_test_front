@@ -68,7 +68,7 @@ export default function Svc(socket, io) {
     
     updateConversation(data)
     {
-      socket.broadcast.to(data.conversation_id).emit('conversationUpdated',data);
+      //socket.broadcast.to(data.conversation_id).emit('conversationUpdated',data);
       socket.broadcast.to('admins').emit('conversationUpdated', data);
     } 
   })

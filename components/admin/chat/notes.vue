@@ -48,6 +48,13 @@ export default {
             return this.$store.getters.getActiveConversation
         }
     },
+    mounted(){
+        this.socket = this.$nuxtSocket({
+            channel: "/index",
+            reconnection: true
+        });
+        this.socket.emit("joinRoom", 'admins');
+    },
     methods:{
         removePrioAuto()
         {
@@ -55,12 +62,11 @@ export default {
             let data = {
                 conversation_id : this.conversation.id,
                 field:'prio_auto',
-                value:false
+                value:false,
             }
             this.$store.commit('updateConversation',data);
-            this.$store.commit('relocateConversation',this.conversation);
             this.$axios.put('/conversation',data);
-
+            this.socket.emit('updateConversation',data); 
         },
         update(field)
         {
@@ -78,9 +84,8 @@ export default {
                 value:value
             }
             this.$axios.put('/conversation',data);
-            this.$store.commit('updateConversation',data)    
-            this.$store.commit('relocateConversation',vm.conversation);
-                
+            this.$store.commit('updateConversation',data);   
+            this.socket.emit('updateConversation',data); 
         }
     },
    

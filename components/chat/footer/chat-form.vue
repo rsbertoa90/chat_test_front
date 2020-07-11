@@ -6,7 +6,7 @@
         @isATicketChange="isATicketChange" />
 
     <form v-if="conversation" @submit.prevent="onSubmit" class="d-flex align-items-center message-form">
-        <textarea v-model="newMessage" :rows="inputRows" type="text" class="newmessage-input form-control mat material-shadow-1 roboto" />
+        <textarea v-on:keyup.enter="enterSend" v-model="newMessage" :rows="inputRows" type="text" class="newmessage-input form-control mat material-shadow-1 roboto" />
         <label class="adj-btn d-flex">
             <i class="material-icons">attach_file</i>
             <input
@@ -48,6 +48,13 @@ export default {
         }
     },
     methods: {
+        enterSend()
+        {
+            if( this.$mq=='lg' && this.newMessage )
+            {
+                this.onSubmit();
+            }
+        },
         isATicketChange(e)
         {
             this.isATicket = e;

@@ -1,11 +1,7 @@
 <template>
     <div v-if="conversation" class="form-container d-flex flex-column">
-      
-
         <chat-form ref="form"
             :conversation="conversation"
-           
-         
             @writingChange="$emit('writingChange', $event)" 
             @sendMessage="$emit('sendMessage', $event)"
             @sendFastAnswer="sendFastAnswer" 

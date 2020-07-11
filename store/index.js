@@ -677,7 +677,7 @@ export const mutations = {
   })
    if(conversation)
    {
-     conversation[payload.last_message] = payload.message;
+     conversation.last_message = payload.message;
      if(!state.activeConversation || state.activeConversation.id != conversation.id)
      {
        conversation.unreads += 1;
@@ -710,8 +710,15 @@ export const actions = {
   addMessageToActiveConversation({state}, payload) {
     if (state.activeConversation && payload.conversation_id == state.activeConversation.id) {
       state.chatMessages.unshift(payload);
+      state.activeConversation.last_message = payload;
+      let convInList = state.conversations.find(c => {
+        return c.id == payload.conversation_id;
+      })
+      if( convInList )
+      {
+        convInList.last_message = payload;
+      }
     }
-
   },
 
   async fetchChatMessages({commit},conversation_id){

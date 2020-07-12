@@ -186,11 +186,13 @@ export default {
             }
         },
         leaveConversation(e){
+            this.checkSocket();
             e.socket_id = this.socket.id;
             this.socket.emit('leaveConversation',e);    
         },
         joinConversation(e)
         {
+            this.checkSocket();
             let data = e;
             data.admin  = this.admin;
             e.user.socket_id = this.socket.id;
@@ -198,6 +200,7 @@ export default {
         },
         search()
         {
+            
             var vm = this;
             this.$store.commit('setConversationsSearchTerm',this.filter);
             this.$store.dispatch('fetchConversations')

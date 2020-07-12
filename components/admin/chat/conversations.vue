@@ -63,7 +63,7 @@ export default {
         });
 
         this.socket.on("newMessage", data => {
-            if(data.user_id != this.user.id){
+            if(data.user_id != this.user.id && !this.searching){
                 this.$store.commit('newMessage',data);
             }
         });
@@ -110,7 +110,7 @@ export default {
         });
 
         this.socket.on('conversationUpdated', data => {
-             if(data.user_id != this.user.id){
+             if(data.user_id != this.user.id && !this.searching){
                 this.$store.commit('updateConversation',data);
              }
         });
@@ -206,9 +206,9 @@ export default {
             this.$store.dispatch('fetchConversations')
                     .then(() => {
                             if(this.filter){
-                                vm.searching=true;
+                                vm.searching = true;
                             }else{
-                                vm.searching=false;
+                                vm.searching = false;
                             }
                     });
 

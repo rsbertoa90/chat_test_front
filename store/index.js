@@ -296,40 +296,43 @@ export const mutations = {
 
   relocateConversation(state,payload)
   {
-    /* Reacomodo la conversacion arriba del todo, o abajo de las prioritarias. */
-   /* primero quito la conversacion que tengo que reacomodar */
-   console.log('en relocate ',payload);
-   let cRelocate = state.conversations.find( c => { return c.id == payload.id });
-   state.conversations =  state.conversations.filter( c => {return c.id != payload.id});
-   if (!cRelocate){cRelocate = payload}
-   /* busco la nueva posicion que le corresponde */
-      
-      let pos = -1;
-      for (let index = 0; index < state.conversations.length; index++) {
-        const cList = state.conversations[index];
-        if( ( cRelocate.prio_auto && cList.prio_auto && cRelocate.last_message.created_at > cList.last_message.created_at )  
-          || ( cRelocate.prio_auto && !cList.prio_auto )
-          || ( !cRelocate.prio_auto && !cList.prio_auto 
-               && cRelocate.prio_manual && cList.prio_manual
+    if (!state.conversationsSearchTerm)
+    {
+      /* Reacomodo la conversacion arriba del todo, o abajo de las prioritarias. */
+     /* primero quito la conversacion que tengo que reacomodar */
+     console.log('en relocate ',payload);
+     let cRelocate = state.conversations.find( c => { return c.id == payload.id });
+     state.conversations =  state.conversations.filter( c => {return c.id != payload.id});
+     if (!cRelocate){cRelocate = payload}
+     /* busco la nueva posicion que le corresponde */
+        
+        let pos = -1;
+        for (let index = 0; index < state.conversations.length; index++) {
+          const cList = state.conversations[index];
+          if( ( cRelocate.prio_auto && cList.prio_auto && cRelocate.last_message.created_at > cList.last_message.created_at )  
+            || ( cRelocate.prio_auto && !cList.prio_auto )
+            || ( !cRelocate.prio_auto && !cList.prio_auto 
+                 && cRelocate.prio_manual && cList.prio_manual
+                && cRelocate.last_message.created_at > cList.last_message.created_at )
+            || ( !cRelocate.prio_auto && !cList.prio_auto
+                && cRelocate.prio_manual && !cList.prio_manual)
+            || ( !cRelocate.prio_auto && !cList.prio_auto
+              && !cRelocate.prio_manual && !cList.prio_manual
               && cRelocate.last_message.created_at > cList.last_message.created_at )
-          || ( !cRelocate.prio_auto && !cList.prio_auto
-              && cRelocate.prio_manual && !cList.prio_manual)
-          || ( !cRelocate.prio_auto && !cList.prio_auto
-            && !cRelocate.prio_manual && !cList.prio_manual
-            && cRelocate.last_message.created_at > cList.last_message.created_at )
-          ){
-            pos = index;
-            break;
+            ){
+              pos = index;
+              break;
+            }
           }
+        
+        console.log('nueva pos',pos);
+        if(pos == -1)
+        {
+          state.conversations.push(cRelocate);
+        }else{
+          state.conversations.splice(pos,0,cRelocate);
         }
-      
-      console.log('nueva pos',pos);
-      if(pos == -1)
-      {
-        state.conversations.push(cRelocate);
-      }else{
-        state.conversations.splice(pos,0,cRelocate);
-      }
+    }
       
      
   },
@@ -687,6 +690,7 @@ export const mutations = {
   },
   newMessage(state,payload)
   { 
+  let admin = state.auth.user.role_id < 3;
   let conversation = state.conversations.find(conv => {
     return payload.conversation_id == conv.id;
   })
@@ -695,7 +699,10 @@ export const mutations = {
      conversation.last_message = payload.message;
      if(!state.activeConversation || state.activeConversation.id != conversation.id)
      {
-       conversation.unreads += 1;
+       if(payload.admin != admin)
+       {
+         conversation.unreads += 1;
+       }
      }
      this.commit('relocateConversation',conversation);
    }

@@ -206,13 +206,34 @@ export default {
       
     },
     methods: {
+        reset(){
+             if (this.conversation) {
+                 let room  = this.conversation.id;
+                 if(this.admin){
+                     room = 'admins';
+                 }
+                this.socket.emit("joinRoom", room);
+                 this.socket.on('reconnect', () => {
+                    this.socket.emit("joinRoom", room);
+                 })
+                this.$store.dispatch('fetchChatMessages')
+                    .then( () => {
+                        console.log('reconectado? -> disconeected: ' , this.socket.disconnected)
+                    });
+             }  
+        },
         checkSocket(){
-            console.log('ready state',this.socket.readyState);
+            console.log('check socket');
             console.log('disconneccted',this.socket.disconnected);
-            console.log('status', this.socket.status);
             console.log('socket completo', this.socket);
+            if(socket.disconnected)
+            {
+                console.log('disconnected, reset');
+                this.reset();
+            }
         },
         iSawTheMessages() {
+            this.checkSocket();
             if (this.conversation && this.conversation.unreads) {
                 var vm = this;
                 this.$axios.put(`/view-messages/${this.conversation.id}`);
@@ -278,6 +299,7 @@ export default {
             vm.$store.commit('setLoadingMessage',false);
         },
         sendFastAnswer(e){
+            this.checkSocket();
             var vm = this;
             let data = {
                 conversation_id: this.conversation.id,
@@ -309,6 +331,7 @@ export default {
            
         },
         onWritingChange(writing) {
+            this.checkSocket();
             const data = {
                 conversation_id: this.conversation.id,
                 writing: writing,

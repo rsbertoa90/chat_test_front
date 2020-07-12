@@ -223,7 +223,7 @@ export default {
                     this.socket.on('reconnect', () => {
                        this.socket.emit("joinRoom", room);
                     })
-                   this.$store.dispatch('fetchChatMessages')
+                   this.$store.dispatch('fetchChatMessages', this.conversation.id)
                        .then( () => {
                            console.log('reconectado? -> disconeected: ' , this.socket.disconnected)
                        });

@@ -214,19 +214,20 @@ export default {
         reset(){
             if(this.socket && this.socket.disconnected){
                 if (this.conversation) {
-                    this.socket.connect();
-                    let room  = this.conversation.id;
-                    if(this.admin){
-                        room = 'admins';
-                    }
-                   this.socket.emit("joinRoom", room);
-                    this.socket.on('reconnect', () => {
+                    this.socket.connect( r => {
+                        let room  = this.conversation.id;
+                        if(this.admin){
+                            room = 'admins';
+                        }
                        this.socket.emit("joinRoom", room);
-                    })
-                   this.$store.dispatch('fetchChatMessages', this.conversation.id)
-                       .then( () => {
-                           console.log('reconectado? -> disconeected: ' , this.socket.disconnected)
-                       });
+                        this.socket.on('reconnect', () => {
+                           this.socket.emit("joinRoom", room);
+                        })
+                       this.$store.dispatch('fetchChatMessages', this.conversation.id)
+                           .then( () => {
+                               console.log('reconectado? -> disconeected: ' , this.socket.disconnected)
+                           });
+                    });
                 }  
             }
         },

@@ -293,32 +293,43 @@ export const mutations = {
   {
     state.fastAnswers = payload;
   },
+
   relocateConversation(state,payload)
   {
     /* Reacomodo la conversacion arriba del todo, o abajo de las prioritarias. */
    /* primero quito la conversacion que tengo que reacomodar */
-   let conv = state.conversations.find( c => {return c.id == payload.id});
+   console.log('en relocate ',payload);
+   let cRelocate = state.conversations.find( c => { return c.id == payload.id });
    state.conversations =  state.conversations.filter( c => {return c.id != payload.id});
-   if (!conv){conv=payload}
+   if (!cRelocate){cRelocate = payload}
    /* busco la nueva posicion que le corresponde */
-  
-      let pos = 0;
+      
+      let pos = -1;
       for (let index = 0; index < state.conversations.length; index++) {
-        const c = state.conversations[index];
-        if(conv.last_message.created_at > c.last_message.created_at)
-        {
-          if( conv.prio_auto //prio auto va primero
-            || (!conv.prio_auto && !c.prio_auto && conv.prio_manual) //no tiene prio auto pero si manual
-            || (!conv.prio_auto && !conv.prio_manual && !c.prio_manual && !c.prio_auto) ) // no tiene ninguna prio
-          {
+        const cList = state.conversations[index];
+        if( ( cRelocate.prio_auto && cList.prio_auto && cRelocate.last_message.created_at > cList.last_message.created_at )  
+          || ( cRelocate.prio_auto && !cList.prio_auto )
+          || ( !cRelocate.prio_auto && !cList.prio_auto 
+               && cRelocate.prio_manual && cList.prio_manual
+              && cRelocate.last_message.created_at > cList.last_message.created_at )
+          || ( !cRelocate.prio_auto && !cList.prio_auto
+              && cRelocate.prio_manual && !cList.prio_manual)
+          || ( !cRelocate.prio_auto && !cList.prio_auto
+            && !cRelocate.prio_manual && !cList.prio_manual
+            && cRelocate.last_message.created_at > cList.last_message.created_at )
+          ){
             pos = index;
             break;
           }
         }
-        
+      
+      console.log('nueva pos',pos);
+      if(pos == -1)
+      {
+        state.conversations.push(cRelocate);
+      }else{
+        state.conversations.splice(pos,0,cRelocate);
       }
-     
-      state.conversations.splice(pos,0,conv);
       
      
   },
@@ -380,24 +391,29 @@ export const mutations = {
 
   updateConversation(state,payload)
   {
-    let conversation = state.conversations.find(conv => {
-      return payload.conversation_id == conv.id;
-    })
-    if(conversation)
+    if(state.conversations)
     {
-      console.log('store updateconversation', payload);
-      Vue.set(conversation,payload.field,payload.value);
-      if(payload.field != 'hesWriting' 
-        && payload.field != 'hesOnline')
+      let conversation = state.conversations.find(conv => {
+        return payload.conversation_id == conv.id;
+      })
+      if(conversation)
       {
-        this.commit('relocateConversation',conversation);
+        console.log('store updateconversation', payload);
+        Vue.set(conversation,payload.field,payload.value);
+        if(payload.field != 'hesWriting' 
+          && payload.field != 'hesOnline')
+        {
+          console.log('commit relocate conversation');
+          this.commit('relocateConversation',conversation);
+        }
+        
+        /* Si es active conversation me aseguro de que escuche el cambio */
+        if (state.activeConversation && state.activeConversation.id == conversation.id) {
+          Vue.set(state.activeConversation, payload.field, payload.value);
+        }
+      } else {
+         this.dispatch('addOneConversation', payload.conversation_id);
       }
-    }
-
-    /* Si es active conversation me aseguro de que escuche el cambio */
-    if(state.activeConversation && state.activeConversation.id == conversation.id)
-    {
-      Vue.set(state.activeConversation, payload.field, payload.value);
     }
   },
 

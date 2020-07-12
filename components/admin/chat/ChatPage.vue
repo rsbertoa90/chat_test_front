@@ -5,10 +5,10 @@
             <div class="col col-3 h-100 p-0">
                 <conversations></conversations>
             </div>
-            <div class="col col-6 h-100 p-0 ">
+            <div class="col col-6 h-100 p-0 " v-if="activeConversation">
                 <chat></chat>
             </div>
-            <div class="col col-3 h-100 p-0">
+            <div class="col col-3 h-100 p-0"  v-if="activeConversation">
                 <notes></notes>
             </div>
         </div>
@@ -25,6 +25,12 @@ export default {
      components:{conversations,chat,notes},
      mounted() {
          this.$store.dispatch('fetchConversations');
+     },
+     computed:{
+         activeConversation()
+         {
+             return this.$store.getters.getActiveConversation ;
+         }
      }
 }
 </script>

@@ -185,7 +185,7 @@ module.exports = {
           : 'http://localhost:3004',
         reconnection: true,
         default: true,
-        pingTimeout:4000,
+        pingTimeout:6500,
         pingInterval:25000,
         transports: ['websocket'],
         vuex: {

@@ -170,6 +170,21 @@ export default {
         }
     },
     methods: {
+        resetSocket(){
+            var vm = this;
+            if(this.socket && this.socket.disconnected){
+                this.socket.connect();    
+            }
+        },
+        checkSocket(){
+            console.log('check socket', this.socket.disconnected)
+            if(this.socket.disconnected)
+            {
+                console.log('disconnected, reset');
+                this.resetSocket();
+                this.$store.dispatch('fetchConversations');
+            }
+        },
         leaveConversation(e){
             e.socket_id = this.socket.id;
             this.socket.emit('leaveConversation',e);    

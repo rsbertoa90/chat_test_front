@@ -211,22 +211,25 @@ export default {
       
     },
     methods: {
-        reset(){
+        resetSocket(){
+            var vm = this;
             if(this.socket && this.socket.disconnected){
                 if (this.conversation) {
                     this.socket.connect( r => {
-                        let room  = this.conversation.id;
-                        if(this.admin){
+                        let room  = vm.conversation.id;
+                        if(vm.admin){
                             room = 'admins';
                         }
-                       this.socket.emit("joinRoom", room);
-                        this.socket.on('reconnect', () => {
-                           this.socket.emit("joinRoom", room);
+                       vm.socket.emit("joinRoom", room);
+                        vm.socket.on('reconnect', () => {
+                           vm.socket.emit("joinRoom", room);
                         })
-                       this.$store.dispatch('fetchChatMessages', this.conversation.id)
+                      
+                    });
+
+                    vm.$store.dispatch('fetchChatMessages', this.conversation.id)
                            .then( () => {
-                               console.log('reconectado? -> disconeected: ' , this.socket.disconnected)
-                           });
+                               console.log('reconectado? -> disconeected: ' , vm.socket.disconnected)
                     });
                 }  
             }
@@ -236,7 +239,7 @@ export default {
             if(this.socket.disconnected)
             {
                 console.log('disconnected, reset');
-                this.reset();
+                this.resetSocket();
             }
         },
         iSawTheMessages() {

@@ -182,6 +182,7 @@ export default {
         },
     },
     watch: {
+        
         'socket.connected'(){
             console.log('SOCKET STATUS ',socket.connected);
         },
@@ -205,6 +206,9 @@ export default {
       
     },
     methods: {
+        checkSocket(){
+            console.log(this.socket.readyState);
+        },
         iSawTheMessages() {
             if (this.conversation && this.conversation.unreads) {
                 var vm = this;
@@ -231,6 +235,7 @@ export default {
             }
         },
         socketMessage(message) {
+            this.checkSocket();
             let data = {
                 firstMessage:this.firstMessage,
                 user_id: this.user.id,

@@ -182,6 +182,9 @@ export default {
         },
     },
     watch: {
+        'socket.connected'(){
+            console.log('SOCKET STATUS ',socket.connected);
+        },
         conversation(n, o) {
             if (this.conversation && !this.admin) {
                 /* conecto a la sala */

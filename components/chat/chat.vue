@@ -214,6 +214,7 @@ export default {
         reset(){
             if(this.socket && this.socket.disconnected){
                 if (this.conversation) {
+                    this.socket.connect();
                     let room  = this.conversation.id;
                     if(this.admin){
                         room = 'admins';

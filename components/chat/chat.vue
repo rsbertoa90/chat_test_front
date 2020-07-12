@@ -68,6 +68,11 @@ export default {
             })
         }
 
+        this.socket.on('disconnect', () => {
+            console.log(' ON DISCONNECT')
+            this.checkSocket();
+        })
+
         //cuando recibo un mensaje por el socket
         this.socket.on("newMessage", data => {
             if (
@@ -225,9 +230,7 @@ export default {
             }
         },
         checkSocket(){
-            console.log('check socket');
-            console.log('disconneccted',this.socket.disconnected);
-            console.log('socket completo', this.socket);
+            console.log('check socket', this.socket.disconnected)
             if(this.socket.disconnected)
             {
                 console.log('disconnected, reset');

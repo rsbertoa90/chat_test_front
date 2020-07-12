@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex align-items-center header">
         <i class="material-icons ml-5">textsms</i>
-        <span class="flex-grow-1 ml-2 roboto">Estas hablando con Mates Fabi</span>
+        <span class="flex-grow-1 ml-2 roboto">Chateá con Mates Fabi</span>
       <!--   <button class="d-flex mr-3 p-2 mat"><i class="material-icons">search</i></button> -->
     </div>
 </template>

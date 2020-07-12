@@ -697,6 +697,7 @@ export const mutations = {
      {
        conversation.unreads += 1;
      }
+     this.commit('relocateConversation',conversation);
    }
    else{
      this.dispatch('addOneConversation',payload.conversation_id);

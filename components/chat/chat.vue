@@ -207,7 +207,10 @@ export default {
     },
     methods: {
         checkSocket(){
-            console.log(this.socket.readyState);
+            console.log('ready state',this.socket.readyState);
+            console.log('disconneccted',this.socket.disconnected);
+            console.log('status', this.socket.status);
+            console.log('socket completo', this.socket);
         },
         iSawTheMessages() {
             if (this.conversation && this.conversation.unreads) {

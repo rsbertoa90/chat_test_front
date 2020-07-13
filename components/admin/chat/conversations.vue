@@ -53,6 +53,19 @@ export default {
             this.socket.emit("joinRoom", 'admins');
         })
 
+        this.socket.on('heSawMyMessages', data =>  {
+            if(data.user_id != this.user.id && data.admin)
+            {
+                let conversation = this.conversations.find(c => {
+                    return c.id == data.conversation_id;
+                })
+                if(conversation)
+                {
+                    conversation.unreads = 0;
+                }
+            }
+        })
+
         this.socket.on('checkConversationInList',id => {
           
             let exists = vm.conversations.find( c => {return c.id == id});

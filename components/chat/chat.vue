@@ -1,5 +1,7 @@
  <template>
-    <div class="d-flex flex-column chat" >
+    <div class="d-flex flex-column chat"  >
+        <v-idle :duration="300" class="display-none" @idle="setIdle"></v-idle>
+        <idleScreen v-if="idle" @breakIdle="breakIdle"></idleScreen>
         <chatHeader
             v-if="conversation"
             :conversation="conversation"
@@ -36,11 +38,12 @@
 import chatHeader from "./header.vue";
 import conversation from "./conversation.vue";
 import chatFooter from "./footer.vue";
-
+import idleScreen from './idle.vue'
 export default {
-    components: { chatHeader, conversation, chatFooter },
+    components: { chatHeader, conversation, chatFooter, idleScreen },
     data() {
         return {
+            idle:false,
             imOnline: true,
             imageUploaded: false,
             file: null,
@@ -68,11 +71,8 @@ export default {
             })
         }
 
-        this.socket.on('disconnect', () => {
-            console.log(' ON DISCONNECT')
-            this.checkSocket();
-        })
-
+      
+ 
         //cuando recibo un mensaje por el socket
         this.socket.on("newMessage", data => {
             if (
@@ -109,7 +109,8 @@ export default {
                 //me aseguro q el mensaje no es mio
                 vm.$store.commit("heSawMyMessages", {
                     conversation_id: vm.conversation.id,
-                    admin: vm.admin ? 1 : 0
+                    admin: vm.admin ? 1 : 0,
+                    user_id: vm.user.id
                 });
             }
         });
@@ -157,6 +158,31 @@ export default {
                 this.$store.commit('setHesWriting',false);
             }
         });
+
+        this.socket.on('connect', r => {
+            console.log('CONNECTING')
+            if(this.conversation)
+            {
+                let room  = vm.conversation.id;
+                if(vm.admin){
+                    room = 'admins';
+                }
+                vm.socket.emit("joinRoom", room);
+                vm.socket.on('reconnect', () => {
+                    vm.socket.emit("joinRoom", room);
+                })
+              
+                 vm.$store.dispatch('fetchChatMessages', vm.conversation.id)
+                           .then( () => {
+                               console.log('reconectado? -> disconeected: ' , vm.socket.disconnected)
+                });
+            }
+        });
+
+          this.socket.on('disconnect', () => {
+            console.log(' ON DISCONNECT')
+            this.checkSocket();
+        })  
 
         if(this.admin){
             this.isATicket=false;
@@ -211,26 +237,28 @@ export default {
       
     },
     methods: {
+        breakIdle(){
+            if(this.idle)
+            {
+                this.idle = false;
+                console.log('breakIdle'); 
+                this.checkSocket();
+                
+            }
+        },
+        setIdle(){
+            this.idle = true;        
+        },
         resetSocket(){
             var vm = this;
-            if(this.socket && this.socket.disconnected){
+            if(this.socket && this.socket.disconnected)
+            {
                 if (this.conversation) {
-                    this.socket.connect( r => {
-                        let room  = vm.conversation.id;
-                        if(vm.admin){
-                            room = 'admins';
-                        }
-                       vm.socket.emit("joinRoom", room);
-                        vm.socket.on('reconnect', () => {
-                           vm.socket.emit("joinRoom", room);
-                        })
-                      
-                    });
+                    this.socket.connect() 
 
-                    vm.$store.dispatch('fetchChatMessages', this.conversation.id)
-                           .then( () => {
-                               console.log('reconectado? -> disconeected: ' , vm.socket.disconnected)
-                    });
+                  
+
+                   
                 }  
             }
         },

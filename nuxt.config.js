@@ -138,6 +138,7 @@ module.exports = {
       ssr: false
     },
     { src: "./plugins/v-touch-events.js", ssr: false },
+    { src: "./plugins/vidle.js", ssr: false },
     { src: "./plugins/swal.js", ssr: false },
     { src: "./plugins/awesome-swiper.js", ssr: false },
     { src: "./plugins/datepicker.js", ssr: false },

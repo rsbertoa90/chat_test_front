@@ -40,7 +40,7 @@
     "nuxt-webfontloader": "^1.1.0",
     "sass-loader": "^7.1.0",
     "shrink-ray-current": "^4.0.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "sweetalert": "^2.1.2",
     "underscore": "^1.9.1",
     "v-click-outside": "^2.1.3",
